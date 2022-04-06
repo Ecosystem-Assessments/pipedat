@@ -1,0 +1,25 @@
+Package: datapipe
+Title: Pipelines to Access, Load, and Format Data from Various Sources
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "David",
+           family = "Beauchesne",
+           role = c("aut", "cre"),
+           email = "david.beauchesne@hotmail.com",
+           comment = c(ORCID = "0000-0002-3590-8161"))
+Description: This package provides pipelines to access, load, and format a variety of data from multiple sources programatically. The intent of this package is to support the varying projects undertaken under the umbrella project Ecosystem Assessments. Certain datasets are directly accessed through APIs and open data portals, while others require a local copy of the raw data for varying reasons such as data whose distribution is limited or protected by data sharing agreements.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports: 
+    fs,
+    glue,
+    sf,
+    stringr,
+    utils,
+    whisker

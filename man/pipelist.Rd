@@ -7,7 +7,7 @@
 pipelist()
 }
 \value{
-This function prints a list of available data pipelines in the \code{datapipe} package
+This function prints a list of available data pipelines in the \code{pipedat} package
 }
 \description{
 This function provides the list of individual scripts

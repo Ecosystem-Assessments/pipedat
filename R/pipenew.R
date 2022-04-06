@@ -1,8 +1,8 @@
-#' Creates a new data pipeline function 
+#' Creates a new data pipeline function
 #'
 #' This function is used to create a new data pipeline function from a template
 #'
-#' @param name name of the data that will be accessed through this new data pipeline. The name should be short and will only be used to ease the readability of the file structure, as each data pipeline is identified by a unique identifier rather than its name. 
+#' @param name name of the data that will be accessed through this new data pipeline. The name should be short and will only be used to ease the readability of the file structure, as each data pipeline is identified by a unique identifier rather than its name.
 #'
 #' @return This function creates a new file `R/dp_{uid}-{name}.R` from the template `inst/templates/data_pipeline.R`
 #'
@@ -15,22 +15,21 @@
 pipenew <- function(name) {
   # Get list of unique ids
   # uid_list <- getuid()
-  
-  # Create unique uid 
+
+  # Create unique uid
   uid <- "ajkh34756"
-  
-  # Data for template 
+
+  # Data for template
   out <- list()
   out$uid <- uid
-  
+
   # Create "R/" if it does not exist
   if (!file.exists("R/")) dir.create("R/")
-  
+
   # Generate template
   use_template(
     template = "templates/data_pipeline.R",
     data = out,
     save_as = glue("R/dp_{out$uid}-{name}.R")
   )
-
 }

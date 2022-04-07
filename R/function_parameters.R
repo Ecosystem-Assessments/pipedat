@@ -11,8 +11,7 @@ my_params <- function() {
 }
 
 # ------------------------------------------------------------------------------
-# Series of functions for messages 
-# Message for the need to have the raw data 
+# Series of functions for messages
+# Message for the need to have the raw data
 
 # This function requires the raw data in folder './'
-

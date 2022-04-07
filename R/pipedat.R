@@ -22,22 +22,23 @@ pipedat <- function(uid, output = NULL, input = NULL, bbox = NULL, timespan = NU
   makeOutput(uid, output)
 
   # Execute data pipelines
-  do.call(glue("dp_{uid}"), 
-          list(
-            uid = uid, 
-            output = output, 
-            input = input, 
-            bbox = bbox, 
-            timespan = timespan
-          )
-        )
+  do.call(
+    glue("dp_{uid}"),
+    list(
+      uid = uid,
+      output = output,
+      input = input,
+      bbox = bbox,
+      timespan = timespan
+    )
+  )
 }
 
 
 # ------------------------------------------------------------------------------
 # Check if output ends with a "/" to create proper path
 checkOutput <- function(output = NULL) {
-  if( !is.null(output)) {
+  if (!is.null(output)) {
     nc <- nchar(output)
     last_char <- ifelse(substr(output, nc, nc) == "/", TRUE, FALSE)
     ifelse(last_char, output, glue("{output}/"))
@@ -69,18 +70,17 @@ makeOutput <- function(uid, output = NULL) {
   invisible(
     lapply(l, function(x) if (!file.exists(x)) dir.create(x, recursive = TRUE))
   )
-  
+
   # TODO: For GitHub, create .gitkeep and modify .gitignore
 }
 
 # ------------------------------------------------------------------------------
 # Generic function to download data from url
 pipeload <- function(urls, output) {
-  # Download 
+  # Download
   lapply(urls, function(x) curl::curl_download(x, destfile = glue("{output}{basename(x)}")))
-  
-  # Unzip 
-  zipfiles <- dir(output, pattern = ".zip", full.names = TRUE)
-  lapply(zipfiles, function(x) unzip(x, exdir = output))
-}
 
+  # Unzip
+  zipfiles <- dir(output, pattern = ".zip", full.names = TRUE)
+  lapply(zipfiles, function(x) utils::unzip(x, exdir = output))
+}

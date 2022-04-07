@@ -7,8 +7,16 @@ Authors@R:
            role = c("aut", "cre"),
            email = "david.beauchesne@hotmail.com",
            comment = c(ORCID = "0000-0002-3590-8161"))
-Description: This package provides pipelines to access, load, and format a variety of data from multiple sources programatically. The intent of this package is to support the varying projects undertaken under the umbrella project Ecosystem Assessments. Certain datasets are directly accessed through APIs and open data portals, while others require a local copy of the raw data for varying reasons such as data whose distribution is limited or protected by data sharing agreements.
+Description: This package provides pipelines to access, load, and format 
+    a variety of data from multiple sources programatically. The intent of 
+    this package is to support the varying projects undertaken under the 
+    umbrella project Ecosystem Assessments. Certain datasets are directly 
+    accessed through APIs and open data portals, while others require a 
+    local copy of the raw data for varying reasons such as data whose 
+    distribution is limited or protected by data sharing agreements.
 License: MIT + file LICENSE
+URL: https://github.com/Ecosystem-Assessments/pipedat
+BugReports: https://github.com/Ecosystem-Assessments/pipedat/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

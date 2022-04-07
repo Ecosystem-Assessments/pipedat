@@ -5,12 +5,14 @@
 \alias{pipedat}
 \title{Execute data pipelines}
 \usage{
-pipedat(uid, output = NULL, bbox = NULL, timespan = NULL)
+pipedat(uid, output = NULL, input = NULL, bbox = NULL, timespan = NULL)
 }
 \arguments{
 \item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}
 
-\item{output}{output folder for queried data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files.}
+\item{output}{output folder for queried data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'}
+
+\item{input}{input folder in case data has to be loaded from disk, e.g. for datasets that are bound by a data sharing agreement. By default, raw data are searched for in a folder called 'data/data-raw/'}
 
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
 
@@ -24,8 +26,6 @@ This function is used to access, load and format a wide variety
 of data; this function calls on a series of individual scripts
 built to access data programmatically and reproducibly, which
 we refer to as \emph{data pipelines}.
-
-Pipelines to access, load, and format data from various sources
 }
 \examples{
 \dontrun{

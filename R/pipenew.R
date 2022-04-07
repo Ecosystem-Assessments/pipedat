@@ -17,7 +17,7 @@ pipenew <- function(name) {
   # uid_list <- getuid()
 
   # Create unique uid
-  uid <- "ajkh34756"
+  uid <- "0001"
 
   # Data for template
   out <- list()

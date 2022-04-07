@@ -1,29 +1,57 @@
-#' Shortname of dataset to be queried (#{{ out$uid }})
+#' Shortname of dataset to be queried (uid:{{ uid }})
 #'
 #' Short description of the dataset to be queried through this data pipeline
 #'
-#' @param output output folder for queried data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files.
-#' @param bbox bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form `c(xmin, ymin, xmax, ymax)`
-#' @param timespan time span to spatially subset the queried data, if applicable. The time span should be of the form `c(time_from, time_to)`
+#' @eval my_params()
 #'
-#' @rdname pipelines
+#' @family pipeline functions
+#' @rdname pipeline
+#' @seealso \code{\link{pipedat}}
 #'
 #' @examples
 #' \dontrun{
-#' pd_{{ out$uid }}()
+#' dp_{{ uid }}()
 #' }
 
-pd_{{ out$uid }} <- function(output = NULL, bbox = NULL, timespan = NULL, ...) {
-  # Load the data 
+dp_{{ uid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ...) {
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # DOWNLOAD DATA
+  # NOTE: optional
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  urls <- c(
+    "url1",
+    "url2",
+    "..."
+  )
   
-  # Format the data 
+  # --
+  pipeload(urls, glue("{output}data-raw/{{{ uid }}}/"))
+    
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # IMPORT DATA
+  # NOTE: optional
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
   
-  # Create metadata 
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # FORMAT DATA
+  # NOTE: optional
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
   
-  # Create bibtex
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # CREATE METADATA
+  # NOTE: mandatory
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
   
-  # --------------------------------
-  # Export 
-  otp <- glue("data/data-format/{ {{ out$uid }} }.R")
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # CREATE BIBTEX
+  # NOTE: mandatory
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # EXPORT 
+  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  fm <- glue("{output}/data-format/{{{ uid }}}.R")
+  mt <- glue("{output}/data-metadata/{{{ uid }}}.R")
+  bi <- glue("{output}/data-bibtex/{{{ uid }}}.R")
   
 }

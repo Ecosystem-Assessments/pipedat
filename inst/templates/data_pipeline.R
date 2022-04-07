@@ -1,4 +1,4 @@
-#' Shortname of dataset to be queried (uid:{{ uid }})
+#' Shortname of dataset to be queried (uid:{{ dpid }})
 #'
 #' Short description of the dataset to be queried through this data pipeline
 #'
@@ -10,22 +10,21 @@
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ uid }}()
+#' dp_{{ dpid }}()
 #' }
 
-dp_{{ uid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ...) {
+dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # If the data is downloaded from online sources
   urls <- c(
     "url1",
     "url2",
     "..."
   )
-  
-  # --
-  pipeload(urls, glue("{output}data-raw/{{{ uid }}}/"))
+  pipeload(urls, glue("{output}data-raw/{{{ dpid }}}/"))
     
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
@@ -41,6 +40,9 @@ dp_{{ uid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ...
   # CREATE METADATA
   # NOTE: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  metadata <- list()
+  metadata$data_pipeline$pdid <- "{{ pdid }}"
+  metadata$data_pipeline$uuid <- "{{ uuid }}"
   
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE BIBTEX
@@ -50,8 +52,8 @@ dp_{{ uid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ...
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
-  fm <- glue("{output}/data-format/{{{ uid }}}.R")
-  mt <- glue("{output}/data-metadata/{{{ uid }}}.R")
-  bi <- glue("{output}/data-bibtex/{{{ uid }}}.R")
+  fm <- glue("{output}/data-format/{{{ dpid }}}.R")
+  mt <- glue("{output}/data-metadata/{{{ dpid }}}.R")
+  bi <- glue("{output}/data-bibtex/{{{ dpid }}}.R")
   
 }

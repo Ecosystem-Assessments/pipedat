@@ -1,4 +1,4 @@
-#' Shortname of dataset to be queried (uid:{{ dpid }})
+#' Shortname of dataset to be queried (dpid:{{ dpid }})
 #'
 #' Short description of the dataset to be queried through this data pipeline
 #'
@@ -24,7 +24,7 @@ dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ..
     "url2",
     "..."
   )
-  pipeload(urls, glue("{output}data-raw/{{{ dpid }}}/"))
+  pipeload(urls, glue("{output}{{{ dpid }}}/data-raw/"))
     
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
@@ -40,9 +40,24 @@ dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ..
   # CREATE METADATA
   # NOTE: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
-  metadata <- list()
-  metadata$data_pipeline$pdid <- "{{ pdid }}"
-  metadata$data_pipeline$uuid <- "{{ uuid }}"
+  metadata(
+      id = "{{ dpid }}",
+      name = "Provide short name for queried dataset",
+      description = "Longer description of the dataset",
+      access_date = format(Sys.time(), format="%Y-%m-%d"), 
+      period = c(begin, end),
+      contact_list = "Need to think about how to do this", # TODO: Find logical way to deal with this
+      pipeline_id = "{{ uuid }}",
+      data_url = "URL to access the data or its description, if applicable",
+      data_uuid = "Unique identifier of the dataset, if available e.g. from API or open data portals",
+      package = "Name of package used to access the data, if applicable",
+      availability = "Availability of dataset, one of c('open','on demand','data sharing agreement','restricted')",
+      citekey = c("citekey1","citekey2","...") # Citation key for reference to bibtex files
+  ) 
+  
+  # TODO: How to add more info
+  
+  
   
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE BIBTEX
@@ -52,8 +67,12 @@ dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ..
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~= #
-  fm <- glue("{output}/data-format/{{{ dpid }}}.R")
-  mt <- glue("{output}/data-metadata/{{{ dpid }}}.R")
-  bi <- glue("{output}/data-bibtex/{{{ dpid }}}.R")
+  # Formatted data 
+  fm <- glue("{output}{{{ dpid }}}/data-format/")
   
+  # Metadata
+  mt <- glue("{output}{{{ dpid }}}/{{ dpid }}.yaml")
+
+  # Bibtex
+  bi <- glue("{output}{{{ dpid }}}/{{ dpid }}.bib")
 }

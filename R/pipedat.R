@@ -59,14 +59,11 @@ makeOutput <- function(uid, output = NULL) {
 
   # Names of output folders
   l <- list(
-    glue("{out}data-raw/{uid}/"),
-    glue("{out}data-format/{uid}/"),
-    glue("{out}data-metadata/"),
-    glue("{out}data-bib/")
+    glue("{out}/{uid}/data-raw/"),
+    glue("{out}/{uid}/data-format/"),
   )
 
   # Create folders if they do not exist
-  # for(i in 1:length(l)) if (!file.exists(l[[i]])) dir.create(l[[i]], recursive = TRUE)
   invisible(
     lapply(l, function(x) if (!file.exists(x)) dir.create(x, recursive = TRUE))
   )

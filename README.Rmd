@@ -57,3 +57,7 @@ pipedat(c("a3jsd4jh","a8732975y","soif8yiao"))
 
 By default, the `pipedat()` function will export the raw and formatted data in folders 'data/data-raw/' and `data/data-format`, respectively. 
 
+
+## How to contribute
+
+External contributors are welcome to contribute data pipelines to this package. Simply fork the [public repo]() and create your own data pipeline. The `pipenew()` function creates a `p_#####.R` template for you to use to create a new data pipeline with a unique id. Create a pull request for us to review the data pipeline for inclusion in the package. 

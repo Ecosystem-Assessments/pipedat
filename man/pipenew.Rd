@@ -15,7 +15,7 @@ This function creates a new file \verb{R/dp_\{uid\}-\{name\}.R} from the templat
 \description{
 This function is used to create a new data pipeline function from a template.
 This function is meant to facilitate writing of data pipeline for the \code{pipedat}
-developers. It could however be found useful by others, which is why it is exported.
+developers and contributors
 }
 \examples{
 \dontrun{

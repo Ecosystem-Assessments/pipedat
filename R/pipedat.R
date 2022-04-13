@@ -6,7 +6,7 @@
 #' we refer to as *data pipelines*.
 #'
 #' @param uid unique identifier of queried data. The full list of available data pipelines can be consulted using `pipelines()`
-#' @eval my_params()
+#' @eval doc_params()
 #'
 #' @return This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.
 #'
@@ -60,7 +60,7 @@ makeOutput <- function(uid, output = NULL) {
   # Names of output folders
   l <- list(
     glue("{out}/{uid}/data-raw/"),
-    glue("{out}/{uid}/data-format/"),
+    glue("{out}/{uid}/data-format/")
   )
 
   # Create folders if they do not exist

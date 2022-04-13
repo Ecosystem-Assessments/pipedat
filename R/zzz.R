@@ -19,3 +19,7 @@ use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
   # NB by default whisker forward the parent envi and I used this
   writeLines(whisker::whisker.render(template, ...), save_as)
 }
+
+# ------------------------------------------------------------------------------
+# Timestamp
+timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")

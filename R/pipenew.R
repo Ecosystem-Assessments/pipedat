@@ -2,7 +2,7 @@
 #'
 #' This function is used to create a new data pipeline function from a template.
 #' This function is meant to facilitate writing of data pipeline for the `pipedat`
-#' developers. It could however be found useful by others, which is why it is exported.
+#' developers and contributors
 #'
 #' @param name name of the data that will be accessed through this new data pipeline. The name should be short and will only be used to ease the readability of the file structure, as each data pipeline is identified by a unique identifier rather than its name.
 #'
@@ -20,6 +20,8 @@ pipenew <- function(name) {
   out <- list()
   out$dpid <- rnd_id() # Create unique ID of length 8
   out$uuid <- uuid::UUIDgenerate() # Create Version 4 UUID for the pipeline
+  out$date_created <- timestamp()
+  out$name <- name
 
   # Create "R/" if it does not exist
   if (!file.exists("R/")) dir.create("R/")

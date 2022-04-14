@@ -29,10 +29,10 @@ citekey_{{ dpid }} <- function() {
 #' dp_{{ dpid }}()
 #' }
 dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ...) {
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # If the data is downloaded from online sources
   urls <- c(
     "url1",
@@ -40,28 +40,40 @@ dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ..
     "..."
   )
   pipeload(urls, glue("{output}{{{ dpid }}}/data-raw/"))
+  # _________________________________________________________________________________________ #
     
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  
+  # _________________________________________________________________________________________ #
+  
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # FORMAT DATA
   # NOTE: optional
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  
+  # _________________________________________________________________________________________ #
+
+
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE METADATA
   # WARNING: mandatory
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  q <- is.null(bbox) & is.null(timespan) 
   meta <- metadata(
-    dpid = "{{ dpid }}",
+    pipeline_id = "{{ dpid }}",
     # List of creators of the form 
     # `list(people(first_name, last_name, email, affiliation, role))`
     pipeline_creators = people(developer = "david"),
     pipeline_date = "{{ date_created }}",
     pipeline_url = glue("https://github.com/Ecosystem-Assessments/pipedat/blob/main/R/dp_{{ dpid }}-{{ name }}.R"),
+    data_pipeline_uuid = ifelse(q, "{{ uuid }}", uuid::UUIDgenerate()),
+    data_pipeline_bbox = bbox,
+    data_pipeline_timespan = timespan,
     data_name = shortname_{{ dpid }}(), # NOTE: function as document header
     data_description = desc_{{ dpid }}(), # NOTE: function as document header
     data_access = timestamp(),
@@ -79,10 +91,10 @@ dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ..
     info1 = c("Format as lists and dataframes to be rendered as yaml"),
     info2 = c("Formatting thus matters"),
     info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-  )
-  
+  )  
+  # _________________________________________________________________________________________ #
 
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE BIBTEX
   # WARNING: mandatory
   # 
@@ -94,7 +106,7 @@ dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ..
   #   Some guidance on how to cite datasets: 
   #   https://social-science-data-editors.github.io/guidance/citations/guidance_data_citations.pdf
   #   Using the @techreport entry type for datasets, as there are no specific entries for data
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   bib <- c(
     # For a dataset
     RefManageR::BibEntry(
@@ -127,9 +139,11 @@ dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ..
       url = "https://path/to/data"
     )
   ) 
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # _________________________________________________________________________________________ #
+  
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # EXPORT 
-  # =~-~=~-~=~-~=~-~=~-~=~-~= #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data 
   fm <- glue("{output}{{{ dpid }}}/data-format/")
   
@@ -140,4 +154,5 @@ dp_{{ dpid }} <- function(output, input = NULL, bbox = NULL, timespan = NULL, ..
   # Bibtex
   bi <- glue("{output}{{{ dpid }}}/{{ dpid }}.bib")
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
+  # _________________________________________________________________________________________ #
 }

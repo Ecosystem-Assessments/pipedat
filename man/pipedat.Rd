@@ -16,7 +16,7 @@ pipedat(uid, output = NULL, input = NULL, bbox = NULL, timespan = NULL)
 
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
 
-\item{timespan}{time span to spatially subset the queried data, if applicable. The time span should be of the form \code{c(time_from, time_to)}}
+\item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
 }
 \value{
 This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.

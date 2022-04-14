@@ -7,11 +7,14 @@
 \title{Create a yaml metadata file}
 \usage{
 metadata(
-  dpid,
+  pipeline_id,
   pipeline_creators,
   pipeline_date,
   pipeline_url,
   data_name,
+  data_pipeline_uuid,
+  data_pipeline_bbox = NULL,
+  data_pipeline_timespan = NULL,
   data_description,
   data_access = timestamp(),
   data_temporal = NULL,
@@ -35,7 +38,7 @@ people(
 )
 }
 \arguments{
-\item{dpid}{individual id of data pipeline}
+\item{pipeline_id}{individual id of data pipeline}
 
 \item{pipeline_creators}{creators of the data pipeline, see \link{people}}
 
@@ -44,6 +47,12 @@ people(
 \item{pipeline_url}{url to data pipeline code}
 
 \item{data_name}{short name of data queried}
+
+\item{data_pipeline_uuid}{uuid of the data associated with the pipeline. If no bbox or temporal constraits are used for the query, this uuid should always be the same. If a temporal range of a bounding box are imposed, this means that the resulting data are different from the original and thus a new uuid should be used.}
+
+\item{data_pipeline_bbox}{bounding box that was used to spatially subset the queried data, if applicable. The bounding box should be of the form c(xmin, ymin, xmax, ymax),}
+
+\item{data_pipeline_timespan}{time span that was used to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried c(year1, year2, ...),}
 
 \item{data_description}{description of data queried}
 
@@ -99,10 +108,13 @@ through the data pipeline.
 \examples{
 \dontrun{
 meta <- metadata(
-  dpid = "jhag76ad",
+  pipeline_id = "jhag76ad",
   pipeline_creators = people(developer = "david"),
   pipeline_date = "2022-04-13",
   pipeline_url = "https://path/to/pipeline.R",
+  data_pipeline_uuid = "kjashf-aksjfg-soa8f7g-so8ef7",
+  data_pipeline_bbox = c(xmin = -55, ymin = -55, xmax = -50, ymax = -50)
+  data_pipeline_timespan = 2022,
   data_name = "Data X",
   data_description = "Data X characterizes Y",
   data_access = "2022-06-25",

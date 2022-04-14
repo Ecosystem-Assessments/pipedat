@@ -30,6 +30,7 @@ Imports:
     fs,
     glue,
     ids,
+    RefManageR,
     sf,
     stringr,
     utils,

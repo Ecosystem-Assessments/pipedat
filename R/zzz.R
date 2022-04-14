@@ -4,6 +4,7 @@
 #' @name pipedat
 #'
 #' @importFrom glue glue glue_sql
+#' @importFrom RefManageR BibEntry WriteBib
 #' @importFrom whisker whisker.render
 
 NULL

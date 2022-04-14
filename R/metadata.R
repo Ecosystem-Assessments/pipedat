@@ -80,7 +80,7 @@ metadata <- function(dpid, pipeline_creators, pipeline_date, pipeline_url, data_
   meta$data$url <- data_url
   meta$data$uuid <- data_uuid
   meta$data$availability <- data_availability
-  meta$data$citeky <- data_citekey
+  meta$data$citekey <- data_citekey
 
   # Return
   invisible(meta)

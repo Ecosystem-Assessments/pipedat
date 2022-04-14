@@ -8,7 +8,7 @@ desc_{{ dpid }} <- function() {
   "Short description of the dataset to be queried through this data pipeline"
 }
 citekey_{{ dpid }} <- function() {
-  c("citekey1","citekey2","...")  
+  c("citekey1","citekey2")  
 }
 # ------------------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ citekey_{{ dpid }} <- function() {
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords dpid: {{ dpid }}
+#' @keywords pipeline_id: {{ dpid }}
 #'
 #' @examples
 #' \dontrun{

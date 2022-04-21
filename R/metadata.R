@@ -45,7 +45,7 @@
 #'   pipeline_url = "https://path/to/pipeline.R",
 #'   data_pipeline_uuid = "kjashf-aksjfg-soa8f7g-so8ef7",
 #'   data_pipeline_crs = 4326,
-#'   data_pipeline_bbox = c(xmin = -55, ymin = -55, xmax = -50, ymax = -50)
+#'   data_pipeline_bbox = c(xmin = -55, ymin = -55, xmax = -50, ymax = -50),
 #'   data_pipeline_timespan = 2022,
 #'   data_name = "Data X",
 #'   data_description = "Data X characterizes Y",
@@ -66,7 +66,7 @@
 #' }
 #' @export
 #' @describeIn metadata export metadata yaml
-metadata <- function(pipeline_id, pipeline_creators, pipeline_date, pipeline_url, data_name,  data_pipeline_uuid, data_pipeline_crs, data_pipeline_bbox = NULL, data_pipeline_timespan = NULL, data_description, data_access = timestamp(), data_temporal = NULL, data_bbox = NULL, data_contacts, data_url = NULL, data_uuid = NULL, data_availability = NULL, data_citekey) {
+metadata <- function(pipeline_id, pipeline_creators, pipeline_date, pipeline_url, data_name, data_pipeline_uuid, data_pipeline_crs, data_pipeline_bbox = NULL, data_pipeline_timespan = NULL, data_description, data_access = timestamp(), data_temporal = NULL, data_bbox = NULL, data_contacts, data_url = NULL, data_uuid = NULL, data_availability = NULL, data_citekey) {
 
   # Metadata list
   meta <- list()

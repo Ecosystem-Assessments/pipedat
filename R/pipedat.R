@@ -46,15 +46,15 @@ pipedat <- function(uid, output = NULL, input = NULL, crs = 4326, bbox = NULL, t
 pipeload <- function(urls = NULL, govcan = NULL, output) {
   if (!is.null(urls)) {
     lapply(
-      urls, 
+      urls,
       function(x) curl::curl_download(x, destfile = glue("{output}{basename(x)}"))
     )
   }
-  
+
   if (!is.null(govcan)) {
     rgovcan::govcan_setup()
     rgovcan::govcan_dl_resources(
-      resources = govcan, 
+      resources = govcan,
       path = output
     )
   }

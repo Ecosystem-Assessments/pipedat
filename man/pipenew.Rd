@@ -2,25 +2,33 @@
 % Please edit documentation in R/pipenew.R
 \name{pipenew}
 \alias{pipenew}
-\title{Creates a new data pipeline function}
+\title{Creates a new files from templates}
 \usage{
-pipenew(name = NULL, template = "data_pipeline")
+pipenew(name = NULL, template = "data_workflow")
 }
 \arguments{
 \item{name}{for a data pipeline or a data connect, name of the data that will be accessed through this new data pipeline. The name should be short and will only be used to ease the readability of the file structure, as each data pipeline is identified by a unique identifier rather than its name. For a data workflow, name of the data workflow; defaults to \code{data_workflow}}
 
-\item{template}{name of the template to generate, one of \code{data_pipeline}, \code{data_connect}, \code{data_workflow}}
+\item{template}{name of the template to generate, one of \code{data_pipeline}, \code{data_connect}, \code{data_workflow}. Defaults to \code{data_workflow}, as it is the most likely template to be needed by a user of the package.}
 }
 \value{
-This function creates a new file \verb{R/dp_\{uid\}-\{name\}.R} from the template \code{inst/templates/data_pipeline.R}
+This function creates new files from the template available in \verb{inst/templates/}
 }
 \description{
-This function is used to create a new data pipeline function from a template.
+This function is used to create new files from templates available in the \code{pipedat} package.
 This function is meant to facilitate writing of data pipeline for the \code{pipedat}
-developers and contributors
+developers and contributors.
+Templates available are data pipelines, data connects, and data workflows.
 }
 \examples{
 \dontrun{
-pipenew("fisheries")
+# New data workflow 
+pipenew()
+
+# New data pipeline
+pipenew("dfo_logbooks", template = "data_pipeline")
+
+# New data connect
+pipenew("fisheries_intensity", template = "data_connect")
 }
 }

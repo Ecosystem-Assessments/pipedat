@@ -28,12 +28,13 @@ citekey_35396c60 <- function() {
 #' \dontrun{
 #' dp_35396c60()
 #' }
-dp_35396c60 <- function(output, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_35396c60 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  path <- glue("{output}35396c60/")
+  name <- "marine_bioregions"
+  path <- glue("{output}{name}-35396c60/")
   govcan <- "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
   pipeload(govcan = govcan, output = glue("{path}raw"))
   # _________________________________________________________________________________________ #
@@ -170,7 +171,7 @@ dp_35396c60 <- function(output, input = NULL, crs = 4326, bbox = NULL, timespan 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data (can be multiple datasets)
   nm <- "federal_marine_bioregions-35396c60.geojson"
-  fm <- glue("{path}format/{nm}")
+  fm <- glue("{path}clean/{nm}")
   sf::st_write(dat, dsn = fm, quiet = TRUE)
 
   # Metadata

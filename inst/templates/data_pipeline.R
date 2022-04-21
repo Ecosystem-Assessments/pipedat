@@ -33,7 +33,8 @@ dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespa
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  path <- glue("{output}{{ dpid }}/")
+  name <- {{ name }}
+  path <- glue("{output}{{ name }}-{{ dpid }}/")
   # If the data is downloaded from online sources
   urls <- c(
     "url1",
@@ -177,15 +178,15 @@ dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespa
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data 
-  nm <- "name_of_data-{{ dpid }}.ext"
-  fm <- glue("{path}/format/{nm}")
+  nm <- "{{ name }}-{{ dpid }}"
+  fm <- glue("{path}/clean/{nm}.ext")
   
   # Metadata
-  mt <- glue("{path}/{{ dpid }}.yaml")
+  mt <- glue("{path}/{{ nm }}.yaml")
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- glue("{path}/{{ dpid }}.bib")
+  bi <- glue("{path}/{{ nm }}.bib")
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

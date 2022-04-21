@@ -72,7 +72,7 @@ checkOutput <- function(output = NULL) {
     last_char <- ifelse(substr(output, nc, nc) == "/", TRUE, FALSE)
     ifelse(last_char, output, glue("{output}/"))
   } else {
-    "data/"
+    "data/data-raw/"
   }
 }
 
@@ -81,7 +81,7 @@ checkOutput <- function(output = NULL) {
 # Create output folders for data pipelines
 makeOutput <- function(uid, output = NULL) {
   # Output
-  output <- ifelse(is.null(output), "data/", output)
+  output <- ifelse(is.null(output), "data/data-raw/", output)
 
   # Check if output ends with a "/" to create proper path
   out <- checkOutput(output)
@@ -89,7 +89,7 @@ makeOutput <- function(uid, output = NULL) {
   # Names of output folders
   l <- list(
     glue("{out}/{uid}/raw/"),
-    glue("{out}/{uid}/format/")
+    glue("{out}/{uid}/clean/")
   )
 
   # Create folders if they do not exist

@@ -8,7 +8,7 @@ desc_35396c60 <- function() {
   "The spatial planning framework for Canada's national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada's oceans and the Great Lakes."
 }
 citekey_35396c60 <- function() {
-  c("dfo2009", "dfo2010", "goc2011", "dfo2022")
+  c("dfo2009", "dfo2010", "goc2011", "dfo2021")
 }
 # ------------------------------------------------------------------------------
 
@@ -54,6 +54,20 @@ dp_35396c60 <- function(output, input = NULL, crs = 4326, bbox = NULL, timespan 
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- sf::st_transform(dat, crs = crs)
+  # _________________________________________________________________________________________ #
+
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # SUBSET DATA
+  # NOTE: optional, only if applicable
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # Bounding bbox
+  if (!is.null(bbox)) {
+    dat <- bbox_crop(dat, bbox, crs)
+  }
+
+  if (!is.null(timespan)) {
+    dat <- timespan_filter(dat, timespan, "column")
+  }
   # _________________________________________________________________________________________ #
 
 
@@ -105,35 +119,48 @@ dp_35396c60 <- function(output, input = NULL, crs = 4326, bbox = NULL, timespan 
   #   Using the @techreport entry type for datasets, as there are no specific entries for data
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   bib <- c(
-    # For a dataset
     RefManageR::BibEntry(
       bibtype = "techreport",
       key = citekey_35396c60()[1], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}",
-      year = "2018",
-      title = "Title of the dataset",
-      institution = "{}",
+      author = "{Fisheries and Oceans Canada}",
+      year = "2009",
+      title = "Development of a Framework and Principles for the Biogeographic Classification of Canadian Marine Areas",
+      institution = "{Fisheries and Oceans Canada}",
+      type = "{DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2009/056}",
+      number = "{}",
+      url = "https://waves-vagues.dfo-mpo.gc.ca/Library/338958.pdf"
+    ),
+    RefManageR::BibEntry(
+      bibtype = "techreport",
+      key = citekey_35396c60()[2], # NOTE: function as document header
+      author = "{Fisheries and Oceans Canada}",
+      year = "2010",
+      title = "Proceedings of a National Science Advisory Process to Provide Guidance on the Development of a Framework and Principles for the Biogeographic Classification of Canadian Marine Areas; 15-16 June 2009",
+      institution = "{Fisheries and Oceans Canada}",
+      type = "{DFO Can. Sci. Advis. Sec. Proceed. Ser. 2009/039.}",
+      url = "https://www.dfo-mpo.gc.ca/csas-sccs/publications/pro-cr/2009/2009_039-eng.htm"
+    ),
+    RefManageR::BibEntry(
+      bibtype = "techreport",
+      key = citekey_35396c60()[3], # NOTE: function as document header
+      author = "{Government of Canada}",
+      year = "2011",
+      title = "National Framework for Canada’s Network of Marine Protected Areas",
+      institution = "{Fisheries and Oceans Canada}",
+      type = "{Ottawa. 31 pp}",
+      url = "https://waves-vagues.dfo-mpo.gc.ca/Library/345207.pdf"
+    ),
+    RefManageR::BibEntry(
+      bibtype = "techreport",
+      key = citekey_35396c60()[4], # NOTE: function as document header
+      author = "{Fisheries and Oceans Canada}",
+      year = "2021",
+      title = "Federal Marine Bioregions",
+      institution = "{Fisheries and Oceans Canada}",
       type = "{}",
       urldate = timestamp(),
       number = "{}",
-      url = "https://path/to/data",
-      doi = "doi of data"
-    ),
-    # For a journal article
-    RefManageR::BibEntry(
-      bibtype = "article",
-      key = citekey_35396c60()[2], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}",
-      year = "2018",
-      title = "Title of the article",
-      journal = "Journal name",
-      volume = "1",
-      number = "1",
-      pages = "1--2",
-      publisher = "{Publisher name}",
-      issn = "article issn",
-      doi = "article doi",
-      url = "https://path/to/data"
+      url = "https://open.canada.ca/data/en/dataset/23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
     )
   )
   # _________________________________________________________________________________________ #

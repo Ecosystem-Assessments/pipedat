@@ -32,9 +32,11 @@ Imports:
     ids,
     RefManageR,
     rgovcan,
+    rlang,
     sf,
     stringr,
     utils,
     uuid, 
     whisker,
     yaml
+

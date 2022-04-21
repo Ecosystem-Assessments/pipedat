@@ -60,10 +60,26 @@ dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespa
   # FORMAT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  
-  dat <- sf::st_transform(dat, crs = crs)
+
   # _________________________________________________________________________________________ #
 
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # APPLY SUBSET AND CRS SPECIFIED BY USER
+  # NOTE: optional, only if applicable
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # Projection
+  dat <- sf::st_transform(dat, crs = crs)
+
+  # Bounding bbox
+  if (!is.null(bbox)) {
+    dat <- bbox_crop(dat, bbox, crs)  
+  }
+  
+  if (!is.null(timespan)) {
+    # "column" is the name of the column in which the years are stored in the dataset
+    dat <- timespan_filter(dat, timespan, "column")
+  }
+  # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE METADATA

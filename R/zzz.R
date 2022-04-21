@@ -5,6 +5,7 @@
 #'
 #' @importFrom glue glue glue_sql
 #' @importFrom RefManageR BibEntry WriteBib
+#' @importFrom rlang sym
 #' @importFrom whisker whisker.render
 #' @importFrom yaml yaml.load_file write_yaml read_yaml
 NULL
@@ -24,3 +25,18 @@ use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
 # ------------------------------------------------------------------------------
 # Timestamp
 timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")
+
+# ------------------------------------------------------------------------------
+# Intersection with bounding box
+bbox_crop <- function(dat, bbox, crs) {
+  bbox_poly <- sf::st_bbox(bbox, crs = sf::st_crs(crs)) |>
+               sf::st_as_sfc(dat)
+  sf::st_intersection(dat, bbox_poly)
+}
+
+# ------------------------------------------------------------------------------
+# Filter by year
+timespan_filter <- function(dat, timespan, column) {
+  dat |>
+    dplyr::filter((!!rlang::sym(column)) %in% timespan)
+}

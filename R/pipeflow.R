@@ -4,7 +4,7 @@
 #'
 #' @param config path to a yaml data workflow configuration file prepared by the user. Use `pipenew()` to generate a new configuration file template.
 #'
-#' @return This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data, and all integrated data. 
+#' @return This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data, and all integrated data.
 #'
 #' @export
 #'
@@ -13,38 +13,37 @@
 #' pipeflow(config = "./data/config/data_workflow.yaml")
 #' }
 pipeflow <- function(config) {
-  # Load yaml configuration file 
+  # Load yaml configuration file
   dat <- yaml::read_yaml(config)
-  
-  # Parameters 
+
+  # Parameters
   output <- dat$data_workflow$parameters$output
   crs <- dat$data_workflow$parameters$crs
   bbox_pipeline <- unlist(dat$data_workflow$parameters$bbox)
   timespan <- dat$data_workflow$parameters$timespan
   res <- dat$data_workflow$parameters$grid$resolution
   bbox_grid <- unlist(dat$data_workflow$parameters$grid$bbox)
-  
-  # Data pipelines 
+
+  # Data pipelines
   lapply(
     dat$data_workflow$data_pipeline,
     pipedat,
-    output = output, 
-    crs = crs, 
-    bbox = bbox_pipeline, 
+    output = output,
+    crs = crs,
+    bbox = bbox_pipeline,
     timespan = timespan
   )
-  
-  # Make grid 
-  pipegrid(
-    bbox_grid,
-    res
-  )
-  
-  # Data connect
-  lapply(
-    dat$data_workflow$data_connect,
-    pipeconnect,
-    output = output
-  )
-}
 
+  # # Make grid
+  # pipegrid(
+  #   bbox_grid,
+  #   res
+  # )
+  # 
+  # # Data connect
+  # lapply(
+  #   dat$data_workflow$data_connect,
+  #   pipeconnect,
+  #   output = output
+  # )
+}

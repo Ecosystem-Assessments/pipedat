@@ -3,25 +3,25 @@ data_workflow:
     output: "data/"
     crs: 4326
     bbox:
-    - xmin: -180
-    - ymin: -90
-    - xmax: 180
-    - ymax: 90
+      xmin: -180
+      ymin: -90
+      xmax: 180
+      ymax: 90
     timespan:
-    - year 1
-    - year 2
-    - ...
-    - year n
+    - 2000
+    - 2001
+    - 2002
+    - 2020
     grid: 
       resolution: 
       - 10
-      - 10
+        10
       bbox:
-      - xmin: -180
-      - ymin: -90
-      - xmax: 180
-      - ymax: 90
-  data_pipelines:
+        xmin: -180
+        ymin: -90
+        xmax: 180
+        ymax: 90
+  data_pipeline:
   - pipeline_id 1
   - pipeline_id 2
   - ...

@@ -120,7 +120,7 @@ meta <- metadata(
   pipeline_url = "https://path/to/pipeline.R",
   data_pipeline_uuid = "kjashf-aksjfg-soa8f7g-so8ef7",
   data_pipeline_crs = 4326,
-  data_pipeline_bbox = c(xmin = -55, ymin = -55, xmax = -50, ymax = -50)
+  data_pipeline_bbox = c(xmin = -55, ymin = -55, xmax = -50, ymax = -50),
   data_pipeline_timespan = 2022,
   data_name = "Data X",
   data_description = "Data X characterizes Y",

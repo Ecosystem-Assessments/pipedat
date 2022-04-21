@@ -22,7 +22,7 @@ Templates available are data pipelines, data connects, and data workflows.
 }
 \examples{
 \dontrun{
-# New data workflow 
+# New data workflow
 pipenew()
 
 # New data pipeline

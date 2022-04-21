@@ -1,20 +1,20 @@
 # ------------------------------------------------------------------------------
 # Using custom function to write certain metadata information only once, 
 # as they appear in the function metadata and the data/pipeline metadata as well
-shortname_{{ dpid }} <- function() {
-  "Shortname of dataset to be queried"
+shortname_35396c60 <- function() {
+  "Federal Marine Bioregions"
 }
-desc_{{ dpid }} <- function() {
-  "Short description of the dataset to be queried through this data pipeline"
+desc_35396c60 <- function() {
+  "The spatial planning framework for Canada's national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada's oceans and the Great Lakes."
 }
-citekey_{{ dpid }} <- function() {
-  c("citekey1","citekey2")  
+citekey_35396c60 <- function() {
+  c("dfo2009","dfo2010","goc2011","dfo2022")  
 }
 # ------------------------------------------------------------------------------
 
-#' @eval shortname_{{ dpid }}()
+#' @eval shortname_35396c60()
 #'
-#' @eval desc_{{ dpid }}()
+#' @eval desc_35396c60()
 #'
 #' @eval doc_params()
 #'
@@ -22,45 +22,37 @@ citekey_{{ dpid }} <- function() {
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: 35396c60
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ dpid }}()
+#' dp_35396c60()
 #' }
-dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_35396c60 <- function(output, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  path <- glue("{output}{{ dpid }}/")
-  # If the data is downloaded from online sources
-  urls <- c(
-    "url1",
-    "url2",
-    "..."
-  )
-  
-  # If the data is downloaded from open government using `rgovcan`
-  govcan <- "govcan uuid"
-  
-  # Load
-  pipeload(urls = urls, govcan = govcan, glue("{path}raw/"))
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= # 
+  path <- glue("{output}35396c60/")
+  govcan <- "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
+  pipeload(govcan = govcan, output = glue("{path}raw"))
   # _________________________________________________________________________________________ #
-    
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # dat <- import data function
-  
+  dat <- sf::st_read(
+    glue("{path}raw/DFO_Marine_Bioregions/DFO_Marine_Bioregions.gdb"),
+    layer = 'DFO_Marine_Bioregions',
+    quiet = TRUE
+  ) 
   # _________________________________________________________________________________________ #
   
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # FORMAT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  
   dat <- sf::st_transform(dat, crs = crs)
   # _________________________________________________________________________________________ #
 
@@ -71,43 +63,32 @@ dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespa
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   q <- is.null(bbox) & is.null(timespan) 
   meta <- metadata(
-    pipeline_id = "{{ dpid }}",
+    pipeline_id = "35396c60",
     # List of creators of the form 
-    # `list(people(first_name, last_name, email, organization, department, role))`
+    # `list(people(first_name, last_name, email, affiliation, role))`
     pipeline_creators = people(developer = "david"),
-    pipeline_date = "{{ date_created }}",
-    pipeline_url = glue("https://github.com/Ecosystem-Assessments/pipedat/blob/main/R/dp_{{ name }}-{{ dpid }}.R"),
-    data_pipeline_uuid = ifelse(q, "{{ uuid }}", uuid::UUIDgenerate()),
+    pipeline_date = "2022-04-21",
+    pipeline_url = glue("https://github.com/Ecosystem-Assessments/pipedat/blob/main/R/dp_35396c60-marine_bioregions.R"),
+    data_pipeline_uuid = ifelse(q, "8d0e2a43-7da9-40f1-8f1d-dfe5b9032e04", uuid::UUIDgenerate()),
     data_pipeline_crs = crs,
     data_pipeline_bbox = bbox,
     data_pipeline_timespan = timespan,
-    data_name = shortname_{{ dpid }}(), # NOTE: function as document header
-    data_description = desc_{{ dpid }}(), # NOTE: function as document header
+    data_name = shortname_35396c60(), # NOTE: function as document header
+    data_description = desc_35396c60(), # NOTE: function as document header
     data_access = timestamp(),
-    data_temporal = c(), # c(2000,2001,2002,2003),
-    data_bbox = c(), # c(xmin=-1,ymin=-1,xmax=1,xmin=1), # could also use sf::st_bbox()
+    data_bbox = sf::st_bbox(dat),
     data_contacts = list(
       people(
-        first_name = "first_name",
-        last_name = "last_name",
-        email = "email",
-        organization = "organization",
-        department = "department",
-        role = "role"
+        email = "DFO.NCRMPCGIS-PCMSIGNCR.MPO@dfo-mpo.gc.ca",
+        organization = "Fisheries and Oceans Canada",
+        department = "Marine Planning and Conservation Directorate"
       )
-    ), # Same way as creators
-    data_url = "https://path/to/data/",
-    data_uuid = "unique identifier of raw data or resource",
+    ),
+    data_url = "https://open.canada.ca/data/en/dataset/23eb8b56-dac8-4efc-be7c-b8fa11ba62e9",
+    data_uuid = "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9",
     data_availability = "open", # 'open','on demand','data sharing agreement','restricted'
-    data_citekey = citekey_{{ dpid }}() # NOTE: function as document header
+    data_citekey = citekey_35396c60() # NOTE: function as document header
   )
-  
-  # To add additional metadata for queried data
-  meta <- add_metadata(meta, 
-    info1 = c("Format as lists and dataframes to be rendered as yaml"),
-    info2 = c("Formatting thus matters"),
-    info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-  )  
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -127,7 +108,7 @@ dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespa
     # For a dataset
     RefManageR::BibEntry(
       bibtype = "techreport", 
-      key = citekey_{{ dpid }}()[1], # NOTE: function as document header
+      key = citekey_35396c60()[1], # NOTE: function as document header
       author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
       year = "2018",
       title = "Title of the dataset",
@@ -141,7 +122,7 @@ dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespa
     # For a journal article
     RefManageR::BibEntry(
       bibtype = "article", 
-      key = citekey_{{ dpid }}()[2], # NOTE: function as document header
+      key = citekey_35396c60()[2], # NOTE: function as document header
       author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
       year = "2018",
       title = "Title of the article",
@@ -160,16 +141,17 @@ dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespa
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Formatted data 
-  nm <- "name_of_data-{{ dpid }}.ext"
-  fm <- glue("{path}/format/{nm}")
+  # Formatted data (can be multiple datasets)
+  nm <- "federal_marine_bioregions-35396c60.geojson"
+  fm <- glue("{path}format/{nm}")
+  sf::st_write(dat, dsn = fm, quiet = TRUE)
   
   # Metadata
-  mt <- glue("{path}/{{ dpid }}.yaml")
+  mt <- glue("{path}35396c60.yaml")
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- glue("{path}/{{ dpid }}.bib")
+  bi <- glue("{path}35396c60.bib")
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

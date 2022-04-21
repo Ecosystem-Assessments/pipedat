@@ -7,6 +7,8 @@
 #'
 #' @param uid unique identifier of queried data. The full list of available data pipelines can be consulted using `pipelines()`
 #' @eval doc_params()
+#' @param urls urls for data download
+#' @param govcan unique identifier of resource on the open government federal data portal to download
 #'
 #' @return This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.
 #'
@@ -16,7 +18,9 @@
 #' \dontrun{
 #' pipedat("0001")
 #' }
-pipedat <- function(uid, output = NULL, input = NULL, bbox = NULL, timespan = NULL) {
+#' @export
+#' @describeIn pipedat execute data pipelines
+pipedat <- function(uid, output = NULL, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders
   output <- checkOutput()
   makeOutput(uid, output)
@@ -27,6 +31,7 @@ pipedat <- function(uid, output = NULL, input = NULL, bbox = NULL, timespan = NU
     list(
       uid = uid,
       output = output,
+      crs = crs,
       input = input,
       bbox = bbox,
       timespan = timespan
@@ -34,6 +39,30 @@ pipedat <- function(uid, output = NULL, input = NULL, bbox = NULL, timespan = NU
   )
 }
 
+# ------------------------------------------------------------------------------
+#' @describeIn pipedat download data from url or open government federal portal
+#' @export
+# Generic function to download data from url
+pipeload <- function(urls = NULL, govcan = NULL, output) {
+  if (!is.null(urls)) {
+    lapply(
+      urls, 
+      function(x) curl::curl_download(x, destfile = glue("{output}{basename(x)}"))
+    )
+  }
+  
+  if (!is.null(govcan)) {
+    rgovcan::govcan_setup()
+    rgovcan::govcan_dl_resources(
+      resources = govcan, 
+      path = output
+    )
+  }
+
+  # Unzip
+  zipfiles <- dir(output, pattern = ".zip", full.names = TRUE)
+  lapply(zipfiles, function(x) utils::unzip(x, exdir = output))
+}
 
 # ------------------------------------------------------------------------------
 # Check if output ends with a "/" to create proper path
@@ -59,8 +88,8 @@ makeOutput <- function(uid, output = NULL) {
 
   # Names of output folders
   l <- list(
-    glue("{out}/{uid}/data-raw/"),
-    glue("{out}/{uid}/data-format/")
+    glue("{out}/{uid}/raw/"),
+    glue("{out}/{uid}/format/")
   )
 
   # Create folders if they do not exist
@@ -69,15 +98,4 @@ makeOutput <- function(uid, output = NULL) {
   )
 
   # TODO: For GitHub, create .gitkeep and modify .gitignore
-}
-
-# ------------------------------------------------------------------------------
-# Generic function to download data from url
-pipeload <- function(urls, output) {
-  # Download
-  lapply(urls, function(x) curl::curl_download(x, destfile = glue("{output}{basename(x)}")))
-
-  # Unzip
-  zipfiles <- dir(output, pattern = ".zip", full.names = TRUE)
-  lapply(zipfiles, function(x) utils::unzip(x, exdir = output))
 }

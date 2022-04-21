@@ -30,7 +30,7 @@ pipenew <- function(name) {
   use_template(
     template = "templates/data_pipeline.R",
     data = out,
-    save_as = glue("R/dp_{out$dpid}-{name}.R")
+    save_as = glue("R/dp_{name}-{out$dpid}.R")
   )
 }
 

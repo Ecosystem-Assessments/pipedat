@@ -13,6 +13,7 @@ metadata(
   pipeline_url,
   data_name,
   data_pipeline_uuid,
+  data_pipeline_crs,
   data_pipeline_bbox = NULL,
   data_pipeline_timespan = NULL,
   data_description,
@@ -32,7 +33,8 @@ people(
   first_name = NULL,
   last_name = NULL,
   email = NULL,
-  affiliation = NULL,
+  organization = NULL,
+  department = NULL,
   role = NULL,
   developer = NULL
 )
@@ -49,6 +51,8 @@ people(
 \item{data_name}{short name of data queried}
 
 \item{data_pipeline_uuid}{uuid of the data associated with the pipeline. If no bbox or temporal constraits are used for the query, this uuid should always be the same. If a temporal range of a bounding box are imposed, this means that the resulting data are different from the original and thus a new uuid should be used.}
+
+\item{data_pipeline_crs}{spatial projection used to transform the spatial data into a uniform projection,}
 
 \item{data_pipeline_bbox}{bounding box that was used to spatially subset the queried data, if applicable. The bounding box should be of the form c(xmin, ymin, xmax, ymax),}
 
@@ -82,7 +86,9 @@ people(
 
 \item{email}{email address}
 
-\item{affiliation}{affiliation}
+\item{organization}{organization, affiliation}
+
+\item{department}{department, branch, etc.}
 
 \item{role}{role}
 
@@ -113,6 +119,7 @@ meta <- metadata(
   pipeline_date = "2022-04-13",
   pipeline_url = "https://path/to/pipeline.R",
   data_pipeline_uuid = "kjashf-aksjfg-soa8f7g-so8ef7",
+  data_pipeline_crs = 4326,
   data_pipeline_bbox = c(xmin = -55, ymin = -55, xmax = -50, ymax = -50)
   data_pipeline_timespan = 2022,
   data_name = "Data X",

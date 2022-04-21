@@ -4,10 +4,12 @@
 \alias{pipenew}
 \title{Creates a new data pipeline function}
 \usage{
-pipenew(name)
+pipenew(name = NULL, template = "data_pipeline")
 }
 \arguments{
-\item{name}{name of the data that will be accessed through this new data pipeline. The name should be short and will only be used to ease the readability of the file structure, as each data pipeline is identified by a unique identifier rather than its name.}
+\item{name}{for a data pipeline or a data connect, name of the data that will be accessed through this new data pipeline. The name should be short and will only be used to ease the readability of the file structure, as each data pipeline is identified by a unique identifier rather than its name. For a data workflow, name of the data workflow; defaults to \code{data_workflow}}
+
+\item{template}{name of the template to generate, one of \code{data_pipeline}, \code{data_connect}, \code{data_workflow}}
 }
 \value{
 This function creates a new file \verb{R/dp_\{uid\}-\{name\}.R} from the template \code{inst/templates/data_pipeline.R}

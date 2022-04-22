@@ -10,6 +10,7 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#preliminary)
 ![](https://img.shields.io/badge/status-preliminary-blue.svg)
 <!-- [![r-universe](https://insileco.r-universe.dev/badges/graphicsutils)](https://insileco.r-universe.dev/ui#builds) -->
+[![R-CMD-check](https://github.com/Ecosystem-Assessments/pipedat/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Ecosystem-Assessments/pipedat/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 *pipedat* is a package that provides pipelines to access, load, and

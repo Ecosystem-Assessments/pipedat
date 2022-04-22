@@ -57,16 +57,15 @@ check_output <- function(output) {
 # ------------------------------------------------------------------------------
 # Create output folders for data pipelines
 make_output <- function(uid, name, output = NULL) {
-  # Output
-  output <- ifelse(is.null(output), "data/data-raw/", output)
+  output <- ifelse(is.null(output), "data/data-raw/", output) # default output if NULL
+  output <- check_output(output) # Check if output ends with "/"
+  newdir <- glue("{output}/{name}-{uid}") # Name of new outdir
+  msg_exists(dir.exists(newdir)) # Stop if new dir exists
 
-  # Check if output ends with a "/" to create proper path
-  output <- check_output(output)
-
-  # Names of output folders
+  # Names of output folders to create
   l <- list(
-    glue("{output}/{name}-{uid}/raw/"),
-    glue("{output}/{name}-{uid}/clean/")
+    glue("{newdir}/raw/"),
+    glue("{newdir}/clean/")
   )
 
   # Create folders if they do not exist
@@ -75,4 +74,12 @@ make_output <- function(uid, name, output = NULL) {
   # Return output path 
   invisible(output)
   # TODO: For GitHub, create .gitkeep and modify .gitignore
+}
+
+# ------------------------------------------------------------------------------
+# Helper messages 
+msg_exists <- function(x) {
+  if (x) {
+    stop("This data already exists in the target output folder. Provide a new output folder or set `overwrite` to TRUE")    
+  }
 }

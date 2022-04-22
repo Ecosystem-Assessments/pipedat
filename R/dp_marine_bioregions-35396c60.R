@@ -30,7 +30,7 @@ citekey_35396c60 <- function() {
 #' }
 dp_35396c60 <- function(output, name = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders
-  name <- ifelse(is.null(name), "marine_bioregions", name)
+  name <- ifelse(is.null(name), "federal_marine_bioregions", name)
   output <- make_output("35396c60", name, output)
   
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -173,16 +173,16 @@ dp_35396c60 <- function(output, name = NULL, crs = 4326, bbox = NULL, timespan =
   # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data (can be multiple datasets)
-  nm <- "federal_marine_bioregions-35396c60.geojson"
-  fm <- glue("{path}clean/{nm}")
+  nm <- glue("{name}-35396c60)")
+  fm <- glue("{path}clean/{nm}.geojson")
   sf::st_write(dat, dsn = fm, quiet = TRUE)
 
   # Metadata
-  mt <- glue("{path}35396c60.yaml")
+  mt <- glue("{path}{nm}.yaml")
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- glue("{path}35396c60.bib")
+  bi <- glue("{path}{nm}.bib")
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

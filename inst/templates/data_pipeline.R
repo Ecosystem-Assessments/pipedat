@@ -28,12 +28,13 @@ citekey_{{ dpid }} <- function() {
 #' \dontrun{
 #' dp_{{ dpid }}()
 #' }
-dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
-  # Output folders
-  name <- ifelse(is.null(name), "{{ name }}", name)
+dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+  # Output folders and other objects used
   uid <- "{{ dpid }}"
+  name <- data_pipelines$name[data_pipelines$pipeline_id == uid]
+  nm <- glue("{name}-{uid")
   output <- make_output(uid, name, output)
-  path <- glue("{output}{name}-{uid}/")
+  path <- glue("{output}{nm}/")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
@@ -181,7 +182,6 @@ dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = 
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data 
-  nm <- "{{ name }}-{{ dpid }}"
   fm <- glue("{path}/{nm}.ext")
   
   # Metadata

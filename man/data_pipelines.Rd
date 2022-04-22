@@ -33,8 +33,6 @@ dp_120a6032(
 \arguments{
 \item{output}{output folder for queried data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'}
 
-\item{name}{name of the dataset to use for storing purposes. A default value is provided in individual data pipelines, but it can be modified by the user, for example by a numeric and sequential identifier for a specific project.}
-
 \item{crs}{spatial projection to use to transform the spatial data into a uniform projection}
 
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}

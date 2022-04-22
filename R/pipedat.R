@@ -20,13 +20,12 @@
 #' }
 #' @export
 #' @describeIn pipedat execute data pipelines
-pipedat <- function(uid, name = NULL, output = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+pipedat <- function(uid, output = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Execute data pipelines
   do.call(
     glue("dp_{uid}"),
     list(
       uid = uid,
-      name = name,
       output = output,
       crs = crs,
       bbox = bbox,

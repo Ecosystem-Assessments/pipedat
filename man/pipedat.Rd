@@ -6,22 +6,12 @@
 \alias{pipeload}
 \title{Execute data pipelines}
 \usage{
-pipedat(
-  uid,
-  name = NULL,
-  output = NULL,
-  crs = 4326,
-  bbox = NULL,
-  timespan = NULL,
-  ...
-)
+pipedat(uid, output = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 pipeload(urls = NULL, govcan = NULL, output)
 }
 \arguments{
 \item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}
-
-\item{name}{name of the dataset to use for storing purposes. A default value is provided in individual data pipelines, but it can be modified by the user, for example by a numeric and sequential identifier for a specific project.}
 
 \item{output}{output folder for queried data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'}
 

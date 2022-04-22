@@ -28,12 +28,15 @@ pipenew <- function(name = NULL, template = "data_workflow") {
     # Data for template
     out <- list()
     out$dpid <- rnd_id() # Create unique ID of length 8
-    out$uuid <- uuid::UUIDgenerate() # Create Version 4 UUID for the pipeline
+    out$uuid <- uuid::UUIDgenerate() # Create Version 4 UUID for the data generated from pipeline
     out$date_created <- timestamp()
     out$name <- name
 
     # Create "R/" if it does not exist
     if (!file.exists("R/")) dir.create("R/")
+
+    # Update data/data_pipelines.rda
+    append_dp(out$dpid, out$name, out$uuid)
 
     # Generate template
     use_template(

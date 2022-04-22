@@ -27,17 +27,46 @@ use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
 timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")
 
 # ------------------------------------------------------------------------------
-# pipeline url 
+# pipeline url
 pipeline_url <- function(dpid, name) {
   repo <- yaml::read_yaml("DESCRIPTION")$URL
   glue("{repo}/blob/main/R/dp_{name}-{dpid}.R")
 }
 
 # ------------------------------------------------------------------------------
+# add new data to list of pipelines
+# data_pipelines <- data.frame(
+#                     pipeline_id = character(0),
+#                     name = character(0),
+#                     data_id = character(0)
+#                    )
+# usethis::use_data(data_pipelines)
+append_dp <- function(pipeline_id, name, data_id) {
+  data_pipelines <- dplyr::bind_rows(
+    data_pipelines,
+    c(
+      pipeline_id = pipeline_id,
+      name = name,
+      data_id = data_id
+    )
+  )
+  usethis::use_data(data_pipelines, overwrite = TRUE)
+}
+
+# quick function to delete last row of data pipeline list
+# useful only for developers when creating new pipelines that might not end up being used
+delete_dp <- function(n) {
+  uid <- 1:(nrow(data_pipelines) - n)
+  if (uid[length(uid)] == 0) uid <- 0
+  data_pipelines <- data_pipelines[uid, ]
+  usethis::use_data(data_pipelines, overwrite = TRUE)
+}
+
+# ------------------------------------------------------------------------------
 # Intersection with bounding box
 bbox_crop <- function(dat, bbox, crs) {
   bbox_poly <- sf::st_bbox(bbox, crs = sf::st_crs(crs)) |>
-               sf::st_as_sfc(dat)
+    sf::st_as_sfc(dat)
   sf::st_intersection(dat, bbox_poly)
 }
 
@@ -54,7 +83,7 @@ check_output <- function(output) {
   if (!is.null(output)) {
     nc <- nchar(output)
     last_char <- ifelse(substr(output, nc, nc) == "/", TRUE, FALSE)
-    ifelse(last_char, output, glue("{output}/"))    
+    ifelse(last_char, output, glue("{output}/"))
   } else {
     NULL
   }
@@ -76,8 +105,8 @@ make_output <- function(uid, name, output = NULL) {
 
   # Create folders if they do not exist
   lapply(l, function(x) if (!file.exists(x)) dir.create(x, recursive = TRUE))
-  
-  # Return output path 
+
+  # Return output path
   invisible(output)
   # TODO: For GitHub, create .gitkeep and modify .gitignore
 }
@@ -87,7 +116,7 @@ make_output <- function(uid, name, output = NULL) {
 # Data folder already exists
 msg_exists <- function(x) {
   if (x) {
-    stop("This data already exists in the target output folder. Provide a new output folder or set `overwrite` to TRUE")    
+    stop("This data already exists in the target output folder. Provide a new output folder or set `overwrite` to TRUE")
   }
 }
 

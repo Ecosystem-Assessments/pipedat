@@ -34,7 +34,7 @@ dp_35396c60 <- function(output, name = NULL, crs = 4326, bbox = NULL, timespan =
   uid <- "35396c60"
   output <- make_output(uid, name, output)
   path <- glue("{output}{name}-{uid}/")
-  
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional

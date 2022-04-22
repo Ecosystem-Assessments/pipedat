@@ -35,6 +35,7 @@ Imports:
     rlang,
     sf,
     stringr,
+    usethis,
     utils,
     uuid, 
     whisker,

@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Using custom function to write certain metadata information only once, 
+# Using custom function to write certain metadata information only once,
 # as they appear in the function metadata and the data/pipeline metadata as well
 shortname_120a6032 <- function() {
   "Maritimes cumulative effects assessment study area grid"
@@ -8,7 +8,7 @@ desc_120a6032 <- function() {
   "Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment"
 }
 citekey_120a6032 <- function() {
-  c("kelly2021")  
+  c("kelly2021")
 }
 # ------------------------------------------------------------------------------
 
@@ -41,15 +41,15 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   msg_local(dir.exists(output))
   # _________________________________________________________________________________________ #
-    
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # dat <- import data function
-  
+
   # _________________________________________________________________________________________ #
-  
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # FORMAT DATA
   # NOTE: optional
@@ -67,9 +67,9 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
 
   # Bounding bbox
   if (!is.null(bbox)) {
-    dat <- bbox_crop(dat, bbox, crs)  
+    dat <- bbox_crop(dat, bbox, crs)
   }
-  
+
   if (!is.null(timespan)) {
     # "column" is the name of the column in which the years are stored in the dataset
     dat <- timespan_filter(dat, timespan, "column")
@@ -80,10 +80,10 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
   # CREATE METADATA
   # WARNING: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  q <- is.null(bbox) & is.null(timespan) 
+  q <- is.null(bbox) & is.null(timespan)
   meta <- metadata(
     pipeline_id = uid,
-    # List of creators of the form 
+    # List of creators of the form
     # `list(people(first_name, last_name, email, organization, department, role))`
     pipeline_creators = people(developer = "david"),
     pipeline_date = "2022-04-22",
@@ -112,48 +112,48 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
     data_availability = "open", # 'open','on demand','data sharing agreement','restricted'
     data_citekey = citekey_120a6032() # NOTE: function as document header
   )
-  
+
   # To add additional metadata for queried data
-  meta <- add_metadata(meta, 
+  meta <- add_metadata(meta,
     info1 = c("Format as lists and dataframes to be rendered as yaml"),
     info2 = c("Formatting thus matters"),
     info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-  )  
+  )
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE BIBTEX
   # WARNING: mandatory
-  # 
+  #
   # NOTE:
   #   Create bibtex entries using `RefManageR::BibEntry()`
-  #   For more information on the functions andd available entries visit: 
+  #   For more information on the functions andd available entries visit:
   #   https://docs.ropensci.org/RefManageR/reference/BibEntry.html
   #   For entry types: https://www.bibtex.com/e/entry-types/
-  #   Some guidance on how to cite datasets: 
+  #   Some guidance on how to cite datasets:
   #   https://social-science-data-editors.github.io/guidance/citations/guidance_data_citations.pdf
   #   Using the @techreport entry type for datasets, as there are no specific entries for data
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   bib <- c(
     # For a dataset
     RefManageR::BibEntry(
-      bibtype = "techreport", 
+      bibtype = "techreport",
       key = citekey_120a6032()[1], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
+      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}",
       year = "2018",
       title = "Title of the dataset",
-      institution = "{}", 
-      type = "{}", 
-      urldate =  timestamp(),
-      number = "{}", 
+      institution = "{}",
+      type = "{}",
+      urldate = timestamp(),
+      number = "{}",
       url = "https://path/to/data",
       doi = "doi of data"
     ),
     # For a journal article
     RefManageR::BibEntry(
-      bibtype = "article", 
+      bibtype = "article",
       key = citekey_120a6032()[2], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
+      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}",
       year = "2018",
       title = "Title of the article",
       journal = "Journal name",
@@ -165,18 +165,18 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
       doi = "article doi",
       url = "https://path/to/data"
     )
-  ) 
+  )
   # _________________________________________________________________________________________ #
-  
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # EXPORT 
+  # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Data name
   nm <- glue("{name}-{uid}")
 
-  # Formatted data 
+  # Formatted data
   fm <- glue("{path}/{nm}.ext")
-  
+
   # Metadata
   mt <- glue("{path}/{nm}.yaml")
   yaml::write_yaml(meta, mt, column.major = FALSE)

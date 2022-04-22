@@ -39,7 +39,7 @@ pipeflow <- function(config) {
   #   bbox_grid,
   #   res
   # )
-  # 
+  #
   # # Data connect
   # lapply(
   #   dat$data_workflow$data_connect,

@@ -31,7 +31,7 @@ citekey_{{ dpid }} <- function() {
 dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders
   name <- ifelse(is.null(name), "{{ name }}", name)
-  uid <- {{ dpid }}
+  uid <- "{{ dpid }}"
   output <- make_output(uid, name, output)
   path <- glue("{output}{name}-{uid}/")
 

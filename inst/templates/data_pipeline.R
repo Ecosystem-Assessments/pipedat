@@ -90,15 +90,14 @@ dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = 
   # CREATE METADATA
   # WARNING: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  q <- is.null(bbox) & is.null(timespan) 
   meta <- metadata(
     pipeline_id = uid,
     # List of creators of the form 
     # `list(people(first_name, last_name, email, organization, department, role))`
     pipeline_creators = people(developer = "david"),
     pipeline_date = "{{ date_created }}",
-    pipeline_url = glue("https://github.com/Ecosystem-Assessments/pipedat/blob/main/R/dp_{{ name }}-{uid}.R"),
-    data_pipeline_uuid = ifelse(q, "{{ uuid }}", uuid::UUIDgenerate()),
+    pipeline_url = pipeline_url(uid, name),
+    data_pipeline_uuid = "{{ uuid }}",
     data_pipeline_crs = crs,
     data_pipeline_bbox = bbox,
     data_pipeline_timespan = timespan,

@@ -60,6 +60,7 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # APPLY SUBSET AND CRS SPECIFIED BY USER
   # NOTE: optional, only if applicable
+  # TODO: Make a function out of this
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Projection
   dat <- sf::st_transform(dat, crs = crs)
@@ -170,8 +171,10 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Formatted data 
+  # Data name
   nm <- glue("{name}-{uid}")
+
+  # Formatted data 
   fm <- glue("{path}/{nm}.ext")
   
   # Metadata

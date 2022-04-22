@@ -27,6 +27,13 @@ use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
 timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")
 
 # ------------------------------------------------------------------------------
+# pipeline url 
+pipeline_url <- function(dpid, name) {
+  repo <- yaml::read_yaml("DESCRIPTION")$URL
+  glue("{repo}/blob/main/R/dp_{name}-{dpid}.R")
+}
+
+# ------------------------------------------------------------------------------
 # Intersection with bounding box
 bbox_crop <- function(dat, bbox, crs) {
   bbox_poly <- sf::st_bbox(bbox, crs = sf::st_crs(crs)) |>
@@ -53,7 +60,6 @@ check_output <- function(output) {
   }
 }
 
-
 # ------------------------------------------------------------------------------
 # Create output folders for data pipelines
 make_output <- function(uid, name, output = NULL) {
@@ -77,15 +83,17 @@ make_output <- function(uid, name, output = NULL) {
 }
 
 # ------------------------------------------------------------------------------
-# Helper messages 
+# Helper messages / check functions
+# Data folder already exists
 msg_exists <- function(x) {
   if (x) {
     stop("This data already exists in the target output folder. Provide a new output folder or set `overwrite` to TRUE")    
   }
 }
 
+# Data needed locally
 msg_local <- function(x, path) {
   if (x) {
-    stop("This data needs to be ")
+    stop(glue("This data is unavailable remotely. The raw data needs to be manually inserted in the folder `{path}` for the pipeline to work."))
   }
 }

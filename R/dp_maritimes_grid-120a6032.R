@@ -1,20 +1,20 @@
 # ------------------------------------------------------------------------------
 # Using custom function to write certain metadata information only once, 
 # as they appear in the function metadata and the data/pipeline metadata as well
-shortname_{{ dpid }} <- function() {
-  "Shortname of dataset to be queried"
+shortname_120a6032 <- function() {
+  "Maritimes cumulative effects assessment study area grid"
 }
-desc_{{ dpid }} <- function() {
-  "Short description of the dataset to be queried through this data pipeline"
+desc_120a6032 <- function() {
+  "Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment"
 }
-citekey_{{ dpid }} <- function() {
-  c("citekey1","citekey2")  
+citekey_120a6032 <- function() {
+  c("kelly2021")  
 }
 # ------------------------------------------------------------------------------
 
-#' @eval shortname_{{ dpid }}()
+#' @eval shortname_120a6032()
 #'
-#' @eval desc_{{ dpid }}()
+#' @eval desc_120a6032()
 #'
 #' @eval doc_params()
 #'
@@ -22,16 +22,16 @@ citekey_{{ dpid }} <- function() {
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: 120a6032
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ dpid }}()
+#' dp_120a6032()
 #' }
-dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders
-  name <- ifelse(is.null(name), "{{ name }}", name)
-  uid <- {{ dpid }}
+  name <- ifelse(is.null(name), "maritimes_grid", name)
+  uid <- "120a6032"
   output <- make_output(uid, name, output)
   path <- glue("{output}{name}-{uid}/")
 
@@ -39,18 +39,7 @@ dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = 
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # If the data is downloaded from online sources
-  urls <- c(
-    "url1",
-    "url2",
-    "..."
-  )
-  
-  # If the data is downloaded from open government using `rgovcan`
-  govcan <- "govcan uuid"
-  
-  # Load
-  pipeload(urls = urls, govcan = govcan, glue("{path}raw/"))
+  msg_local(dir.exists(output))
   # _________________________________________________________________________________________ #
     
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -96,14 +85,14 @@ dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = 
     # List of creators of the form 
     # `list(people(first_name, last_name, email, organization, department, role))`
     pipeline_creators = people(developer = "david"),
-    pipeline_date = "{{ date_created }}",
-    pipeline_url = glue("https://github.com/Ecosystem-Assessments/pipedat/blob/main/R/dp_{{ name }}-{uid}.R"),
-    data_pipeline_uuid = ifelse(q, "{{ uuid }}", uuid::UUIDgenerate()),
+    pipeline_date = "2022-04-22",
+    pipeline_url = glue("https://github.com/Ecosystem-Assessments/pipedat/blob/main/R/dp_maritimes_grid-120a6032.R"),
+    data_pipeline_uuid = ifelse(q, "83650307-e2dc-4a00-a02f-de7a176093f5", uuid::UUIDgenerate()),
     data_pipeline_crs = crs,
     data_pipeline_bbox = bbox,
     data_pipeline_timespan = timespan,
-    data_name = shortname_{{ dpid }}(), # NOTE: function as document header
-    data_description = desc_{{ dpid }}(), # NOTE: function as document header
+    data_name = shortname_120a6032(), # NOTE: function as document header
+    data_description = desc_120a6032(), # NOTE: function as document header
     data_access = timestamp(),
     data_temporal = c(), # c(2000,2001,2002,2003),
     data_bbox = c(), # c(xmin=-1,ymin=-1,xmax=1,xmin=1), # could also use sf::st_bbox()
@@ -120,7 +109,7 @@ dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = 
     data_url = "https://path/to/data/",
     data_uuid = "unique identifier of raw data or resource",
     data_availability = "open", # 'open','on demand','data sharing agreement','restricted'
-    data_citekey = citekey_{{ dpid }}() # NOTE: function as document header
+    data_citekey = citekey_120a6032() # NOTE: function as document header
   )
   
   # To add additional metadata for queried data
@@ -148,7 +137,7 @@ dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = 
     # For a dataset
     RefManageR::BibEntry(
       bibtype = "techreport", 
-      key = citekey_{{ dpid }}()[1], # NOTE: function as document header
+      key = citekey_120a6032()[1], # NOTE: function as document header
       author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
       year = "2018",
       title = "Title of the dataset",
@@ -162,7 +151,7 @@ dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = 
     # For a journal article
     RefManageR::BibEntry(
       bibtype = "article", 
-      key = citekey_{{ dpid }}()[2], # NOTE: function as document header
+      key = citekey_120a6032()[2], # NOTE: function as document header
       author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
       year = "2018",
       title = "Title of the article",
@@ -182,7 +171,7 @@ dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = 
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data 
-  nm <- "{{ name }}-{{ dpid }}"
+  nm <- glue("{name}-{uid}")
   fm <- glue("{path}/{nm}.ext")
   
   # Metadata

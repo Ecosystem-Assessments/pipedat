@@ -31,13 +31,14 @@ citekey_35396c60 <- function() {
 dp_35396c60 <- function(output, name = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders
   name <- ifelse(is.null(name), "federal_marine_bioregions", name)
-  output <- make_output("35396c60", name, output)
+  uid <- "35396c60"
+  output <- make_output(uid, name, output)
+  path <- glue("{output}{name}-{uid}/")
   
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  path <- glue("{output}{name}-35396c60/")
   govcan <- "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
   pipeload(govcan = govcan, output = glue("{path}raw"))
   # _________________________________________________________________________________________ #
@@ -81,7 +82,7 @@ dp_35396c60 <- function(output, name = NULL, crs = 4326, bbox = NULL, timespan =
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   q <- is.null(bbox) & is.null(timespan)
   meta <- metadata(
-    pipeline_id = "35396c60",
+    pipeline_id = uid,
     # List of creators of the form
     # `list(people(first_name, last_name, email, affiliation, role))`
     pipeline_creators = people(developer = "david"),
@@ -173,8 +174,8 @@ dp_35396c60 <- function(output, name = NULL, crs = 4326, bbox = NULL, timespan =
   # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data (can be multiple datasets)
-  nm <- glue("{name}-35396c60)")
-  fm <- glue("{path}clean/{nm}.geojson")
+  nm <- glue("{name}-35396c60")
+  fm <- glue("{path}{nm}.geojson")
   sf::st_write(dat, dsn = fm, quiet = TRUE)
 
   # Metadata

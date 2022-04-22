@@ -64,8 +64,8 @@ make_output <- function(uid, name, output = NULL) {
 
   # Names of output folders to create
   l <- list(
-    glue("{newdir}/raw/"),
-    glue("{newdir}/clean/")
+    glue("{newdir}/raw/")
+    # glue("{newdir}/clean/")
   )
 
   # Create folders if they do not exist
@@ -81,5 +81,11 @@ make_output <- function(uid, name, output = NULL) {
 msg_exists <- function(x) {
   if (x) {
     stop("This data already exists in the target output folder. Provide a new output folder or set `overwrite` to TRUE")    
+  }
+}
+
+msg_local <- function(x, path) {
+  if (x) {
+    stop("This data needs to be ")
   }
 }

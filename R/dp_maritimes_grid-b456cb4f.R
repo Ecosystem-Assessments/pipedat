@@ -1,20 +1,20 @@
 # ------------------------------------------------------------------------------
-# Using custom function to write certain metadata information only once, 
+# Using custom function to write certain metadata information only once,
 # as they appear in the function metadata and the data/pipeline metadata as well
-shortname_{{ dpid }} <- function() {
-  "Shortname of dataset to be queried"
+shortname_b456cb4f <- function() {
+  "Maritimes cumulative effects assessment study area grid"
 }
-desc_{{ dpid }} <- function() {
-  "Short description of the dataset to be queried through this data pipeline"
+desc_b456cb4f <- function() {
+  "Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment"
 }
-citekey_{{ dpid }} <- function() {
-  c("citekey1","citekey2")  
+citekey_b456cb4f <- function() {
+  c("kelly2021")
 }
 # ------------------------------------------------------------------------------
 
-#' @eval shortname_{{ dpid }}()
+#' @eval shortname_b456cb4f()
 #'
-#' @eval desc_{{ dpid }}()
+#' @eval desc_b456cb4f()
 #'
 #' @eval doc_params()
 #'
@@ -22,51 +22,41 @@ citekey_{{ dpid }} <- function() {
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: b456cb4f
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ dpid }}()
+#' dp_b456cb4f()
 #' }
-dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_b456cb4f <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
-  uid <- "{{ dpid }}"
-  name <- data_pipelines$name[data_pipelines$pipeline_id == uid]
+  uid <- "b456cb4f"
+  name <- pipedat::data_pipelines$name[pipedat::data_pipelines$pipeline_id == uid]
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output)
+  output <- make_output(uid, name, output, local = TRUE)
   path <- glue("{output}{nm}/")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # If the data is downloaded from online sources
-  urls <- c(
-    "url1",
-    "url2",
-    "..."
-  )
-  
-  # If the data is downloaded from open government using `rgovcan`
-  govcan <- "govcan uuid"
-  
-  # Load
-  pipeload(urls = urls, govcan = govcan, glue("{path}raw/"))
+
   # _________________________________________________________________________________________ #
-    
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # dat <- import data function
-  
+  dat <- sf::st_read(glue("{path}raw/pu.shp"), quiet = TRUE)
   # _________________________________________________________________________________________ #
-  
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # FORMAT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-
+  UNIT_ID <- geometry <- NULL
+  dat <- sf::st_make_valid(dat)
+  dat <- dplyr::select(dat, ID = UNIT_ID, geometry)
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -74,9 +64,9 @@ dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
   # NOTE: optional, only if applicable
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- dp_parameters(
-    dat, 
-    crs = crs, 
-    bbox = bbox, 
+    dat,
+    crs = crs,
+    bbox = bbox,
     timespan = timespan
   )
   # _________________________________________________________________________________________ #
@@ -87,98 +77,77 @@ dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- metadata(
     pipeline_id = uid,
-    # List of creators of the form 
+    # List of creators of the form
     # `list(people(first_name, last_name, email, organization, department, role))`
     pipeline_creators = people(developer = "david"),
-    pipeline_date = "{{ date_created }}",
+    pipeline_date = "2022-04-22",
     pipeline_url = pipeline_url(uid, name),
-    data_pipeline_uuid = "{{ uuid }}",
+    data_pipeline_uuid = "280a239c-2d18-489a-a6d1-9601c6ff60ba",
     data_pipeline_crs = crs,
     data_pipeline_bbox = bbox,
     data_pipeline_timespan = timespan,
-    data_name = shortname_{{ dpid }}(), # NOTE: function as document header
-    data_description = desc_{{ dpid }}(), # NOTE: function as document header
-    data_access = timestamp(),
-    data_temporal = c(), # c(2000,2001,2002,2003),
-    data_bbox = c(), # c(xmin=-1,ymin=-1,xmax=1,xmin=1), # could also use sf::st_bbox()
+    data_name = shortname_b456cb4f(), # NOTE: function as document header
+    data_description = desc_b456cb4f(), # NOTE: function as document header
+    data_access = "2021-08-11",
+    data_bbox = sf::st_bbox(dat),
     data_contacts = list(
       people(
-        first_name = "first_name",
-        last_name = "last_name",
-        email = "email",
-        organization = "organization",
-        department = "department",
-        role = "role"
+        first_name = "Noreen",
+        last_name = "Kelly",
+        email = "Noreen.Kelly@dfo-mpo.gc.ca",
+        organization = "Fisheries and Oceans Canada",
+        department = "Bedford Institute of Oceanography",
+        role = "Research scientist"
+      ),
+      people(
+        first_name = "Grace",
+        last_name = "Murphy",
+        email = "Grace.Murphy@dfo-mpo.gc.ca",
+        organization = "Fisheries and Oceans Canada",
+        department = "Bedford Institute of Oceanography",
+        role = "Research scientist"
       )
     ), # Same way as creators
-    data_url = "https://path/to/data/",
-    data_uuid = "unique identifier of raw data or resource",
-    data_availability = "open", # 'open','on demand','data sharing agreement','restricted'
-    data_citekey = citekey_{{ dpid }}() # NOTE: function as document header
+    data_availability = "on demand", # 'open','on demand','data sharing agreement','restricted'
+    data_citekey = citekey_b456cb4f() # NOTE: function as document header
   )
-  
-  # To add additional metadata for queried data
-  meta <- add_metadata(meta, 
-    info1 = c("Format as lists and dataframes to be rendered as yaml"),
-    info2 = c("Formatting thus matters"),
-    info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-  )  
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE BIBTEX
   # WARNING: mandatory
-  # 
+  #
   # NOTE:
   #   Create bibtex entries using `RefManageR::BibEntry()`
-  #   For more information on the functions andd available entries visit: 
+  #   For more information on the functions andd available entries visit:
   #   https://docs.ropensci.org/RefManageR/reference/BibEntry.html
   #   For entry types: https://www.bibtex.com/e/entry-types/
-  #   Some guidance on how to cite datasets: 
+  #   Some guidance on how to cite datasets:
   #   https://social-science-data-editors.github.io/guidance/citations/guidance_data_citations.pdf
   #   Using the @techreport entry type for datasets, as there are no specific entries for data
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   bib <- c(
     # For a dataset
     RefManageR::BibEntry(
-      bibtype = "techreport", 
-      key = citekey_{{ dpid }}()[1], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
-      year = "2018",
-      title = "Title of the dataset",
-      institution = "{}", 
-      type = "{}", 
-      urldate =  timestamp(),
-      number = "{}", 
-      url = "https://path/to/data",
-      doi = "doi of data"
-    ),
-    # For a journal article
-    RefManageR::BibEntry(
-      bibtype = "article", 
-      key = citekey_{{ dpid }}()[2], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
-      year = "2018",
-      title = "Title of the article",
-      journal = "Journal name",
-      volume = "1",
-      number = "1",
-      pages = "1--2",
-      publisher = "{Publisher name}",
-      issn = "article issn",
-      doi = "article doi",
-      url = "https://path/to/data"
+      bibtype = "techreport",
+      key = citekey_b456cb4f()[1], # NOTE: function as document header
+      author = "Kelly, Noreen and Murphy, Grace",
+      year = "2021",
+      title = "Maritimes cumulative effects assessment study area grid",
+      institution = "{Fisheries and Oceans Canada}",
+      type = "{Dataset}",
+      urldate = timestamp()
     )
-  ) 
+  )
   # _________________________________________________________________________________________ #
-  
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # EXPORT 
+  # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Formatted data 
-  fm <- glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
-  sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
-  
+  # Formatted data
+  fm <- glue("{path}/{nm}.geojson")
+  sf::st_write(dat, dsn = fm, quiet = TRUE)
+
   # Metadata
   mt <- glue("{path}/{nm}.yaml")
   yaml::write_yaml(meta, mt, column.major = FALSE)

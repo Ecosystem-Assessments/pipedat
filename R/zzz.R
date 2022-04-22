@@ -29,7 +29,7 @@ timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")
 # ------------------------------------------------------------------------------
 # pipeline url
 pipeline_url <- function(dpid, name) {
-  repo <- yaml::read_yaml("DESCRIPTION")$URL
+  repo <- "https://github.com/Ecosystem-Assessments/pipedat"
   glue("{repo}/blob/main/R/dp_{name}-{dpid}.R")
 }
 
@@ -50,7 +50,7 @@ append_dp <- function(pipeline_id, name, data_id) {
       data_id = data_id
     )
   )
-  usethis::use_data(data_pipelines, overwrite = TRUE)
+  invisible(usethis::use_data(data_pipelines, overwrite = TRUE))
 }
 
 # quick function to delete last row of data pipeline list
@@ -59,10 +59,11 @@ delete_dp <- function(n) {
   uid <- 1:(nrow(data_pipelines) - n)
   if (uid[length(uid)] == 0) uid <- 0
   data_pipelines <- data_pipelines[uid, ]
-  usethis::use_data(data_pipelines, overwrite = TRUE)
+  invisible(usethis::use_data(data_pipelines, overwrite = TRUE))
 }
 
 # ------------------------------------------------------------------------------
+# Applying pipeline arguments set by user
 # Intersection with bounding box
 bbox_crop <- function(dat, bbox, crs) {
   bbox_poly <- sf::st_bbox(bbox, crs = sf::st_crs(crs)) |>
@@ -70,12 +71,29 @@ bbox_crop <- function(dat, bbox, crs) {
   sf::st_intersection(dat, bbox_poly)
 }
 
-# ------------------------------------------------------------------------------
 # Filter by year
-timespan_filter <- function(dat, timespan, column) {
+# Years must be in column "year"
+timespan_filter <- function(dat, timespan) {
   dat |>
-    dplyr::filter((!!rlang::sym(column)) %in% timespan)
+    dplyr::filter((!!rlang::sym("year")) %in% timespan)
 }
+
+dp_parameters <- function(dat, crs = NULL, bbox = NULL, timespan = NULL) {
+  if (!is.null(crs)) {
+    dat <- sf::st_transform(dat, crs = crs)
+  }
+
+  if (!is.null(bbox)) {
+    dat <- bbox_crop(dat, bbox, crs)
+  }
+
+  if (!is.null(timespan)) {
+    dat <- timespan_filter(dat, timespan)
+  }
+
+  invisible(dat)
+}
+
 
 # ------------------------------------------------------------------------------
 # Check if output ends with a "/" to create proper path
@@ -91,21 +109,22 @@ check_output <- function(output) {
 
 # ------------------------------------------------------------------------------
 # Create output folders for data pipelines
-make_output <- function(uid, name, output = NULL) {
+make_output <- function(uid, name, output = NULL, local = FALSE) {
   output <- ifelse(is.null(output), "data/data-raw/", output) # default output if NULL
   output <- check_output(output) # Check if output ends with "/"
-  newdir <- glue("{output}/{name}-{uid}") # Name of new outdir
-  msg_exists(dir.exists(newdir)) # Stop if new dir exists
+  newdir <- glue("{output}{name}-{uid}") # Name of new outdir
+  if (!local) msg_exists(dir.exists(newdir)) # Stop if new dir exists
+  if (local) msg_local(!dir.exists(newdir), newdir) # Stop if new dir does not exist and should be there
+  if (!local) {
+    # Names of output folders to create
+    l <- list(
+      glue("{newdir}/raw/")
+      # glue("{newdir}/clean/")
+    )
 
-  # Names of output folders to create
-  l <- list(
-    glue("{newdir}/raw/")
-    # glue("{newdir}/clean/")
-  )
-
-  # Create folders if they do not exist
-  lapply(l, function(x) if (!file.exists(x)) dir.create(x, recursive = TRUE))
-
+    # Create folders if they do not exist
+    lapply(l, function(x) if (!file.exists(x)) dir.create(x, recursive = TRUE))
+  }
   # Return output path
   invisible(output)
   # TODO: For GitHub, create .gitkeep and modify .gitignore
@@ -116,13 +135,13 @@ make_output <- function(uid, name, output = NULL) {
 # Data folder already exists
 msg_exists <- function(x) {
   if (x) {
-    stop("This data already exists in the target output folder. Provide a new output folder or set `overwrite` to TRUE")
+    stop("This data already exists in the target output folder.")
   }
 }
 
 # Data needed locally
 msg_local <- function(x, path) {
   if (x) {
-    stop(glue("This data is unavailable remotely. The raw data needs to be manually inserted in the folder `{path}` for the pipeline to work."))
+    stop(glue("This data is unavailable remotely. The raw data needs to be manually inserted in the folder `{path}/raw/` for the pipeline to work. Type `dir.create('{path}/raw/', recursive = TRUE)` to create the folder."))
   }
 }

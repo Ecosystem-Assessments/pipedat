@@ -1,20 +1,20 @@
 # ------------------------------------------------------------------------------
 # Using custom function to write certain metadata information only once,
 # as they appear in the function metadata and the data/pipeline metadata as well
-shortname_120a6032 <- function() {
-  "Maritimes cumulative effects assessment study area grid"
+shortname_f635934a <- function() {
+  "Federal Marine Bioregions"
 }
-desc_120a6032 <- function() {
-  "Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment"
+desc_f635934a <- function() {
+  "The spatial planning framework for Canada's national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada's oceans and the Great Lakes."
 }
-citekey_120a6032 <- function() {
-  c("kelly2021")
+citekey_f635934a <- function() {
+  c("dfo2009", "dfo2010", "goc2011", "dfo2021")
 }
 # ------------------------------------------------------------------------------
 
-#' @eval shortname_120a6032()
+#' @eval shortname_f635934a()
 #'
-#' @eval desc_120a6032()
+#' @eval desc_f635934a()
 #'
 #' @eval doc_params()
 #'
@@ -22,32 +22,37 @@ citekey_120a6032 <- function() {
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 120a6032
+#' @keywords pipeline_id: f635934a
 #'
 #' @examples
 #' \dontrun{
-#' dp_120a6032()
+#' dp_f635934a()
 #' }
-dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
-  # Output folders
-  name <- ifelse(is.null(name), "maritimes_grid", name)
-  uid <- "120a6032"
+dp_f635934a <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+  # Output folders and other objects used
+  uid <- "f635934a"
+  name <- pipedat::data_pipelines$name[pipedat::data_pipelines$pipeline_id == uid]
+  nm <- glue("{name}-{uid}")
   output <- make_output(uid, name, output)
-  path <- glue("{output}{name}-{uid}/")
+  path <- glue("{output}{nm}/")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  msg_local(dir.exists(output))
+  govcan <- "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
+  pipeload(govcan = govcan, output = glue("{path}raw"))
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # dat <- import data function
-
+  dat <- sf::st_read(
+    glue("{path}raw/FederalMarineBioregions_GDB/FederalMarineBioregions.gdb"),
+    layer = "FederalMarineBioregions",
+    quiet = TRUE
+  )
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -58,66 +63,47 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # APPLY SUBSET AND CRS SPECIFIED BY USER
+  # APPLY SUBSETS AND CRS SPECIFIED BY USER
   # NOTE: optional, only if applicable
-  # TODO: Make a function out of this
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Projection
-  dat <- sf::st_transform(dat, crs = crs)
-
-  # Bounding bbox
-  if (!is.null(bbox)) {
-    dat <- bbox_crop(dat, bbox, crs)
-  }
-
-  if (!is.null(timespan)) {
-    # "column" is the name of the column in which the years are stored in the dataset
-    dat <- timespan_filter(dat, timespan, "column")
-  }
+  dat <- dp_parameters(
+    dat,
+    crs = crs,
+    bbox = bbox,
+    timespan = timespan
+  )
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE METADATA
   # WARNING: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  q <- is.null(bbox) & is.null(timespan)
   meta <- metadata(
     pipeline_id = uid,
     # List of creators of the form
     # `list(people(first_name, last_name, email, organization, department, role))`
     pipeline_creators = people(developer = "david"),
     pipeline_date = "2022-04-22",
-    pipeline_url = glue("https://github.com/Ecosystem-Assessments/pipedat/blob/main/R/dp_maritimes_grid-120a6032.R"),
-    data_pipeline_uuid = ifelse(q, "83650307-e2dc-4a00-a02f-de7a176093f5", uuid::UUIDgenerate()),
+    pipeline_url = pipeline_url(uid, name),
+    data_pipeline_uuid = "134bfb92-c16e-4b51-b10f-83b66e3db243",
     data_pipeline_crs = crs,
     data_pipeline_bbox = bbox,
     data_pipeline_timespan = timespan,
-    data_name = shortname_120a6032(), # NOTE: function as document header
-    data_description = desc_120a6032(), # NOTE: function as document header
+    data_name = shortname_f635934a(), # NOTE: function as document header
+    data_description = desc_f635934a(), # NOTE: function as document header
     data_access = timestamp(),
-    data_temporal = c(), # c(2000,2001,2002,2003),
-    data_bbox = c(), # c(xmin=-1,ymin=-1,xmax=1,xmin=1), # could also use sf::st_bbox()
+    data_bbox = sf::st_bbox(dat),
     data_contacts = list(
       people(
-        first_name = "first_name",
-        last_name = "last_name",
-        email = "email",
-        organization = "organization",
-        department = "department",
-        role = "role"
+        email = "DFO.NCRMPCGIS-PCMSIGNCR.MPO@dfo-mpo.gc.ca",
+        organization = "Fisheries and Oceans Canada",
+        department = "Marine Planning and Conservation Directorate"
       )
-    ), # Same way as creators
-    data_url = "https://path/to/data/",
-    data_uuid = "unique identifier of raw data or resource",
+    ),
+    data_url = "https://open.canada.ca/data/en/dataset/23eb8b56-dac8-4efc-be7c-b8fa11ba62e9",
+    data_uuid = "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9",
     data_availability = "open", # 'open','on demand','data sharing agreement','restricted'
-    data_citekey = citekey_120a6032() # NOTE: function as document header
-  )
-
-  # To add additional metadata for queried data
-  meta <- add_metadata(meta,
-    info1 = c("Format as lists and dataframes to be rendered as yaml"),
-    info2 = c("Formatting thus matters"),
-    info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
+    data_citekey = citekey_f635934a() # NOTE: function as document header
   )
   # _________________________________________________________________________________________ #
 
@@ -135,35 +121,48 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
   #   Using the @techreport entry type for datasets, as there are no specific entries for data
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   bib <- c(
-    # For a dataset
     RefManageR::BibEntry(
       bibtype = "techreport",
-      key = citekey_120a6032()[1], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}",
-      year = "2018",
-      title = "Title of the dataset",
-      institution = "{}",
+      key = citekey_f635934a()[1], # NOTE: function as document header
+      author = "{Fisheries and Oceans Canada}",
+      year = "2009",
+      title = "Development of a Framework and Principles for the Biogeographic Classification of Canadian Marine Areas",
+      institution = "{Fisheries and Oceans Canada}",
+      type = "{DFO Can. Sci. Advis. Sec. Sci. Advis. Rep. 2009/056}",
+      number = "{}",
+      url = "https://waves-vagues.dfo-mpo.gc.ca/Library/338958.pdf"
+    ),
+    RefManageR::BibEntry(
+      bibtype = "techreport",
+      key = citekey_f635934a()[2], # NOTE: function as document header
+      author = "{Fisheries and Oceans Canada}",
+      year = "2010",
+      title = "Proceedings of a National Science Advisory Process to Provide Guidance on the Development of a Framework and Principles for the Biogeographic Classification of Canadian Marine Areas; 15-16 June 2009",
+      institution = "{Fisheries and Oceans Canada}",
+      type = "{DFO Can. Sci. Advis. Sec. Proceed. Ser. 2009/039.}",
+      url = "https://www.dfo-mpo.gc.ca/csas-sccs/publications/pro-cr/2009/2009_039-eng.htm"
+    ),
+    RefManageR::BibEntry(
+      bibtype = "techreport",
+      key = citekey_f635934a()[3], # NOTE: function as document header
+      author = "{Government of Canada}",
+      year = "2011",
+      title = "National Framework for Canada’s Network of Marine Protected Areas",
+      institution = "{Fisheries and Oceans Canada}",
+      type = "{Ottawa. 31 pp}",
+      url = "https://waves-vagues.dfo-mpo.gc.ca/Library/345207.pdf"
+    ),
+    RefManageR::BibEntry(
+      bibtype = "techreport",
+      key = citekey_f635934a()[4], # NOTE: function as document header
+      author = "{Fisheries and Oceans Canada}",
+      year = "2021",
+      title = "Federal Marine Bioregions",
+      institution = "{Fisheries and Oceans Canada}",
       type = "{}",
       urldate = timestamp(),
       number = "{}",
-      url = "https://path/to/data",
-      doi = "doi of data"
-    ),
-    # For a journal article
-    RefManageR::BibEntry(
-      bibtype = "article",
-      key = citekey_120a6032()[2], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}",
-      year = "2018",
-      title = "Title of the article",
-      journal = "Journal name",
-      volume = "1",
-      number = "1",
-      pages = "1--2",
-      publisher = "{Publisher name}",
-      issn = "article issn",
-      doi = "article doi",
-      url = "https://path/to/data"
+      url = "https://open.canada.ca/data/en/dataset/23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
     )
   )
   # _________________________________________________________________________________________ #
@@ -171,11 +170,9 @@ dp_120a6032 <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NU
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Data name
-  nm <- glue("{name}-{uid}")
-
   # Formatted data
-  fm <- glue("{path}/{nm}.ext")
+  fm <- glue("{path}/{nm}.geojson")
+  sf::st_write(dat, dsn = fm, quiet = TRUE)
 
   # Metadata
   mt <- glue("{path}/{nm}.yaml")

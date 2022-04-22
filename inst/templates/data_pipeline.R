@@ -28,12 +28,15 @@ citekey_{{ dpid }} <- function() {
 #' \dontrun{
 #' dp_{{ dpid }}()
 #' }
-dp_{{ dpid }} <- function(output, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_{{ dpid }} <- function(output, name = NULL, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+  # Output folders
+  name <- ifelse(is.null(name), {{ name }}, name)
+  output <- make_output({{ dpid }}, name, output)
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  name <- {{ name }}
   path <- glue("{output}{{ name }}-{{ dpid }}/")
   # If the data is downloaded from online sources
   urls <- c(

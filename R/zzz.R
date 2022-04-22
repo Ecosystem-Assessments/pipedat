@@ -40,3 +40,39 @@ timespan_filter <- function(dat, timespan, column) {
   dat |>
     dplyr::filter((!!rlang::sym(column)) %in% timespan)
 }
+
+# ------------------------------------------------------------------------------
+# Check if output ends with a "/" to create proper path
+check_output <- function(output) {
+  if (!is.null(output)) {
+    nc <- nchar(output)
+    last_char <- ifelse(substr(output, nc, nc) == "/", TRUE, FALSE)
+    ifelse(last_char, output, glue("{output}/"))    
+  } else {
+    NULL
+  }
+}
+
+
+# ------------------------------------------------------------------------------
+# Create output folders for data pipelines
+make_output <- function(uid, name, output = NULL) {
+  # Output
+  output <- ifelse(is.null(output), "data/data-raw/", output)
+
+  # Check if output ends with a "/" to create proper path
+  output <- check_output(output)
+
+  # Names of output folders
+  l <- list(
+    glue("{output}/{name}-{uid}/raw/"),
+    glue("{output}/{name}-{uid}/clean/")
+  )
+
+  # Create folders if they do not exist
+  lapply(l, function(x) if (!file.exists(x)) dir.create(x, recursive = TRUE))
+  
+  # Return output path 
+  invisible(output)
+  # TODO: For GitHub, create .gitkeep and modify .gitignore
+}

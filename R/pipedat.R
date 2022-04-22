@@ -20,19 +20,15 @@
 #' }
 #' @export
 #' @describeIn pipedat execute data pipelines
-pipedat <- function(uid, output = NULL, input = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
-  # Output folders
-  output <- checkOutput()
-  makeOutput(uid, output)
-
+pipedat <- function(uid, name = NULL, output = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Execute data pipelines
   do.call(
     glue("dp_{uid}"),
     list(
       uid = uid,
+      name = name,
       output = output,
       crs = crs,
-      input = input,
       bbox = bbox,
       timespan = timespan
     )
@@ -62,40 +58,4 @@ pipeload <- function(urls = NULL, govcan = NULL, output) {
   # Unzip
   zipfiles <- dir(output, pattern = ".zip", full.names = TRUE)
   lapply(zipfiles, function(x) utils::unzip(x, exdir = output))
-}
-
-# ------------------------------------------------------------------------------
-# Check if output ends with a "/" to create proper path
-checkOutput <- function(output = NULL) {
-  if (!is.null(output)) {
-    nc <- nchar(output)
-    last_char <- ifelse(substr(output, nc, nc) == "/", TRUE, FALSE)
-    ifelse(last_char, output, glue("{output}/"))
-  } else {
-    "data/data-raw/"
-  }
-}
-
-
-# ------------------------------------------------------------------------------
-# Create output folders for data pipelines
-makeOutput <- function(uid, output = NULL) {
-  # Output
-  output <- ifelse(is.null(output), "data/data-raw/", output)
-
-  # Check if output ends with a "/" to create proper path
-  out <- checkOutput(output)
-
-  # Names of output folders
-  l <- list(
-    glue("{out}/{uid}/raw/"),
-    glue("{out}/{uid}/clean/")
-  )
-
-  # Create folders if they do not exist
-  invisible(
-    lapply(l, function(x) if (!file.exists(x)) dir.create(x, recursive = TRUE))
-  )
-
-  # TODO: For GitHub, create .gitkeep and modify .gitignore
 }

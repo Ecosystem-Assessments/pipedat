@@ -4,19 +4,12 @@
 \alias{dp_35396c60}
 \title{Federal Marine Bioregions}
 \usage{
-dp_35396c60(
-  output,
-  input = NULL,
-  crs = 4326,
-  bbox = NULL,
-  timespan = NULL,
-  ...
-)
+dp_35396c60(output, name = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{output}{output folder for queried data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'}
 
-\item{input}{input folder in case data has to be loaded from disk, e.g. for datasets that are bound by a data sharing agreement. By default, raw data are searched for in a folder called 'data/data-raw/'}
+\item{name}{name of the dataset to use for storing purposes. A default value is provided in individual data pipelines, but it can be modified by the user, for example by a numeric and sequential identifier for a specific project.}
 
 \item{crs}{spatial projection to use to transform the spatial data into a uniform projection}
 

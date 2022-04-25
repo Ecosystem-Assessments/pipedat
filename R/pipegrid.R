@@ -13,6 +13,6 @@
 #' \dontrun{
 #' pipegrid()
 #' }
-pipegrid <- function() {
+pipegrid <- function(x, y) {
 
 }

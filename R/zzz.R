@@ -6,6 +6,7 @@
 #' @importFrom glue glue glue_sql
 #' @importFrom RefManageR BibEntry WriteBib
 #' @importFrom rlang sym
+#' @importFrom utils read.csv
 #' @importFrom whisker whisker.render
 #' @importFrom yaml yaml.load_file write_yaml read_yaml
 NULL
@@ -149,7 +150,7 @@ update_rda <- function() {
   pcontact <- read.csv(file = "inst/extdata/pipeline_contact.csv")
   pcreator <- read.csv(file = "inst/extdata/pipeline_creator.csv")
   bib <- RefManageR::ReadBib("inst/extdata/pipedat.bib")
-  
+
   usethis::use_data(
     pipeline,
     contact,

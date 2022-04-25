@@ -61,7 +61,7 @@ pipenew <- function(name = NULL, template = "data_workflow") {
 # ------
 # Generate random id of length 8 and make sure that it is not duplicated
 rnd_id <- function() {
-  exist_id <- pipedat:::pipeline$pipeline_id
+  exist_id <- pipeline$pipeline_id
 
   # Generate new id that is different from existing ones
   # NOTE: This is likely an overkill, chances are very slim, but who knows!

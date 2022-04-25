@@ -54,11 +54,11 @@ dp_f635934a <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- get_metadata(
     pipeline_id = uid,
-    pipeline_crs = crs, 
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    data_access = timestamp(), 
-    data_bbox = sf::st_bbox(dat), 
+    pipeline_crs = crs,
+    pipeline_bbox = bbox,
+    pipeline_timespan = timespan,
+    data_access = timestamp(),
+    data_bbox = sf::st_bbox(dat),
   )
   # _________________________________________________________________________________________ #
 

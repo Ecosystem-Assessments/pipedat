@@ -27,13 +27,6 @@ use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
 timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")
 
 # ------------------------------------------------------------------------------
-# pipeline url
-pipeline_url <- function(dpid, name) {
-  repo <- "https://github.com/Ecosystem-Assessments/pipedat"
-  glue("{repo}/blob/main/R/dp_{name}-{dpid}.R")
-}
-
-# ------------------------------------------------------------------------------
 # add new data to list of pipelines
 # data_pipelines <- data.frame(
 #                     pipeline_id = character(0),

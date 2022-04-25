@@ -5,17 +5,16 @@
 #' through the data pipeline.
 #'
 #' @param pipeline_id individual id of data pipeline
-#' @param pipeline_creators creators of the data pipeline, see \link{people}
+#' @param pipeline_creators creators of the data pipeline
 #' @param pipeline_date date YYYY-MM-DD (%Y-%m-%s) that pipeline was created
 #' @param pipeline_url url to data pipeline code
-#' @param data_pipeline_uuid uuid of the data associated with the pipeline. If no bbox or temporal constraits are used for the query, this uuid should always be the same. If a temporal range of a bounding box are imposed, this means that the resulting data are different from the original and thus a new uuid should be used.
-#' @param data_pipeline_crs spatial projection used to transform the spatial data into a uniform projection,
-#' @param data_pipeline_bbox bounding box that was used to spatially subset the queried data, if applicable. The bounding box should be of the form c(xmin, ymin, xmax, ymax),
-#' @param data_pipeline_timespan time span that was used to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried c(year1, year2, ...),
+#' @param pipeline_crs spatial projection used to transform the spatial data into a uniform projection. Default is set to `crs = 4326`
+#' @param pipeline_bbox bounding box that was used to spatially subset the queried data, if applicable. The bounding box should be of the form c(xmin, ymin, xmax, ymax),
+#' @param pipeline_timespan time span that was used to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried c(year1, year2, ...),
 #' @param data_name short name of data queried
 #' @param data_description description of data queried
 #' @param data_access access date of queried data
-#' @param data_temporal temporal coverage of data, if applicable
+#' @param data_timespan temporal coverage of data, if applicable
 #' @param data_bbox bounding box of data of the form c(xmin, ymin, xmax, ymax), if applicable
 #' @param data_contacts contacts for data queried, see \link{people}
 #' @param data_url data url, if applicable
@@ -43,14 +42,13 @@
 #'   pipeline_creators = people(developer = "david"),
 #'   pipeline_date = "2022-04-13",
 #'   pipeline_url = "https://path/to/pipeline.R",
-#'   data_pipeline_uuid = "kjashf-aksjfg-soa8f7g-so8ef7",
-#'   data_pipeline_crs = 4326,
-#'   data_pipeline_bbox = c(xmin = -55, ymin = -55, xmax = -50, ymax = -50),
-#'   data_pipeline_timespan = 2022,
+#'   pipeline_crs = 4326,
+#'   pipeline_bbox = c(xmin = -55, ymin = -55, xmax = -50, ymax = -50),
+#'   pipeline_timespan = 2022,
 #'   data_name = "Data X",
 #'   data_description = "Data X characterizes Y",
 #'   data_access = "2022-06-25",
-#'   data_temporal = c(2000:2002, 2022),
+#'   data_timespan = c(2000:2002, 2022),
 #'   data_bbox = c(xmin = -60, ymin = -60, xmax = -40, ymax = -40),
 #'   data_contacts = people("Jojo", "Le rigolo", "jojo@coolmain.com", "DFO", "Assistant"),
 #'   data_url = "https://path/to/data/",
@@ -66,7 +64,7 @@
 #' }
 #' @export
 #' @describeIn metadata export metadata yaml
-metadata <- function(pipeline_id, pipeline_creators, pipeline_date, pipeline_url, data_name, data_pipeline_uuid, data_pipeline_crs, data_pipeline_bbox = NULL, data_pipeline_timespan = NULL, data_description, data_access = timestamp(), data_temporal = NULL, data_bbox = NULL, data_contacts, data_url = NULL, data_uuid = NULL, data_availability = NULL, data_citekey) {
+metadata <- function(pipeline_id, pipeline_creators, pipeline_date, pipeline_url, pipeline_crs, pipeline_bbox = NULL, pipeline_timespan = NULL, data_name, data_description, data_access = timestamp(), data_timespan = NULL, data_bbox = NULL, data_contacts, data_url = NULL, data_uuid = NULL, data_availability = NULL, data_citekey) {
 
   # Metadata list
   meta <- list()
@@ -74,23 +72,21 @@ metadata <- function(pipeline_id, pipeline_creators, pipeline_date, pipeline_url
   # Pipeline metadata
   meta$pipeline <- list()
   meta$pipeline$pipeline_id <- pipeline_id
-  meta$pipeline$creators <- dplyr::bind_rows(pipeline_creators)
+  meta$pipeline$creators <- pipeline_creators
   meta$pipeline$date_created <- pipeline_date
   meta$pipeline$url <- pipeline_url
+  meta$pipeline$pipeline_crs <- pipeline_crs
+  meta$pipeline$pipeline_bbox <- pipeline_bbox
+  meta$pipeline$pipeline_timespan <- pipeline_timespan
 
   # Data medata
   meta$data <- list()
-  meta$data$data_pipeline <- list()
-  meta$data$data_pipeline$data_pipeline_uuid <- data_pipeline_uuid
-  meta$data$data_pipeline$data_pipeline_crs <- data_pipeline_crs
-  meta$data$data_pipeline$data_pipeline_bbox <- data_pipeline_bbox
-  meta$data$data_pipeline$data_pipeline_timespan <- data_pipeline_timespan
   meta$data$name <- data_name
   meta$data$description <- data_description
   meta$data$access_date <- data_access
-  meta$data$temporal <- data_temporal
+  meta$data$timespan <- data_timespan
   meta$data$bbox <- data_bbox
-  meta$data$contacts <- dplyr::bind_rows(data_contacts)
+  meta$data$contacts <- data_contacts
   meta$data$url <- data_url
   meta$data$uuid <- data_uuid
   meta$data$availability <- data_availability
@@ -98,6 +94,31 @@ metadata <- function(pipeline_id, pipeline_creators, pipeline_date, pipeline_url
 
   # Return
   invisible(meta)
+}
+
+#' @describeIn metadata builds metadata from internal package data
+#' @export
+get_metadata <- function(pipeline_id, pipeline_crs = 4326, pipeline_bbox = NULL, pipeline_timespan = NULL, data_access = timestamp(), data_bbox = NULL, data_timespan = NULL, ...) {
+  dat <- get_pipeline(pipeline_id)
+  meta <- metadata(
+    pipeline_id = pipeline_id,
+    pipeline_creators = get_creator(pipeline_id),
+    pipeline_date = dat$date_created,
+    pipeline_url = get_pipeline_url(pipeline_id),
+    pipeline_crs = pipeline_crs,
+    pipeline_bbox = pipeline_bbox,
+    pipeline_timespan = pipeline_timespan,
+    data_name = get_name(pipeline_id),
+    data_description = get_description(pipeline_id),
+    data_access = data_access,
+    data_timespan = data_timespan,
+    data_bbox = data_bbox,
+    data_contacts = get_contact(pipeline_id),
+    data_url = dat$data_url,
+    data_uuid = dat$data_uuid,
+    data_availability = dat$data_availability,
+    data_citekey = get_citekey(pipeline_id)
+  )
 }
 
 #' @describeIn metadata add additional information on queried data to metadata
@@ -108,12 +129,28 @@ add_metadata <- function(meta, ...) {
   )
 }
 
+
 # ------------------------------------------------------------
 # Metadata helper functions
 get_pipeline <- function(pipeline_id) {
   dat <- pipedat:::pipeline
   uid <- dat$pipeline_id == pipeline_id
   dat[uid, ]
+}
+
+get_shortname <- function(pipeline_id) {
+  dat <- get_pipeline(pipeline_id)
+  dat$data_shortname
+}
+
+get_name <- function(pipeline_id) {
+  dat <- get_pipeline(pipeline_id)
+  dat$data_name
+}
+
+get_description <- function(pipeline_id) {
+  dat <- get_pipeline(pipeline_id)
+  dat$data_description
 }
 
 get_contact <- function(pipeline_id) {
@@ -130,10 +167,19 @@ get_creator <- function(pipeline_id) {
   pipedat:::contact[pipedat:::contact$contact_id %in% iid, ]
 }
 
-get_bib <- function(pipeline_id) {
+get_citekey <- function(pipeline_id) {
   dat <- pipedat:::pcite
   uid <- dat$pipeline_id == pipeline_id
-  iid <- dat$citekey[uid]
-  
+  dat$citekey[uid]
+}
+
+get_bib <- function(pipeline_id) {
+  iid <- get_citekey(pipeline_id)
   pipedat::bib[[pipedat:::bib$key %in% iid]]
+}
+
+get_pipeline_url <- function(pipeline_id) {
+  dat <- get_pipeline(pipeline_id)
+  repo <- "https://github.com/Ecosystem-Assessments/pipedat"
+  glue("{repo}/blob/main/R/dp_{dat$data_shortname}-{pipeline_id}.R")
 }

@@ -70,7 +70,7 @@ dp_f635934a <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
     dat,
     crs = crs,
     bbox = bbox,
-    timespan = timespan
+    timespan = NULL
   )
   # _________________________________________________________________________________________ #
 

@@ -2,13 +2,13 @@
 # Using custom function to write certain metadata information only once, 
 # as they appear in the function metadata and the data/pipeline metadata as well
 shortname_b1f7c8e6 <- function() {
-  "Shortname of dataset to be queried"
+  "Commercial fisheries logbooks"
 }
 desc_b1f7c8e6 <- function() {
-  "Short description of the dataset to be queried through this data pipeline"
+  "A compilation of landing data from Zonal Interchange File Format (ZIFF) data between 2000 and 2020"
 }
 citekey_b1f7c8e6 <- function() {
-  c("citekey1","citekey2")  
+  c("dfo2021")  
 }
 # ------------------------------------------------------------------------------
 
@@ -33,40 +33,35 @@ dp_b1f7c8e6 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   uid <- "b1f7c8e6"
   name <- data_pipelines$name[data_pipelines$pipeline_id == uid]
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output)
+  output <- make_output(uid, name, output, local = TRUE)
   path <- glue("{output}{nm}/")
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # DOWNLOAD DATA
-  # NOTE: optional
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # If the data is downloaded from online sources
-  urls <- c(
-    "url1",
-    "url2",
-    "..."
-  )
-  
-  # If the data is downloaded from open government using `rgovcan`
-  govcan <- "govcan uuid"
-  
-  # Load
-  pipeload(urls = urls, govcan = govcan, glue("{path}raw/"))
-  # _________________________________________________________________________________________ #
     
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # dat <- import data function
-  
+  # Function to import ZIFF data
+  import_ziff <- function(filename) {
+    read.csv(glue("{path}raw/{filename}")) |>
+    dplyr::filter(!is.na(latit_GIS) & !is.na(longit_GIS)) |> # Remove NAs
+    sf::st_as_sf(coords = c("longit_GIS","latit_GIS"),
+                 crs = 4326)
+  }
+
+  d <- list()
+  d[[1]] <- import_ziff("Version_totale_20002004.csv")
+  d[[2]] <- import_ziff("Version_totale_20052009.csv")
+  d[[3]] <- import_ziff("Version_totale_20102014.csv")
+  d[[4]] <- import_ziff("Version_totale_20152019.csv")
+  d[[5]] <- import_ziff("Version_totale_20202024.csv")
+  dat <- bind_rows(d)
   # _________________________________________________________________________________________ #
   
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # FORMAT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-
+  dat$year <- format(as.Date(dat$date_cap), format = "%Y")
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -98,9 +93,9 @@ dp_b1f7c8e6 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
     data_pipeline_timespan = timespan,
     data_name = shortname_b1f7c8e6(), # NOTE: function as document header
     data_description = desc_b1f7c8e6(), # NOTE: function as document header
-    data_access = timestamp(),
-    data_temporal = c(), # c(2000,2001,2002,2003),
-    data_bbox = c(), # c(xmin=-1,ymin=-1,xmax=1,xmin=1), # could also use sf::st_bbox()
+    data_access = "2021-06-11",
+    data_temporal = unique(dat$year), # c(2000,2001,2002,2003),
+    data_bbox = sf::st_bbox(dat),
     data_contacts = list(
       people(
         first_name = "first_name",

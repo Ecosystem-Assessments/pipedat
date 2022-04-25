@@ -33,7 +33,7 @@ dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
   uid <- "{{ dpid }}"
   name <- data_pipelines$name[data_pipelines$pipeline_id == uid]
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output)
+  output <- make_output(uid, name, output, local = FALSE) # set local = TRUE for local data 
   path <- glue("{output}{nm}/")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

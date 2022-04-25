@@ -116,7 +116,7 @@ add_metadata <- function(meta, ...) {
 # Metadata helper functions
 get_pipeline <- function(pipeline_id) {
   dat <- pipeline
-  uid <- dat$pipeline_id == pipeline_id
+  uid <- dat$pipeline_id %in% pipeline_id
   dat[uid, ]
 }
 
@@ -137,21 +137,21 @@ get_description <- function(pipeline_id) {
 
 get_contact <- function(pipeline_id) {
   dat <- pcontact
-  uid <- dat$pipeline_id == pipeline_id
+  uid <- dat$pipeline_id %in% pipeline_id
   iid <- dat$contact_id[uid]
   contact[contact$contact_id %in% iid, ]
 }
 
 get_creator <- function(pipeline_id) {
   dat <- pcreator
-  uid <- dat$pipeline_id == pipeline_id
+  uid <- dat$pipeline_id %in% pipeline_id
   iid <- dat$contact_id[uid]
   contact[contact$contact_id %in% iid, ]
 }
 
 get_citekey <- function(pipeline_id) {
   dat <- pcite
-  uid <- dat$pipeline_id == pipeline_id
+  uid <- dat$pipeline_id %in% pipeline_id
   dat$citekey[uid]
 }
 

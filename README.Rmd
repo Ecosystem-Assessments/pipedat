@@ -46,17 +46,22 @@ The `pipedat` package is built around function called `pipedat()` that is used t
 
 ```r
 # View list of pipelines 
-pipelist()
+# pipelist()
 
 # Download and format a single dataset 
-pipedat("a3jsd4jh")
+# pipedat("a3jsd4jh")
 
 # Download and format multiple datasets
-pipedat(c("a3jsd4jh","a8732975y","soif8yiao"))
+# pipedat(c("a3jsd4jh","a8732975y","soif8yiao"))
 ```
 
 By default, the `pipedat()` function will export the raw and formatted data in folders 'data/data-raw/' and `data/data-format`, respectively. 
 
+## List of pipelines 
+
+```{r echo = FALSE}
+pipedat::pipelist()
+```
 
 ## How to contribute
 

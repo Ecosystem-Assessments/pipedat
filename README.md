@@ -52,17 +52,24 @@ full list of data pipelines available can be viewed with the
 
 ``` r
 # View list of pipelines 
-pipelist()
+# pipelist()
 
 # Download and format a single dataset 
-pipedat("a3jsd4jh")
+# pipedat("a3jsd4jh")
 
 # Download and format multiple datasets
-pipedat(c("a3jsd4jh","a8732975y","soif8yiao"))
+# pipedat(c("a3jsd4jh","a8732975y","soif8yiao"))
 ```
 
 By default, the `pipedat()` function will export the raw and formatted
 data in folders ‘data/data-raw/’ and `data/data-format`, respectively.
+
+## List of pipelines
+
+| Pipeline ID | Name                                                    | Description                                                                                                                                                                                      | Source                                                                                                                                  |
+|:------------|:--------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------|
+| f635934a    | Federal Marine Bioregions                               | The spatial planning framework for Canada’s national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada’s oceans and the Great Lakes. | Fisheries and Oceans Canada (2009); Fisheries and Oceans Canada (2010); Government of Canada (2011); Fisheries and Oceans Canada (2021) |
+| 750b39f9    | Maritimes cumulative effects assessment study area grid | Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment                                                                               | Kelly and Murphy (2021)                                                                                                                 |
 
 ## How to contribute
 

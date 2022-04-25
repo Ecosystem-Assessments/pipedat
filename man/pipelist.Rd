@@ -4,7 +4,10 @@
 \alias{pipelist}
 \title{List of available data pipalines}
 \usage{
-pipelist()
+pipelist(type = "data")
+}
+\arguments{
+\item{type}{type of pipeline, one of \code{data} or \code{connect}}
 }
 \value{
 This function prints a list of available data pipelines in the \code{pipedat} package

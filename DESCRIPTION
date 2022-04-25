@@ -30,6 +30,7 @@ Imports:
     fs,
     glue,
     ids,
+    knitr,
     RefManageR,
     rgovcan,
     rlang,

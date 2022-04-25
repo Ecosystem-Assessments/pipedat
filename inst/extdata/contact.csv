@@ -1,38 +1,38 @@
-contact_id,first_name,last_name,organization,department,role,email,phone,phone_extension,orcid,github,url,note,status
-1,David,Beauchesne,Universite Laval,Department of Biology,Postdoctoral researcher,david.beauchesne@hotmail.com,1-514-553-4974,,0000-0002-3590-8161,david-beauchesne,,,active
-2,Philippe,Archambault,Universite Laval,Department of Biology,Professor,philippe.archambault@bio.ulaval.ca,1-418-656-2131,405967,,,,,active
-3,Cindy,Grant,Universite Laval,Department of Biology,Research professional,cindy.grant@bio.ulaval.ca,1-418-656-2131,417944,,,,,active
-4,Kevin,Cazelles,inSileco,,Data scientist,kevin.cazelles@gmail.com,,,0000-0001-6619-9874,kevcaz,,,active
-5,Jacob,Dale,Universite Laval,Department of Biology,Masters student,jacob.dale.1@ulaval.ca,,,,,,,active
-6,Tana,Worchester,Fisheries and Oceans Canada,Bedford Institute of Oceanography,"Coordinator, Advisory Services",Tana.Worcester@dfo-mpo.gc.ca,1-902-426-3246,,,,,,active
-7,Catalina,Gomez,Fisheries and Oceans Canada,Bedford Institute of Oceanography,,Catalina.Gomez@dfo-mpo.gc.ca,1-902-499-0107,,,,,,active
-8,Caroline,Longtin,Fisheries and Oceans Canada,,Science Advisor,Caroline.Longtin@dfo-mpo.gc.ca,1-343-542-4946,,,,,,active
-9,Christine,Ward-Paige,eOceans,,CEO,christine@eoceans.co,,,,,,,active
-10,Manon,Cassista-daRos,Fisheries and Oceans Canada,Bedford Institute of Oceanography,,Manon.Cassista-DaRos@dfo-mpo.gc.ca,,,,,,Stomach content database,active
-11,Alida,Bundy,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Research scientist,Alida.Bundy@dfo-mpo.gc.ca,1-902-426-8353,,,,,Ecopath with Ecosim,active
-12,Philip,Greyson,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Data manager/GIS analyst,philip.greyson@dfo-mpo.gc.ca,,,,,,,active
-13,Brian,Bower,Fisheries and Oceans Canada,Bedford Institute of Oceanography,GIS Analyst/Open Data,brian.bower@dfo-mpo.gc.ca,,,,,,,active
-14,Gordana,Lazin,Fisheries and Oceans Canada,Bedford Institute of Oceanography,"Data coordinator MSP, spatial data layer inventory",Gordana.Lazin@dfo-mpo.gc.ca,,,,,,,active
-15,Jae,Choi,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Reseach scientist,choi.jae.seok@gmail.com,,,,,,Space-time modeling stratified survey data,active
-16,Michelle,Greenlaw,Fisheries and Oceans Canada,St. Andrews Biological Station,"Acting Head, Groundfish, Pelagic and Secondary Species Section",michelle.greenlaw@dfo-mpo.gc.ca,1-506-921-0265,,,,,Space-time modeling stratified survey data,active
-17,Grace,Murphy,Fisheries and Oceans Canada,Bedford Institute of Oceanography,,Grace.Murphy@dfo-mpo.gc.ca,,,,,,Cumulative effects assessment on habitats,active
-18,Noreen,Kelly,Fisheries and Oceans Canada,Bedford Institute of Oceanography,,Noreen.Kelly@dfo-mpo.gc.ca,,,,,,Cumulative effects assessment on habitats,active
-19,Kumiko,Azetsu-Scott,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Research scientist,Kumiko.Azetsu-Scott@dfo-mpo.gc.ca,,,,,,acidification,active
-20,Shelley,Lang,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Aquatic science biologist,Shelley.Lang@dfo-mpo.gc.ca,,,,,,Cetaceans - SDMs,active
-21,Boerder,Kristina,Global Fishing Watch,,,kristina.boerder@dal.ca,,,,,,,active
-22,Sarah,Wong,Environment and Climate Change Canada,Canadian Wildlife Service,Wildlife Biologist,sarah.wong2@canada.ca,1-902-426-5897,,,,,Sea birds,active
-23,Isabeau,Pratte,Environment and Climate Change Canada,Canadian Wildlife Service,Wildlife Biologist,isabeau.pratte@canada.ca,,,,,,Sea birds,active
-24,Matthew,English,Environment and Climate Change Canada,Canadian Wildlife Service,Wildlife Biologist,matthew.english3@canada.ca,,,,,,Sea birds / shore birds,active
-25,Gavin K,Manson,Natural Resources Canada,Marine Environmental Geoscience,Coastal Geoscience Specialist,gavin.manson@canada.ca,1-902-426-3144,,,,,,active
-26,Nicole J,Couture,Natural Resources Canada,Geological Survey of Canada,,nicole.couture@canada.ca,,,,,,,active
-27,Thomas,James,Natural Resources Canada,Geological Survey of Canada,,thomas.james@canada.ca,,,,,,,active
-28,,,Natural Resources Canada,Geological Survey of Canada,,nrcan.gsc-geosciencedata-donneesgeoscience-cgc.rncan@canada.ca,,,,,,,active
-29,,,Fisheries and Oceans Canada,Aquatic Ecosystems Branch,,DFO.MAR.OceansGIS-SIGOceans.MAR.MPO@dfo-mpo.gc.ca,,,,,,,active
-30,Kasia,Rozalska,Fisheries and Oceans Canada,,Spatial Planner,,,,,,,,active
-31,Scott,Coffen-Smout,Fisheries and Oceans Canada,Oceans and Coastal Management Division,Biologist,Scott.Coffen-Smout@dfo-mpo.gc.ca,1-902-426-2009,,,,,,active
-32,Carissa,Philippe,Fisheries and Oceans Canada,Integrated Oceans Management,GIS Analyst,carissa.philippe@dfo-mpo.gc.ca,1-613-404-5371,,,,,,active
-33,,,Treasury Board of Canada Secretariat,,,open-ouvert@tbs-sct.gc.ca,,,,,,,active
-34,Denis,Bernier,Fisheries and Oceans Canada,Institut Maurice-Lamontagne,Data management,Denis.Bernier@dfo-mpo.gc.ca,1-581-624-3144,,,,,,active
-35,,,Fisheries and Oceans Canada,Institut Maurice-Lamontagne,Data management,gddaiss-dmsaisb.XLAU@dfo-mpo.gc.ca,,,,,,,active
-36,Brian,Boivin,Fisheries and Oceans Canada,Institut Maurice-Lamontagne,Data management,Brian.Boivin@dfo-mpo.gc.ca,1-418-775-0880,,,,,,active
-37,,,Fisheries and Oceans Canada,Marine Planning and Conservation Directorate,,DFO.NCRMPCGIS-PCMSIGNCR.MPO@dfo-mpo.gc.ca,,,,,,,active
+contact_id,first_name,last_name,organization,department,role,email,phone
+1,David,Beauchesne,Universite Laval,Department of Biology,Postdoctoral researcher,david.beauchesne@hotmail.com,1-514-553-4974
+2,Philippe,Archambault,Universite Laval,Department of Biology,Professor,philippe.archambault@bio.ulaval.ca,1-418-656-2131 #405967
+3,Cindy,Grant,Universite Laval,Department of Biology,Research professional,cindy.grant@bio.ulaval.ca,1-418-656-2131 #417944
+4,Kevin,Cazelles,inSileco,,Data scientist,kevin.cazelles@gmail.com,
+5,Jacob,Dale,Universite Laval,Department of Biology,Masters student,jacob.dale.1@ulaval.ca,
+6,Tana,Worchester,Fisheries and Oceans Canada,Bedford Institute of Oceanography,"Coordinator, Advisory Services",Tana.Worcester@dfo-mpo.gc.ca,1-902-426-3246
+7,Catalina,Gomez,Fisheries and Oceans Canada,Bedford Institute of Oceanography,,Catalina.Gomez@dfo-mpo.gc.ca,1-902-499-0107
+8,Caroline,Longtin,Fisheries and Oceans Canada,,Science Advisor,Caroline.Longtin@dfo-mpo.gc.ca,1-343-542-4946
+9,Christine,Ward-Paige,eOceans,,CEO,christine@eoceans.co,
+10,Manon,Cassista-daRos,Fisheries and Oceans Canada,Bedford Institute of Oceanography,,Manon.Cassista-DaRos@dfo-mpo.gc.ca,
+11,Alida,Bundy,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Research scientist,Alida.Bundy@dfo-mpo.gc.ca,1-902-426-8353
+12,Philip,Greyson,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Data manager/GIS analyst,philip.greyson@dfo-mpo.gc.ca,
+13,Brian,Bower,Fisheries and Oceans Canada,Bedford Institute of Oceanography,GIS Analyst/Open Data,brian.bower@dfo-mpo.gc.ca,
+14,Gordana,Lazin,Fisheries and Oceans Canada,Bedford Institute of Oceanography,"Data coordinator MSP, spatial data layer inventory",Gordana.Lazin@dfo-mpo.gc.ca,
+15,Jae,Choi,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Reseach scientist,choi.jae.seok@gmail.com,
+16,Michelle,Greenlaw,Fisheries and Oceans Canada,St. Andrews Biological Station,"Acting Head, Groundfish, Pelagic and Secondary Species Section",michelle.greenlaw@dfo-mpo.gc.ca,1-506-921-0265
+17,Grace,Murphy,Fisheries and Oceans Canada,Bedford Institute of Oceanography,,Grace.Murphy@dfo-mpo.gc.ca,
+18,Noreen,Kelly,Fisheries and Oceans Canada,Bedford Institute of Oceanography,,Noreen.Kelly@dfo-mpo.gc.ca,
+19,Kumiko,Azetsu-Scott,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Research scientist,Kumiko.Azetsu-Scott@dfo-mpo.gc.ca,
+20,Shelley,Lang,Fisheries and Oceans Canada,Bedford Institute of Oceanography,Aquatic science biologist,Shelley.Lang@dfo-mpo.gc.ca,
+21,Boerder,Kristina,Global Fishing Watch,,,kristina.boerder@dal.ca,
+22,Sarah,Wong,Environment and Climate Change Canada,Canadian Wildlife Service,Wildlife Biologist,sarah.wong2@canada.ca,1-902-426-5897
+23,Isabeau,Pratte,Environment and Climate Change Canada,Canadian Wildlife Service,Wildlife Biologist,isabeau.pratte@canada.ca,
+24,Matthew,English,Environment and Climate Change Canada,Canadian Wildlife Service,Wildlife Biologist,matthew.english3@canada.ca,
+25,Gavin K,Manson,Natural Resources Canada,Marine Environmental Geoscience,Coastal Geoscience Specialist,gavin.manson@canada.ca,1-902-426-3144
+26,Nicole J,Couture,Natural Resources Canada,Geological Survey of Canada,,nicole.couture@canada.ca,
+27,Thomas,James,Natural Resources Canada,Geological Survey of Canada,,thomas.james@canada.ca,
+28,,,Natural Resources Canada,Geological Survey of Canada,,nrcan.gsc-geosciencedata-donneesgeoscience-cgc.rncan@canada.ca,
+29,,,Fisheries and Oceans Canada,Aquatic Ecosystems Branch,,DFO.MAR.OceansGIS-SIGOceans.MAR.MPO@dfo-mpo.gc.ca,
+30,Kasia,Rozalska,Fisheries and Oceans Canada,,Spatial Planner,,
+31,Scott,Coffen-Smout,Fisheries and Oceans Canada,Oceans and Coastal Management Division,Biologist,Scott.Coffen-Smout@dfo-mpo.gc.ca,1-902-426-2009
+32,Carissa,Philippe,Fisheries and Oceans Canada,Integrated Oceans Management,GIS Analyst,carissa.philippe@dfo-mpo.gc.ca,1-613-404-5371
+33,,,Treasury Board of Canada Secretariat,,,open-ouvert@tbs-sct.gc.ca,
+34,Denis,Bernier,Fisheries and Oceans Canada,Institut Maurice-Lamontagne,Data management,Denis.Bernier@dfo-mpo.gc.ca,1-581-624-3144
+35,,,Fisheries and Oceans Canada,Institut Maurice-Lamontagne,Data management,gddaiss-dmsaisb.XLAU@dfo-mpo.gc.ca,
+36,Brian,Boivin,Fisheries and Oceans Canada,Institut Maurice-Lamontagne,Data management,Brian.Boivin@dfo-mpo.gc.ca,1-418-775-0880
+37,,,Fisheries and Oceans Canada,Marine Planning and Conservation Directorate,,DFO.NCRMPCGIS-PCMSIGNCR.MPO@dfo-mpo.gc.ca,

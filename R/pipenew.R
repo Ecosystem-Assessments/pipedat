@@ -28,7 +28,6 @@ pipenew <- function(name = NULL, template = "data_workflow") {
     # Data for template
     out <- list()
     out$dpid <- rnd_id() # Create unique ID of length 8
-    out$uuid <- uuid::UUIDgenerate() # Create Version 4 UUID for the data generated from pipeline
     out$date_created <- timestamp()
     out$name <- name
 
@@ -62,9 +61,7 @@ pipenew <- function(name = NULL, template = "data_workflow") {
 # ------
 # Generate random id of length 8 and make sure that it is not duplicated
 rnd_id <- function() {
-  files <- dir("R/")
-  dp <- files[stringr::str_detect(files, "dp_")]
-  exist_id <- gsub(".*dp_(.+)-.*", "\\1", dp)
+  exist_id <- pipedat:::pipeline$pipeline_id
 
   # Generate new id that is different from existing ones
   # NOTE: This is likely an overkill, chances are very slim, but who knows!

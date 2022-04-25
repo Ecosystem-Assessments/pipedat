@@ -1,20 +1,6 @@
-# ------------------------------------------------------------------------------
-# Using custom function to write certain metadata information only once, 
-# as they appear in the function metadata and the data/pipeline metadata as well
-shortname_{{ dpid }} <- function() {
-  "Shortname of dataset to be queried"
-}
-desc_{{ dpid }} <- function() {
-  "Short description of the dataset to be queried through this data pipeline"
-}
-citekey_{{ dpid }} <- function() {
-  c("citekey1","citekey2")  
-}
-# ------------------------------------------------------------------------------
-
-#' @eval shortname_{{ dpid }}()
+#' @eval get_name("{{ dpid }}")
 #'
-#' @eval desc_{{ dpid }}()
+#' @eval get_description("{{ dpid }}")
 #'
 #' @eval doc_params()
 #'
@@ -31,7 +17,7 @@ citekey_{{ dpid }} <- function() {
 dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "{{ dpid }}"
-  name <- data_pipelines$name[data_pipelines$pipeline_id == uid]
+  name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
   output <- make_output(uid, name, output, local = FALSE) # set local = TRUE for local data 
   path <- glue("{output}{nm}/")
@@ -70,51 +56,17 @@ dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # APPLY SUBSETS AND CRS SPECIFIED BY USER
-  # NOTE: optional, only if applicable
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  dat <- dp_parameters(
-    dat, 
-    crs = crs, 
-    bbox = bbox, 
-    timespan = timespan
-  )
-  # _________________________________________________________________________________________ #
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE METADATA
   # WARNING: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  meta <- metadata(
+  meta <- get_metadata(
     pipeline_id = uid,
-    # List of creators of the form 
-    # `list(people(first_name, last_name, email, organization, department, role))`
-    pipeline_creators = people(developer = "david"),
-    pipeline_date = "{{ date_created }}",
-    pipeline_url = pipeline_url(uid, name),
-    data_pipeline_uuid = "{{ uuid }}",
-    data_pipeline_crs = crs,
-    data_pipeline_bbox = bbox,
-    data_pipeline_timespan = timespan,
-    data_name = shortname_{{ dpid }}(), # NOTE: function as document header
-    data_description = desc_{{ dpid }}(), # NOTE: function as document header
-    data_access = timestamp(),
-    data_temporal = c(), # c(2000,2001,2002,2003),
-    data_bbox = c(), # c(xmin=-1,ymin=-1,xmax=1,xmin=1), # could also use sf::st_bbox()
-    data_contacts = list(
-      people(
-        first_name = "first_name",
-        last_name = "last_name",
-        email = "email",
-        organization = "organization",
-        department = "department",
-        role = "role"
-      )
-    ), # Same way as creators
-    data_url = "https://path/to/data/",
-    data_uuid = "unique identifier of raw data or resource",
-    data_availability = "open", # 'open','on demand','data sharing agreement','restricted'
-    data_citekey = citekey_{{ dpid }}() # NOTE: function as document header
+    pipeline_crs = crs, 
+    pipeline_bbox = bbox, 
+    pipeline_timespan = timespan, 
+    data_access = timestamp(), 
+    data_bbox = sf::st_bbox(dat), 
+    data_timespan = sort(unique(dat$year)), 
   )
   
   # To add additional metadata for queried data
@@ -128,50 +80,22 @@ dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE BIBTEX
   # WARNING: mandatory
-  # 
-  # NOTE:
-  #   Create bibtex entries using `RefManageR::BibEntry()`
-  #   For more information on the functions andd available entries visit: 
-  #   https://docs.ropensci.org/RefManageR/reference/BibEntry.html
-  #   For entry types: https://www.bibtex.com/e/entry-types/
-  #   Some guidance on how to cite datasets: 
-  #   https://social-science-data-editors.github.io/guidance/citations/guidance_data_citations.pdf
-  #   Using the @techreport entry type for datasets, as there are no specific entries for data
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  bib <- c(
-    # For a dataset
-    RefManageR::BibEntry(
-      bibtype = "techreport", 
-      key = citekey_{{ dpid }}()[1], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
-      year = "2018",
-      title = "Title of the dataset",
-      institution = "{}", 
-      type = "{}", 
-      urldate =  timestamp(),
-      number = "{}", 
-      url = "https://path/to/data",
-      doi = "doi of data"
-    ),
-    # For a journal article
-    RefManageR::BibEntry(
-      bibtype = "article", 
-      key = citekey_{{ dpid }}()[2], # NOTE: function as document header
-      author = "Last_name, First_name and Last_Name, First_name and {Organisation name}", 
-      year = "2018",
-      title = "Title of the article",
-      journal = "Journal name",
-      volume = "1",
-      number = "1",
-      pages = "1--2",
-      publisher = "{Publisher name}",
-      issn = "article issn",
-      doi = "article doi",
-      url = "https://path/to/data"
-    )
-  ) 
+  bib <- get_bib(uid)
   # _________________________________________________________________________________________ #
   
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # APPLY SUBSETS AND CRS SPECIFIED BY USER
+  # NOTE: optional, only if applicable
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  dat <- dp_parameters(
+    dat, 
+    crs = crs, 
+    bbox = bbox, 
+    timespan = timespan
+  )
+  # _________________________________________________________________________________________ #
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

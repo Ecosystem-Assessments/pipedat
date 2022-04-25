@@ -4,7 +4,7 @@
 \alias{pipegrid}
 \title{Creates a study grid}
 \usage{
-pipegrid()
+pipegrid(x, y)
 }
 \arguments{
 \item{x}{soon described}

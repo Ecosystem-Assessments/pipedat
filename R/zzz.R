@@ -29,31 +29,18 @@ timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")
 
 # ------------------------------------------------------------------------------
 # add new data to list of pipelines
-# data_pipelines <- data.frame(
-#                     pipeline_id = character(0),
-#                     name = character(0),
-#                     data_id = character(0)
-#                    )
-# usethis::use_data(data_pipelines)
-append_dp <- function(pipeline_id, name, data_id) {
-  data_pipelines <- dplyr::bind_rows(
-    data_pipelines,
+append_dp <- function(pipeline_id, name, type) {
+  dat <- utils::read.csv("inst/extdata/pipeline.csv")
+  dat <- dplyr::bind_rows(
+    dat,
     c(
       pipeline_id = pipeline_id,
-      name = name,
-      data_id = data_id
+      pipeline_type = type,
+      date_created = timestamp(),
+      data_shortname = name
     )
   )
-  invisible(usethis::use_data(data_pipelines, overwrite = TRUE))
-}
-
-# quick function to delete last row of data pipeline list
-# useful only for developers when creating new pipelines that might not end up being used
-delete_dp <- function(n) {
-  uid <- 1:(nrow(data_pipelines) - n)
-  if (uid[length(uid)] == 0) uid <- 0
-  data_pipelines <- data_pipelines[uid, ]
-  invisible(usethis::use_data(data_pipelines, overwrite = TRUE))
+  write.csv(dat, "inst/extdata/pipeline.csv", row.names = FALSE)
 }
 
 # ------------------------------------------------------------------------------

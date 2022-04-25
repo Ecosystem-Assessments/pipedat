@@ -35,7 +35,7 @@ pipenew <- function(name = NULL, template = "data_workflow") {
     if (!file.exists("R/")) dir.create("R/")
 
     # Update data/data_pipelines.rda
-    append_dp(out$dpid, out$name, out$uuid)
+    append_dp(pipeline_id = out$dpid, name = out$name, type = "data")
 
     # Generate template
     use_template(

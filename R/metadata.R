@@ -108,37 +108,32 @@ add_metadata <- function(meta, ...) {
   )
 }
 
-#' @describeIn metadata add pipeline creators and data contacts
-#' @export
-people <- function(first_name = NULL, last_name = NULL, email = NULL, organization = NULL, department = NULL, role = NULL, developer = NULL) {
-  if (!is.null(developer)) {
-    if (developer == "david") {
-      c(
-        first_name = "David",
-        last_name = "Beauchesne",
-        email = "david.beauchesne@hotmail.com",
-        organization = "Université Laval",
-        role = "Postdoctoral researcher"
-      )
-    } else if (developer == "vincent") {
-      c(
-        first_name = "Vincent",
-        last_name = "Bellavance",
-        email = "Vincent.Bellavance@USherbrooke.ca",
-        organization = "Université Laval",
-        role = "Research professional / data scientist"
-      )
-    } else {
-      message("This developer is unknown to us...")
-    }
-  } else {
-    c(
-      first_name = first_name,
-      last_name = last_name,
-      email = email,
-      organization = organization,
-      department = department,
-      role = role
-    )
-  }
+# ------------------------------------------------------------
+# Metadata helper functions
+get_pipeline <- function(pipeline_id) {
+  dat <- pipedat:::pipeline
+  uid <- dat$pipeline_id == pipeline_id
+  dat[uid, ]
+}
+
+get_contact <- function(pipeline_id) {
+  dat <- pipedat:::pcontact
+  uid <- dat$pipeline_id == pipeline_id
+  iid <- dat$contact_id[uid]
+  pipedat:::contact[pipedat:::contact$contact_id %in% iid, ]  
+}
+
+get_creator <- function(pipeline_id) {
+  dat <- pipedat:::pcreator
+  uid <- dat$pipeline_id == pipeline_id
+  iid <- dat$contact_id[uid]
+  pipedat:::contact[pipedat:::contact$contact_id %in% iid, ]
+}
+
+get_bib <- function(pipeline_id) {
+  dat <- pipedat:::pcite
+  uid <- dat$pipeline_id == pipeline_id
+  iid <- dat$citekey[uid]
+  
+  pipedat::bib[[pipedat:::bib$key %in% iid]]
 }

@@ -3,7 +3,6 @@
 \name{metadata}
 \alias{metadata}
 \alias{add_metadata}
-\alias{people}
 \title{Create a yaml metadata file}
 \usage{
 metadata(
@@ -28,16 +27,6 @@ metadata(
 )
 
 add_metadata(meta, ...)
-
-people(
-  first_name = NULL,
-  last_name = NULL,
-  email = NULL,
-  organization = NULL,
-  department = NULL,
-  role = NULL,
-  developer = NULL
-)
 }
 \arguments{
 \item{pipeline_id}{individual id of data pipeline}
@@ -107,8 +96,6 @@ through the data pipeline.
 \item \code{metadata}: export metadata yaml
 
 \item \code{add_metadata}: add additional information on queried data to metadata
-
-\item \code{people}: add pipeline creators and data contacts
 }}
 
 \examples{

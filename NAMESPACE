@@ -2,7 +2,6 @@
 
 export(add_metadata)
 export(metadata)
-export(people)
 export(pipedat)
 export(pipeflow)
 export(pipegrid)

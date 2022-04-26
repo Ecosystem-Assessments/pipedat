@@ -8,6 +8,7 @@
 #' @importFrom knitr kable
 #' @importFrom readr read_csv
 #' @importFrom rlang sym
+#' @importFrom R.utils gunzip
 #' @importFrom utils read.csv write.csv
 #' @importFrom whisker whisker.render
 #' @importFrom yaml yaml.load_file write_yaml read_yaml

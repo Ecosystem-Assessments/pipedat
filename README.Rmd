@@ -65,4 +65,6 @@ pipedat::pipelist()
 
 ## How to contribute
 
-External contributors are welcome to contribute data pipelines to this package. Simply fork the [public repo]() and create your own data pipeline. The `pipenew()` function creates a `p_#####.R` template for you to use to create a new data pipeline with a unique id. Create a pull request for us to review the data pipeline for inclusion in the package. 
+External contributors are welcome to contribute data pipelines to this package. Simply fork the [public repo]() and create your own data pipeline. The `pipenew()` function creates a `dp_#####.R` template for you to use to create a new data pipeline with a unique id. Create a pull request for us to review the data pipeline for inclusion in the package. 
+
+A single pull request per pipeline should be created, and merged pull requests should be squashed into a single commit.

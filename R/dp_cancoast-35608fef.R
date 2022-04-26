@@ -1,6 +1,6 @@
-#' @eval get_name("{{ dpid }}")
+#' @eval get_name("35608fef")
 #'
-#' @eval get_description("{{ dpid }}")
+#' @eval get_description("35608fef")
 #'
 #' @eval doc_params()
 #'
@@ -8,51 +8,49 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: 35608fef
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ dpid }}()
+#' dp_35608fef()
 #' }
-dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_35608fef <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
-  uid <- "{{ dpid }}"
+  uid <- "35608fef"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = FALSE) # set local = TRUE for local data 
+  output <- make_output(uid, name, output, local = FALSE) # set local = TRUE for local data
   path <- glue("{output}{nm}/")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # If the data is downloaded from online sources
-  urls <- c(
-    "url1",
-    "url2",
-    "..."
-  )
-  
-  # If the data is downloaded from open government using `rgovcan`
-  govcan <- "govcan uuid"
-  
-  # Load
-  pipeload(urls = urls, govcan = govcan, output = glue("{path}raw/"), large = FALSE)
+  urls <- "https://ftp.maps.canada.ca/pub/nrcan_rncan/publications/STPublications_PublicationsST/314/314669/of_8551.zip"
+  govcan <- "73714ed4-a795-a7ae-7e93-36100ce7c242"
+  pipeload(urls = urls, govcan = govcan, output = glue("{path}raw/"), large = TRUE)
   # _________________________________________________________________________________________ #
-    
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # dat <- import data function
-  
-  # _________________________________________________________________________________________ #
-  
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # FORMAT DATA
-  # NOTE: optional
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-
+  sea_level <- sf::st_read(
+    glue("{path}raw/CANCOAST_SEALEVELCHANGE_2006_2020_V1/CANCOAST_SEALEVELCHANGE_2006_2020_V1.shp"),
+    quiet = TRUE
+  )
+  material <- sf::st_read(
+    glue("{path}raw/CANCOAST_MATERIAL_V2/CANCOAST_MATERIAL_V2.shp"),
+    quiet = TRUE
+  )
+  # shoreline_v2 <- sf::st_read(
+  #   glue("{path}raw/CANCOAST_SHORELINE_V2/CANCOAST_SHORELINE_V2.shp"),
+  #   quiet = TRUE
+  # )
+  # shoreline_v3 <- sf::st_read(
+  #   glue("{path}raw/CANCOAST_SHORELINE_V3/CANCOAST_SHORELINE_V3.shp"),
+  #   quiet = TRUE
+  # )
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -61,20 +59,12 @@ dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- get_metadata(
     pipeline_id = uid,
-    pipeline_crs = crs, 
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    data_access = timestamp(), 
-    data_bbox = sf::st_bbox(dat), 
-    data_timespan = sort(unique(dat$year)), 
+    pipeline_crs = crs,
+    pipeline_bbox = bbox,
+    data_access = timestamp(),
+    data_bbox = sf::st_bbox(sea_level),
+    data_timespan = c(2010, 2011),
   )
-  
-  # To add additional metadata for queried data
-  meta <- add_metadata(meta, 
-    info1 = c("Format as lists and dataframes to be rendered as yaml"),
-    info2 = c("Formatting thus matters"),
-    info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-  )  
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -83,26 +73,34 @@ dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   bib <- get_bib(uid)
   # _________________________________________________________________________________________ #
-  
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # APPLY SUBSETS AND CRS SPECIFIED BY USER
   # NOTE: optional, only if applicable
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  dat <- dp_parameters(
-    dat, 
-    crs = crs, 
-    bbox = bbox, 
-    timespan = timespan
+  sea_level <- dp_parameters(
+    sea_level,
+    crs = crs,
+    bbox = bbox
+  )
+  material <- dp_parameters(
+    material,
+    crs = crs,
+    bbox = bbox
   )
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # EXPORT 
+  # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Formatted data 
-  fm <- glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
-  sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
-  
+  # Sea level
+  fm <- glue("{path}/{nm}_sea_level.geojson") # NOTE: not necessarily spatial data
+  sf::st_write(sea_level, dsn = fm, quiet = TRUE) # for spatial data
+
+  # Material
+  fm <- glue("{path}/{nm}_material.geojson") # NOTE: not necessarily spatial data
+  sf::st_write(material, dsn = fm, quiet = TRUE) # for spatial data
+
   # Metadata
   mt <- glue("{path}/{nm}.yaml")
   yaml::write_yaml(meta, mt, column.major = FALSE)

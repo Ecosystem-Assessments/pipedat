@@ -66,15 +66,19 @@ data in folders ‘data/data-raw/’ and `data/data-format`, respectively.
 
 ## List of pipelines
 
-| Pipeline ID | Name                                                    | Description                                                                                                                                                                                      | Source                                                                                                                                  |
-|:------------|:--------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------|
-| f635934a    | Federal Marine Bioregions                               | The spatial planning framework for Canada’s national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada’s oceans and the Great Lakes. | Fisheries and Oceans Canada (2009); Fisheries and Oceans Canada (2010); Government of Canada (2011); Fisheries and Oceans Canada (2021) |
-| 750b39f9    | Maritimes cumulative effects assessment study area grid | Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment                                                                               | Kelly and Murphy (2021)                                                                                                                 |
+| Pipeline ID | Name                                                    | Description                                                                                                                                                                                      | Source                                                                                                                                   |
+|:------------|:--------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------|
+| f635934a    | Federal Marine Bioregions                               | The spatial planning framework for Canada’s national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada’s oceans and the Great Lakes. | Fisheries and Oceans Canada (2009); Fisheries and Oceans Canada (2010); Government of Canada (2011); Fisheries and Oceans Canada (2021a) |
+| 750b39f9    | Maritimes cumulative effects assessment study area grid | Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment                                                                               | Kelly and Murphy (2021)                                                                                                                  |
+| f2109e69    | Commercial fisheries logbooks                           | A compilation of landing data from Zonal Interchange File Format (ZIFF) data between 2000 and 2020                                                                                               | Fisheries and Oceans Canada (2021b)                                                                                                      |
 
 ## How to contribute
 
 External contributors are welcome to contribute data pipelines to this
 package. Simply fork the [public repo]() and create your own data
-pipeline. The `pipenew()` function creates a `p_#####.R` template for
+pipeline. The `pipenew()` function creates a `dp_#####.R` template for
 you to use to create a new data pipeline with a unique id. Create a pull
 request for us to review the data pipeline for inclusion in the package.
+
+A single pull request per pipeline should be created, and merged pull
+requests should be squashed into a single commit.

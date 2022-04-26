@@ -6,6 +6,7 @@
 #' @importFrom glue glue glue_sql
 #' @importFrom RefManageR BibEntry WriteBib
 #' @importFrom knitr kable
+#' @importFrom readr read_csv
 #' @importFrom rlang sym
 #' @importFrom utils read.csv write.csv
 #' @importFrom whisker whisker.render

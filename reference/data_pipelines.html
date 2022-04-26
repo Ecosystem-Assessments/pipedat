@@ -7,6 +7,8 @@ Federal Marine Bioregions
 The spatial planning framework for Canada's national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada's oceans and the Great Lakes.
 Commercial fisheries logbooks
 A compilation of landing data from Zonal Interchange File Format (ZIFF) data between 2000 and 2020
+Active and Inactive Disposal at Sea Sites
+The Active and Inactive Disposal at Sea Sites in Canadian Waters dataset provides spatial and related information of at-sea disposal sites approved for use in Canada in the last ten years and that remain open for consideration for additional use.
 Canadian National Marine Seismic Data Repository
 The Geological Survey of Canada (Atlantic and Pacific) has collected marine survey field records on marine expeditions for over 50 years. This release makes available the results of an ongoing effort to scan and convert our inventory of analog marine survey field records (seismic, sidescan and sounder) to digital format.
 Maritimes cumulative effects assessment study area grid
@@ -52,7 +54,7 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>CanCoast - Coastal Materials Version 2.0</h1>
-    <small class="dont-index">Source: <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_cancoast-35608fef.R" class="external-link"><code>R/dp_cancoast-35608fef.R</code></a>, <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_contaminated_sites-804db12e.R" class="external-link"><code>R/dp_contaminated_sites-804db12e.R</code></a>, <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_federal_marine_bioregions-f635934a.R" class="external-link"><code>R/dp_federal_marine_bioregions-f635934a.R</code></a>, and 3 more</small>
+    <small class="dont-index">Source: <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_cancoast-35608fef.R" class="external-link"><code>R/dp_cancoast-35608fef.R</code></a>, <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_contaminated_sites-804db12e.R" class="external-link"><code>R/dp_contaminated_sites-804db12e.R</code></a>, <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_federal_marine_bioregions-f635934a.R" class="external-link"><code>R/dp_federal_marine_bioregions-f635934a.R</code></a>, and 4 more</small>
     <div class="hidden name"><code>data_pipelines.Rd</code></div>
     </div>
 
@@ -65,6 +67,8 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
 <p>The spatial planning framework for Canada's national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada's oceans and the Great Lakes.</p>
 <p>Commercial fisheries logbooks</p>
 <p>A compilation of landing data from Zonal Interchange File Format (ZIFF) data between 2000 and 2020</p>
+<p>Active and Inactive Disposal at Sea Sites</p>
+<p>The Active and Inactive Disposal at Sea Sites in Canadian Waters dataset provides spatial and related information of at-sea disposal sites approved for use in Canada in the last ten years and that remain open for consideration for additional use.</p>
 <p>Canadian National Marine Seismic Data Repository</p>
 <p>The Geological Survey of Canada (Atlantic and Pacific) has collected marine survey field records on marine expeditions for over 50 years. This release makes available the results of an ongoing effort to scan and convert our inventory of analog marine survey field records (seismic, sidescan and sounder) to digital format.</p>
 <p>Maritimes cumulative effects assessment study area grid</p>
@@ -79,6 +83,8 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
 <span class="fu">dp_f635934a</span><span class="op">(</span><span class="va">output</span>, crs <span class="op">=</span> <span class="fl">4326</span>, bbox <span class="op">=</span> <span class="cn">NULL</span>, timespan <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="fu">dp_f2109e69</span><span class="op">(</span><span class="va">output</span>, crs <span class="op">=</span> <span class="fl">4326</span>, bbox <span class="op">=</span> <span class="cn">NULL</span>, timespan <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
+
+<span class="fu">dp_4b72884d</span><span class="op">(</span><span class="va">output</span>, crs <span class="op">=</span> <span class="fl">4326</span>, bbox <span class="op">=</span> <span class="cn">NULL</span>, timespan <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="fu">dp_06230ea3</span><span class="op">(</span><span class="va">output</span>, crs <span class="op">=</span> <span class="fl">4326</span>, bbox <span class="op">=</span> <span class="cn">NULL</span>, timespan <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
 
@@ -105,6 +111,7 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
 <p><code><a href="pipedat.html">pipedat</a></code></p>
 <p><code><a href="pipedat.html">pipedat</a></code></p>
 <p><code><a href="pipedat.html">pipedat</a></code></p>
+<p><code><a href="pipedat.html">pipedat</a></code></p>
 <p><code><a href="pipedat.html">pipedat</a></code></p></div>
     </div>
 
@@ -121,6 +128,9 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">dp_f2109e69</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="fu">dp_4b72884d</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">dp_06230ea3</span><span class="op">(</span><span class="op">)</span></span>

@@ -3,6 +3,8 @@
 The Atlantic dataset is part of Environment and Climate Change Canada�s Shoreline Classification and Pre-Spill database. Shoreline classification data has been developed for use by the Environmental Emergencies Program of Environment and Climate Change Canada for environmental protection purposes. Marine and estuarine shorelines are classified according to the character (substrate and form) of the upper intertidal (foreshore) or upper swash zone (Sergy, 2008).
 CanCoast - Coastal Materials Version 2.0
 CanCoast 2.0: data and indices to describe the sensitivity of Canada's marine coasts to changing climate
+WoRMS North-West Atlantic species checklist
+CaRMS and WoRMS species list for the North-West Atlantic area of interest
 Federal Contaminated Sites Inventory
 The Federal Contaminated Sites Inventory includes information on all known federal contaminated sites under the custodianship of departments, agencies and consolidated Crown corporations as well as those that are being or have been investigated to determine whether they have contamination arising from past use that could pose a risk to human health or the environment. The inventory also includes non-federal contaminated sites for which the Government of Canada has accepted some or all financial responsibility. It does not include sites where contamination has been caused by, and which are under the control of, enterprise Crown corporations, private individuals, firms or other levels of government.
 Federal Marine Bioregions
@@ -56,7 +58,7 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Atlantic Shoreline Classification</h1>
-    <small class="dont-index">Source: <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_atlantic_shoreline-68609420.R" class="external-link"><code>R/dp_atlantic_shoreline-68609420.R</code></a>, <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_cancoast-35608fef.R" class="external-link"><code>R/dp_cancoast-35608fef.R</code></a>, <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_contaminated_sites-804db12e.R" class="external-link"><code>R/dp_contaminated_sites-804db12e.R</code></a>, and 5 more</small>
+    <small class="dont-index">Source: <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_atlantic_shoreline-68609420.R" class="external-link"><code>R/dp_atlantic_shoreline-68609420.R</code></a>, <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_cancoast-35608fef.R" class="external-link"><code>R/dp_cancoast-35608fef.R</code></a>, <a href="https://github.com/Ecosystem-Assessments/pipedat/blob/HEAD/R/dp_carms_checklist-084860fd.R" class="external-link"><code>R/dp_carms_checklist-084860fd.R</code></a>, and 6 more</small>
     <div class="hidden name"><code>data_pipelines.Rd</code></div>
     </div>
 
@@ -65,6 +67,8 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
 <p>The Atlantic dataset is part of Environment and Climate Change Canada�s Shoreline Classification and Pre-Spill database. Shoreline classification data has been developed for use by the Environmental Emergencies Program of Environment and Climate Change Canada for environmental protection purposes. Marine and estuarine shorelines are classified according to the character (substrate and form) of the upper intertidal (foreshore) or upper swash zone (Sergy, 2008).</p>
 <p>CanCoast - Coastal Materials Version 2.0</p>
 <p>CanCoast 2.0: data and indices to describe the sensitivity of Canada's marine coasts to changing climate</p>
+<p>WoRMS North-West Atlantic species checklist</p>
+<p>CaRMS and WoRMS species list for the North-West Atlantic area of interest</p>
 <p>Federal Contaminated Sites Inventory</p>
 <p>The Federal Contaminated Sites Inventory includes information on all known federal contaminated sites under the custodianship of departments, agencies and consolidated Crown corporations as well as those that are being or have been investigated to determine whether they have contamination arising from past use that could pose a risk to human health or the environment. The inventory also includes non-federal contaminated sites for which the Government of Canada has accepted some or all financial responsibility. It does not include sites where contamination has been caused by, and which are under the control of, enterprise Crown corporations, private individuals, firms or other levels of government.</p>
 <p>Federal Marine Bioregions</p>
@@ -83,6 +87,8 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dp_68609420</span><span class="op">(</span><span class="va">output</span>, crs <span class="op">=</span> <span class="fl">4326</span>, bbox <span class="op">=</span> <span class="cn">NULL</span>, timespan <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="fu">dp_35608fef</span><span class="op">(</span><span class="va">output</span>, crs <span class="op">=</span> <span class="fl">4326</span>, bbox <span class="op">=</span> <span class="cn">NULL</span>, timespan <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
+
+<span class="fu">dp_084860fd</span><span class="op">(</span><span class="va">output</span>, crs <span class="op">=</span> <span class="fl">4326</span>, bbox <span class="op">=</span> <span class="cn">NULL</span>, timespan <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="fu">dp_804db12e</span><span class="op">(</span><span class="va">output</span>, crs <span class="op">=</span> <span class="fl">4326</span>, bbox <span class="op">=</span> <span class="cn">NULL</span>, timespan <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
 
@@ -119,6 +125,7 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
 <p><code><a href="pipedat.html">pipedat</a></code></p>
 <p><code><a href="pipedat.html">pipedat</a></code></p>
 <p><code><a href="pipedat.html">pipedat</a></code></p>
+<p><code><a href="pipedat.html">pipedat</a></code></p>
 <p><code><a href="pipedat.html">pipedat</a></code></p></div>
     </div>
 
@@ -129,6 +136,9 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">dp_35608fef</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="fu">dp_084860fd</span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu">dp_804db12e</span><span class="op">(</span><span class="op">)</span></span>

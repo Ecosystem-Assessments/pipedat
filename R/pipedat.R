@@ -9,6 +9,7 @@
 #' @eval doc_params()
 #' @param urls urls for data download
 #' @param govcan unique identifier of resource on the open government federal data portal to download
+#' @param large logical, whether file to download is large and thus R options should be modified for longer timeout options. Default set to false
 #'
 #' @return This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.
 #'
@@ -38,7 +39,14 @@ pipedat <- function(uid, output = NULL, crs = 4326, bbox = NULL, timespan = NULL
 #' @describeIn pipedat download data from url or open government federal portal
 #' @export
 # Generic function to download data from url
-pipeload <- function(urls = NULL, govcan = NULL, output) {
+pipeload <- function(urls = NULL, govcan = NULL, output, large = FALSE) {
+  # Default R options limit download time to 60 seconds. Modify for larger files
+  if (large) {
+    old <- getOption("timeout")
+    on.exit(options(timeout = old), add = TRUE)
+    options(timeout = 3000)
+  }
+
   if (!is.null(urls)) {
     lapply(
       urls,

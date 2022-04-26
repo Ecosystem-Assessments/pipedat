@@ -2,13 +2,14 @@
 % Please edit documentation in R/dp_cancoast-35608fef.R,
 %   R/dp_contaminated_sites-804db12e.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
-%   R/dp_fisheries_logbooks-f2109e69.R, R/dp_marine_seismic-06230ea3.R,
-%   R/dp_maritimes_grid-750b39f9.R
+%   R/dp_fisheries_logbooks-f2109e69.R, R/dp_marine_disposal_sites-4b72884d.R,
+%   R/dp_marine_seismic-06230ea3.R, R/dp_maritimes_grid-750b39f9.R
 \name{dp_35608fef}
 \alias{dp_35608fef}
 \alias{dp_804db12e}
 \alias{dp_f635934a}
 \alias{dp_f2109e69}
+\alias{dp_4b72884d}
 \alias{dp_06230ea3}
 \alias{dp_750b39f9}
 \title{CanCoast - Coastal Materials Version 2.0}
@@ -20,6 +21,8 @@ dp_804db12e(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
 dp_f635934a(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_f2109e69(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_4b72884d(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_06230ea3(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
 
@@ -53,6 +56,10 @@ Commercial fisheries logbooks
 
 A compilation of landing data from Zonal Interchange File Format (ZIFF) data between 2000 and 2020
 
+Active and Inactive Disposal at Sea Sites
+
+The Active and Inactive Disposal at Sea Sites in Canadian Waters dataset provides spatial and related information of at-sea disposal sites approved for use in Canada in the last ten years and that remain open for consideration for additional use.
+
 Canadian National Marine Seismic Data Repository
 
 The Geological Survey of Canada (Atlantic and Pacific) has collected marine survey field records on marine expeditions for over 50 years. This release makes available the results of an ongoing effort to scan and convert our inventory of analog marine survey field records (seismic, sidescan and sounder) to digital format.
@@ -75,6 +82,9 @@ dp_f635934a()
 dp_f2109e69()
 }
 \dontrun{
+dp_4b72884d()
+}
+\dontrun{
 dp_06230ea3()
 }
 \dontrun{
@@ -93,10 +103,13 @@ dp_750b39f9()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
 }
 \concept{pipeline functions}
 \keyword{06230ea3}
 \keyword{35608fef}
+\keyword{4b72884d}
 \keyword{750b39f9}
 \keyword{804db12e}
 \keyword{f2109e69}

@@ -1,0 +1,120 @@
+#' @eval get_name("f2109e69")
+#'
+#' @eval get_description("f2109e69")
+#'
+#' @eval doc_params()
+#'
+#' @family pipeline functions
+#' @rdname data_pipelines
+#' @seealso \code{\link{pipedat}}
+#'
+#' @keywords pipeline_id: f2109e69
+#'
+#' @examples
+#' \dontrun{
+#' dp_f2109e69()
+#' }
+dp_f2109e69 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+  # Output folders and other objects used
+  uid <- "f2109e69"
+  name <- get_shortname(uid)
+  nm <- glue("{name}-{uid}")
+  output <- make_output(uid, name, output, local = TRUE) # set local = TRUE for local data
+  path <- glue("{output}{nm}/")
+
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # IMPORT DATA
+  # NOTE: optional
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  latit_GIS <- longit_GIS <- Remarques <- NULL # for R CMD CHECK
+  # Function to import ZIFF data
+  import_ziff <- function(filename) {
+    read.csv(glue("{path}raw/{filename}")) |>
+      dplyr::filter(!is.na(latit_GIS) & !is.na(longit_GIS)) |> # Remove NAs
+      sf::st_as_sf(
+        coords = c("longit_GIS", "latit_GIS"),
+        crs = 4326
+      )
+  }
+
+  d <- list()
+  d[[1]] <- import_ziff("Version_totale_20002004.csv")
+  d[[2]] <- import_ziff("Version_totale_20052009.csv")
+  d[[3]] <- import_ziff("Version_totale_20102014.csv")
+  d[[4]] <- import_ziff("Version_totale_20152019.csv")
+  d[[5]] <- import_ziff("Version_totale_20202024.csv")
+  dat <- dplyr::bind_rows(d)
+
+  # Gear types
+  gear <- utils::read.csv(glue("{path}raw/Codes_engin.csv"))
+
+  # Species list
+  species <- utils::read.csv(glue("{path}raw/Codes_especes.csv")) |>
+    dplyr::select(-Remarques)
+  # _________________________________________________________________________________________ #
+
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # FORMAT DATA
+  # NOTE: optional
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  dat$year <- format(as.Date(dat$date_cap), format = "%Y")
+  # _________________________________________________________________________________________ #
+
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # CREATE METADATA
+  # WARNING: mandatory
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  meta <- get_metadata(
+    pipeline_id = uid,
+    pipeline_crs = crs,
+    pipeline_bbox = bbox,
+    pipeline_timespan = timespan,
+    data_access = "2021-06-11",
+    data_bbox = sf::st_bbox(dat),
+    data_timespan = sort(unique(dat$year)),
+  )
+  # _________________________________________________________________________________________ #
+
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # CREATE BIBTEX
+  # WARNING: mandatory
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  bib <- get_bib(uid)
+  # _________________________________________________________________________________________ #
+
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # APPLY SUBSETS AND CRS SPECIFIED BY USER
+  # NOTE: optional, only if applicable
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  dat <- dp_parameters(
+    dat,
+    crs = crs,
+    bbox = bbox,
+    timespan = timespan
+  )
+  # _________________________________________________________________________________________ #
+
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # EXPORT
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # Fisheries data
+  fm <- glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
+  sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
+
+  # Gear type
+  gr <- glue("{path}/{nm}_gear.csv")
+  utils::write.csv(gear, gr, row.names = FALSE)
+
+  # Species list
+  sp <- glue("{path}/{nm}_species.csv")
+  utils::write.csv(species, sp, row.names = FALSE)
+
+  # Metadata
+  mt <- glue("{path}/{nm}.yaml")
+  yaml::write_yaml(meta, mt, column.major = FALSE)
+
+  # Bibtex
+  bi <- glue("{path}/{nm}.bib")
+  RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
+  # _________________________________________________________________________________________ #
+}

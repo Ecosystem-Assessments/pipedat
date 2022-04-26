@@ -3,12 +3,9 @@
 \docType{package}
 \name{pipedat}
 \alias{pipedat}
-\alias{pipeload}
 \title{Execute data pipelines}
 \usage{
 pipedat(uid, output = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...)
-
-pipeload(urls = NULL, govcan = NULL, output, large = FALSE)
 }
 \arguments{
 \item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}
@@ -22,12 +19,6 @@ pipeload(urls = NULL, govcan = NULL, output, large = FALSE)
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
 
 \item{...}{further arguments used in individual data pipelines, if applicable.}
-
-\item{urls}{urls for data download}
-
-\item{govcan}{unique identifier of resource on the open government federal data portal to download}
-
-\item{large}{logical, whether file to download is large and thus R options should be modified for longer timeout options. Default set to false}
 }
 \value{
 This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.
@@ -38,13 +29,6 @@ of data; this function calls on a series of individual scripts
 built to access data programmatically and reproducibly, which
 we refer to as \emph{data pipelines}.
 }
-\section{Functions}{
-\itemize{
-\item \code{pipedat}: execute data pipelines
-
-\item \code{pipeload}: download data from url or open government federal portal
-}}
-
 \examples{
 \dontrun{
 pipedat("0001")

@@ -9,6 +9,7 @@
 #' @importFrom readr read_csv
 #' @importFrom rlang sym
 #' @importFrom R.utils gunzip
+#' @importFrom stars read_stars write_stars
 #' @importFrom utils read.csv write.csv
 #' @importFrom whisker whisker.render
 #' @importFrom yaml yaml.load_file write_yaml read_yaml
@@ -50,9 +51,13 @@ append_dp <- function(pipeline_id, name, type) {
 # Applying pipeline arguments set by user
 # Intersection with bounding box
 bbox_crop <- function(dat, bbox, crs) {
-  bbox_poly <- sf::st_bbox(bbox, crs = sf::st_crs(crs)) |>
-    sf::st_as_sfc(dat)
-  sf::st_intersection(dat, bbox_poly)
+  bbox_poly <- sf::st_bbox(bbox, crs = sf::st_crs(dat)) |>
+    sf::st_as_sfc()
+  if ("sf" %in% class(dat)) {
+    sf::st_intersection(dat, bbox_poly)
+  } else if ("stars" %in% class(dat)) {
+    sf::st_crop(dat, bbox_poly)
+  }
 }
 
 # Filter by year

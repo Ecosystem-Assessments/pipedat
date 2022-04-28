@@ -27,12 +27,12 @@ dp_8509eeb1 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # If the data is downloaded from online sources.
-  # In this particular case, access to the data requires a user account. 
-  # The data can be downloaded at the following url: 
+  # In this particular case, access to the data requires a user account.
+  # The data can be downloaded at the following url:
   # https://eogdata.mines.edu/nighttime_light/annual/v20/
   #
-  # More specifically, the following urls lead to the specific datasets that were 
-  # used for this data pipeline:  
+  # More specifically, the following urls lead to the specific datasets that were
+  # used for this data pipeline:
   # urls <- c(
   #   "https://eogdata.mines.edu/nighttime_light/annual/v20/2012/VNL_v2_npp_201204-201303_global_vcmcfg_c202102150000.average_masked.tif.gz",
   #   "https://eogdata.mines.edu/nighttime_light/annual/v20/2013/VNL_v2_npp_2013_global_vcmcfg_c202102150000.average_masked.tif.gz",
@@ -45,22 +45,34 @@ dp_8509eeb1 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   #   "https://eogdata.mines.edu/nighttime_light/annual/v20/2020/VNL_v2_npp_2020_global_vcmslcfg_c202102150000.average_masked.tif.gz",
   #   "https://eogdata.mines.edu/nighttime_light/annual/v20/2021/VNL_v2_npp_2021_global_vcmslcfg_c202203152300.average_masked.tif.gz"
   # )
+
+  # Decompress files
+  gzfiles <- dir(glue("{path}raw/"), pattern = ".gz", full.names = TRUE)
+  lapply(gzfiles, function(x) R.utils::gunzip(x, remove = FALSE))
+  newfiles <- dir(glue("{path}raw/"), full.names = TRUE)
+  newfiles <- newfiles[!newfiles %in% gzfiles]
   # _________________________________________________________________________________________ #
-    
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  gzfiles <- dir(glue("{path}raw/"), pattern = ".gz", full.names = TRUE)
-  lapply(gzfiles, function(x) R.utils::gunzip(x, remove = FALSE))
+  dat <- stars::read_stars(newfiles, proxy = TRUE)
   # _________________________________________________________________________________________ #
-  
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # FORMAT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-
+  # Manual settings, to change if the pipeline and data are updated
+  names(dat) <- 2012:2021
+  if (is.null(timespan)) {
+    years <- names(dat)
+  } else {
+    years <- timespan
+  }
   # _________________________________________________________________________________________ #
+
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE METADATA
@@ -68,12 +80,12 @@ dp_8509eeb1 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- get_metadata(
     pipeline_id = uid,
-    pipeline_crs = crs, 
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    data_access = "2022-04-26", 
-    data_bbox = c(xmin=-180,ymin=-90,xmax=180,ymax=90), 
-    data_timespan = 2012:2021)
+    pipeline_crs = crs,
+    pipeline_bbox = bbox,
+    pipeline_timespan = timespan,
+    data_access = "2022-04-26",
+    data_bbox = sf::st_bbox(dat),
+    data_timespan = 2012:2021
   )
   # _________________________________________________________________________________________ #
 
@@ -83,26 +95,32 @@ dp_8509eeb1 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   bib <- get_bib(uid)
   # _________________________________________________________________________________________ #
-  
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # APPLY SUBSETS AND CRS SPECIFIED BY USER
   # NOTE: optional, only if applicable
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- dp_parameters(
-    dat, 
-    crs = crs, 
-    bbox = bbox, 
+    dat,
+    crs = NULL,
+    bbox = bbox,
     timespan = timespan
   )
+  warning("WARNING: The lights at night dataset (id: 8509eeb1) is a very large dataset; hence the native spatial projection (EPSG: 4326) is kept rather than transformed. Remember to consider this for further analyses.")
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # EXPORT 
+  # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Formatted data 
-  fm <- glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
-  sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
-  
+  # Formatted data
+  fm <- glue("{path}/{nm}-{years}.tif")
+  for (i in 1:length(years)) {
+    uid <- which(names(dat) == years[i])
+    stars::write_stars(dat[uid], fm[i])
+  }
+  # Delete decompressed file, as they are very big
+  unlink(newfiles)
+
   # Metadata
   mt <- glue("{path}/{nm}.yaml")
   yaml::write_yaml(meta, mt, column.major = FALSE)

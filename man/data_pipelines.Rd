@@ -4,7 +4,8 @@
 %   R/dp_contaminated_sites-804db12e.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
 %   R/dp_fisheries_logbooks-f2109e69.R, R/dp_marine_disposal_sites-4b72884d.R,
-%   R/dp_marine_seismic-06230ea3.R, R/dp_maritimes_grid-750b39f9.R
+%   R/dp_marine_seismic-06230ea3.R, R/dp_maritimes_grid-750b39f9.R,
+%   R/dp_night_lights-8509eeb1.R
 \name{dp_68609420}
 \alias{dp_68609420}
 \alias{dp_35608fef}
@@ -15,6 +16,7 @@
 \alias{dp_4b72884d}
 \alias{dp_06230ea3}
 \alias{dp_750b39f9}
+\alias{dp_8509eeb1}
 \title{Atlantic Shoreline Classification}
 \usage{
 dp_68609420(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
@@ -34,6 +36,8 @@ dp_4b72884d(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
 dp_06230ea3(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_750b39f9(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_8509eeb1(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{output}{output folder for queried data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'}
@@ -82,6 +86,10 @@ The Geological Survey of Canada (Atlantic and Pacific) has collected marine surv
 Maritimes cumulative effects assessment study area grid
 
 Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment
+
+Nighttime Ligths
+
+A new consistently processed time series of annual global VIIRS nighttime lights has been produced from monthly cloud-free average radiance grids spanning 2012* to 2020. The new methodology is a modification of the original method based on nightly data (Annual VNL V1). Visite https://eogdata.mines.edu/products/vnl/#annual_v2 for more information.
 }
 \examples{
 \dontrun{
@@ -111,8 +119,13 @@ dp_06230ea3()
 \dontrun{
 dp_750b39f9()
 }
+\dontrun{
+dp_8509eeb1()
+}
 }
 \seealso{
+\code{\link{pipedat}}
+
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
@@ -139,6 +152,7 @@ dp_750b39f9()
 \keyword{68609420}
 \keyword{750b39f9}
 \keyword{804db12e}
+\keyword{8509eeb1}
 \keyword{f2109e69}
 \keyword{f635934a}
 \keyword{pipeline_id:}

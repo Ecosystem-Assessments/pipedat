@@ -124,7 +124,13 @@ Vacelet, Vachard, Vader, Väinölä, Van de Vijver, van der Meij, van
 Haaren, van Soest, Vanreusel, Venekey, Vinarski, Vonk, Vos, Vouilloud,
 Walker-Smith, Walter, Watling, Wayland, Wesener, Wetzel, Whipps, White,
 Wieneke, Williams, Williams, Wilson, Witkowski, Wyatt, Wylezich, Xu,
-Zanol, Zeidler, Zhao, and Zullini (2021) \|
+Zanol, Zeidler, Zhao, and Zullini (2021) \| \|8509eeb1 \|Nighttime
+Ligths \|A new consistently processed time series of annual global VIIRS
+nighttime lights has been produced from monthly cloud-free average
+radiance grids spanning 2012\* to 2020. The new methodology is a
+modification of the original method based on nightly data (Annual VNL
+V1). Visite <https://eogdata.mines.edu/products/vnl/#annual_v2> for more
+information. \|Elvidge, Zhizhin, Ghosh, Hsu, and Taneja (2021) \|
 
 ## How to contribute
 

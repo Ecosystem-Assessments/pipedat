@@ -21,7 +21,18 @@ pipelist <- function(type = "data") {
   dat <- pipeline[uid, ] |>
     dplyr::select(pipeline_id, data_name, data_description)
   key <- lapply(dat$pipeline_id, get_citekey)
-  dat$cite <- unlist(lapply(key, function(x) RefManageR::Citet(bib, x)))
+  dat$cite <- unlist(
+    lapply(
+      key,
+      function(x) {
+        RefManageR::Citet(
+          bib,
+          x,
+          .opts = list(max.names = 3)
+        )
+      }
+    )
+  )
 
   # Table
   knitr::kable(dat, col.names = c("Pipeline ID", "Name", "Description", "Source"))

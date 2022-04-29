@@ -28,7 +28,7 @@ pipelist <- function(type = "data") {
         RefManageR::Citet(
           bib,
           x,
-          .opts = list(max.names = 3)
+          .opts = list(max.names = 3, longnamesfirst = FALSE)
         )
       }
     )

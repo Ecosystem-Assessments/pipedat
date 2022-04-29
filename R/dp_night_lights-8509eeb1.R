@@ -80,7 +80,7 @@ dp_8509eeb1 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- get_metadata(
     pipeline_id = uid,
-    pipeline_crs = crs,
+    pipeline_crs = 4326,
     pipeline_bbox = bbox,
     pipeline_timespan = timespan,
     data_access = "2022-04-26",

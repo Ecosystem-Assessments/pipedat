@@ -37,6 +37,8 @@ contact_id,first_name,last_name,organization,department,role,email,phone
 36,Brian,Boivin,Fisheries and Oceans Canada,Institut Maurice-Lamontagne,Data management,Brian.Boivin@dfo-mpo.gc.ca,1-418-775-0880
 37,,,Fisheries and Oceans Canada,Marine Planning and Conservation Directorate,,DFO.NCRMPCGIS-PCMSIGNCR.MPO@dfo-mpo.gc.ca,
 38,Michael,Buckland-Nicks,Environment and Climate Change Canada,,,Michael.Buckland-Nicks@canada.ca,
-39,,,Environment and Climate Change Canada,,,ec.cnuesig-gisneec.ec@canada.ca
-40,,,World Register of Marine Species,,,info@marinespecies.org
-41,Christopher,Elvidge,Colorado School of Mines,The Payne Institute for Public Policy,Director of Earth Observation Group,celvidge@mines.edu
+39,,,Environment and Climate Change Canada,,,ec.cnuesig-gisneec.ec@canada.ca,
+40,,,World Register of Marine Species,,,info@marinespecies.org,
+41,Christopher,Elvidge,Colorado School of Mines,The Payne Institute for Public Policy,Director of Earth Observation Group,celvidge@mines.edu,
+42,Kristina,Boerder,Dalhousie University,Department of Biology,Postdoctoral researcher,kristina.boerder@dal.ca,
+43,Tyler,Clavelle,Global Fishing Watch,,Data scientist,tyler@globalfishingwatch.org,

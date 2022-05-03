@@ -2,7 +2,7 @@
 #'
 #' @eval get_description("750b39f9")
 #'
-#' @eval doc_params()
+#' @eval dp_params()
 #'
 #' @family pipeline functions
 #' @rdname data_pipelines

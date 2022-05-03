@@ -49,14 +49,18 @@ append_dp <- function(pipeline_id, name, type) {
 
 # ------------------------------------------------------------------------------
 # Applying pipeline arguments set by user
+bbox_poly <- function(bbox, crs) {
+  sf::st_bbox(bbox, crs = sf::st_crs(crs)) |>
+    sf::st_as_sfc()
+}
+
 # Intersection with bounding box
 bbox_crop <- function(dat, bbox, crs) {
-  bbox_poly <- sf::st_bbox(bbox, crs = sf::st_crs(dat)) |>
-    sf::st_as_sfc()
+  bb <- bbox_poly(bbox, crs)
   if ("sf" %in% class(dat)) {
-    sf::st_intersection(dat, bbox_poly)
+    sf::st_intersection(dat, bb)
   } else if ("stars" %in% class(dat)) {
-    sf::st_crop(dat, bbox_poly)
+    sf::st_crop(dat, bb)
   } else if (class(dat) == "data.frame") {
     uid <- (dat$longitude >= bbox$xmin & dat$longitude <= bbox$xmax) &
       (dat$latitude >= bbox$ymin & dat$latitude <= bbox$ymax)

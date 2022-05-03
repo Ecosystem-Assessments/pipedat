@@ -6,7 +6,7 @@
 #' we refer to as *data pipelines*.
 #'
 #' @param uid unique identifier of queried data. The full list of available data pipelines can be consulted using `pipelines()`
-#' @eval doc_params()
+#' @eval dp_params()
 #'
 #' @return This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.
 #'

@@ -2,7 +2,7 @@
 #'
 #' @eval get_description("804db12e")
 #'
-#' @eval doc_params()
+#' @eval dp_params()
 #'
 #' @family pipeline functions
 #' @rdname data_pipelines

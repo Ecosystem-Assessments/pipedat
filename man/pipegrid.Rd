@@ -4,18 +4,22 @@
 \alias{pipegrid}
 \title{Creates a study grid}
 \usage{
-pipegrid(x, y)
+pipegrid(x = NULL, bbox = NULL, cellsize, crs = 4326)
 }
 \arguments{
-\item{x}{soon described}
+\item{x}{object of class sf or sfc}
 
-\item{y}{soon described}
+\item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
+
+\item{cellsize}{target cellsize}
+
+\item{crs}{object of class crs; coordinate reference system of the target of the target grid in case argument x is missing, if x is not missing, its crs is inherited.}
 }
 \value{
 soon described
 }
 \description{
-This function is used to create a study grid for data integration and for a data workflow. It is a simple wrapper around \code{sf::st_make_grid}.
+This function is used to create a study grid for data integration pipelines and for data workflows. It is a simple wrapper around \code{sf::st_make_grid}.
 }
 \examples{
 \dontrun{

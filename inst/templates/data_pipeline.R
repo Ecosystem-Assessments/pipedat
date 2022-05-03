@@ -2,7 +2,7 @@
 #'
 #' @eval get_description("{{ dpid }}")
 #'
-#' @eval doc_params()
+#' @eval dp_params()
 #'
 #' @family pipeline functions
 #' @rdname data_pipelines

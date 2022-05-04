@@ -24,7 +24,9 @@
 #' pipenew("fisheries_intensity", template = "data_connect")
 #' }
 pipenew <- function(name = NULL, template = "data_workflow") {
-  if (template == "data_pipeline") {
+  pip <- template == "data_pipeline"
+  int <- template == "data_integration"
+  if (pip | int) {
     # Data for template
     out <- list()
     out$dpid <- rnd_id() # Create unique ID of length 8
@@ -35,18 +37,24 @@ pipenew <- function(name = NULL, template = "data_workflow") {
     if (!file.exists("R/")) dir.create("R/")
 
     # Update data/data_pipelines.rda
-    append_dp(pipeline_id = out$dpid, name = out$name, type = "data")
+    if (pip) append_dp(pipeline_id = out$dpid, name = out$name, type = "data")
+    if (int) append_dp(pipeline_id = out$dpid, name = out$name, type = "integration")
 
     # Generate template
-    use_template(
-      template = "templates/data_pipeline.R",
-      data = out,
-      save_as = glue("R/dp_{name}-{out$dpid}.R")
-    )
-  }
-
-  if (template == "data_connect") {
-    # TODO: create template
+    if (pip) {
+      use_template(
+        template = "templates/data_pipeline.R",
+        data = out,
+        save_as = glue("R/dp_{name}-{out$dpid}.R")
+      )      
+    }
+    if (int) {
+      use_template(
+        template = "templates/integration_pipeline.R",
+        data = out,
+        save_as = glue("R/di_{name}-{out$dpid}.R")
+      )
+    }
   }
 
   if (template == "data_workflow") {

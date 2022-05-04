@@ -19,8 +19,7 @@ di_{{ dpid }} <- function(output, grid = NULL, ...) {
   uid <- "{{ dpid }}"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, type = "integrated")
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
@@ -69,11 +68,11 @@ di_{{ dpid }} <- function(output, grid = NULL, ...) {
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data 
-  fm <- glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
+  fm <- here::here(path,glue("{nm}.geojson")) # NOTE: not necessarily spatial data
   sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
-  
+
   # Metadata
-  mt <- glue("{path}/{nm}.yaml")
+  mt <- here::here(path,glue("{nm}.yaml"))
   yaml::write_yaml(meta, mt, column.major = FALSE)
   # _________________________________________________________________________________________ #
 }

@@ -14,13 +14,12 @@
 #' \dontrun{
 #' dp_4b72884d()
 #' }
-dp_4b72884d <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_4b72884d <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "4b72884d"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = FALSE) # set local = TRUE for local data
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
@@ -35,7 +34,7 @@ dp_4b72884d <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   govcan <- "da99526e-284f-4e06-8d04-193785cd1a96"
 
   # Load
-  pipeload(urls = urls, govcan = govcan, output = glue("{path}raw/"), large = FALSE)
+  pipeload(urls = urls, govcan = govcan, output = here::here(path,"raw"), large = FALSE)
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -43,7 +42,7 @@ dp_4b72884d <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- sf::st_read(
-    glue("{path}raw/CAN_DAS.gdb"),
+    here::here(path,"raw","CAN_DAS.gdb"),
     layer = "DAS_Active_Inactive_Sites_2018",
     quiet = TRUE
   )

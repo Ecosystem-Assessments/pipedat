@@ -14,21 +14,20 @@
 #' \dontrun{
 #' dp_8449dee0()
 #' }
-dp_8449dee0 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_8449dee0 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "8449dee0"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = TRUE) # set local = TRUE for local data
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT & FORMAT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Unzip
-  zipfiles <- dir(glue("{path}raw"), full.names = TRUE)
-  lapply(zipfiles, utils::unzip, exdir = glue("{path}raw"))
+  zipfiles <- dir(glue("{path}/raw"), full.names = TRUE)
+  lapply(zipfiles, utils::unzip, exdir = glue("{path}/raw"))
 
   # -----
   # NOTE: Very large datasets, hence we crop the dataset right away
@@ -51,14 +50,14 @@ dp_8449dee0 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
 
   # Interpolated data
   inter <- dir(
-    glue("{path}raw/shipping_Dec_2021"),
+    glue("{path}/raw/shipping_Dec_2021"),
     pattern = "_interpolated.csv",
     full.names = TRUE
   )
 
   # Non interpolated data
   nointer <- dir(
-    glue("{path}raw/shipping_Dec_2021"),
+    glue("{path}/raw/shipping_Dec_2021"),
     pattern = "_noninterpolated.csv",
     full.names = TRUE
   )

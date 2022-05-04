@@ -14,29 +14,28 @@
 #' \dontrun{
 #' dp_804db12e()
 #' }
-dp_804db12e <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_804db12e <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "804db12e"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = FALSE) # set local = TRUE for local data
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   urls <- "https://www.tbs-sct.gc.ca/fcsi-rscf/cscsvreport-eng.aspx?cttype=tombstone&qid=752444"
-  pipeload(urls = urls, output = glue("{path}raw/"))
+  pipeload(urls = urls, output = here::here(path,"raw"))
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  files <- dir(glue("{path}raw/"))
+  files <- dir(here::here(path,"raw"))
   suppressMessages(suppressWarnings({
-    dat <- readr::read_csv(glue("{path}raw/{files}"))
+    dat <- readr::read_csv(glue("{path}/raw/{files}"))
   }))
   # _________________________________________________________________________________________ #
 

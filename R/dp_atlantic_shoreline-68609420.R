@@ -14,20 +14,19 @@
 #' \dontrun{
 #' dp_68609420()
 #' }
-dp_68609420 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_68609420 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "68609420"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = FALSE) # set local = TRUE for local data
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   govcan <- "30449352-2556-42df-9ffe-47ea8e696f91"
-  pipeload(govcan = govcan, output = glue("{path}raw/"), large = FALSE)
+  pipeload(govcan = govcan, output = here::here(path,"raw"), large = FALSE)
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -35,7 +34,7 @@ dp_68609420 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- sf::st_read(
-    glue("{path}raw/ShorelineClassification_AR_OpenDataCatalogue.gdb"),
+    here::here(path,"raw","ShorelineClassification_AR_OpenDataCatalogue.gdb"),
     layer = "O14Oceans_ShorelineClass_AR"
   )
   # _________________________________________________________________________________________ #
@@ -76,15 +75,15 @@ dp_68609420 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data
-  fm <- glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
-  sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
+  fm <- here::here(path,glue("{nm}.geojson"))
+  sf::st_write(dat, dsn = fm, quiet = TRUE)
 
   # Metadata
-  mt <- glue("{path}/{nm}.yaml")
+  mt <- here::here(path,glue("{nm}.yaml"))
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- glue("{path}/{nm}.bib")
+  bi <- here::here(path,glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

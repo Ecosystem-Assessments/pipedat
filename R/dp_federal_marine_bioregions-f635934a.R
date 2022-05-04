@@ -14,20 +14,19 @@
 #' \dontrun{
 #' dp_f635934a()
 #' }
-dp_f635934a <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_f635934a <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "f635934a"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output)
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   govcan <- "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
-  pipeload(govcan = govcan, output = glue("{path}raw"))
+  pipeload(govcan = govcan, output = here::here(path,"raw"))
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -35,7 +34,7 @@ dp_f635934a <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- sf::st_read(
-    glue("{path}raw/FederalMarineBioregions_GDB/FederalMarineBioregions.gdb"),
+    here::here(path, "raw", "FederalMarineBioregions_GDB/FederalMarineBioregions.gdb"),
     layer = "FederalMarineBioregions",
     quiet = TRUE
   )

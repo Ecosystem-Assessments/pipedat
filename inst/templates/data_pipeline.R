@@ -14,14 +14,13 @@
 #' \dontrun{
 #' dp_{{ dpid }}()
 #' }
-dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_{{ dpid }} <- function(output = "data",crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "{{ dpid }}"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = FALSE) # set local = TRUE for local data 
-  path <- glue("{output}{nm}/")
-
+  path <- make_output(uid, name, output, type = "data")
+  
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
@@ -37,15 +36,18 @@ dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
   govcan <- "govcan uuid"
   
   # Load
-  pipeload(urls = urls, govcan = govcan, output = glue("{path}raw/"), large = FALSE)
+  pipeload(urls = urls, govcan = govcan, output = here::here(path,"raw"), large = FALSE)
   # _________________________________________________________________________________________ #
     
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # dat <- import data function
+  # Example for data that needs to be locally available
+  filepath <- here::here(path,"raw","name_of_file.extension")
+  check_data(filepath, path)
   
+    
   # _________________________________________________________________________________________ #
   
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -99,16 +101,16 @@ dp_{{ dpid }} <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Formatted data 
-  fm <- glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
+  # Formatted data   
+  fm <- here::here(path,glue("{nm}.geojson")) # NOTE: not necessarily spatial data
   sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
   
   # Metadata
-  mt <- glue("{path}/{nm}.yaml")
+  mt <- here::here(path,glue("{nm}.yaml"))
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- glue("{path}/{nm}.bib")
+  bi <- here::here(path,glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

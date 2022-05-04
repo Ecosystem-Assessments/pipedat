@@ -14,19 +14,20 @@
 #' \dontrun{
 #' dp_084860fd()
 #' }
-dp_084860fd <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_084860fd <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "084860fd"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = TRUE) # set local = TRUE for local data
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  dat <- utils::read.csv(glue("{path}raw/CaRMS_checklist_NW-Atlantic_2021-10-02.csv"))
+  filepath <- here::here(path,"raw","CaRMS_checklist_NW-Atlantic_2021-10-02.csv")
+  check_data(filepath, path)
+  dat <- utils::read.csv(filepath)
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -75,15 +76,15 @@ dp_084860fd <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data
-  fm <- glue("{path}/{nm}.csv")
+  fm <- here::here(path,glue("{nm}.csv"))
   utils::write.csv(dat, fm, row.names = FALSE)
 
   # Metadata
-  mt <- glue("{path}/{nm}.yaml")
+  mt <- here::here(path,glue("{nm}.yaml"))
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- glue("{path}/{nm}.bib")
+  bi <- here::here(path,glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

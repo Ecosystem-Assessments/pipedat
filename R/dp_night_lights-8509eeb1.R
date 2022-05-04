@@ -14,13 +14,12 @@
 #' \dontrun{
 #' dp_8509eeb1()
 #' }
-dp_8509eeb1 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_8509eeb1 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "8509eeb1"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = TRUE)
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
@@ -47,9 +46,9 @@ dp_8509eeb1 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # )
 
   # Decompress files
-  gzfiles <- dir(glue("{path}raw/"), pattern = ".gz", full.names = TRUE)
+  gzfiles <- dir(glue("{path}/raw/"), pattern = ".gz", full.names = TRUE)
   lapply(gzfiles, function(x) R.utils::gunzip(x, remove = FALSE))
-  newfiles <- dir(glue("{path}raw/"), full.names = TRUE)
+  newfiles <- dir(glue("{path}/raw/"), full.names = TRUE)
   newfiles <- newfiles[!newfiles %in% gzfiles]
   # _________________________________________________________________________________________ #
 

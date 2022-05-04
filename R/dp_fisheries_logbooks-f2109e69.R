@@ -14,13 +14,12 @@
 #' \dontrun{
 #' dp_f2109e69()
 #' }
-dp_f2109e69 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_f2109e69 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "f2109e69"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = TRUE) # set local = TRUE for local data
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
@@ -29,7 +28,7 @@ dp_f2109e69 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   latit_GIS <- longit_GIS <- Remarques <- NULL # for R CMD CHECK
   # Function to import ZIFF data
   import_ziff <- function(filename) {
-    read.csv(glue("{path}raw/{filename}")) |>
+    read.csv(glue("{path}/raw/{filename}")) |>
       dplyr::filter(!is.na(latit_GIS) & !is.na(longit_GIS)) |> # Remove NAs
       sf::st_as_sf(
         coords = c("longit_GIS", "latit_GIS"),
@@ -46,10 +45,10 @@ dp_f2109e69 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   dat <- dplyr::bind_rows(d)
 
   # Gear types
-  gear <- utils::read.csv(glue("{path}raw/Codes_engin.csv"))
+  gear <- utils::read.csv(glue("{path}/raw/Codes_engin.csv"))
 
   # Species list
-  species <- utils::read.csv(glue("{path}raw/Codes_especes.csv")) |>
+  species <- utils::read.csv(glue("{path}/raw/Codes_especes.csv")) |>
     dplyr::select(-Remarques)
   # _________________________________________________________________________________________ #
 

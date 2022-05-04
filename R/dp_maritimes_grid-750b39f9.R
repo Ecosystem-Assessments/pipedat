@@ -14,19 +14,18 @@
 #' \dontrun{
 #' dp_750b39f9()
 #' }
-dp_750b39f9 <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_750b39f9 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "750b39f9"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = TRUE) # set local = TRUE for local data
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  dat <- sf::st_read(glue("{path}raw/pu.shp"), quiet = TRUE)
+  dat <- sf::st_read(here::here(path,"raw","pu.shp"), quiet = TRUE)
 
   # _________________________________________________________________________________________ #
 

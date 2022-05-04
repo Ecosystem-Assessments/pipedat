@@ -14,13 +14,12 @@
 #' \dontrun{
 #' dp_35608fef()
 #' }
-dp_35608fef <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_35608fef <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "35608fef"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  output <- make_output(uid, name, output, local = FALSE) # set local = TRUE for local data
-  path <- glue("{output}{nm}/")
+  path <- make_output(uid, name, output, type = "data")
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
@@ -28,7 +27,7 @@ dp_35608fef <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   urls <- "https://ftp.maps.canada.ca/pub/nrcan_rncan/publications/STPublications_PublicationsST/314/314669/of_8551.zip"
   govcan <- "73714ed4-a795-a7ae-7e93-36100ce7c242"
-  pipeload(urls = urls, govcan = govcan, output = glue("{path}raw/"), large = TRUE)
+  pipeload(urls = urls, govcan = govcan, output = here::here(path,"raw"), large = TRUE)
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -36,11 +35,13 @@ dp_35608fef <- function(output, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   sea_level <- sf::st_read(
-    glue("{path}raw/CANCOAST_SEALEVELCHANGE_2006_2020_V1/CANCOAST_SEALEVELCHANGE_2006_2020_V1.shp"),
+    here::here(
+      path, "raw", 
+      "CANCOAST_SEALEVELCHANGE_2006_2020_V1/CANCOAST_SEALEVELCHANGE_2006_2020_V1.shp"),
     quiet = TRUE
   )
   material <- sf::st_read(
-    glue("{path}raw/CANCOAST_MATERIAL_V2/CANCOAST_MATERIAL_V2.shp"),
+    here::here(path,"raw", "CANCOAST_MATERIAL_V2/CANCOAST_MATERIAL_V2.shp"),
     quiet = TRUE
   )
   # shoreline_v2 <- sf::st_read(

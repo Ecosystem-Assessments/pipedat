@@ -17,7 +17,7 @@
 #' pipedat("0001")
 #' }
 #' @export
-pipedat <- function(uid, output = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...) {
+pipedat <- function(uid, output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Execute data pipelines
   do.call(
     glue("dp_{uid}"),

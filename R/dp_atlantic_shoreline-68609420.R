@@ -26,7 +26,7 @@ dp_68609420 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   govcan <- "30449352-2556-42df-9ffe-47ea8e696f91"
-  pipeload(govcan = govcan, output = here::here(path,"raw"), large = FALSE)
+  pipeload(govcan = govcan, output = here::here(path, "raw"), large = FALSE)
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -34,7 +34,7 @@ dp_68609420 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- sf::st_read(
-    here::here(path,"raw","ShorelineClassification_AR_OpenDataCatalogue.gdb"),
+    here::here(path, "raw", "ShorelineClassification_AR_OpenDataCatalogue.gdb"),
     layer = "O14Oceans_ShorelineClass_AR"
   )
   # _________________________________________________________________________________________ #
@@ -75,15 +75,15 @@ dp_68609420 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data
-  fm <- here::here(path,glue("{nm}.geojson"))
+  fm <- here::here(path, glue("{nm}.geojson"))
   sf::st_write(dat, dsn = fm, quiet = TRUE)
 
   # Metadata
-  mt <- here::here(path,glue("{nm}.yaml"))
+  mt <- here::here(path, glue("{nm}.yaml"))
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- here::here(path,glue("{nm}.bib"))
+  bi <- here::here(path, glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

@@ -34,7 +34,7 @@ dp_4b72884d <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   govcan <- "da99526e-284f-4e06-8d04-193785cd1a96"
 
   # Load
-  pipeload(urls = urls, govcan = govcan, output = here::here(path,"raw"), large = FALSE)
+  pipeload(urls = urls, govcan = govcan, output = here::here(path, "raw"), large = FALSE)
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -42,7 +42,7 @@ dp_4b72884d <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- sf::st_read(
-    here::here(path,"raw","CAN_DAS.gdb"),
+    here::here(path, "raw", "CAN_DAS.gdb"),
     layer = "DAS_Active_Inactive_Sites_2018",
     quiet = TRUE
   )

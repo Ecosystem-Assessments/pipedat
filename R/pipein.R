@@ -15,14 +15,13 @@
 #' pipeint("0001")
 #' }
 #' @export
-pipein <- function(uid, output = "data", crs = 4326, grid = NULL, ...) {
+pipein <- function(uid, output = "data", grid = NULL, ...) {
   # Execute data integration pipelines
   do.call(
     glue("di_{uid}"),
     list(
       uid = uid,
       output = output,
-      crs = crs,
       grid = grid
     )
   )

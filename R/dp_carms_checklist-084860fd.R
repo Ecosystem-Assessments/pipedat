@@ -25,7 +25,7 @@ dp_084860fd <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  filepath <- here::here(path,"raw","CaRMS_checklist_NW-Atlantic_2021-10-02.csv")
+  filepath <- here::here(path, "raw", "CaRMS_checklist_NW-Atlantic_2021-10-02.csv")
   check_data(filepath, path)
   dat <- utils::read.csv(filepath)
   # _________________________________________________________________________________________ #
@@ -76,15 +76,15 @@ dp_084860fd <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data
-  fm <- here::here(path,glue("{nm}.csv"))
+  fm <- here::here(path, glue("{nm}.csv"))
   utils::write.csv(dat, fm, row.names = FALSE)
 
   # Metadata
-  mt <- here::here(path,glue("{nm}.yaml"))
+  mt <- here::here(path, glue("{nm}.yaml"))
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- here::here(path,glue("{nm}.bib"))
+  bi <- here::here(path, glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

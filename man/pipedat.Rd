@@ -5,7 +5,7 @@
 \alias{pipedat}
 \title{Execute data pipelines}
 \usage{
-pipedat(uid, output = NULL, crs = 4326, bbox = NULL, timespan = NULL, ...)
+pipedat(uid, output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}

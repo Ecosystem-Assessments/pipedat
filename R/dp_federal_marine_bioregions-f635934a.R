@@ -26,7 +26,7 @@ dp_f635934a <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   govcan <- "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
-  pipeload(govcan = govcan, output = here::here(path,"raw"))
+  pipeload(govcan = govcan, output = here::here(path, "raw"))
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

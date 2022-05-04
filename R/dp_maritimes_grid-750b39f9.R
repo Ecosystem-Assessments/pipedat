@@ -25,7 +25,7 @@ dp_750b39f9 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  dat <- sf::st_read(here::here(path,"raw","pu.shp"), quiet = TRUE)
+  dat <- sf::st_read(here::here(path, "raw", "pu.shp"), quiet = TRUE)
 
   # _________________________________________________________________________________________ #
 

@@ -96,14 +96,14 @@ dp_parameters <- function(dat, crs = NULL, bbox = NULL, timespan = NULL) {
 make_output <- function(uid, name, output = "data", type) {
   if (type == "data") {
     path <- here::here(output, "data-raw", glue("{name}-{uid}"))
-    dir.create(here::here(path,"raw"), recursive = TRUE)      
+    dir.create(here::here(path, "raw"), recursive = TRUE)
   }
-  
+
   if (type == "integrated") {
     path <- here::here(output, "data-integrated", glue("{name}-{uid}"))
-    dir.create(path, recursive = TRUE)      
+    dir.create(path, recursive = TRUE)
   }
-  
+
   # Return output path
   invisible(path)
 }
@@ -127,6 +127,7 @@ update_rda <- function() {
   pcontact <- read.csv(file = "inst/extdata/pipeline_contact.csv")
   pcreator <- read.csv(file = "inst/extdata/pipeline_creator.csv")
   bib <- RefManageR::ReadBib("inst/extdata/pipedat.bib")
+  integ <- read.csv(file = "inst/extdata/data_integration.csv")
 
   usethis::use_data(
     pipeline,
@@ -135,6 +136,7 @@ update_rda <- function() {
     pcontact,
     pcreator,
     bib,
+    integ,
     internal = TRUE,
     overwrite = TRUE
   )

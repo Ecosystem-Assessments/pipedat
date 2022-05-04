@@ -20,27 +20,27 @@
 \alias{dp_8449dee0}
 \title{Atlantic Shoreline Classification}
 \usage{
-dp_68609420(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_68609420(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_35608fef(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_35608fef(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_084860fd(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_084860fd(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_804db12e(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_804db12e(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_f635934a(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_f635934a(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_f2109e69(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_f2109e69(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_4b72884d(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_4b72884d(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_06230ea3(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_06230ea3(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_750b39f9(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_750b39f9(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_8509eeb1(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_8509eeb1(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 
-dp_8449dee0(output, crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_8449dee0(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{output}{output folder for queried data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'}

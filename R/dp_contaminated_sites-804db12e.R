@@ -26,14 +26,14 @@ dp_804db12e <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   urls <- "https://www.tbs-sct.gc.ca/fcsi-rscf/cscsvreport-eng.aspx?cttype=tombstone&qid=752444"
-  pipeload(urls = urls, output = here::here(path,"raw"))
+  pipeload(urls = urls, output = here::here(path, "raw"))
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  files <- dir(here::here(path,"raw"))
+  files <- dir(here::here(path, "raw"))
   suppressMessages(suppressWarnings({
     dat <- readr::read_csv(glue("{path}/raw/{files}"))
   }))

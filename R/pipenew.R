@@ -46,7 +46,7 @@ pipenew <- function(name = NULL, template = "data_workflow") {
         template = "templates/data_pipeline.R",
         data = out,
         save_as = glue("R/dp_{name}-{out$dpid}.R")
-      )      
+      )
     }
     if (int) {
       use_template(

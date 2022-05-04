@@ -91,55 +91,29 @@ dp_parameters <- function(dat, crs = NULL, bbox = NULL, timespan = NULL) {
   invisible(dat)
 }
 
-
-# ------------------------------------------------------------------------------
-# Check if output ends with a "/" to create proper path
-check_output <- function(output) {
-  if (!is.null(output)) {
-    nc <- nchar(output)
-    last_char <- ifelse(substr(output, nc, nc) == "/", TRUE, FALSE)
-    ifelse(last_char, output, glue("{output}/"))
-  } else {
-    NULL
-  }
-}
-
 # ------------------------------------------------------------------------------
 # Create output folders for data pipelines
-make_output <- function(uid, name, output = NULL, local = FALSE) {
-  output <- ifelse(is.null(output), "data/data-raw/", output) # default output if NULL
-  output <- check_output(output) # Check if output ends with "/"
-  newdir <- glue("{output}{name}-{uid}") # Name of new outdir
-  if (!local) msg_exists(dir.exists(newdir)) # Stop if new dir exists
-  if (local) msg_local(!dir.exists(newdir), newdir) # Stop if new dir does not exist and should be there
-  if (!local) {
-    # Names of output folders to create
-    l <- list(
-      glue("{newdir}/raw/")
-      # glue("{newdir}/clean/")
-    )
-
-    # Create folders if they do not exist
-    lapply(l, function(x) if (!file.exists(x)) dir.create(x, recursive = TRUE))
+make_output <- function(uid, name, output = "data", type) {
+  if (type == "data") {
+    path <- here::here(output, "data-raw", glue("{name}-{uid}"))
+    dir.create(here::here(path,"raw"), recursive = TRUE)      
   }
+  
+  if (type == "integrated") {
+    path <- here::here(output, "data-integrated", glue("{name}-{uid}"))
+    dir.create(path, recursive = TRUE)      
+  }
+  
   # Return output path
-  invisible(output)
-  # TODO: For GitHub, create .gitkeep and modify .gitignore
+  invisible(path)
 }
 
 # ------------------------------------------------------------------------------
 # Helper messages / check functions
-# Data folder already exists
-msg_exists <- function(x) {
-  if (x) {
-    stop("This data already exists in the target output folder.")
-  }
-}
-
 # Data needed locally
-msg_local <- function(x, path) {
-  if (x) {
-    stop(glue("This data is unavailable remotely. The raw data needs to be manually inserted in the folder `{path}/raw/` for the pipeline to work. Type `dir.create('{path}/raw/', recursive = TRUE)` to create the folder."))
+check_data <- function(filepath, path) {
+  if (!file.exists(filepath)) {
+    stop(glue("This data is unavailable remotely. The raw data needs to be manually inserted in the folder `{path}/raw/` for the pipeline to work."))
   }
 }
 

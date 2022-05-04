@@ -18,8 +18,7 @@ di_params <- function() {
   c(
     "@param output output folder for integrated data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'",
     "@param grid spatial grid used for data integration. Can be a `sf` object containing polygons or a `stars` rasters that will be used as a template",
-    "@param crs spatial projection to use to transform the spatial data into a uniform projection",
-    "@param ... further arguments used in individual data pipelines, if applicable."
+    "@param ... further arguments used in individual data integration pipelines, if applicable."
   )
 }
 

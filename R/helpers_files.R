@@ -11,6 +11,12 @@ make_paths <- function(uid, name, output = "data") {
     glue("{name}-{uid}")
   )
 
+  # Clean files
+  paths$clean_files <- here::here(
+    paths$clean_output,
+    files_clean$filepaths[files_clean$pipeline_id %in% uid]
+  )
+
   # Output folder for raw data
   paths$raw_output <- here::here(
     paths$clean_output,
@@ -39,10 +45,16 @@ check_files <- function(uid, name, output = "data", ondisk = FALSE) {
   # Create paths
   paths <- make_paths(uid, name, output)
 
-  # Check if files exist
-  exist <- lapply(paths$raw_files, file.exists) |>
-    unlist() |>
-    all()
+  # Check if raw files exist
+  exist <- list()
+  exist$raw <- lapply(paths$raw_files, file.exists) |>
+               unlist() |>
+               all()
+
+  # Check if cleaned files exist
+  exist$clean <- lapply(paths$clean_files, file.exists) |>
+                 unlist() |>
+                 any()
 
   # Messages
   if (ondisk & !exist) msgOndisk(paths) # If data is needed locally, stop process
@@ -96,6 +108,12 @@ msgNoload <- function() {
   ))
 }
 
+msgNoclean <- function() {
+  rlang::warn(c(
+    "The cleaned data is already available on disk, data formatting was thus skipped.",
+    "i" = "Delete or move files from disk for data to be downloaded again."
+  ))
+}
 
 # If data is needed locally, stop process
 msgOndisk <- function(paths) {

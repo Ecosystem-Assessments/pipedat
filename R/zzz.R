@@ -65,6 +65,7 @@ update_rda <- function() {
   bib <- RefManageR::ReadBib("inst/extdata/pipedat.bib")
   integ <- read.csv(file = "inst/extdata/data_integration.csv")
   files_raw <- read.csv(file = "inst/extdata/files_raw.csv")
+  files_clean <- read.csv(file = "inst/extdata/files_clean.csv")
 
   usethis::use_data(
     pipeline,
@@ -75,6 +76,7 @@ update_rda <- function() {
     bib,
     integ,
     files_raw,
+    files_clean,
     internal = TRUE,
     overwrite = TRUE
   )

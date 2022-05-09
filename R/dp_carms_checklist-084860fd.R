@@ -23,70 +23,70 @@ dp_084860fd <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   path <- make_output(uid, name, output)
 
   if (!exist$clean) {
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # IMPORT DATA
-  # NOTE: optional
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  filepath <- here::here(path, "raw", "CaRMS_checklist_NW-Atlantic_2021-10-02.csv")
-  dat <- utils::read.csv(filepath)
-  # _________________________________________________________________________________________ #
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # IMPORT DATA
+    # NOTE: optional
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    filepath <- here::here(path, "raw", "CaRMS_checklist_NW-Atlantic_2021-10-02.csv")
+    dat <- utils::read.csv(filepath)
+    # _________________________________________________________________________________________ #
 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # FORMAT DATA
-  # NOTE: optional
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  DrID <- Locality <- Latitude <- Longitude <- Source <- AphiaID <- NULL # for R CMD CHECK
-  dat <- dat |>
-    dplyr::select(-DrID, -Locality, -Latitude, -Longitude, -Source) |>
-    unique()
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # FORMAT DATA
+    # NOTE: optional
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    DrID <- Locality <- Latitude <- Longitude <- Source <- AphiaID <- NULL # for R CMD CHECK
+    dat <- dat |>
+      dplyr::select(-DrID, -Locality, -Latitude, -Longitude, -Source) |>
+      unique()
 
-  # Check for duplicates and keep only proper Aphia IDs
-  # NOTE: Process done on 2021-10-21
-  # sum(duplicated(data0014$ScientificName))
-  # nm <- data0014$ScientificName[duplicated(data0014$ScientificName)]
-  # for(i in nm) print(data0014[data0014$ScientificName == i, ])
+    # Check for duplicates and keep only proper Aphia IDs
+    # NOTE: Process done on 2021-10-21
+    # sum(duplicated(data0014$ScientificName))
+    # nm <- data0014$ScientificName[duplicated(data0014$ScientificName)]
+    # for(i in nm) print(data0014[data0014$ScientificName == i, ])
 
-  # IDs to remove:
-  rmID <- c(
-    176879, 380449, 367181, 407826, 163203, 367739, 367719,
-    384413, 384417, 379205, 400321, 159452, 403214, 151168
-  )
+    # IDs to remove:
+    rmID <- c(
+      176879, 380449, 367181, 407826, 163203, 367739, 367719,
+      384413, 384417, 379205, 400321, 159452, 403214, 151168
+    )
 
-  # Remove unaccepted taxa
-  dat <- dat[!dat$AphiaID %in% rmID, ]
-  # _________________________________________________________________________________________ #
+    # Remove unaccepted taxa
+    dat <- dat[!dat$AphiaID %in% rmID, ]
+    # _________________________________________________________________________________________ #
 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # CREATE METADATA
-  # WARNING: mandatory
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  meta <- get_metadata(
-    pipeline_id = uid,
-    data_access = timestamp()
-  )
-  # _________________________________________________________________________________________ #
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # CREATE METADATA
+    # WARNING: mandatory
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    meta <- get_metadata(
+      pipeline_id = uid,
+      data_access = timestamp()
+    )
+    # _________________________________________________________________________________________ #
 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # CREATE BIBTEX
-  # WARNING: mandatory
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  bib <- get_bib(uid)
-  # _________________________________________________________________________________________ #
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # CREATE BIBTEX
+    # WARNING: mandatory
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    bib <- get_bib(uid)
+    # _________________________________________________________________________________________ #
 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # EXPORT
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Formatted data
-  fm <- here::here(path, glue("{nm}.csv"))
-  utils::write.csv(dat, fm, row.names = FALSE)
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # EXPORT
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # Formatted data
+    fm <- here::here(path, glue("{nm}.csv"))
+    utils::write.csv(dat, fm, row.names = FALSE)
 
-  # Metadata
-  mt <- here::here(path, glue("{nm}.yaml"))
-  yaml::write_yaml(meta, mt, column.major = FALSE)
+    # Metadata
+    mt <- here::here(path, glue("{nm}.yaml"))
+    yaml::write_yaml(meta, mt, column.major = FALSE)
 
-  # Bibtex
-  bi <- here::here(path, glue("{nm}.bib"))
-  RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
-  # _________________________________________________________________________________________ #
-} #if exist clean, don't run again
+    # Bibtex
+    bi <- here::here(path, glue("{nm}.bib"))
+    RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
+    # _________________________________________________________________________________________ #
+  } # if exist clean, don't run again
 }

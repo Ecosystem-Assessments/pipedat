@@ -48,13 +48,13 @@ check_files <- function(uid, name, output = "data", ondisk = FALSE) {
   # Check if raw files exist
   exist <- list()
   exist$raw <- lapply(paths$raw_files, file.exists) |>
-               unlist() |>
-               all()
+    unlist() |>
+    all()
 
   # Check if cleaned files exist
   exist$clean <- lapply(paths$clean_files, file.exists) |>
-                 unlist() |>
-                 any()
+    unlist() |>
+    any()
 
   # Messages
   if (ondisk & !exist$raw) msgOndisk(paths) # If data is needed locally, stop process

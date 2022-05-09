@@ -19,15 +19,18 @@ dp_35608fef <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   uid <- "35608fef"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
+  exist <- check_files(uid, name, output, ondisk = FALSE)
+  path <- make_output(uid, name, output)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  urls <- "https://ftp.maps.canada.ca/pub/nrcan_rncan/publications/STPublications_PublicationsST/314/314669/of_8551.zip"
-  govcan <- "73714ed4-a795-a7ae-7e93-36100ce7c242"
-  pipeload(urls = urls, govcan = govcan, output = here::here(path, "raw"), large = TRUE)
+  if (!exist) {
+    urls <- "https://ftp.maps.canada.ca/pub/nrcan_rncan/publications/STPublications_PublicationsST/314/314669/of_8551.zip"
+    govcan <- "73714ed4-a795-a7ae-7e93-36100ce7c242"
+    pipeload(urls = urls, govcan = govcan, output = here::here(path, "raw"), large = TRUE)
+  }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

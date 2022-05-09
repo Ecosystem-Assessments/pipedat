@@ -19,24 +19,32 @@ dp_{{ dpid }} <- function(output = "data",crs = 4326, bbox = NULL, timespan = NU
   uid <- "{{ dpid }}"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
-  
+  exist <- check_files(uid, name, output, ondisk = FALSE)
+  path <- make_output(uid, name, output)
+    
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # If the data is downloaded from online sources
-  urls <- c(
-    "url1",
-    "url2",
-    "..."
-  )
-  
-  # If the data is downloaded from open government using `rgovcan`
-  govcan <- "govcan uuid"
-  
-  # Load
-  pipeload(urls = urls, govcan = govcan, output = here::here(path,"raw"), large = FALSE)
+  if (!exist) {
+    # If the data is downloaded from online sources
+    urls <- c(
+      "url1",
+      "url2",
+      "..."
+    )
+    
+    # If the data is downloaded from open government using `rgovcan`
+    govcan <- "govcan uuid"
+    
+    # Load
+    pipeload(
+      urls = urls, 
+      govcan = govcan, 
+      output = here::here(path, "raw"), 
+      large = FALSE
+    )
+  }
   # _________________________________________________________________________________________ #
     
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

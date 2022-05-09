@@ -47,74 +47,10 @@ append_dp <- function(pipeline_id, name, type) {
   write.csv(dat, "inst/extdata/pipeline.csv", row.names = FALSE)
 }
 
-# ------------------------------------------------------------------------------
-# Applying pipeline arguments set by user
+# Create polygon from bbox
 bbox_poly <- function(bbox, crs) {
   sf::st_bbox(bbox, crs = sf::st_crs(crs)) |>
     sf::st_as_sfc()
-}
-
-# Intersection with bounding box
-bbox_crop <- function(dat, bbox, crs) {
-  bb <- bbox_poly(bbox, crs)
-  if ("sf" %in% class(dat)) {
-    sf::st_intersection(dat, bb)
-  } else if ("stars" %in% class(dat)) {
-    sf::st_crop(dat, bb)
-  } else if (class(dat) == "data.frame") {
-    uid <- (dat$longitude >= bbox$xmin & dat$longitude <= bbox$xmax) &
-      (dat$latitude >= bbox$ymin & dat$latitude <= bbox$ymax)
-    dat[uid, ]
-  }
-}
-
-# Filter by year
-# Years must be in column "year"
-timespan_filter <- function(dat, timespan) {
-  dat |>
-    dplyr::filter((!!rlang::sym("year")) %in% timespan)
-}
-
-dp_parameters <- function(dat, crs = NULL, bbox = NULL, timespan = NULL) {
-  if (!is.null(crs)) {
-    dat <- sf::st_transform(dat, crs = crs)
-  }
-
-  if (!is.null(bbox)) {
-    dat <- bbox_crop(dat, bbox, crs)
-  }
-
-  if (!is.null(timespan)) {
-    dat <- timespan_filter(dat, timespan)
-  }
-
-  invisible(dat)
-}
-
-# ------------------------------------------------------------------------------
-# Create output folders for data pipelines
-make_output <- function(uid, name, output = "data", type) {
-  if (type == "data") {
-    path <- here::here(output, "data-raw", glue("{name}-{uid}"))
-    dir.create(here::here(path, "raw"), recursive = TRUE)
-  }
-
-  if (type == "integrated") {
-    path <- here::here(output, "data-integrated", glue("{name}-{uid}"))
-    dir.create(path, recursive = TRUE)
-  }
-
-  # Return output path
-  invisible(path)
-}
-
-# ------------------------------------------------------------------------------
-# Helper messages / check functions
-# Data needed locally
-check_data <- function(filepath, path) {
-  if (!file.exists(filepath)) {
-    stop(glue("This data is unavailable remotely. The raw data needs to be manually inserted in the folder `{path}/raw/` for the pipeline to work."))
-  }
 }
 
 # ------------------------------------------------------------------------------
@@ -128,6 +64,7 @@ update_rda <- function() {
   pcreator <- read.csv(file = "inst/extdata/pipeline_creator.csv")
   bib <- RefManageR::ReadBib("inst/extdata/pipedat.bib")
   integ <- read.csv(file = "inst/extdata/data_integration.csv")
+  files_raw <- read.csv(file = "inst/extdata/files_raw.csv")
 
   usethis::use_data(
     pipeline,
@@ -137,6 +74,7 @@ update_rda <- function() {
     pcreator,
     bib,
     integ,
+    files_raw,
     internal = TRUE,
     overwrite = TRUE
   )

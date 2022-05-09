@@ -19,14 +19,14 @@ dp_084860fd <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   uid <- "084860fd"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
+  exist <- check_files(uid, name, output, ondisk = TRUE)
+  path <- make_output(uid, name, output)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   filepath <- here::here(path, "raw", "CaRMS_checklist_NW-Atlantic_2021-10-02.csv")
-  check_data(filepath, path)
   dat <- utils::read.csv(filepath)
   # _________________________________________________________________________________________ #
 

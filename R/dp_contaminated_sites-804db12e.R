@@ -19,14 +19,17 @@ dp_804db12e <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   uid <- "804db12e"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
+  exist <- check_files(uid, name, output, ondisk = FALSE)
+  path <- make_output(uid, name, output)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  urls <- "https://www.tbs-sct.gc.ca/fcsi-rscf/cscsvreport-eng.aspx?cttype=tombstone&qid=752444"
-  pipeload(urls = urls, output = here::here(path, "raw"))
+  if (!exist) {
+    urls <- "https://www.tbs-sct.gc.ca/fcsi-rscf/cscsvreport-eng.aspx?cttype=tombstone&qid=752444"
+    pipeload(urls = urls, output = here::here(path, "raw"))
+  }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

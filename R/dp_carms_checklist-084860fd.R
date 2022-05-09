@@ -19,7 +19,8 @@ dp_084860fd <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   uid <- "084860fd"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
+  exist <- check_files(uid, name, output, ondisk = TRUE)
+  path <- make_output(uid, name, output)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA

@@ -19,7 +19,9 @@ dp_750b39f9 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   uid <- "750b39f9"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
+  exist <- check_files(uid, name, output, ondisk = TRUE)
+  path <- make_output(uid, name, output)
+
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA

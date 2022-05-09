@@ -19,17 +19,20 @@ dp_06230ea3 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   uid <- "06230ea3"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
+  exist <- check_files(uid, name, output, ondisk = FALSE)
+  path <- make_output(uid, name, output)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # If the data is downloaded from online sources
-  urls <- c(
-    "https://ftp.maps.canada.ca/pub/nrcan_rncan/Seismology_Sismologie/Seismic_Reflection-Imagerie_Sismique/GSC_Seismic_Reflection.gdb.zip"
-  )
-  pipeload(urls = urls, output = here::here(path, "raw"), large = FALSE)
+  if (!exist) {
+    # If the data is downloaded from online sources
+    urls <- c(
+      "https://ftp.maps.canada.ca/pub/nrcan_rncan/Seismology_Sismologie/Seismic_Reflection-Imagerie_Sismique/GSC_Seismic_Reflection.gdb.zip"
+    )
+    pipeload(urls = urls, output = here::here(path, "raw"), large = FALSE)
+  }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

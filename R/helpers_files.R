@@ -45,7 +45,7 @@ check_files <- function(uid, name, output = "data", ondisk = FALSE) {
            all()
           
   # Messages
-  if (ondisk & !exist) msgOndisk() # If data is needed locally, stop process
+  if (ondisk & !exist) msgOndisk(paths) # If data is needed locally, stop process
   if (!ondisk & exist) msgNoload() # If data is downloaded, warning 
   
   invisible(exist)
@@ -69,10 +69,17 @@ make_output <- function(uid, name, output = "data") {
   type <- pipeline$pipeline_type[pipeline$pipeline_id == uid]
   if (!fold$raw & type == "data") {
     dir.create(paths$raw_output, recursive = TRUE)
-    path <- paths$clean_output
   } 
   if (!fold$integrated & type == "integrated") {
     dir.create(paths$integrated_output, recursive = TRUE)
+  }
+
+  # Create path to raw or integrated data
+  if (type == "data") {
+    path <- paths$clean_output
+  }
+
+  if (type == "integrated") {
     path <- paths$integrated_output
   }
   
@@ -91,7 +98,7 @@ msgNoload <- function() {
 
 
 # If data is needed locally, stop process
-msgOndisk <- function() { 
+msgOndisk <- function(paths) { 
   rlang::abort(c(
     "This data is unavailable remotely and needs to be on disk for the pipeline to work.",
     "i" = "The raw data should be available at the following paths:",

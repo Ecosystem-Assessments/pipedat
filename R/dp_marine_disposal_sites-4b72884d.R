@@ -19,22 +19,25 @@ dp_4b72884d <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   uid <- "4b72884d"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
+  exist <- check_files(uid, name, output, ondisk = FALSE)
+  path <- make_output(uid, name, output)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # If the data is downloaded from online sources
-  urls <- c(
-    "http://data.ec.gc.ca/data/sites/assess/active-and-inactive-disposal-at-sea-sites-in-canadian-waters/active-and-inactive-disposal-at-sea-sites-2018/CAN_DAS.gdb.zip"
-  )
+  if (!exist) {
+    # If the data is downloaded from online sources
+    urls <- c(
+      "http://data.ec.gc.ca/data/sites/assess/active-and-inactive-disposal-at-sea-sites-in-canadian-waters/active-and-inactive-disposal-at-sea-sites-2018/CAN_DAS.gdb.zip"
+    )
 
-  # If the data is downloaded from open government using `rgovcan`
-  govcan <- "da99526e-284f-4e06-8d04-193785cd1a96"
+    # If the data is downloaded from open government using `rgovcan`
+    govcan <- "da99526e-284f-4e06-8d04-193785cd1a96"
 
-  # Load
-  pipeload(urls = urls, govcan = govcan, output = here::here(path, "raw"), large = FALSE)
+    # Load
+    pipeload(urls = urls, govcan = govcan, output = here::here(path, "raw"), large = FALSE)    
+  }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

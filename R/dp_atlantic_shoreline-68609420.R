@@ -19,14 +19,17 @@ dp_68609420 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   uid <- "68609420"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
+  exist <- check_files(uid, name, output, ondisk = FALSE)
+  path <- make_output(uid, name, output)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  govcan <- "30449352-2556-42df-9ffe-47ea8e696f91"
-  pipeload(govcan = govcan, output = here::here(path, "raw"), large = FALSE)
+  if (!exist) {
+    govcan <- "30449352-2556-42df-9ffe-47ea8e696f91"
+    pipeload(govcan = govcan, output = here::here(path, "raw"), large = FALSE)    
+  }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

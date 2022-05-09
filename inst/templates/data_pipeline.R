@@ -19,24 +19,27 @@ dp_{{ dpid }} <- function(output = "data",crs = 4326, bbox = NULL, timespan = NU
   uid <- "{{ dpid }}"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
-  
+  exist <- check_files(uid, name, output, ondisk = FALSE)
+  paths <- make_output(uid, name, output)
+    
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # If the data is downloaded from online sources
-  urls <- c(
-    "url1",
-    "url2",
-    "..."
-  )
-  
-  # If the data is downloaded from open government using `rgovcan`
-  govcan <- "govcan uuid"
-  
-  # Load
-  pipeload(urls = urls, govcan = govcan, output = here::here(path,"raw"), large = FALSE)
+  if (!exist) {
+    # If the data is downloaded from online sources
+    urls <- c(
+      "url1",
+      "url2",
+      "..."
+    )
+    
+    # If the data is downloaded from open government using `rgovcan`
+    govcan <- "govcan uuid"
+    
+    # Load
+    pipeload(urls = urls, govcan = govcan, output = paths$raw_output, large = FALSE)
+  }
   # _________________________________________________________________________________________ #
     
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -102,15 +105,15 @@ dp_{{ dpid }} <- function(output = "data",crs = 4326, bbox = NULL, timespan = NU
   # EXPORT 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data   
-  fm <- here::here(path,glue("{nm}.geojson")) # NOTE: not necessarily spatial data
+  fm <- here::here(paths$clean_output,glue("{nm}.geojson")) # NOTE: not necessarily spatial data
   sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
   
   # Metadata
-  mt <- here::here(path,glue("{nm}.yaml"))
+  mt <- here::here(paths$clean_output,glue("{nm}.yaml"))
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- here::here(path,glue("{nm}.bib"))
+  bi <- here::here(paths$clean_output,glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

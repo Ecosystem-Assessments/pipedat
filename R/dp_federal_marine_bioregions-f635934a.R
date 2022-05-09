@@ -19,14 +19,17 @@ dp_f635934a <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   uid <- "f635934a"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  path <- make_output(uid, name, output, type = "data")
+  exist <- check_files(uid, name, output, ondisk = FALSE)
+  paths <- make_output(uid, name, output)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  govcan <- "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
-  pipeload(govcan = govcan, output = here::here(path, "raw"))
+  if (!exist) {
+    govcan <- "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
+    pipeload(govcan = govcan, output = paths$raw_output)
+  }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -34,7 +37,7 @@ dp_f635934a <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- sf::st_read(
-    here::here(path, "raw", "FederalMarineBioregions_GDB/FederalMarineBioregions.gdb"),
+    here::here(paths$raw_output, "FederalMarineBioregions_GDB/FederalMarineBioregions.gdb"),
     layer = "FederalMarineBioregions",
     quiet = TRUE
   )
@@ -83,15 +86,15 @@ dp_f635934a <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data
-  fm <- glue("{path}/{nm}.geojson")
+  fm <- here::here(paths$clean_output, glue("{nm}.geojson"))
   sf::st_write(dat, dsn = fm, quiet = TRUE)
 
   # Metadata
-  mt <- glue("{path}/{nm}.yaml")
+  mt <- here::here(paths$clean_output, glue("{nm}.yaml"))
   yaml::write_yaml(meta, mt, column.major = FALSE)
 
   # Bibtex
-  bi <- glue("{path}/{nm}.bib")
+  bi <- here::here(paths$clean_output, glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

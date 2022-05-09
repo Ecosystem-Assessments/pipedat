@@ -36,7 +36,7 @@ dp_4b72884d <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     govcan <- "da99526e-284f-4e06-8d04-193785cd1a96"
 
     # Load
-    pipeload(urls = urls, govcan = govcan, output = here::here(path, "raw"), large = FALSE)    
+    pipeload(urls = urls, govcan = govcan, output = here::here(path, "raw"), large = FALSE)
   }
   # _________________________________________________________________________________________ #
 

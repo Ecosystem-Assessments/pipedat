@@ -27,7 +27,6 @@ dp_084860fd <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   filepath <- here::here(path, "raw", "CaRMS_checklist_NW-Atlantic_2021-10-02.csv")
-  check_data(filepath, path)
   dat <- utils::read.csv(filepath)
   # _________________________________________________________________________________________ #
 

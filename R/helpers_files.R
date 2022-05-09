@@ -3,11 +3,11 @@
 # Helper functions to manage file paths and output folders
 make_paths <- function(uid, name, output = "data") {
   paths <- list()
-  
+
   # Output folder for clean data
   paths$clean_output <- here::here(
-    output, 
-    "data-raw", 
+    output,
+    "data-raw",
     glue("{name}-{uid}")
   )
 
@@ -16,7 +16,7 @@ make_paths <- function(uid, name, output = "data") {
     paths$clean_output,
     "raw"
   )
-  
+
   # Raw files
   paths$raw_files <- here::here(
     paths$raw_output,
@@ -25,11 +25,11 @@ make_paths <- function(uid, name, output = "data") {
 
   # Output folder for integrated data
   paths$integrated_output <- here::here(
-    output, 
-    "data-integrated", 
+    output,
+    "data-integrated",
     glue("{name}-{uid}")
   )
-  
+
   invisible(paths)
 }
 
@@ -38,16 +38,16 @@ make_paths <- function(uid, name, output = "data") {
 check_files <- function(uid, name, output = "data", ondisk = FALSE) {
   # Create paths
   paths <- make_paths(uid, name, output)
-  
+
   # Check if files exist
   exist <- lapply(paths$raw_files, file.exists) |>
-           unlist() |>
-           all()
-          
+    unlist() |>
+    all()
+
   # Messages
   if (ondisk & !exist) msgOndisk(paths) # If data is needed locally, stop process
-  if (!ondisk & exist) msgNoload() # If data is downloaded, warning 
-  
+  if (!ondisk & exist) msgNoload() # If data is downloaded, warning
+
   invisible(exist)
 }
 
@@ -64,12 +64,12 @@ check_folders <- function(uid, name, output = "data") {
 make_output <- function(uid, name, output = "data") {
   paths <- make_paths(uid, name, output)
   fold <- check_folders(uid, name, output)
-  
+
   # Create output folders
   type <- pipeline$pipeline_type[pipeline$pipeline_id == uid]
   if (!fold$raw & type == "data") {
     dir.create(paths$raw_output, recursive = TRUE)
-  } 
+  }
   if (!fold$integrated & type == "integrated") {
     dir.create(paths$integrated_output, recursive = TRUE)
   }
@@ -82,23 +82,23 @@ make_output <- function(uid, name, output = "data") {
   if (type == "integrated") {
     path <- paths$integrated_output
   }
-  
+
   invisible(path)
 }
 
 # --------------------------------------------------------------------------------
 # Helper messages
-# Skip download 
-msgNoload <- function() { 
+# Skip download
+msgNoload <- function() {
   rlang::warn(c(
-    "The data is already available on disk, download was thus skipped.", 
-    "i" = "Delete or move files from disk for data to be downloaded again."  
+    "The data is already available on disk, download was thus skipped.",
+    "i" = "Delete or move files from disk for data to be downloaded again."
   ))
 }
 
 
 # If data is needed locally, stop process
-msgOndisk <- function(paths) { 
+msgOndisk <- function(paths) {
   rlang::abort(c(
     "This data is unavailable remotely and needs to be on disk for the pipeline to work.",
     "i" = "The raw data should be available at the following paths:",

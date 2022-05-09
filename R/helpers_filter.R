@@ -20,7 +20,7 @@ timespan_filter <- function(dat, timespan) {
     dplyr::filter((!!rlang::sym("year")) %in% timespan)
 }
 
-# Applying pipeline arguments set by user 
+# Applying pipeline arguments set by user
 dp_parameters <- function(dat, crs = NULL, bbox = NULL, timespan = NULL) {
   if (!is.null(crs)) {
     dat <- sf::st_transform(dat, crs = crs)

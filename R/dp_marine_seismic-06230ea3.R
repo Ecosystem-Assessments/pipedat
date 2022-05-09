@@ -26,7 +26,7 @@ dp_06230ea3 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (!exist) {
+  if (!exist$raw) {
     # If the data is downloaded from online sources
     urls <- c(
       "https://ftp.maps.canada.ca/pub/nrcan_rncan/Seismology_Sismologie/Seismic_Reflection-Imagerie_Sismique/GSC_Seismic_Reflection.gdb.zip"
@@ -35,6 +35,7 @@ dp_06230ea3 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   }
   # _________________________________________________________________________________________ #
 
+  if (!exist$clean) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
@@ -103,4 +104,5 @@ dp_06230ea3 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   bi <- glue("{path}/{nm}.bib")
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
+} #if exist clean, don't run again
 }

@@ -26,12 +26,13 @@ dp_804db12e <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (!exist) {
+  if (!exist$raw) {
     urls <- "https://www.tbs-sct.gc.ca/fcsi-rscf/cscsvreport-eng.aspx?cttype=tombstone&qid=752444"
     pipeload(urls = urls, output = here::here(path, "raw"))
   }
   # _________________________________________________________________________________________ #
 
+  if (!exist$clean) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
@@ -99,4 +100,5 @@ dp_804db12e <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   bi <- glue("{path}/{nm}.bib")
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
+} #if exist clean, don't run again
 }

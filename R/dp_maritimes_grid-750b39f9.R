@@ -23,6 +23,7 @@ dp_750b39f9 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   path <- make_output(uid, name, output)
 
 
+  if (!exist$clean) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
@@ -86,4 +87,5 @@ dp_750b39f9 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   bi <- glue("{path}/{nm}.bib")
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
+} #if exist clean, don't run again
 }

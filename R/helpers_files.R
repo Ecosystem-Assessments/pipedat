@@ -57,8 +57,9 @@ check_files <- function(uid, name, output = "data", ondisk = FALSE) {
                  any()
 
   # Messages
-  if (ondisk & !exist) msgOndisk(paths) # If data is needed locally, stop process
-  if (!ondisk & exist) msgNoload() # If data is downloaded, warning
+  if (ondisk & !exist$raw) msgOndisk(paths) # If data is needed locally, stop process
+  if (!ondisk & exist$raw) msgNoload() # If data is downloaded, warning
+  if (exist$clean) msgNoclean() # If data is downloaded, warning
 
   invisible(exist)
 }

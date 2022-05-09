@@ -26,12 +26,13 @@ dp_68609420 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (!exist) {
+  if (!exist$raw) {
     govcan <- "30449352-2556-42df-9ffe-47ea8e696f91"
     pipeload(govcan = govcan, output = here::here(path, "raw"), large = FALSE)
   }
   # _________________________________________________________________________________________ #
 
+  if (!exist$clean) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
@@ -89,4 +90,5 @@ dp_68609420 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   bi <- here::here(path, glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
+} #if exist clean, don't run again
 }

@@ -26,7 +26,7 @@ dp_{{ dpid }} <- function(output = "data",crs = 4326, bbox = NULL, timespan = NU
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (!exist) {
+  if (!exist$raw) {
     # If the data is downloaded from online sources
     urls <- c(
       "url1",
@@ -47,6 +47,7 @@ dp_{{ dpid }} <- function(output = "data",crs = 4326, bbox = NULL, timespan = NU
   }
   # _________________________________________________________________________________________ #
     
+  if (!exist$clean) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
@@ -121,4 +122,5 @@ dp_{{ dpid }} <- function(output = "data",crs = 4326, bbox = NULL, timespan = NU
   bi <- here::here(path,glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
+} #if exist clean, don't run again
 }

@@ -22,6 +22,7 @@ dp_084860fd <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   exist <- check_files(uid, name, output, ondisk = TRUE)
   path <- make_output(uid, name, output)
 
+  if (!exist$clean) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
@@ -87,4 +88,5 @@ dp_084860fd <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   bi <- here::here(path, glue("{nm}.bib"))
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
+} #if exist clean, don't run again
 }

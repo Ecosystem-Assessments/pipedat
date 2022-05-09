@@ -26,7 +26,7 @@ dp_4b72884d <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   # DOWNLOAD DATA
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (!exist) {
+  if (!exist$raw) {
     # If the data is downloaded from online sources
     urls <- c(
       "http://data.ec.gc.ca/data/sites/assess/active-and-inactive-disposal-at-sea-sites-in-canadian-waters/active-and-inactive-disposal-at-sea-sites-2018/CAN_DAS.gdb.zip"
@@ -40,6 +40,7 @@ dp_4b72884d <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   }
   # _________________________________________________________________________________________ #
 
+  if (!exist$clean) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # NOTE: optional
@@ -99,4 +100,5 @@ dp_4b72884d <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
   bi <- glue("{path}/{nm}.bib")
   RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
+} #if exist clean, don't run again
 }

@@ -69,12 +69,14 @@ make_output <- function(uid, name, output = "data") {
   type <- pipeline$pipeline_type[pipeline$pipeline_id == uid]
   if (!fold$raw & type == "data") {
     dir.create(paths$raw_output, recursive = TRUE)
+    path <- paths$clean_output
   } 
   if (!fold$integrated & type == "integrated") {
     dir.create(paths$integrated_output, recursive = TRUE)
+    path <- paths$integrated_output
   }
   
-  invisible(paths)
+  invisible(path)
 }
 
 # --------------------------------------------------------------------------------

@@ -64,6 +64,7 @@ update_rda <- function() {
   pcreator <- read.csv(file = "inst/extdata/pipeline_creator.csv")
   bib <- RefManageR::ReadBib("inst/extdata/pipedat.bib")
   integ <- read.csv(file = "inst/extdata/data_integration.csv")
+  files_raw <- read.csv(file = "inst/extdata/files_raw.csv")
 
   usethis::use_data(
     pipeline,
@@ -73,6 +74,7 @@ update_rda <- function() {
     pcreator,
     bib,
     integ,
+    files_raw,
     internal = TRUE,
     overwrite = TRUE
   )

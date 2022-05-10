@@ -1,6 +1,6 @@
-#' @eval get_name("{{ dpid }}")
+#' @eval get_name("e2b7e6c4")
 #'
-#' @eval get_description("{{ dpid }}")
+#' @eval get_description("e2b7e6c4")
 #'
 #' @eval dp_params()
 #'
@@ -8,15 +8,15 @@
 #' @rdname integration_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: e2b7e6c4
 #'
 #' @examples
 #' \dontrun{
-#' di_{{ dpid }}()
+#' di_e2b7e6c4()
 #' }
-di_{{ dpid }} <- function(output = "data", grid = NULL, ...) {
+di_e2b7e6c4 <- function(output = "data", grid = NULL, ...) {
   # Output folders and other objects used
-  uid <- "{{ dpid }}"
+  uid <- "e2b7e6c4"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
   exist <- check_files(uid, name, output, ondisk = FALSE)
@@ -54,7 +54,6 @@ di_{{ dpid }} <- function(output = "data", grid = NULL, ...) {
     pipeline_id = uid,
     integration_date = timestamp(), 
     integration_data = data_id
-    # TODO: add .bib file as well
   )
   
   # To add additional metadata for queried data

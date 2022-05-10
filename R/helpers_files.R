@@ -47,14 +47,22 @@ check_files <- function(uid, name, output = "data", ondisk = FALSE) {
 
   # Check if raw files exist
   exist <- list()
-  exist$raw <- lapply(paths$raw_files, file.exists) |>
-    unlist() |>
-    all()
+  if (length(paths$raw_files > 0)) {
+    exist$raw <- lapply(paths$raw_files, file.exists) |>
+      unlist() |>
+      all()    
+  } else {
+    exist$raw <- FALSE
+  }
 
   # Check if cleaned files exist
-  exist$clean <- lapply(paths$clean_files, file.exists) |>
-    unlist() |>
-    any()
+  if (length(paths$clean_files > 0)) {
+    exist$clean <- lapply(paths$clean_files, file.exists) |>
+      unlist() |>
+      any()
+  } else {
+    exist$clean <- FALSE
+  }
 
   # Messages
   if (ondisk & !exist$raw) msgOndisk(paths) # If data is needed locally, stop process
@@ -83,7 +91,7 @@ make_output <- function(uid, name, output = "data") {
   if (!fold$raw & type == "data") {
     dir.create(paths$raw_output, recursive = TRUE)
   }
-  if (!fold$integrated & type == "integrated") {
+  if (!fold$integrated & type == "integration") {
     dir.create(paths$integrated_output, recursive = TRUE)
   }
 
@@ -92,7 +100,7 @@ make_output <- function(uid, name, output = "data") {
     path <- paths$clean_output
   }
 
-  if (type == "integrated") {
+  if (type == "integration") {
     path <- paths$integrated_output
   }
 

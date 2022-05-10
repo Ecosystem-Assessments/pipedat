@@ -165,3 +165,9 @@ get_pipeline_url <- function(pipeline_id) {
   repo <- "https://github.com/Ecosystem-Assessments/pipedat"
   glue("{repo}/blob/main/R/dp_{dat$data_shortname}-{pipeline_id}.R")
 }
+
+get_rawid <- function(pipeline_id) {
+  dat <- integ
+  uid <- dat$integration_id %in% pipeline_id
+  dat$data_id[uid]
+}

@@ -25,9 +25,11 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
+    cli,
+    crayon,
     curl,
     dplyr,
-    fs,
+    fs, 
     glue,
     here,
     ids,

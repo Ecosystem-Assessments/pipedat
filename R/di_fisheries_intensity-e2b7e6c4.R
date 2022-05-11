@@ -2,7 +2,7 @@
 #'
 #' @eval get_description("e2b7e6c4")
 #'
-#' @eval dp_params()
+#' @eval di_params()
 #'
 #' @family pipeline functions
 #' @rdname integration_pipelines
@@ -26,9 +26,9 @@ di_e2b7e6c4 <- function(output = "data", grid = NULL, ...) {
   # IMPORT DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   data_id <- get_rawid(uid) # String with data to import
-  importdat(data_id) 
+  # importdat(data_id)
   # _________________________________________________________________________________________ #
-      
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # ANALYZE / FORMAT DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -52,18 +52,18 @@ di_e2b7e6c4 <- function(output = "data", grid = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- get_metadata(
     pipeline_id = uid,
-    integration_date = timestamp(), 
+    integration_date = timestamp(),
     integration_data = data_id
   )
-  
+
   # To add additional metadata for queried data
-  meta <- add_metadata(meta, 
+  meta <- add_metadata(meta,
     info1 = c("Format as lists and dataframes to be rendered as yaml"),
     info2 = c("Formatting thus matters"),
     info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-  )  
+  )
   # _________________________________________________________________________________________ #
-  
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE BIBTEX
   # WARNING: mandatory
@@ -72,18 +72,18 @@ di_e2b7e6c4 <- function(output = "data", grid = NULL, ...) {
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # EXPORT 
+  # EXPORT
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Formatted data 
-  fm <- here::here(path,glue("{nm}.geojson")) # NOTE: not necessarily spatial data
-  sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
-
-  # Metadata
-  mt <- here::here(path,glue("{nm}.yaml"))
-  yaml::write_yaml(meta, mt, column.major = FALSE)
-  
-  # Bibtex
-  bi <- here::here(path,glue("{nm}.bib"))
-  RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
+  # Formatted data
+  # fm <- here::here(path,glue("{nm}.geojson")) # NOTE: not necessarily spatial data
+  # sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
+  #
+  # # Metadata
+  # mt <- here::here(path,glue("{nm}.yaml"))
+  # yaml::write_yaml(meta, mt, column.major = FALSE)
+  #
+  # # Bibtex
+  # bi <- here::here(path,glue("{nm}.bib"))
+  # RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
   # _________________________________________________________________________________________ #
 }

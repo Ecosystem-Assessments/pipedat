@@ -1,4 +1,6 @@
 #' @importFrom rlang abort warn
+#' @importFrom cli symbol
+#' @importFrom crayon blue
 
 # Helper functions to manage file paths and output folders
 make_paths <- function(uid, name, output = "data") {
@@ -50,7 +52,7 @@ check_files <- function(uid, name, output = "data", ondisk = FALSE) {
   if (length(paths$raw_files > 0)) {
     exist$raw <- lapply(paths$raw_files, file.exists) |>
       unlist() |>
-      all()    
+      all()
   } else {
     exist$raw <- FALSE
   }
@@ -132,4 +134,11 @@ msgOndisk <- function(paths) {
     "",
     paths$raw_files
   ))
+}
+
+
+msgInfo <- function(..., appendLF = TRUE) {
+  txt <- paste(cli::symbol$info, ...)
+  message(crayon::blue(txt), appendLF = appendLF)
+  invisible(txt)
 }

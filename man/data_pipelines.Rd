@@ -92,7 +92,7 @@ Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes re
 
 Nighttime Ligths
 
-A new consistently processed time series of annual global VIIRS nighttime lights has been produced from monthly cloud-free average radiance grids spanning 2012* to 2020. The new methodology is a modification of the original method based on nightly data (Annual VNL V1). Visite https://eogdata.mines.edu/products/vnl/#annual_v2 for more information.
+A new consistently processed time series of annual global VIIRS nighttime lights has been produced from monthly cloud-free average radiance grids spanning 2012 to 2020. The new methodology is a modification of the original method based on nightly data (Annual VNL V1). Visite https://eogdata.mines.edu/products/vnl/#annual_v2 for more information.
 
 AIS global shipping data
 
@@ -155,6 +155,39 @@ dp_8449dee0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
 }
 \concept{pipeline functions}
 \keyword{06230ea3}

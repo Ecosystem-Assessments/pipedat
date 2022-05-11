@@ -171,3 +171,30 @@ get_rawid <- function(pipeline_id) {
   uid <- dat$integration_id %in% pipeline_id
   dat$data_id[uid]
 }
+
+get_folderpaths <- function(pipeline_id) {
+  dat <- get_pipeline(pipeline_id)
+  here::here(
+    "data",
+    ifelse(dat$pipeline_type == "data", "data-raw", "data-integrated"),
+    glue("{dat$data_shortname}-{dat$pipeline_id}")
+  )
+}
+
+make_filepaths <- function(pipeline_id) {
+  folders <- get_folderpaths(pipeline_id)
+  dat <- files_clean
+  l <- list()
+  for (i in 1:length(pipeline_id)) {
+    l[[i]] <- here::here(
+      folders[i],
+      dat$filepaths[dat$pipeline_id == pipeline_id[i]]
+    )
+  }
+  unlist(l)
+}
+
+get_filepaths <- function(pipeline_id) {
+  dat <- make_filepaths(pipeline_id)
+  dat[file.exists(dat)]
+}

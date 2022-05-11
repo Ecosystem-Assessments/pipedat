@@ -19,14 +19,19 @@
 #' @export
 pipedat <- function(uid, output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Execute data pipelines
-  do.call(
-    glue("dp_{uid}"),
-    list(
-      uid = uid,
-      output = output,
-      crs = crs,
-      bbox = bbox,
-      timespan = timespan
-    )
+  lapply(
+    uid,
+    function(x) {
+      do.call(
+        glue("dp_{x}"),
+        list(
+          uid = uid,
+          output = output,
+          crs = crs,
+          bbox = bbox,
+          timespan = timespan
+        )
+      )    
+    }
   )
 }

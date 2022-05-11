@@ -19,7 +19,16 @@
     <loc>/reference/data_pipelines.html</loc>
   </url>
   <url>
+    <loc>/reference/importdat.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/integration_pipelines.html</loc>
+  </url>
+  <url>
+    <loc>/reference/masterload.html</loc>
   </url>
   <url>
     <loc>/reference/metadata.html</loc>

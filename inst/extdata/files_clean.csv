@@ -1,7 +1,7 @@
 "pipeline_id","filepaths"
 "f635934a","federal_marine_bioregions-f635934a.geojson"
 "750b39f9","maritimes_grid-750b39f9.geojson"
-"f2109e69","fisheries_logbooks-f2109e69.geojson"
+"f2109e69","fisheries_logbooks-f2109e69.csv"
 "f2109e69","fisheries_logbooks-f2109e69_gear.csv"
 "f2109e69","fisheries_logbooks-f2109e69_species.csv"
 "35608fef","cancoast-35608fef_sea_level.geojson"

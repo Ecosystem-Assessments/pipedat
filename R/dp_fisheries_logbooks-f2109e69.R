@@ -30,12 +30,8 @@ dp_f2109e69 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     latit_GIS <- longit_GIS <- Remarques <- NULL # for R CMD CHECK
     # Function to import ZIFF data
     import_ziff <- function(filename) {
-      read.csv(glue("{path}/raw/{filename}")) |>
-        dplyr::filter(!is.na(latit_GIS) & !is.na(longit_GIS)) |> # Remove NAs
-        sf::st_as_sf(
-          coords = c("longit_GIS", "latit_GIS"),
-          crs = 4326
-        )
+      utils::read.csv(glue("{path}/raw/{filename}")) |>
+      dplyr::filter(!is.na(latit_GIS) & !is.na(longit_GIS))
     }
 
     d <- list()
@@ -59,6 +55,12 @@ dp_f2109e69 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # NOTE: optional
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat$year <- format(as.Date(dat$date_cap), format = "%Y")
+    dat_bbox <- c(
+      xmin = min(dat$longit_GIS, na.rm = TRUE),
+      ymin = min(dat$latit_GIS, na.rm = TRUE),
+      xmax = max(dat$longit_GIS, na.rm = TRUE),
+      ymax = max(dat$latit_GIS, na.rm = TRUE)
+    )
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -71,7 +73,7 @@ dp_f2109e69 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
       pipeline_bbox = bbox,
       pipeline_timespan = timespan,
       data_access = "2021-06-11",
-      data_bbox = sf::st_bbox(dat),
+      data_bbox = dat_bbox,
       data_timespan = sort(unique(dat$year)),
     )
     # _________________________________________________________________________________________ #
@@ -89,7 +91,6 @@ dp_f2109e69 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat <- dp_parameters(
       dat,
-      crs = crs,
       bbox = bbox,
       timespan = timespan
     )
@@ -99,9 +100,9 @@ dp_f2109e69 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Fisheries data
-    fm <- glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
-    sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
-
+    fm <- here::here(path,glue("{nm}.csv"))
+    utils::write.csv(dat, fm, row.names = FALSE)
+    
     # Gear type
     gr <- glue("{path}/{nm}_gear.csv")
     utils::write.csv(gear, gr, row.names = FALSE)

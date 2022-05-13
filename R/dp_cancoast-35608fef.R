@@ -14,13 +14,13 @@
 #' \dontrun{
 #' dp_35608fef()
 #' }
-dp_35608fef <- function(output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_35608fef <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "35608fef"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  exist <- check_files(uid, name, output, ondisk = FALSE)
-  path <- make_output(uid, name, output)
+  exist <- check_files(uid, name, ondisk = FALSE)
+  path <- make_output(uid, name)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA

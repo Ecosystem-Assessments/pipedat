@@ -17,7 +17,7 @@
 #' pipedat("0001")
 #' }
 #' @export
-pipedat <- function(uid, output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...) {
+pipedat <- function(uid, crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Execute data pipelines
   lapply(
     uid,
@@ -26,7 +26,6 @@ pipedat <- function(uid, output = "data", crs = 4326, bbox = NULL, timespan = NU
         glue("dp_{x}"),
         list(
           uid = uid,
-          output = output,
           crs = crs,
           bbox = bbox,
           timespan = timespan

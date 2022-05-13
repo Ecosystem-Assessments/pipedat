@@ -3,12 +3,12 @@
 #' @importFrom crayon blue
 
 # Helper functions to manage file paths and output folders
-make_paths <- function(uid, name, output = "data") {
+make_paths <- function(uid, name) {
   paths <- list()
 
   # Output folder for clean data
   paths$clean_output <- here::here(
-    output,
+    "data",
     "data-raw",
     glue("{name}-{uid}")
   )
@@ -33,7 +33,7 @@ make_paths <- function(uid, name, output = "data") {
 
   # Output folder for integrated data
   paths$integrated_output <- here::here(
-    output,
+    "data",
     "data-integrated",
     glue("{name}-{uid}")
   )
@@ -43,9 +43,9 @@ make_paths <- function(uid, name, output = "data") {
 
 
 # Check if data is already present and send warning if data is already present and was thus not downloaded, or stop process if data needs to be available locally
-check_files <- function(uid, name, output = "data", ondisk = FALSE) {
+check_files <- function(uid, name, ondisk = FALSE) {
   # Create paths
-  paths <- make_paths(uid, name, output)
+  paths <- make_paths(uid, name)
 
   # Check if raw files exist
   exist <- list()
@@ -75,8 +75,8 @@ check_files <- function(uid, name, output = "data", ondisk = FALSE) {
 }
 
 # Check if folders exist
-check_folders <- function(uid, name, output = "data") {
-  paths <- make_paths(uid, name, output)
+check_folders <- function(uid, name) {
+  paths <- make_paths(uid, name)
   out <- list()
   out$raw <- file.exists(paths$raw_output)
   out$integrated <- file.exists(paths$integrated_output)
@@ -84,9 +84,9 @@ check_folders <- function(uid, name, output = "data") {
 }
 
 # Create output folders for data pipelines
-make_output <- function(uid, name, output = "data") {
-  paths <- make_paths(uid, name, output)
-  fold <- check_folders(uid, name, output)
+make_output <- function(uid, name) {
+  paths <- make_paths(uid, name)
+  fold <- check_folders(uid, name)
 
   # Create output folders
   type <- pipeline$pipeline_type[pipeline$pipeline_id == uid]

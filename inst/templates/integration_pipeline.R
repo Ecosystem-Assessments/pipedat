@@ -14,13 +14,13 @@
 #' \dontrun{
 #' di_{{ dpid }}()
 #' }
-di_{{ dpid }} <- function(output = "data", grid = NULL, ...) {
+di_{{ dpid }} <- function(grid = NULL, ...) {
   # Output folders and other objects used
   uid <- "{{ dpid }}"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  exist <- check_files(uid, name, output, ondisk = FALSE)
-  path <- make_output(uid, name, output)
+  exist <- check_files(uid, name, ondisk = FALSE)
+  path <- make_output(uid, name)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA

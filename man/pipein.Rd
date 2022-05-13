@@ -4,12 +4,10 @@
 \alias{pipein}
 \title{Execute data integration pipelines}
 \usage{
-pipein(uid, output = "data", grid = NULL, ...)
+pipein(uid, grid = NULL, ...)
 }
 \arguments{
 \item{uid}{unique identifier of the data integration pipeline. The full list of available data pipelines can be consulted using \code{pipelines(type = "integrated")}}
-
-\item{output}{output folder for integrated data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'}
 
 \item{grid}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template}
 

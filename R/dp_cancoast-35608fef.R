@@ -64,10 +64,11 @@ dp_35608fef <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # WARNING: mandatory
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     meta <- get_metadata(
+      pipeline_type = "data",
       pipeline_id = uid,
       pipeline_crs = crs,
       pipeline_bbox = bbox,
-      data_access = timestamp(),
+      access = timestamp(),
       data_bbox = sf::st_bbox(sea_level),
       data_timespan = c(2010, 2011),
     )

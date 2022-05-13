@@ -48,11 +48,12 @@ dp_68609420 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # WARNING: mandatory
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     meta <- get_metadata(
+      pipeline_type = "data",
       pipeline_id = uid,
       pipeline_crs = crs,
       pipeline_bbox = bbox,
       pipeline_timespan = timespan,
-      data_access = timestamp(),
+      access = timestamp(),
       data_bbox = sf::st_bbox(dat)
     )
     # _________________________________________________________________________________________ #

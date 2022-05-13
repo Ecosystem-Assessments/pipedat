@@ -112,11 +112,12 @@ dp_8449dee0 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # WARNING: mandatory
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     meta <- get_metadata(
+      pipeline_type = "data",
       pipeline_id = uid,
       pipeline_crs = 4326,
       pipeline_bbox = bbox,
       pipeline_timespan = timespan,
-      data_access = "2022-02-28",
+      access = "2022-02-28",
       data_bbox = bb,
       data_timespan = 2017:2020
     )

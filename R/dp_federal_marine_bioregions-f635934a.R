@@ -56,11 +56,12 @@ dp_f635934a <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # WARNING: mandatory
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     meta <- get_metadata(
+      pipeline_type = "data",
       pipeline_id = uid,
       pipeline_crs = crs,
       pipeline_bbox = bbox,
       pipeline_timespan = timespan,
-      data_access = timestamp(),
+      access = timestamp(),
       data_bbox = sf::st_bbox(dat),
     )
     # _________________________________________________________________________________________ #
@@ -92,7 +93,7 @@ dp_f635934a <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
 
     # Metadata
     mt <- here::here(path, glue("{nm}.yaml"))
-    yaml::write_yaml(meta, mt, column.major = FALSE)
+    yaml::write_yaml(meta, mt, column.major = TRUE)
 
     # Bibtex
     bi <- here::here(path, glue("{nm}.bib"))

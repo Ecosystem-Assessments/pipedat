@@ -7,6 +7,7 @@
 \title{Create a yaml metadata file}
 \usage{
 metadata(
+  pipeline_type,
   pipeline_id,
   pipeline_creators,
   pipeline_date,
@@ -14,32 +15,38 @@ metadata(
   pipeline_crs,
   pipeline_bbox = NULL,
   pipeline_timespan = NULL,
-  data_name,
-  data_description,
-  data_access = timestamp(),
+  name,
+  description,
+  contacts = NULL,
+  access = timestamp(),
+  citekey,
   data_timespan = NULL,
   data_bbox = NULL,
-  data_contacts,
   data_url = NULL,
   data_uuid = NULL,
   data_availability = NULL,
-  data_citekey
+  integration_data = NULL,
+  integration_grid = NULL
 )
 
 get_metadata(
+  pipeline_type,
   pipeline_id,
   pipeline_crs = 4326,
   pipeline_bbox = NULL,
   pipeline_timespan = NULL,
-  data_access = timestamp(),
+  access = timestamp(),
   data_bbox = NULL,
   data_timespan = NULL,
+  integration_grid = NULL,
   ...
 )
 
 add_metadata(meta, ...)
 }
 \arguments{
+\item{pipeline_type}{type of pipeline, one of "data" or "integration"}
+
 \item{pipeline_id}{individual id of data pipeline}
 
 \item{pipeline_creators}{creators of the data pipeline}
@@ -54,17 +61,19 @@ add_metadata(meta, ...)
 
 \item{pipeline_timespan}{time span that was used to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried c(year1, year2, ...),}
 
-\item{data_name}{short name of data queried}
+\item{name}{short name of data queried}
 
-\item{data_description}{description of data queried}
+\item{description}{description of data queried}
 
-\item{data_access}{access date of queried data}
+\item{contacts}{contacts for data queried}
+
+\item{access}{access date of queried data}
+
+\item{citekey}{vector of citation keys for reference to bibtex files}
 
 \item{data_timespan}{temporal coverage of data, if applicable}
 
 \item{data_bbox}{bounding box of data of the form c(xmin, ymin, xmax, ymax), if applicable}
-
-\item{data_contacts}{contacts for data queried}
 
 \item{data_url}{data url, if applicable}
 
@@ -72,7 +81,9 @@ add_metadata(meta, ...)
 
 \item{data_availability}{availability of queried data, one of c('open','on demand','data sharing agreement','restricted')}
 
-\item{data_citekey}{vector of citation keys for reference to bibtex files}
+\item{integration_data}{unique identifier of raw data pipelines used for the integration pipeline}
+
+\item{integration_grid}{details of the grid used for data integration}
 
 \item{...}{further arguments used in \code{add_template()} to include additional metadata information on the queried data.}
 
@@ -102,7 +113,7 @@ meta <- get_metadata(
   pipeline_crs = crs,
   pipeline_bbox = bbox,
   pipeline_timespan = timespan,
-  data_access = timestamp(),
+  access = timestamp(),
   data_bbox = sf::st_bbox(dat),
 )
 

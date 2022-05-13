@@ -23,10 +23,10 @@ di_e2b7e6c4 <- function(output = "data", grid = NULL, fishing_intensity_metric =
   exist <- check_files(uid, name, output, ondisk = FALSE)
   path <- make_output(uid, name, output)
 
-  # WARNING: For R CMD CHECK 
-  Categorie <- Codes <- DA_ESP <- DF_ESP <- DL_ESP <- 
-  ESP_STAT <- Freq <- Var1 <- date_cap <- gearClass <- 
-  latit_GIS <- longit_GIS <- mobility <- pd_deb <- NULL
+  # WARNING: For R CMD CHECK
+  Categorie <- Codes <- DA_ESP <- DF_ESP <- DL_ESP <-
+    ESP_STAT <- Freq <- Var1 <- date_cap <- gearClass <-
+    latit_GIS <- longit_GIS <- mobility <- pd_deb <- NULL
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -166,9 +166,6 @@ di_e2b7e6c4 <- function(output = "data", grid = NULL, fishing_intensity_metric =
     dplyr::arrange(as.Date(date_cap))
 
   # -----
-  # logbooks$ID <- 1:nrow(logbooks) # WARNING: Necessary?
-
-  # -----
   intensity <- eaMethods::fishing_intensity(
     logbooks,
     grd_pol,
@@ -182,10 +179,10 @@ di_e2b7e6c4 <- function(output = "data", grid = NULL, fishing_intensity_metric =
   # WARNING: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- get_metadata(
-    type = "integration",
+    pipeline_type = "integration",
     pipeline_id = uid,
-    integration_date = timestamp(),
-    integration_data = data_id
+    integration_data = data_id,
+    integration_grid = get_grid_info(grd_pol)
   )
 
   # To add additional metadata for queried data
@@ -227,7 +224,7 @@ di_e2b7e6c4 <- function(output = "data", grid = NULL, fishing_intensity_metric =
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Formatted data
   fm <- here::here(path, glue("{nm}.csv"))
-  utils::write.csv(dat, fm, row.names = FALSE)
+  utils::write.csv(intensity, fm, row.names = FALSE)
 
   # Metadata
   mt <- here::here(path, glue("{nm}.yaml"))

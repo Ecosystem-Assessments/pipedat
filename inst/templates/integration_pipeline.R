@@ -46,13 +46,12 @@ di_{{ dpid }} <- function(output = "data", grid = NULL, ...) {
   # WARNING: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- get_metadata(
-    type = "integration",
+    pipeline_type = "integration",
     pipeline_id = uid,
-    integration_date = timestamp(), 
-    integration_data = data_id
-    # TODO: add .bib file as well
+    integration_data = data_id,
+    integration_grid = get_grid_info(grd_pol) # if applicable
   )
-  
+    
   # To add additional metadata for queried data
   meta <- add_metadata(meta, 
     info1 = c("Format as lists and dataframes to be rendered as yaml"),

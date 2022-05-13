@@ -58,10 +58,11 @@ dp_4b72884d <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # WARNING: mandatory
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     meta <- get_metadata(
+      pipeline_type = "data",
       pipeline_id = uid,
       pipeline_crs = crs,
       pipeline_bbox = bbox,
-      data_access = timestamp(),
+      access = timestamp(),
       data_bbox = sf::st_bbox(dat),
       data_timespan = 2018
     )

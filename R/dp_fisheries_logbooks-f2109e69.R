@@ -68,11 +68,12 @@ dp_f2109e69 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # WARNING: mandatory
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     meta <- get_metadata(
+      pipeline_type = "data",
       pipeline_id = uid,
       pipeline_crs = crs,
       pipeline_bbox = bbox,
       pipeline_timespan = timespan,
-      data_access = "2021-06-11",
+      access = "2021-06-11",
       data_bbox = dat_bbox,
       data_timespan = sort(unique(dat$year)),
     )

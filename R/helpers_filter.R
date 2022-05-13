@@ -7,8 +7,8 @@ bbox_crop <- function(dat, bbox, crs) {
   } else if ("stars" %in% class(dat)) {
     sf::st_crop(dat, bb)
   } else if (class(dat) == "data.frame") {
-    uid <- (dat$longitude >= bbox$xmin & dat$longitude <= bbox$xmax) &
-      (dat$latitude >= bbox$ymin & dat$latitude <= bbox$ymax)
+    uid <- (dat$longitude >= bbox['xmin'] & dat$longitude <= bbox['xmax']) &
+      (dat$latitude >= bbox['ymin'] & dat$latitude <= bbox['ymax'])
     dat[uid, ]
   }
 }

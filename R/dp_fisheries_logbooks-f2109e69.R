@@ -31,7 +31,7 @@ dp_f2109e69 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # Function to import ZIFF data
     import_ziff <- function(filename) {
       utils::read.csv(glue("{path}/raw/{filename}")) |>
-      dplyr::filter(!is.na(latit_GIS) & !is.na(longit_GIS))
+        dplyr::filter(!is.na(latit_GIS) & !is.na(longit_GIS))
     }
 
     d <- list()
@@ -100,9 +100,9 @@ dp_f2109e69 <- function(output = "data", crs = 4326, bbox = NULL, timespan = NUL
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Fisheries data
-    fm <- here::here(path,glue("{nm}.csv"))
+    fm <- here::here(path, glue("{nm}.csv"))
     utils::write.csv(dat, fm, row.names = FALSE)
-    
+
     # Gear type
     gr <- glue("{path}/{nm}_gear.csv")
     utils::write.csv(gear, gr, row.names = FALSE)

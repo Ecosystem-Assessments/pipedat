@@ -29,6 +29,7 @@ Imports:
     crayon,
     curl,
     dplyr,
+    eaMethods,
     fs, 
     glue,
     here,

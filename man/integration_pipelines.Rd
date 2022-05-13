@@ -4,12 +4,14 @@
 \alias{di_e2b7e6c4}
 \title{Fisheries intensity}
 \usage{
-di_e2b7e6c4(output = "data", grid = NULL, ...)
+di_e2b7e6c4(output = "data", grid = NULL, fishing_intensity_metric = 1, ...)
 }
 \arguments{
 \item{output}{output folder for integrated data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'}
 
 \item{grid}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template}
+
+\item{fishing_intensity_metric}{type of fishing intensity metric to evaluate, one of: 1: Fishing effort density, no normalization; 2: Fishing effort density; 3: Fishing biomass yield density; 4: Fishing relative biomass yield density. Passed on to eaMethods::fishing_intensity().}
 
 \item{...}{further arguments used in individual data integration pipelines, if applicable.}
 }

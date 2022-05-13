@@ -27,8 +27,14 @@ di_{{ dpid }} <- function(output = "data", grid = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   data_id <- get_rawid(uid) # String with data to import
   importdat(data_id) 
+
+  # Study grid, if applicable
+  if (is.null(grid)) {
+    grd_pol <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
+    grd_ras <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
+  }
   # _________________________________________________________________________________________ #
-      
+  
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # ANALYZE / FORMAT DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -36,21 +42,11 @@ di_{{ dpid }} <- function(output = "data", grid = NULL, ...) {
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # INCORPORATE TO STUDY GRID
-  # NOTE: optional, only if applicable
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (is.null(grid)) {
-    grd_pol <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
-    grd_ras <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
-  }
-  # _________________________________________________________________________________________ #
-
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE METADATA
   # WARNING: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- get_metadata(
+    type = "integration",
     pipeline_id = uid,
     integration_date = timestamp(), 
     integration_data = data_id

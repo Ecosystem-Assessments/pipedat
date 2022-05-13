@@ -31,7 +31,7 @@ pipedat <- function(uid, output = "data", crs = 4326, bbox = NULL, timespan = NU
           bbox = bbox,
           timespan = timespan
         )
-      )    
+      )
     }
   )
 }

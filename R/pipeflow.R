@@ -17,7 +17,6 @@ pipeflow <- function(config) {
   dat <- yaml::read_yaml(config)
 
   # Parameters
-  output <- dat$data_workflow$parameters$output
   crs <- dat$data_workflow$parameters$crs
   bbox_pipeline <- unlist(dat$data_workflow$parameters$bbox)
   timespan <- dat$data_workflow$parameters$timespan
@@ -28,7 +27,6 @@ pipeflow <- function(config) {
   lapply(
     dat$data_workflow$data_pipeline,
     pipedat,
-    output = output,
     crs = crs,
     bbox = bbox_pipeline,
     timespan = timespan
@@ -44,6 +42,5 @@ pipeflow <- function(config) {
   # lapply(
   #   dat$data_workflow$data_connect,
   #   pipeconnect,
-  #   output = output
   # )
 }

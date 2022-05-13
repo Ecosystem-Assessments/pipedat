@@ -5,12 +5,10 @@
 \alias{pipedat}
 \title{Execute data pipelines}
 \usage{
-pipedat(uid, output = "data", crs = 4326, bbox = NULL, timespan = NULL, ...)
+pipedat(uid, crs = 4326, bbox = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}
-
-\item{output}{output folder for queried data. That folder will be organized into the different files that are loaded, i.e. raw data, formatted data, metadata and bibtex files. By default, data are stored in a root folder called 'data/'}
 
 \item{crs}{spatial projection to use to transform the spatial data into a uniform projection}
 

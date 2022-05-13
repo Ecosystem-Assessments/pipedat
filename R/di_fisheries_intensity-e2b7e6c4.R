@@ -15,13 +15,13 @@
 #' \dontrun{
 #' di_e2b7e6c4()
 #' }
-di_e2b7e6c4 <- function(output = "data", grid = NULL, fishing_intensity_metric = 1, ...) {
+di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 1, ...) {
   # Output folders and other objects used
   uid <- "e2b7e6c4"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
-  exist <- check_files(uid, name, output, ondisk = FALSE)
-  path <- make_output(uid, name, output)
+  exist <- check_files(uid, name, ondisk = FALSE)
+  path <- make_output(uid, name)
 
   # WARNING: For R CMD CHECK
   Categorie <- Codes <- DA_ESP <- DF_ESP <- DL_ESP <-

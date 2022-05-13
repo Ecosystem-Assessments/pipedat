@@ -93,8 +93,8 @@ dp_f2109e69 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Require bbox in epsg:4326
     bb <- bbox_poly(bbox, crs) |>
-          sf::st_transform(4326) |>
-          sf::st_bbox()
+      sf::st_transform(4326) |>
+      sf::st_bbox()
     dat <- dp_parameters(
       dat,
       bbox = bb,

@@ -21,32 +21,31 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
-Suggests: 
-    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Imports: 
     cli,
     crayon,
     curl,
     dplyr,
-    eaMethods,
-    fs, 
     glue,
     here,
-    ids,
-    knitr,
-    readr,
     RefManageR,
-    rgovcan,
     rlang,
-    R.utils,
     sf,
     stars,
-    stringr,
-    usethis,
     utils,
-    uuid, 
-    whisker,
     yaml
 Depends: 
     R (>= 2.10)
+Suggests:
+    eaMethods,
+    fs, 
+    ids,
+    knitr,
+    readr,
+    rgovcan,
+    R.utils,
+    testthat (>= 3.0.0),
+    usethis,
+    uuid,
+    whisker

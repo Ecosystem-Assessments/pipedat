@@ -5,13 +5,14 @@
 #'
 #' @importFrom glue glue glue_sql
 #' @importFrom RefManageR BibEntry WriteBib
-#' @importFrom knitr kable
-#' @importFrom readr read_csv
 #' @importFrom rlang sym
-#' @importFrom R.utils gunzip
+#' @importFrom sf st_bbox st_write st_read st_transform
+#' @importFrom sf st_as_sf st_buffer st_make_valid
+#' @importFrom sf st_intersection st_intersects st_crop
+#' @importFrom sf st_area st_crs st_make_grid st_as_sfc
 #' @importFrom stars read_stars write_stars
+#' @importFrom stars st_dimensions st_as_stars
 #' @importFrom utils read.csv write.csv
-#' @importFrom whisker whisker.render
 #' @importFrom yaml yaml.load_file write_yaml read_yaml
 NULL
 

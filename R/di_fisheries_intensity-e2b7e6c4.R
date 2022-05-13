@@ -38,9 +38,11 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     species <- dat[["fisheries_logbooks-f2109e69_species.csv"]]
 
     if (is.null(grid)) {
-      grd_pol <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE) |>
-        sf::st_transform(grd_pol, crs = 4326)
+      grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE) |>
+        sf::st_transform(crs = 4326)
     }
+    grid <- sf::st_transform(grid, crs = 4326)
+
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -169,7 +171,7 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     # -----
     intensity <- eaMethods::fishing_intensity(
       logbooks,
-      grd_pol,
+      grid,
       metric = 3,
       biomass_field = "catch"
     )
@@ -183,7 +185,7 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
       pipeline_type = "integration",
       pipeline_id = uid,
       integration_data = data_id,
-      integration_grid = get_grid_info(grd_pol)
+      integration_grid = get_grid_info(grid)
     )
 
     # To add additional metadata for queried data

@@ -66,6 +66,7 @@ update_rda <- function() {
   integ <- read.csv(file = "inst/extdata/data_integration.csv")
   files_raw <- read.csv(file = "inst/extdata/files_raw.csv")
   files_clean <- read.csv(file = "inst/extdata/files_clean.csv")
+  files_integrated <- read.csv(file = "inst/extdata/files_integrated.csv")
 
   usethis::use_data(
     pipeline,
@@ -77,6 +78,7 @@ update_rda <- function() {
     integ,
     files_raw,
     files_clean,
+    files_integrated,
     internal = TRUE,
     overwrite = TRUE
   )

@@ -17,11 +17,17 @@
 #' @export
 pipein <- function(uid, grid = NULL, ...) {
   # Execute data integration pipelines
-  do.call(
-    glue("di_{uid}"),
-    list(
-      uid = uid,
-      grid = grid
-    )
+  # Execute data pipelines
+  lapply(
+    uid,
+    function(x) {
+      do.call(
+        glue("di_{x}"),
+        list(
+          uid = uid,
+          grid = grid
+        )
+      )
+    }
   )
 }

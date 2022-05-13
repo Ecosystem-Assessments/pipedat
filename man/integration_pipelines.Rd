@@ -4,7 +4,7 @@
 \alias{di_e2b7e6c4}
 \title{Fisheries intensity}
 \usage{
-di_e2b7e6c4(grid = NULL, fishing_intensity_metric = 1, ...)
+di_e2b7e6c4(grid = NULL, fishing_intensity_metric = 3, ...)
 }
 \arguments{
 \item{grid}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template}

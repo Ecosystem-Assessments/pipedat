@@ -38,6 +38,12 @@ make_paths <- function(uid, name) {
     glue("{name}-{uid}")
   )
 
+  # Integrated files
+  paths$integrated_files <- here::here(
+    paths$integrated_output,
+    files_integrated$filepaths[files_integrated$pipeline_id %in% uid]
+  )
+
   invisible(paths)
 }
 
@@ -66,10 +72,20 @@ check_files <- function(uid, name, ondisk = FALSE) {
     exist$clean <- FALSE
   }
 
+  # Check if integrated files exist
+  if (length(paths$integrated_files > 0)) {
+    exist$integrated <- lapply(paths$integrated_files, file.exists) |>
+      unlist() |>
+      all()
+  } else {
+    exist$integrated <- FALSE
+  }
+
   # Messages
-  if (ondisk & !exist$raw) msgOndisk(paths) # If data is needed locally, stop process
-  if (!ondisk & exist$raw) msgNoload() # If data is downloaded, warning
-  if (exist$clean) msgNoclean() # If data is downloaded, warning
+  if (ondisk & !exist$raw) msgOnDisk(uid, name, paths) # If data is needed locally, stop process
+  if (!ondisk & exist$raw) msgNoLoad(uid, name) # If data is downloaded, warning
+  if (exist$clean) msgNoClean(uid, name) # If data is downloaded, warning
+  if (exist$integrated) msgNoIntegration(uid, name) # If data is downloaded, warning
 
   invisible(exist)
 }
@@ -112,29 +128,37 @@ make_output <- function(uid, name) {
 # --------------------------------------------------------------------------------
 # Helper messages
 # Skip download
-msgNoload <- function() {
+msgNoLoad <- function(uid, name) {
   rlang::warn(c(
-    "The data is already available on disk, download was thus skipped.",
+    glue("The data for the {name} pipeline (id: {uid}) is already available on disk, download was thus skipped."),
     "i" = "Delete or move files from disk for data to be downloaded again."
   ))
 }
 
-msgNoclean <- function() {
+msgNoClean <- function(uid, name) {
   rlang::warn(c(
-    "The cleaned data is already available on disk, data formatting was thus skipped.",
+    glue("The cleaned data from the {name} pipeline (id: {uid}) is already available on disk, data formatting was thus skipped."),
     "i" = "Delete or move files from disk for data to be downloaded again."
   ))
 }
 
 # If data is needed locally, stop process
-msgOndisk <- function(paths) {
+msgOnDisk <- function(uid, name, paths) {
   rlang::abort(c(
-    "This data is unavailable remotely and needs to be on disk for the pipeline to work.",
+    glue("The data for the {name} pipeline (id: {uid}) is unavailable remotely and needs to be on disk for the pipeline to work."),
     "i" = "The raw data should be available at the following paths:",
     "",
     paths$raw_files
   ))
 }
+
+msgNoIntegration <- function(uid, name) {
+  rlang::warn(c(
+    glue("The integrated data from the {name} pipeline (id: {uid}) is already available on disk, data integration was thus skipped."),
+    "i" = "Delete or move files from disk for data to be downloaded again."
+  ))
+}
+
 
 
 msgInfo <- function(..., appendLF = TRUE) {

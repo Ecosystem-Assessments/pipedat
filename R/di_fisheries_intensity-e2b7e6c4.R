@@ -27,7 +27,7 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     # WARNING: For R CMD CHECK
     Categorie <- Codes <- DA_ESP <- DF_ESP <- DL_ESP <-
       ESP_STAT <- Freq <- Var1 <- date_cap <- gearClass <-
-      latit_GIS <- longit_GIS <- mobility <- pd_deb <- NULL
+      latitude <- longitude <- mobility <- pd_deb <- NULL
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -145,11 +145,11 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     # ------------------------------------------------------------
 
     # -----
-    logbooks <- dplyr::group_by(logbooks, date_cap, latit_GIS, longit_GIS, gearClass, mobility) |>
+    logbooks <- dplyr::group_by(logbooks, date_cap, latitude, longitude, gearClass, mobility) |>
       dplyr::summarise(catch = sum(pd_deb))
 
     # Create spatial object
-    logbooks <- sf::st_as_sf(logbooks, coords = c("longit_GIS", "latit_GIS"), crs = 4326) |>
+    logbooks <- sf::st_as_sf(logbooks, coords = c("longitude", "latitude"), crs = 4326) |>
       sf::st_transform(crs = 32198)
 
     # -----

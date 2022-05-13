@@ -55,11 +55,12 @@ dp_f2109e69 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # NOTE: optional
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat$year <- format(as.Date(dat$date_cap), format = "%Y")
+    dat <- dplyr::rename(dat, longitude = longit_GIS, latitude = latit_GIS)
     dat_bbox <- c(
-      xmin = min(dat$longit_GIS, na.rm = TRUE),
-      ymin = min(dat$latit_GIS, na.rm = TRUE),
-      xmax = max(dat$longit_GIS, na.rm = TRUE),
-      ymax = max(dat$latit_GIS, na.rm = TRUE)
+      xmin = min(dat$longitude, na.rm = TRUE),
+      ymin = min(dat$latitude, na.rm = TRUE),
+      xmax = max(dat$longitude, na.rm = TRUE),
+      ymax = max(dat$latitude, na.rm = TRUE)
     )
     # _________________________________________________________________________________________ #
 
@@ -90,9 +91,13 @@ dp_f2109e69 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # Require bbox in epsg:4326
+    bb <- bbox_poly(bbox, crs) |>
+          sf::st_transform(4326) |>
+          sf::st_bbox()
     dat <- dp_parameters(
       dat,
-      bbox = bbox,
+      bbox = bb,
       timespan = timespan
     )
     # _________________________________________________________________________________________ #

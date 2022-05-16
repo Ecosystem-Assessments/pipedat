@@ -1,45 +1,86 @@
-#' @eval get_name("{{ dpid }}")
+#' @eval get_name("72312316")
 #'
-#' @eval get_description("{{ dpid }}")
+#' @eval get_description("72312316")
 #'
 #' @eval di_params()
+#' @param shipping_type one of "interpolated" or "noninterpolated"
 #'
 #' @family pipeline functions
 #' @rdname integration_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: 72312316
 #'
 #' @examples
 #' \dontrun{
-#' di_{{ dpid }}()
+#' di_72312316()
 #' }
-di_{{ dpid }} <- function(grid = NULL, ...) {
+di_72312316 <- function(grid = NULL, shipping_type = "interpolated", ...) {
   # Output folders and other objects used
-  uid <- "{{ dpid }}"
+  uid <- "72312316"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
   exist <- check_files(uid, name, ondisk = FALSE)
   path <- make_output(uid, name)
 
   if (!exist$integrated) {
+    # WARNING: For R CMD CHECK
+    hours <- latitude <- longitude <- month <- num_vessels <-
+      vessel_class <- x <- y <- year <- NULL
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     data_id <- get_rawid(uid) # String with data to import
-    dat <- importdat(data_id) 
+    dat <- importdat(data_id)
+    if (shipping_type == "interpolated") {
+      shipping <- dat[["shipping_gfw-8449dee0-interpolated.csv"]]
+    }
+
+    if (shipping_type == "noninterpolated") {
+      shipping <- dat[["shipping_gfw-8449dee0-noninterpolated.csv"]]
+    }
 
     # Study grid, if applicable
     if (is.null(grid)) {
-      grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
+      # grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
       grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
     }
+    grid <- sf::st_transform(grid, crs = 4326)
+    names(grid) <- "uid"
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # ANALYZE / FORMAT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # For this intensity measurement, combine all vessel classes
+    shipping <- dplyr::select(shipping, -vessel_class, -month) |>
+      dplyr::group_by(year, longitude, latitude) |>
+      dplyr::summarize(
+        num_vessels = sum(num_vessels),
+        hours = sum(hours)
+      ) |>
+      dplyr::ungroup()
+    # sf::st_as_sf(coords = c("longitude","latitude"), crs = 4326)
 
+    years <- sort(unique(shipping$year))
+    ship <- list()
+    for (i in 1:length(years)) {
+      datid <- shipping$year == years[i]
+      ship[[i]] <- shipping[datid, ] |>
+        dplyr::select(-year) |>
+        stars::st_as_stars(
+          shipping[datid, ],
+          coords = c("longitude", "latitude")
+        ) |>
+        sf::st_set_crs(4326) |>
+        stars::st_warp(grid) |>
+        c(grid) |>
+        as.data.frame() |>
+        dplyr::filter(!is.na(uid)) |>
+        dplyr::arrange(uid) |>
+        dplyr::select(-x, -y)
+    }
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -52,15 +93,8 @@ di_{{ dpid }} <- function(grid = NULL, ...) {
       integration_data = data_id,
       integration_grid = get_grid_info(grid) # if applicable
     )
-      
-    # To add additional metadata for queried data
-    meta <- add_metadata(meta, 
-      info1 = c("Format as lists and dataframes to be rendered as yaml"),
-      info2 = c("Formatting thus matters"),
-      info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-    )  
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE BIBTEX
     # WARNING: mandatory
@@ -69,18 +103,18 @@ di_{{ dpid }} <- function(grid = NULL, ...) {
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT 
+    # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data 
-    fm <- here::here(path,glue("{nm}.csv"))
-    utils::write.csv(dat, fm, row.names = FALSE)
+    # Formatted data
+    fm <- here::here(path, glue("{nm}-{years}.csv"))
+    for (i in 1:length(years)) utils::write.csv(ship[[i]], fm[i], row.names = FALSE)
 
     # Metadata
-    mt <- here::here(path,glue("{nm}.yaml"))
+    mt <- here::here(path, glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
-    
+
     # Bibtex
-    bi <- here::here(path,glue("{nm}.bib"))
+    bi <- here::here(path, glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   }

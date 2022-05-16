@@ -180,9 +180,9 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     year_id <- year_id[year_id != "1999"]
     l <- list()
     for (i in 1:length(year_id)) {
-      uid <- years %in% year_id[i]
+      datid <- years %in% year_id[i]
       l[[i]] <- eaMethods::fishing_intensity(
-        logbooks[uid, ],
+        logbooks[datid, ],
         grid,
         metric = 3,
         biomass_field = "catch"

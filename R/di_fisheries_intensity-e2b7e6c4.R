@@ -38,8 +38,7 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     species <- dat[["fisheries_logbooks-f2109e69_species.csv"]]
 
     if (is.null(grid)) {
-      grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE) |>
-        sf::st_transform(crs = 4326)
+      grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
     }
     grid <- sf::st_transform(grid, crs = 4326)
 
@@ -168,13 +167,27 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     logbooks <- logbooks |>
       dplyr::arrange(as.Date(date_cap))
 
+    # Simplify problem by trimming down the number of cells to consider, if possible
+    datid <- sf::st_intersects(logbooks, grid) |>
+      unlist() |>
+      unique() |>
+      sort()
+    grid <- grid[datid, ]
+
     # -----
-    intensity <- eaMethods::fishing_intensity(
-      logbooks,
-      grid,
-      metric = 3,
-      biomass_field = "catch"
-    )
+    years <- format(as.Date(logbooks$date_cap), format = "%Y")
+    year_id <- sort(unique(years))
+    year_id <- year_id[year_id != "1999"]
+    l <- list()
+    for (i in 1:length(year_id)) {
+      uid <- years %in% year_id[i]
+      l[[i]] <- eaMethods::fishing_intensity(
+        logbooks[uid, ],
+        grid,
+        metric = 3,
+        biomass_field = "catch"
+      )
+    }
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -226,8 +239,8 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{nm}.csv"))
-    utils::write.csv(intensity, fm, row.names = FALSE)
+    fm <- here::here(path, glue("{nm}-{year_id}.csv"))
+    for (i in 1:length(fm)) utils::write.csv(l[[i]], fm[i], row.names = FALSE)
 
     # Metadata
     mt <- here::here(path, glue("{nm}.yaml"))

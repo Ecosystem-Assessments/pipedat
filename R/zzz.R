@@ -10,7 +10,8 @@
 #' @importFrom sf st_as_sf st_buffer st_make_valid
 #' @importFrom sf st_intersection st_intersects st_crop
 #' @importFrom sf st_area st_crs st_make_grid st_as_sfc
-#' @importFrom stars read_stars write_stars
+#' @importFrom sf st_set_crs
+#' @importFrom stars read_stars write_stars st_warp
 #' @importFrom stars st_dimensions st_as_stars
 #' @importFrom utils read.csv write.csv
 #' @importFrom yaml yaml.load_file write_yaml read_yaml

@@ -102,9 +102,10 @@ dp_8509eeb1 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    dat <- dp_parameters(
+    dat
+    x <- dp_parameters(
       dat,
-      crs = NULL,
+      crs = 4326,
       bbox = bbox,
       timespan = NULL
     )

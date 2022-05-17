@@ -174,6 +174,13 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
       sort()
     grid <- grid[datid, ]
 
+    # Same with points
+    datid <- sf::st_intersects(grid, logbooks) |>
+      unlist() |>
+      unique() |>
+      sort()
+    logbooks <- logbooks[datid, ]
+
     # -----
     years <- format(as.Date(logbooks$date_cap), format = "%Y")
     year_id <- sort(unique(years))

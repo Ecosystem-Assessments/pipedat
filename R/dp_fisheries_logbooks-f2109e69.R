@@ -54,7 +54,7 @@ dp_f2109e69 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # FORMAT DATA
     # NOTE: optional
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Adjust dates 
+    # Adjust dates
     iid <- is.na(dat$date_cap)
     dat$date_cap[iid] <- dat$date_deb[iid]
     dat$year <- format(as.Date(dat$date_cap), format = "%Y")

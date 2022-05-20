@@ -23,7 +23,7 @@ timespan_filter <- function(dat, timespan) {
 # Applying pipeline arguments set by user
 dp_parameters <- function(dat, crs = NULL, bbox = NULL, timespan = NULL) {
   if (!is.null(crs)) {
-    if (sf::st_crs(dat)$epsg != crs) {
+    if (is.na(sf::st_crs(dat)$epsg) | sf::st_crs(dat)$epsg != crs) {
       dat <- sf::st_transform(dat, crs = crs)
     }
   }

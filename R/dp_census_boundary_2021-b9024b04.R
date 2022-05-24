@@ -1,6 +1,6 @@
-#' @eval get_name("c676dc2b")
+#' @eval get_name("b9024b04")
 #'
-#' @eval get_description("c676dc2b")
+#' @eval get_description("b9024b04")
 #'
 #' @eval dp_params()
 #'
@@ -8,15 +8,15 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: c676dc2b
+#' @keywords pipeline_id: b9024b04
 #'
 #' @examples
 #' \dontrun{
-#' dp_c676dc2b()
+#' dp_b9024b04()
 #' }
-dp_c676dc2b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_b9024b04 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
-  uid <- "c676dc2b"
+  uid <- "b9024b04"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
   exist <- check_files(uid, name, ondisk = FALSE)
@@ -27,8 +27,11 @@ dp_c676dc2b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (!exist$raw) {
-    govcan <- "2dd7fed4-4e0f-406c-ab96-c29b6a9116b1"
-    pipeload(govcan = govcan, output = here::here(path, "raw"), large = TRUE)
+    urls <- c(
+      "https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/files-fichiers/lda_000b21a_e.zip",
+      "https://www150.statcan.gc.ca/n1/en/pub/92-160-g/92-160-g2021002-eng.pdf"
+    )
+    pipeload(urls = urls, output = here::here(path, "raw"), large = TRUE)
   }
   # _________________________________________________________________________________________ #
 
@@ -38,11 +41,10 @@ dp_c676dc2b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # NOTE: optional
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat <- sf::st_read(
-      here::here(path, "raw", "lda_000b16a_e.shp"),
+      here::here(path, "raw", "lda_000b21a_e.shp"),
       quiet = TRUE
     )
     # _________________________________________________________________________________________ #
-
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE METADATA
@@ -55,7 +57,7 @@ dp_c676dc2b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
       pipeline_bbox = bbox,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat),
-      data_timespan = 2016
+      data_timespan = 2021
     )
     # _________________________________________________________________________________________ #
 

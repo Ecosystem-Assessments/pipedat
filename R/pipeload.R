@@ -34,15 +34,17 @@ pipeload <- function(urls = NULL, govcan = NULL, output, large = FALSE) {
   if (!is.null(urls)) {
     lapply(
       urls,
-      function(x) curl::curl_download(x, destfile = glue("{output}{basename(x)}"))
+      function(x) curl::curl_download(x, destfile = here::here(output, basename(x)))
     )
   }
 
   if (!is.null(govcan)) {
     rgovcan::govcan_setup()
-    rgovcan::govcan_dl_resources(
-      resources = govcan,
-      path = output
+    try(
+      rgovcan::govcan_dl_resources(
+        resources = govcan,
+        path = output
+      )
     )
   }
 

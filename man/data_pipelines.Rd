@@ -2,7 +2,8 @@
 % Please edit documentation in R/dp_atlantic_shoreline-68609420.R,
 %   R/dp_cancoast-35608fef.R, R/dp_carms_checklist-084860fd.R,
 %   R/dp_census_boundary_2016-c676dc2b.R, R/dp_census_boundary_2021-b9024b04.R,
-%   R/dp_census_population_2016-d147406d.R, R/dp_contaminated_sites-804db12e.R,
+%   R/dp_census_population_2016-d147406d.R,
+%   R/dp_census_population_2021-d96dec16.R, R/dp_contaminated_sites-804db12e.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
 %   R/dp_fisheries_logbooks-f2109e69.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_seismic-06230ea3.R, R/dp_maritimes_grid-750b39f9.R,
@@ -14,6 +15,7 @@
 \alias{dp_c676dc2b}
 \alias{dp_b9024b04}
 \alias{dp_d147406d}
+\alias{dp_d96dec16}
 \alias{dp_804db12e}
 \alias{dp_f635934a}
 \alias{dp_f2109e69}
@@ -35,6 +37,8 @@ dp_c676dc2b(crs = 4326, bbox = NULL, timespan = NULL, ...)
 dp_b9024b04(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_d147406d(crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_d96dec16(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_804db12e(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
@@ -86,6 +90,10 @@ Census population 2016
 
 Population and dwelling counts, for dissemination areas, 2016 Census
 
+Census population 2021
+
+Population and dwelling counts: Canada, provinces and territories, census subdivisions and dissemination areas
+
 Federal Contaminated Sites Inventory
 
 The Federal Contaminated Sites Inventory includes information on all known federal contaminated sites under the custodianship of departments, agencies and consolidated Crown corporations as well as those that are being or have been investigated to determine whether they have contamination arising from past use that could pose a risk to human health or the environment. The inventory also includes non-federal contaminated sites for which the Government of Canada has accepted some or all financial responsibility. It does not include sites where contamination has been caused by, and which are under the control of, enterprise Crown corporations, private individuals, firms or other levels of government.
@@ -136,6 +144,9 @@ dp_b9024b04()
 }
 \dontrun{
 dp_d147406d()
+}
+\dontrun{
+dp_d96dec16()
 }
 \dontrun{
 dp_804db12e()
@@ -190,6 +201,11 @@ dp_8449dee0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_e2b7e6c4}()}
 
 Other pipeline functions: 
 \code{\link{di_e2b7e6c4}()}
@@ -246,6 +262,7 @@ Other pipeline functions:
 \keyword{b9024b04}
 \keyword{c676dc2b}
 \keyword{d147406d}
+\keyword{d96dec16}
 \keyword{f2109e69}
 \keyword{f635934a}
 \keyword{pipeline_id:}

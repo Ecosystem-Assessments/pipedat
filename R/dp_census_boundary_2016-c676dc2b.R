@@ -40,7 +40,8 @@ dp_c676dc2b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     dat <- sf::st_read(
       here::here(path, "raw", "lda_000b16a_e.shp"),
       quiet = TRUE
-    )
+    ) |>
+      sf::st_make_valid()
     # _________________________________________________________________________________________ #
 
 
@@ -70,6 +71,8 @@ dp_c676dc2b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    on.exit(sf::sf_use_s2(TRUE), add = TRUE)
+    sf::sf_use_s2(FALSE)
     dat <- dp_parameters(
       dat,
       crs = crs,

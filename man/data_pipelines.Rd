@@ -205,49 +205,49 @@ dp_8449dee0()
 \code{\link{pipedat}}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
-\code{\link{di_e2b7e6c4}()}
+\code{\link{di_99bb2d51}()}
 }
 \concept{pipeline functions}
 \keyword{06230ea3}

@@ -24,10 +24,10 @@ di_99bb2d51 <- function(grid = NULL, ...) {
 
   if (!exist$integrated) {
     # WARNING: For R CMD CHECK
-    DAUID <- DGUID <- Geographic.code <- Population..2016 <- 
-    Population.and.dwelling.counts..5...Population..2021..1. <- 
-    area <- area2 <- direct_human_impact <- population <- 
-    propArea <- propPop <- NULL
+    DAUID <- DGUID <- Geographic.code <- Population..2016 <-
+      Population.and.dwelling.counts..5...Population..2021..1. <-
+      area <- area2 <- direct_human_impact <- population <-
+      propArea <- propPop <- NULL
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

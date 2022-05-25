@@ -7,7 +7,8 @@
 %   R/dp_federal_marine_bioregions-f635934a.R,
 %   R/dp_fisheries_logbooks-f2109e69.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_seismic-06230ea3.R, R/dp_maritimes_grid-750b39f9.R,
-%   R/dp_night_lights-8509eeb1.R, R/dp_shipping_gfw-8449dee0.R
+%   R/dp_night_lights-8509eeb1.R, R/dp_sea_surface_temperature-d87b7f5f.R,
+%   R/dp_shipping_gfw-8449dee0.R
 \name{dp_68609420}
 \alias{dp_68609420}
 \alias{dp_35608fef}
@@ -23,6 +24,7 @@
 \alias{dp_06230ea3}
 \alias{dp_750b39f9}
 \alias{dp_8509eeb1}
+\alias{dp_d87b7f5f}
 \alias{dp_8449dee0}
 \title{Atlantic Shoreline Classification}
 \usage{
@@ -53,6 +55,8 @@ dp_06230ea3(crs = 4326, bbox = NULL, timespan = NULL, ...)
 dp_750b39f9(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_8509eeb1(crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_d87b7f5f(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_8449dee0(crs = 4326, bbox = NULL, timespan = NULL, ...)
 }
@@ -122,6 +126,10 @@ Nighttime Ligths
 
 A new consistently processed time series of annual global VIIRS nighttime lights has been produced from monthly cloud-free average radiance grids spanning 2012 to 2020. The new methodology is a modification of the original method based on nightly data (Annual VNL V1). Visite https://eogdata.mines.edu/products/vnl/#annual_v2 for more information.
 
+Sea surface temperature anomalies
+
+Surface-water temperature anomalies from the Department of Fisheries and Oceans� (DFO) Atlantic Zone Monitoring Program (AZMP)
+
 AIS global shipping data
 
 Monthly shipping rasters at 0.1 degree resolution including the number of vessels and total hours of vessel presence for all vessels classified by Global Fishing Watch as one of the following: 'cargo', 'specialized_reefer', 'tanker', 'bunker', 'cargo_or_tanker', 'cargo_or_reefer', 'bunker_or_tanker', 'container_reefer', 'passenger'. There are two versions of the data available, one based only on actual AIS positions and one where vessel location is interpolated to a regular interval of five minutes.
@@ -170,6 +178,9 @@ dp_750b39f9()
 dp_8509eeb1()
 }
 \dontrun{
+dp_d87b7f5f()
+}
+\dontrun{
 dp_8449dee0()
 }
 }
@@ -203,6 +214,11 @@ dp_8449dee0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
 \code{\link{di_99bb2d51}()}
@@ -262,6 +278,7 @@ Other pipeline functions:
 \keyword{b9024b04}
 \keyword{c676dc2b}
 \keyword{d147406d}
+\keyword{d87b7f5f}
 \keyword{d96dec16}
 \keyword{f2109e69}
 \keyword{f635934a}

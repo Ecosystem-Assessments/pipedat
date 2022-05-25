@@ -40,11 +40,13 @@ Depends:
 Suggests:
     eaMethods,
     fs, 
+    grDevices,
     ids,
     knitr,
     readr,
     rgovcan,
     R.utils,
+    stats,
     testthat (>= 3.0.0),
     usethis,
     uuid,

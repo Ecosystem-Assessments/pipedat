@@ -13,7 +13,7 @@
 #' @importFrom sf st_set_crs sf_use_s2
 #' @importFrom stars read_stars write_stars st_warp
 #' @importFrom stars st_dimensions st_as_stars
-#' @importFrom utils read.csv write.csv
+#' @importFrom utils read.csv write.csv read.table
 #' @importFrom yaml yaml.load_file write_yaml read_yaml
 NULL
 

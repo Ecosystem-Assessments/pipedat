@@ -63,7 +63,7 @@ dp_{{ dpid }} <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # FORMAT DATA
   # NOTE: optional
   # WARNING: In order for filters to work, names of column should be: 
-  #             years     = years
+  #             year      = year
   #             longitude = longitude
   #             latitude  = latitude
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

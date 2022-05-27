@@ -48,6 +48,7 @@ Suggests:
     R.utils,
     stats,
     testthat (>= 3.0.0),
+    tidyr,
     usethis,
     uuid,
     whisker

@@ -129,9 +129,9 @@ Commercial fisheries logbooks
 
 A compilation of landing data from Zonal Interchange File Format (ZIFF) data between 2000 and 2020
 
-Global cumulative human impacts assessments in 2008 and 2015
+Global cumulative human impacts assessments in 2008 and 2013
 
-Data from the assessments of global marine cumulative human impacts in 2008 and 2015
+Data from the assessments of global marine cumulative human impacts in 2008 and 2013
 
 Active and Inactive Disposal at Sea Sites
 

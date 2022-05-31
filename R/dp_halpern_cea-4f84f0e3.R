@@ -120,16 +120,28 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_years 
       function(x) file.rename(x, glue("{x}.zip"))
     )
 
-    zipfiles <- glue("{x}.zip")
-    lapply(
-      zipfiles,
-      function(x) {
+    # Unzip
+    zipfiles <- basename(glue("{urls$urls}.zip"))
+    if (2008 %in% halpern_years) {
+      dir.create(here::here(path, "raw", "2008"))
+      iid <- which(urls$years == 2008)
+      for (i in iid) {
         utils::unzip(
-          x,
-          exdir = here::here(path, "raw")
+          here::here(path, "raw", zipfiles[i]),
+          exdir = here::here(path, "raw", "2008")
         )
       }
-    )
+    }
+    if (2013 %in% halpern_years) {
+      dir.create(here::here(path, "raw", "2013"))
+      iid <- which(urls$years == 2013)
+      for (i in iid) {
+        utils::unzip(
+          here::here(path, "raw", zipfiles[i]),
+          exdir = here::here(path, "raw", "2013")
+        )
+      }
+    }
   }
   # _________________________________________________________________________________________ #
 
@@ -137,12 +149,11 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_years 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # To delete after processing
-    newfiles <- dir(here::here(path, "raw"), full.names = TRUE)
-    newfiles <- newfiles[!newfiles %in% zipfiles]
-
     # tif files to import
-    files <- dir(here::here(path, "raw"), pattern = ".tif$", full.names = TRUE)
+    files <- c(
+      dir(here::here(path, "raw", "2008"), pattern = ".tif$", full.names = TRUE),
+      dir(here::here(path, "raw", "2013"), pattern = ".tif$", full.names = TRUE)
+    )
     dat <- lapply(files, stars::read_stars, proxy = TRUE)
     # _________________________________________________________________________________________ #
 
@@ -184,12 +195,12 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_years 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
     name <- tools::file_path_sans_ext(basename(files))
-    fm <- glue("{path}/{nm}-{name}.tif")
-    for (i in 1:length(name)) {
-      stars::write_stars(dat[[i]], fm[i])
-    }
+    fm <- glue("{path}/{nm}-{urls$years}-{name}.tif")
+    for (i in 1:length(name)) stars::write_stars(dat[[i]], fm[i])
+
     # Delete decompressed file, as they are very big
-    unlink(newfiles)
+    unlink(here::here(path, "raw", "2008"), recursive = TRUE)
+    unlink(here::here(path, "raw", "2013"), recursive = TRUE)
 
     # Metadata
     mt <- here::here(path, glue("{nm}.yaml"))

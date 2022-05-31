@@ -192,7 +192,7 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     #   nrow(logbooks)
     #   x <- data.frame(beg = seq(1, 54001, by = 1000), end = c(seq(1000, 54000, by = 1000), 54501))
     #   x <- x[1:2, ]
-    # 
+    #
     #   tic("loop")
     #   l <- list()
     #   # for (i in 1:nrow(iid)) {
@@ -207,7 +207,7 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     #     )
     #   }
     #   toc()
-    # 
+    #
     #   tic("foreach")
     #   # l <- foreach (i=1:nrow(iid)) %do% {
     #   l <- foreach(i = 1:nrow(x)) %do% {
@@ -221,7 +221,7 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     #     )
     #   }
     #   toc()
-    # 
+    #
     #   registerDoParallel(8)
     #   tic("doParallel")
     #   l <- foreach(i = 1:nrow(x)) %dopar% {
@@ -237,7 +237,7 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     #   }
     #   toc()
     #   stopImplicitCluster()
-    # 
+    #
     #   iid <- split(iid, 1:nrow(x))
     #   # iid <- split(iid, 1:nrow(iid))
     #   temp <- function(y) {
@@ -250,12 +250,12 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     #       biomass_field = "catch"
     #     )
     #   }
-    # 
+    #
     #   tic("lapply")
     #   l <- lapply(x, temp)
     #   # l <- lapply(iid, temp)
     #   toc()
-    # 
+    #
     #   tic("mclapply")
     #   l <- parallel::mclapply(x, temp, mc.cores = 8)
     #   # l <- parallel::mclapply(iid, temp, mc.cores = 8)
@@ -264,10 +264,10 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     # temp2()
     # # https://nceas.github.io/oss-lessons/parallel-computing-in-r/parallel-computing-in-r.html
     # # _________________________________________________________________________________________ #
-    # 
+    #
     # logbooks$years <- format(as.Date(logbooks$date_cap), format = "%Y")
     # x <- dplyr::group_by(logbooks, gearClass, years)
-    # 
+    #
     # x <- function() {
     #   dplyr::group_by(logbooks, gearClass, years) |>
     #     eaMethods::fishing_intensity(areaGrid = grid, metric = 3, biomass_field = "catch") |>

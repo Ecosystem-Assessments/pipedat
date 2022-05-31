@@ -47,7 +47,6 @@ Suggests:
     rgovcan,
     R.utils,
     stats,
-    stringr,
     testthat (>= 3.0.0),
     tidyr,
     usethis,

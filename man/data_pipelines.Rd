@@ -5,9 +5,10 @@
 %   R/dp_census_population_2016-d147406d.R,
 %   R/dp_census_population_2021-d96dec16.R, R/dp_contaminated_sites-804db12e.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
-%   R/dp_fisheries_logbooks-f2109e69.R, R/dp_marine_disposal_sites-4b72884d.R,
-%   R/dp_marine_seismic-06230ea3.R, R/dp_maritimes_grid-750b39f9.R,
-%   R/dp_night_lights-8509eeb1.R, R/dp_sea_surface_temperature-d87b7f5f.R,
+%   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
+%   R/dp_marine_disposal_sites-4b72884d.R, R/dp_marine_seismic-06230ea3.R,
+%   R/dp_maritimes_grid-750b39f9.R, R/dp_night_lights-8509eeb1.R,
+%   R/dp_sea_surface_temperature-d87b7f5f.R,
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
 %   R/dp_shipping_gfw-8449dee0.R
 \name{dp_68609420}
@@ -21,6 +22,7 @@
 \alias{dp_804db12e}
 \alias{dp_f635934a}
 \alias{dp_f2109e69}
+\alias{dp_4f84f0e3}
 \alias{dp_4b72884d}
 \alias{dp_06230ea3}
 \alias{dp_750b39f9}
@@ -50,6 +52,15 @@ dp_f635934a(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_f2109e69(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
+dp_4f84f0e3(
+  crs = 4326,
+  bbox = NULL,
+  timespan = NULL,
+  halpern_years = NULL,
+  halpern_layers = NULL,
+  ...
+)
+
 dp_4b72884d(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_06230ea3(crs = 4326, bbox = NULL, timespan = NULL, ...)
@@ -72,6 +83,10 @@ dp_8449dee0(crs = 4326, bbox = NULL, timespan = NULL, ...)
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
 
 \item{...}{further arguments used in individual data pipelines, if applicable.}
+
+\item{halpern_years}{years of data to load, choices are 2008 and 2013}
+
+\item{halpern_layers}{name of layers to download from the Halpern dataset. Possible entries are: "artisanal_fishing","demersal_destructive_fishing","demersal_destructive_fishing","demersal_nondest_high_bycatch","demersal_nondest_low_bycatch","inorganic","invasives","night_lights","ocean_acidification","ocean_pollution","oil_rigs","pelagic_high_bycatch","pelagic_low_bycatch","plumes_fert","plumes_pest","population","shipping","slr","sst","uv".}
 }
 \description{
 Atlantic Shoreline Classification
@@ -113,6 +128,10 @@ The spatial planning framework for Canada's national network of Marine Protected
 Commercial fisheries logbooks
 
 A compilation of landing data from Zonal Interchange File Format (ZIFF) data between 2000 and 2020
+
+Global cumulative human impacts assessments in 2008 and 2013
+
+Data from the assessments of global marine cumulative human impacts in 2008 and 2013
 
 Active and Inactive Disposal at Sea Sites
 
@@ -174,6 +193,9 @@ dp_f635934a()
 dp_f2109e69()
 }
 \dontrun{
+dp_4f84f0e3()
+}
+\dontrun{
 dp_4b72884d()
 }
 \dontrun{
@@ -229,6 +251,11 @@ dp_8449dee0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
 \code{\link{di_99bb2d51}()}
@@ -287,6 +314,7 @@ Other pipeline functions:
 \keyword{1b4dba19}
 \keyword{35608fef}
 \keyword{4b72884d}
+\keyword{4f84f0e3}
 \keyword{68609420}
 \keyword{750b39f9}
 \keyword{804db12e}

@@ -59,8 +59,16 @@ By default, the `pipedat()` function will export the raw and formatted data in f
 
 ## List of pipelines 
 
+### Data pipelines
+
 ```{r echo = FALSE}
-pipedat::pipelist()
+pipedat::pipelist("data")
+```
+
+### Integration pipelines
+
+```{r echo = FALSE}
+pipedat::pipelist("integration")
 ```
 
 ## How to contribute

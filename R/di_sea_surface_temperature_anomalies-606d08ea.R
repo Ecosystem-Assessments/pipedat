@@ -25,8 +25,8 @@ di_606d08ea <- function(grid = NULL, ...) {
   if (!exist$integrated) {
     # WARNING: For R CMD CHECK
     dist <- grid_raster.tif <- intensity <- latitude <-
-    longitude <- month <- sst_negative <- sst_positive <- 
-    val <- y <- NULL
+      longitude <- month <- sst_negative <- sst_positive <-
+      val <- y <- NULL
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

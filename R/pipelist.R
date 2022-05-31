@@ -35,5 +35,9 @@ pipelist <- function(type = "data") {
   )
 
   # Table
-  knitr::kable(dat, col.names = c("Pipeline ID", "Name", "Description", "Source"))
+  knitr::kable(
+    dat,
+    col.names = c("Pipeline ID", "Name", "Description", "Source"),
+    row.names = FALSE
+  )
 }

@@ -32,7 +32,6 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_layers
     urls <- c(
       "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/raw_2008_artisanal_fishing_mol_20150714093005",
       "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/raw_2008_demersal_destructive_fishing_mol_20150714093045",
-      "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/raw_2008_demersal_destructive_fishing_mol_20150714093559",
       "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/raw_2008_demersal_nondest_high_bycatch_mol_20150714093145",
       "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/raw_2008_demersal_nondest_low_bycatch_mol_20150714093246",
       "https://knb.ecoinformatics.org/knb/d1/mn/v2/object/raw_2008_inorganic_mol_20150714093318",
@@ -77,12 +76,13 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_layers
       files,
       function(x) file.rename(x, glue("{x}.zip"))
     )
-
+    
+    zipfiles <- glue("{x}.zip")
     lapply(
-      files,
+      zipfiles,
       function(x) {
         utils::unzip(
-          glue("{x}.zip"),
+          x,
           exdir = here::here(path, "raw")
         )
       }
@@ -96,7 +96,7 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_layers
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # To delete after processing
     newfiles <- dir(here::here(path, "raw"), full.names = TRUE)
-    newfiles <- newfiles[!newfiles %in% files]
+    newfiles <- newfiles[!newfiles %in% zipfiles]
 
     # tif files to import
     files <- dir(here::here(path, "raw"), pattern = ".tif$", full.names = TRUE)
@@ -110,7 +110,6 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_layers
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_crs = crs,
       pipeline_bbox = bbox,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat[[1]]),
@@ -128,10 +127,12 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_layers
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    bbox <- bbox_poly(bbox, crs = 4326) |>
-      sf::st_transform(crs = sf::st_crs(dat[[1]])) |>
-      sf::st_bbox()
-    dat <- lapply(dat, dp_parameters, bbox = bbox)
+    if (!is.null(bbox)) {
+      bbox <- bbox_poly(bbox, crs = 4326) |>
+        sf::st_transform(crs = sf::st_crs(dat[[1]])) |>
+        sf::st_bbox()
+      dat <- lapply(dat, dp_parameters, bbox = bbox)
+    }
     warning("WARNING: The Halpern datasets (id: 4f84f0e3) can be very large; hence the native spatial projection (EPSG: 54009) is kept rather than transformed. Remember to consider this for further analyses.")
     # _________________________________________________________________________________________ #
 
@@ -144,6 +145,8 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_layers
     for (i in 1:length(name)) {
       stars::write_stars(dat[[i]], fm[i])
     }
+    # Delete decompressed file, as they are very big
+    unlink(newfiles)
 
     # Metadata
     mt <- here::here(path, glue("{nm}.yaml"))

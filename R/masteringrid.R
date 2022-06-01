@@ -43,4 +43,13 @@ masteringrid <- function(dat, grid = NULL, name = "intensity") {
     colnames(dat)[2] <- name
     dat
   }
+  
+  # sf objects
+  if ("sf" %in% class(dat)) {
+    # Get grid
+    if (is.null(grid)) {
+      grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
+    }
+    grid <- sf::st_transform(grid, st_crs(dat))
+  }
 }

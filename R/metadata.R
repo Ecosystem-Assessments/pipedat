@@ -219,11 +219,11 @@ get_folderpaths <- function(pipeline_id) {
 
 make_filepaths <- function(pipeline_id) {
   folders <- get_folderpaths(pipeline_id)
-  type <- get_pipeline(pipeline_id)$pipeline_type
-  if (type == "data") dat <- files_clean
-  if (type == "integration") dat <- files_integrated
   l <- list()
   for (i in 1:length(pipeline_id)) {
+    type <- get_pipeline(pipeline_id[i])$pipeline_type
+    if (type == "data") dat <- files_clean
+    if (type == "integration") dat <- files_integrated
     l[[i]] <- here::here(
       folders[i],
       dat$filepaths[dat$pipeline_id == pipeline_id[i]]

@@ -40,16 +40,17 @@ masteringrid <- function(dat, grid = NULL, name = "intensity") {
       stats::setNames(c("intensity", "uid")) |>
       dplyr::filter(intensity > 0) |>
       dplyr::select(uid, intensity)
-    colnames(dat)[2] <- name
+
+    if (nrow(dat) > 0) colnames(dat)[2] <- name
     dat
   }
 
-  # sf objects
-  if ("sf" %in% class(dat)) {
-    # Get grid
-    if (is.null(grid)) {
-      grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
-    }
-    grid <- sf::st_transform(grid, st_crs(dat))
-  }
+  # # sf objects
+  # if ("sf" %in% class(dat)) {
+  #   # Get grid
+  #   if (is.null(grid)) {
+  #     grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
+  #   }
+  #   grid <- sf::st_transform(grid, st_crs(dat))
+  # }
 }

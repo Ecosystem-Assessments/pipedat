@@ -6,9 +6,10 @@
 %   R/dp_census_population_2021-d96dec16.R, R/dp_contaminated_sites-804db12e.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
 %   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
-%   R/dp_marine_disposal_sites-4b72884d.R, R/dp_marine_seismic-06230ea3.R,
-%   R/dp_maritimes_grid-750b39f9.R, R/dp_night_lights-8509eeb1.R,
-%   R/dp_sea_surface_temperature-d87b7f5f.R,
+%   R/dp_marine_disposal_sites-4b72884d.R,
+%   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R,
+%   R/dp_marine_seismic-06230ea3.R, R/dp_maritimes_grid-750b39f9.R,
+%   R/dp_night_lights-8509eeb1.R, R/dp_sea_surface_temperature-d87b7f5f.R,
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
 %   R/dp_shipping_gfw-8449dee0.R
 \name{dp_68609420}
@@ -24,6 +25,7 @@
 \alias{dp_f2109e69}
 \alias{dp_4f84f0e3}
 \alias{dp_4b72884d}
+\alias{dp_3d1bfb8e}
 \alias{dp_06230ea3}
 \alias{dp_750b39f9}
 \alias{dp_8509eeb1}
@@ -62,6 +64,8 @@ dp_4f84f0e3(
 )
 
 dp_4b72884d(crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_3d1bfb8e(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_06230ea3(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
@@ -137,6 +141,10 @@ Active and Inactive Disposal at Sea Sites
 
 The Active and Inactive Disposal at Sea Sites in Canadian Waters dataset provides spatial and related information of at-sea disposal sites approved for use in Canada in the last ten years and that remain open for consideration for additional use.
 
+Mammifères marins
+
+Cartographic data: a mariner's guide to whales in the Northwest Atlantic, 2nd edition
+
 Canadian National Marine Seismic Data Repository
 
 The Geological Survey of Canada (Atlantic and Pacific) has collected marine survey field records on marine expeditions for over 50 years. This release makes available the results of an ongoing effort to scan and convert our inventory of analog marine survey field records (seismic, sidescan and sounder) to digital format.
@@ -199,6 +207,9 @@ dp_4f84f0e3()
 dp_4b72884d()
 }
 \dontrun{
+dp_3d1bfb8e()
+}
+\dontrun{
 dp_06230ea3()
 }
 \dontrun{
@@ -253,6 +264,11 @@ dp_8449dee0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
 \code{\link{di_99bb2d51}()}
@@ -313,6 +329,7 @@ Other pipeline functions:
 \keyword{084860fd}
 \keyword{1b4dba19}
 \keyword{35608fef}
+\keyword{3d1bfb8e}
 \keyword{4b72884d}
 \keyword{4f84f0e3}
 \keyword{68609420}

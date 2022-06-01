@@ -43,6 +43,7 @@ Suggests:
     grDevices,
     ids,
     knitr,
+    purrr,
     readr,
     rgovcan,
     R.utils,

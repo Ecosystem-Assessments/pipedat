@@ -17,24 +17,24 @@
 griddat <- function(uid, grid = NULL) {
   dat <- importdat(uid)
   nm <- tools::file_path_sans_ext(names(dat))
-  for(i in 1:length(dat)) {
+  for (i in 1:length(dat)) {
     dat[[i]] <- setNames(
-      dat[[i]], 
+      dat[[i]],
       c("uid", nm[i])
     )
   }
-  
+
   # Grid
   if (is.null(grid)) {
     grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
   }
-  
+
   # Join all data together
   dat <- purrr::reduce(dat, dplyr::left_join, by = "uid")
-  
-  # Join to grid 
+
+  # Join to grid
   dat <- dplyr::left_join(grid, dat, by = "uid")
-  
-  # return 
+
+  # return
   invisible(dat)
 }

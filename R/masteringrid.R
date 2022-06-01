@@ -43,7 +43,7 @@ masteringrid <- function(dat, grid = NULL, name = "intensity") {
     colnames(dat)[2] <- name
     dat
   }
-  
+
   # sf objects
   if ("sf" %in% class(dat)) {
     # Get grid

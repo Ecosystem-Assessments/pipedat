@@ -11,7 +11,7 @@
 %   R/dp_marine_seismic-06230ea3.R, R/dp_maritimes_grid-750b39f9.R,
 %   R/dp_night_lights-8509eeb1.R, R/dp_sea_surface_temperature-d87b7f5f.R,
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
-%   R/dp_shipping_gfw-8449dee0.R
+%   R/dp_shipping_gfw-8449dee0.R, R/dp_temperature_climatology_bnam-71944efd.R
 \name{dp_68609420}
 \alias{dp_68609420}
 \alias{dp_35608fef}
@@ -32,6 +32,7 @@
 \alias{dp_d87b7f5f}
 \alias{dp_1b4dba19}
 \alias{dp_8449dee0}
+\alias{dp_71944efd}
 \title{Atlantic Shoreline Classification}
 \usage{
 dp_68609420(crs = 4326, bbox = NULL, timespan = NULL, ...)
@@ -78,6 +79,8 @@ dp_d87b7f5f(crs = 4326, bbox = NULL, timespan = NULL, ...)
 dp_1b4dba19(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_8449dee0(crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_71944efd(crs = 4326, bbox = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{crs}{spatial projection to use to transform the spatial data into a uniform projection}
@@ -141,7 +144,7 @@ Active and Inactive Disposal at Sea Sites
 
 The Active and Inactive Disposal at Sea Sites in Canadian Waters dataset provides spatial and related information of at-sea disposal sites approved for use in Canada in the last ten years and that remain open for consideration for additional use.
 
-Mammifères marins
+Marine mammals
 
 Cartographic data: a mariner's guide to whales in the Northwest Atlantic, 2nd edition
 
@@ -168,6 +171,10 @@ Surface-water temperature anomalies climatology data from the Department of Fish
 AIS global shipping data
 
 Monthly shipping rasters at 0.1 degree resolution including the number of vessels and total hours of vessel presence for all vessels classified by Global Fishing Watch as one of the following: 'cargo', 'specialized_reefer', 'tanker', 'bunker', 'cargo_or_tanker', 'cargo_or_reefer', 'bunker_or_tanker', 'container_reefer', 'passenger'. There are two versions of the data available, one based only on actual AIS positions and one where vessel location is interpolated to a regular interval of five minutes.
+
+Monthly temperature climatology
+
+Monthly mean temperature from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period
 }
 \examples{
 \dontrun{
@@ -227,6 +234,9 @@ dp_1b4dba19()
 \dontrun{
 dp_8449dee0()
 }
+\dontrun{
+dp_71944efd()
+}
 }
 \seealso{
 \code{\link{pipedat}}
@@ -266,6 +276,11 @@ dp_8449dee0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
 \code{\link{di_99bb2d51}()}
@@ -333,6 +348,7 @@ Other pipeline functions:
 \keyword{4b72884d}
 \keyword{4f84f0e3}
 \keyword{68609420}
+\keyword{71944efd}
 \keyword{750b39f9}
 \keyword{804db12e}
 \keyword{8449dee0}

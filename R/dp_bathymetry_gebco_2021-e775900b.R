@@ -29,7 +29,6 @@ dp_e775900b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
   if (!exist$raw) {
     # If the data is downloaded from online sources
     urls <- c(
-      "https://www.gebco.net/data_and_products/gridded_bathymetry_data/gebco_2021/documents/GEBCO_2021_Grid.pdf",
       "https://www.bodc.ac.uk/data/open_download/gebco/gebco_2021_sub_ice_topo/geotiff/"
     )
 
@@ -39,52 +38,57 @@ dp_e775900b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
       output = here::here(path, "raw"),
       large = TRUE
     )
+
+    # Rename
+    file.rename(
+      here::here(path, "raw", "geotiff"),
+      here::here(path, "raw", "geotiff.zip")
+    )
   }
   # _________________________________________________________________________________________ #
 
   if (!exist$clean) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
-    # NOTE: optional
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Example for data that needs to be locally available
-    filepath <- here::here(path, "raw", "name_of_file.extension")
-    check_data(filepath, path)
+    # Unzip
+    archive::archive_extract(
+      here::here(path, "raw", "geotiff.zip"),
+      dir = here::here(path, "raw"),
+      files = c("GEBCO_2021_Grid.pdf", "GEBCO_Grid_terms_of_use.pdf")
+    )
+    archive::archive_extract(
+      here::here(path, "raw", "geotiff.zip"),
+      dir = here::here(path, "raw", "gebco_2021")
+    )
 
-
-    # _________________________________________________________________________________________ #
-
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # FORMAT DATA
-    # NOTE: optional
-    # WARNING: In order for filters to work, names of column should be:
-    #             year      = year
-    #             longitude = longitude
-    #             latitude  = latitude
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-
+    # Load all
+    files <- dir(here::here(path, "raw", "gebco_2021"), pattern = ".tif$")
+    dat <- lapply(
+      here::here(path, "raw", "gebco_2021", files),
+      stars::read_stars,
+      proxy = TRUE
+    )
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE METADATA
     # WARNING: mandatory
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    dat_bbox <- c(
+      xmin = -180,
+      ymin = -90,
+      xmax = 180,
+      ymax = 90
+    )
+
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_crs = crs,
       pipeline_bbox = bbox,
-      pipeline_timespan = timespan,
       access = timestamp(),
-      data_bbox = sf::st_bbox(dat),
-      data_timespan = sort(unique(dat$year))
-    )
-
-    # To add additional metadata for queried data
-    meta <- add_metadata(meta,
-      info1 = c("Format as lists and dataframes to be rendered as yaml"),
-      info2 = c("Formatting thus matters"),
-      info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
+      data_bbox = dat_bbox,
+      data_timespan = 2021
     )
     # _________________________________________________________________________________________ #
 
@@ -99,20 +103,25 @@ dp_e775900b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    dat <- dp_parameters(
-      dat,
-      crs = crs,
-      bbox = bbox,
-      timespan = timespan
-    )
+    dat <- lapply(dat, dp_parameters, crs = 4326, bbox = bbox)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{nm}.geojson")) # NOTE: not necessarily spatial data
-    sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
+    name <- gsub("\\.0", "", files)
+    name <- gsub("gebco_2021_sub_ice_topo_", "", name) |>
+      tools::file_path_sans_ext()
+    fm <- here::here(path, glue("{nm}-{name}.tif"))
+    for (i in 1:length(fm)) {
+      suppressWarnings(
+        try(stars::write_stars(dat[[i]], fm[i]), silent = TRUE)
+      )
+    }
+
+    # Delete to save memory
+    unlink(here::here(path, "raw", "gebco_2021"), recursive = TRUE)
 
     # Metadata
     mt <- here::here(path, glue("{nm}.yaml"))

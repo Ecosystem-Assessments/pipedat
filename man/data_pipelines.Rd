@@ -7,9 +7,10 @@
 %   R/dp_federal_marine_bioregions-f635934a.R,
 %   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
 %   R/dp_marine_disposal_sites-4b72884d.R,
-%   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R,
-%   R/dp_marine_seismic-06230ea3.R, R/dp_maritimes_grid-750b39f9.R,
-%   R/dp_night_lights-8509eeb1.R, R/dp_sea_surface_temperature-d87b7f5f.R,
+%   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R, R/dp_marine_seismic-06230ea3.R,
+%   R/dp_maritimes_grid-750b39f9.R, R/dp_night_lights-8509eeb1.R,
+%   R/dp_salinity_climatology_bnam-0d61380a.R,
+%   R/dp_sea_surface_temperature-d87b7f5f.R,
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
 %   R/dp_shipping_gfw-8449dee0.R, R/dp_temperature_climatology_bnam-71944efd.R
 \name{dp_68609420}
@@ -29,6 +30,7 @@
 \alias{dp_06230ea3}
 \alias{dp_750b39f9}
 \alias{dp_8509eeb1}
+\alias{dp_0d61380a}
 \alias{dp_d87b7f5f}
 \alias{dp_1b4dba19}
 \alias{dp_8449dee0}
@@ -73,6 +75,8 @@ dp_06230ea3(crs = 4326, bbox = NULL, timespan = NULL, ...)
 dp_750b39f9(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_8509eeb1(crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_0d61380a(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_d87b7f5f(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
@@ -160,6 +164,10 @@ Nighttime Ligths
 
 A new consistently processed time series of annual global VIIRS nighttime lights has been produced from monthly cloud-free average radiance grids spanning 2012 to 2020. The new methodology is a modification of the original method based on nightly data (Annual VNL V1). Visite https://eogdata.mines.edu/products/vnl/#annual_v2 for more information.
 
+Monthly salinity climatology
+
+Monthly mean salinity from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period
+
 Sea surface temperature anomalies
 
 Surface-water temperature anomalies from the Department of Fisheries and Oceans� (DFO) Atlantic Zone Monitoring Program (AZMP)
@@ -226,6 +234,9 @@ dp_750b39f9()
 dp_8509eeb1()
 }
 \dontrun{
+dp_0d61380a()
+}
+\dontrun{
 dp_d87b7f5f()
 }
 \dontrun{
@@ -278,6 +289,11 @@ dp_71944efd()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
 \code{\link{di_99bb2d51}()}
@@ -342,6 +358,7 @@ Other pipeline functions:
 \concept{pipeline functions}
 \keyword{06230ea3}
 \keyword{084860fd}
+\keyword{0d61380a}
 \keyword{1b4dba19}
 \keyword{35608fef}
 \keyword{3d1bfb8e}

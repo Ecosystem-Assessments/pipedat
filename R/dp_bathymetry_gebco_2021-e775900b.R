@@ -115,8 +115,12 @@ dp_e775900b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
       tools::file_path_sans_ext()
     fm <- here::here(path, glue("{nm}-{name}.tif"))
     for (i in 1:length(fm)) {
-      suppressWarnings(
-        try(stars::write_stars(dat[[i]], fm[i]), silent = TRUE)
+      try(
+        {
+          x <- stars::st_as_stars(dat[[i]])
+          stars::write_stars(x, fm[i])
+        },
+        silent = TRUE
       )
     }
 

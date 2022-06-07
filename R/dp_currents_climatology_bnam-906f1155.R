@@ -37,6 +37,8 @@ dp_906f1155 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # _________________________________________________________________________________________ #
 
   if (!exist$clean) {
+    # WARNING: For R CMD CHECK
+    Latitude_DD <- Longitude_DD <- NULL
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # NOTE: optional

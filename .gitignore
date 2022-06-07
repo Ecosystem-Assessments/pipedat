@@ -39,4 +39,5 @@ vignettes/*.pdf
 .Renviron
 .DS_Store
 data-raw/
-data/
+data-grid/
+data-integrated/

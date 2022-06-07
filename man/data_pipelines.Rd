@@ -5,8 +5,8 @@
 %   R/dp_census_boundary_2021-b9024b04.R,
 %   R/dp_census_population_2016-d147406d.R,
 %   R/dp_census_population_2021-d96dec16.R, R/dp_contaminated_sites-804db12e.R,
-%   R/dp_currents_climatology_bnam-906f1155.R,
-%   R/dp_dfo_survey_4vsw-2aafec74.R, R/dp_federal_marine_bioregions-f635934a.R,
+%   R/dp_currents_climatology_bnam-906f1155.R, R/dp_dfo_survey_4vsw-2aafec74.R,
+%   R/dp_dfo_survey_fall-90e90110.R, R/dp_federal_marine_bioregions-f635934a.R,
 %   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
 %   R/dp_invasive_species_sdm-7c8c4da1.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R, R/dp_marine_seismic-06230ea3.R,
@@ -27,6 +27,7 @@
 \alias{dp_804db12e}
 \alias{dp_906f1155}
 \alias{dp_2aafec74}
+\alias{dp_90e90110}
 \alias{dp_f635934a}
 \alias{dp_f2109e69}
 \alias{dp_4f84f0e3}
@@ -64,6 +65,8 @@ dp_804db12e(crs = 4326, bbox = NULL, timespan = NULL, ...)
 dp_906f1155(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_2aafec74(crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_90e90110(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_f635934a(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
@@ -172,6 +175,10 @@ DFO Research Vessel Survey 4VSW
 
 DFO Research Vessel Survey 4VSW focused on the eastern half of the Scotian Shelf, and occurring primarily in March, but sets in both February, and April are also present in the data
 
+DFO Research Vessel Survey Fall
+
+DFO Research Vessel Survey in the fall occurring primarily in October and November, but sets from September and December are also present in the data
+
 Federal Marine Bioregions
 
 The spatial planning framework for Canada's national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada's oceans and the Great Lakes.
@@ -261,6 +268,9 @@ dp_906f1155()
 }
 \dontrun{
 dp_2aafec74()
+}
+\dontrun{
+dp_90e90110()
 }
 \dontrun{
 dp_f635934a()
@@ -356,6 +366,11 @@ dp_71944efd()
 
 \code{\link{pipedat}}
 
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
+
 Other pipeline functions: 
 \code{\link{di_99bb2d51}()}
 
@@ -449,6 +464,7 @@ Other pipeline functions:
 \keyword{8449dee0}
 \keyword{8509eeb1}
 \keyword{906f1155}
+\keyword{90e90110}
 \keyword{b9024b04}
 \keyword{c676dc2b}
 \keyword{d147406d}

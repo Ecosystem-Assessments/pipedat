@@ -6,7 +6,7 @@
 %   R/dp_census_population_2016-d147406d.R,
 %   R/dp_census_population_2021-d96dec16.R, R/dp_contaminated_sites-804db12e.R,
 %   R/dp_currents_climatology_bnam-906f1155.R,
-%   R/dp_federal_marine_bioregions-f635934a.R,
+%   R/dp_dfo_survey_4vsw-2aafec74.R, R/dp_federal_marine_bioregions-f635934a.R,
 %   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
 %   R/dp_invasive_species_sdm-7c8c4da1.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R, R/dp_marine_seismic-06230ea3.R,
@@ -26,6 +26,7 @@
 \alias{dp_d96dec16}
 \alias{dp_804db12e}
 \alias{dp_906f1155}
+\alias{dp_2aafec74}
 \alias{dp_f635934a}
 \alias{dp_f2109e69}
 \alias{dp_4f84f0e3}
@@ -61,6 +62,8 @@ dp_d96dec16(crs = 4326, bbox = NULL, timespan = NULL, ...)
 dp_804db12e(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_906f1155(crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_2aafec74(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_f635934a(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
@@ -165,6 +168,10 @@ Monthly currents climatology
 
 Monthly mean salinity from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period
 
+DFO Research Vessel Survey 4VSW
+
+DFO Research Vessel Survey 4VSW focused on the eastern half of the Scotian Shelf, and occurring primarily in March, but sets in both February, and April are also present in the data
+
 Federal Marine Bioregions
 
 The spatial planning framework for Canada's national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada's oceans and the Great Lakes.
@@ -251,6 +258,9 @@ dp_804db12e()
 }
 \dontrun{
 dp_906f1155()
+}
+\dontrun{
+dp_2aafec74()
 }
 \dontrun{
 dp_f635934a()
@@ -344,6 +354,11 @@ dp_71944efd()
 
 \code{\link{pipedat}}
 
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
+
 Other pipeline functions: 
 \code{\link{di_99bb2d51}()}
 
@@ -421,6 +436,7 @@ Other pipeline functions:
 \keyword{084860fd}
 \keyword{0d61380a}
 \keyword{1b4dba19}
+\keyword{2aafec74}
 \keyword{35608fef}
 \keyword{3d1bfb8e}
 \keyword{4b72884d}

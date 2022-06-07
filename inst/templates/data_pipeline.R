@@ -35,7 +35,7 @@ dp_{{ dpid }} <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     )
     
     # If the data is downloaded from open government using `rgovcan`
-    govcan <- "govcan uuid"
+    govcan <- get_pipeline(uid)$data_uuid
     
     # Load
     pipeload(

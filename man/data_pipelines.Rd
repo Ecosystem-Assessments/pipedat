@@ -8,7 +8,7 @@
 %   R/dp_currents_climatology_bnam-906f1155.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
 %   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
-%   R/dp_marine_disposal_sites-4b72884d.R,
+%   R/dp_invasive_species_sdm-7c8c4da1.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R, R/dp_marine_seismic-06230ea3.R,
 %   R/dp_maritimes_grid-750b39f9.R, R/dp_night_lights-8509eeb1.R,
 %   R/dp_salinity_climatology_bnam-0d61380a.R,
@@ -29,6 +29,7 @@
 \alias{dp_f635934a}
 \alias{dp_f2109e69}
 \alias{dp_4f84f0e3}
+\alias{dp_7c8c4da1}
 \alias{dp_4b72884d}
 \alias{dp_3d1bfb8e}
 \alias{dp_06230ea3}
@@ -74,6 +75,16 @@ dp_4f84f0e3(
   ...
 )
 
+dp_7c8c4da1(
+  crs = 4326,
+  bbox = NULL,
+  timespan = NULL,
+  invasive_model = c("current", "projected"),
+  invasive_model_type = c("model", "stdev"),
+  invasive_species = c("species", "richness"),
+  ...
+)
+
 dp_4b72884d(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_3d1bfb8e(crs = 4326, bbox = NULL, timespan = NULL, ...)
@@ -106,6 +117,12 @@ dp_71944efd(crs = 4326, bbox = NULL, timespan = NULL, ...)
 \item{halpern_years}{years of data to load, choices are 2008 and 2013}
 
 \item{halpern_layers}{name of layers to download from the Halpern dataset. Possible entries are: "artisanal_fishing","demersal_destructive_fishing","demersal_destructive_fishing","demersal_nondest_high_bycatch","demersal_nondest_low_bycatch","inorganic","invasives","night_lights","ocean_acidification","ocean_pollution","oil_rigs","pelagic_high_bycatch","pelagic_low_bycatch","plumes_fert","plumes_pest","population","shipping","slr","sst","uv".}
+
+\item{invasive_model}{model to load, either \code{current} or \code{projected}}
+
+\item{invasive_model_type}{type of model to load, either \code{model} or \code{stdev}}
+
+\item{invasive_species}{\code{species} and/or \code{richness}}
 }
 \description{
 Atlantic Shoreline Classification
@@ -159,6 +176,10 @@ A compilation of landing data from Zonal Interchange File Format (ZIFF) data bet
 Global cumulative human impacts assessments in 2008 and 2013
 
 Data from the assessments of global marine cumulative human impacts in 2008 and 2013
+
+Invasive species distribution models
+
+Species distribution models and occurrence data for marine invasive species hotspot identification
 
 Active and Inactive Disposal at Sea Sites
 
@@ -241,6 +262,9 @@ dp_f2109e69()
 dp_4f84f0e3()
 }
 \dontrun{
+dp_7c8c4da1()
+}
+\dontrun{
 dp_4b72884d()
 }
 \dontrun{
@@ -317,6 +341,11 @@ dp_71944efd()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
 \code{\link{di_99bb2d51}()}
@@ -399,6 +428,7 @@ Other pipeline functions:
 \keyword{68609420}
 \keyword{71944efd}
 \keyword{750b39f9}
+\keyword{7c8c4da1}
 \keyword{804db12e}
 \keyword{8449dee0}
 \keyword{8509eeb1}

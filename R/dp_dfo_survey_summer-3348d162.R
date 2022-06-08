@@ -1,6 +1,6 @@
-#' @eval get_name("21f8a758")
+#' @eval get_name("3348d162")
 #'
-#' @eval get_description("21f8a758")
+#' @eval get_description("3348d162")
 #'
 #' @eval dp_params()
 #'
@@ -8,15 +8,15 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 21f8a758
+#' @keywords pipeline_id: 3348d162
 #'
 #' @examples
 #' \dontrun{
-#' dp_21f8a758()
+#' dp_3348d162()
 #' }
-dp_21f8a758 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_3348d162 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
-  uid <- "21f8a758"
+  uid <- "3348d162"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
   exist <- check_files(uid, name, ondisk = FALSE)
@@ -39,11 +39,11 @@ dp_21f8a758 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    gscat <- utils::read.csv(here::here(path, "raw", "SPRING_2020_GSCAT.csv"))
-    gsdet <- utils::read.csv(here::here(path, "raw", "SPRING_2020_GSDET.csv"))
-    gsinf <- utils::read.csv(here::here(path, "raw", "SPRING_2020_GSINF.csv"))
-    gsspecies <- utils::read.csv(here::here(path, "raw", "SPRING_2020_GSSPECIES.csv"))
-    gsmissions <- utils::read.csv(here::here(path, "raw", "SPRING_2020GSMISSIONS.csv"))
+    gscat <- utils::read.csv(here::here(path, "raw", "SUMMER_2020_GSCAT.csv"))
+    gsdet <- utils::read.csv(here::here(path, "raw", "SUMMER_2020_GSDET.csv"))
+    gsinf <- utils::read.csv(here::here(path, "raw", "SUMMER_2020_GSINF.csv"))
+    gsspecies <- utils::read.csv(here::here(path, "raw", "SUMMER_2020_GSSPECIES.csv"))
+    gsmissions <- utils::read.csv(here::here(path, "raw", "SUMMER_2020GSMISSIONS.csv"))
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

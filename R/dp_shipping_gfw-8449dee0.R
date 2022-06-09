@@ -98,8 +98,8 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       }
 
       # Crop
-      dat[[i]] <- dp_parameters(dat[[i]], crs = NULL, bbox = bbox4326, timespan = years)
-      ndat[[i]] <- dp_parameters(ndat[[i]], crs = NULL, bbox = bbox4326, timespan = years)
+      dat[[i]] <- dp_parameters(dat[[i]], bbox = bbox4326, bbox_crs = 4326, timespan = years)
+      ndat[[i]] <- dp_parameters(ndat[[i]], bbox = bbox4326, bbox_crs = 4326, timespan = years)
     }
 
     dat <- dplyr::bind_rows(dat)

@@ -101,6 +101,7 @@ dp_f2109e69 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     dat <- dp_parameters(
       dat,
       bbox = bb,
+      bbox_crs = bbox_crs,
       timespan = timespan
     )
     # _________________________________________________________________________________________ #

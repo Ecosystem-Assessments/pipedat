@@ -84,8 +84,8 @@ dp_06230ea3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat <- dp_parameters(
       dat,
-      crs = crs,
       bbox = bbox,
+      bbox_crs = bbox_crs,
       timespan = timespan
     )
     # _________________________________________________________________________________________ #

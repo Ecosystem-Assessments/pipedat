@@ -183,9 +183,8 @@ dp_4f84f0e3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, halpern_y
       bbox <- bbox_poly(bbox, crs = 4326) |>
         sf::st_transform(crs = sf::st_crs(dat[[1]])) |>
         sf::st_bbox()
-      dat <- lapply(dat, dp_parameters, bbox = bbox)
+      dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
     }
-    warning("WARNING: The Halpern datasets (id: 4f84f0e3) can be very large; hence the native spatial projection (EPSG: 54009) is kept rather than transformed. Remember to consider this for further analyses.")
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

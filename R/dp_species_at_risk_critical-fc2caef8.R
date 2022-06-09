@@ -70,7 +70,7 @@ dp_fc2caef8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # APPLY SUBSETS AND CRS SPECIFIED BY USER
   # NOTE: optional, only if applicable
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  dat <- dp_parameters(dat, bbox = bbox)
+  dat <- dp_parameters(dat, bbox = bbox, bbox_crs = bbox_crs)
   
   bb <- bbox_poly(bbox, 4326) |>
         sf::st_transform(sf::st_crs(dat))

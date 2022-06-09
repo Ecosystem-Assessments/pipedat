@@ -96,6 +96,7 @@ dp_21f8a758 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     gsinf <- dp_parameters(
       gsinf,
       bbox = bbox,
+      bbox_crs = bbox_crs,
       timespan = timespan
     )
     # _________________________________________________________________________________________ #

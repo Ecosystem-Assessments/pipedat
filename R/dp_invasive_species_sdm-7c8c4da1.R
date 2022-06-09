@@ -141,8 +141,8 @@ dp_7c8c4da1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, invasive_
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    atl <- lapply(atl, dp_parameters, crs = 4326, bbox = bbox)
-    pac <- lapply(pac, dp_parameters, crs = 4326, bbox = bbox)
+    atl <- lapply(atl, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
+    pac <- lapply(pac, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

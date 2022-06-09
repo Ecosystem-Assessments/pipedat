@@ -184,6 +184,7 @@ dp_d87b7f5f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     dat <- dp_parameters(
       dat,
       bbox = bbox,
+      bbox_crs = bbox_crs,
       timespan = timespan
     )
     # _________________________________________________________________________________________ #

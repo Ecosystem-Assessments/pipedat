@@ -105,8 +105,8 @@ dp_3d1bfb8e <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     for (i in 1:length(dat)) {
       dat[[i]] <- dp_parameters(
         dat[[i]],
-        crs = 4326,
-        bbox = bbox
+        bbox = bbox,
+        bbox_crs = bbox_crs
       )
     }
     # _________________________________________________________________________________________ #

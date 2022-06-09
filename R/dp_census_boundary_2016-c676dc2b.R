@@ -75,8 +75,8 @@ dp_c676dc2b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     sf::sf_use_s2(FALSE)
     dat <- dp_parameters(
       dat,
-      crs = crs,
-      bbox = bbox
+      bbox = bbox,
+      bbox_crs = bbox_crs
     )
     # _________________________________________________________________________________________ #
 

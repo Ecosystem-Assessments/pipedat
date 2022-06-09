@@ -88,18 +88,9 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
         ymax = max(dat[[i]]$latitude)
       )
 
-      # Make sure bounding box is in crs = 4326
-      if (is.null(bbox)) {
-        bbox4326 <- NULL
-      } else {
-        bbox4326 <- bbox_poly(bbox, crs = bbox_crs) |>
-          sf::st_transform(crs = 4326) |>
-          sf::st_bbox()
-      }
-
       # Crop
-      dat[[i]] <- dp_parameters(dat[[i]], bbox = bbox4326, bbox_crs = 4326, timespan = years)
-      ndat[[i]] <- dp_parameters(ndat[[i]], bbox = bbox4326, bbox_crs = 4326, timespan = years)
+      dat[[i]] <- dp_parameters(dat[[i]], bbox = bbox, bbox_crs = bbox_crs, timespan = years)
+      ndat[[i]] <- dp_parameters(ndat[[i]], bbox = bbox, bbox_crs = bbox_crs, timespan = years)
     }
 
     dat <- dplyr::bind_rows(dat)

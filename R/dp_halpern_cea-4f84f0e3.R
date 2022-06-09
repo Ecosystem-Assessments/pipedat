@@ -179,12 +179,7 @@ dp_4f84f0e3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, halpern_y
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    if (!is.null(bbox)) {
-      bbox <- bbox_poly(bbox, crs = 4326) |>
-        sf::st_transform(crs = sf::st_crs(dat[[1]])) |>
-        sf::st_bbox()
-      dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
-    }
+    dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

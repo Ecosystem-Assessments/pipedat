@@ -52,8 +52,8 @@ dp_c676dc2b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_crs = crs,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat),
       data_timespan = 2016

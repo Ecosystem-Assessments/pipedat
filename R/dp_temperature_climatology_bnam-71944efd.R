@@ -62,6 +62,7 @@ dp_71944efd <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       pipeline_type = "data",
       pipeline_id = uid,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat[[1]]),
       data_timespan = 1990:2015

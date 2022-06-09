@@ -74,6 +74,7 @@ dp_90e90110 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       pipeline_type = "data",
       pipeline_id = uid,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       pipeline_timespan = timespan,
       access = timestamp(),
       data_bbox = dat_bbox,

@@ -123,6 +123,7 @@ dp_7c8c4da1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, invasive_
       pipeline_type = "data",
       pipeline_id = uid,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = dat_bbox,
       data_timespan = c(2020, 2075)

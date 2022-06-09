@@ -16,7 +16,9 @@
 %   R/dp_salinity_climatology_bnam-0d61380a.R,
 %   R/dp_sea_surface_temperature-d87b7f5f.R,
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
-%   R/dp_shipping_gfw-8449dee0.R, R/dp_temperature_climatology_bnam-71944efd.R
+%   R/dp_shipping_gfw-8449dee0.R, R/dp_species_at_risk_critical-fc2caef8.R,
+%   R/dp_species_at_risk_range-04528545.R,
+%   R/dp_temperature_climatology_bnam-71944efd.R
 \name{dp_68609420}
 \alias{dp_68609420}
 \alias{dp_e775900b}
@@ -45,6 +47,8 @@
 \alias{dp_d87b7f5f}
 \alias{dp_1b4dba19}
 \alias{dp_8449dee0}
+\alias{dp_fc2caef8}
+\alias{dp_04528545}
 \alias{dp_71944efd}
 \title{Atlantic Shoreline Classification}
 \usage{
@@ -117,11 +121,13 @@ dp_1b4dba19(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
 dp_8449dee0(crs = 4326, bbox = NULL, timespan = NULL, ...)
 
+dp_fc2caef8(crs = 4326, bbox = NULL, timespan = NULL, ...)
+
+dp_04528545(crs = 4326, bbox = NULL, timespan = NULL, ...)
+
 dp_71944efd(crs = 4326, bbox = NULL, timespan = NULL, ...)
 }
 \arguments{
-\item{crs}{spatial projection to use to transform the spatial data into a uniform projection}
-
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
 
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
@@ -137,6 +143,8 @@ dp_71944efd(crs = 4326, bbox = NULL, timespan = NULL, ...)
 \item{invasive_model_type}{type of model to load, either \code{model} or \code{stdev}}
 
 \item{invasive_species}{\code{species} and/or \code{richness}}
+
+\item{bbox_crs}{spatial projection of bounding box argument, defaults to epsg: 4326}
 }
 \description{
 Atlantic Shoreline Classification
@@ -247,6 +255,14 @@ AIS global shipping data
 
 Monthly shipping rasters at 0.1 degree resolution including the number of vessels and total hours of vessel presence for all vessels classified by Global Fishing Watch as one of the following: 'cargo', 'specialized_reefer', 'tanker', 'bunker', 'cargo_or_tanker', 'cargo_or_reefer', 'bunker_or_tanker', 'container_reefer', 'passenger'. There are two versions of the data available, one based only on actual AIS positions and one where vessel location is interpolated to a regular interval of five minutes.
 
+Critical Habitat of Species at Risk
+
+Fisheries and Oceans Canada Species at Risk critical habitat for species listed as Endangered, Threatened or Special Concern under the Species at Risk Act (SARA)
+
+DFO Species at risk range
+
+Fisheries and Oceans Canada Species at Risk Distribution (Range) for species listed as Endangered, Threatened or Special Concern under the Species at Risk Act (SARA)
+
 Monthly temperature climatology
 
 Monthly mean temperature from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period
@@ -334,6 +350,12 @@ dp_1b4dba19()
 dp_8449dee0()
 }
 \dontrun{
+dp_fc2caef8()
+}
+\dontrun{
+dp_04528545()
+}
+\dontrun{
 dp_71944efd()
 }
 }
@@ -393,6 +415,16 @@ dp_71944efd()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
+
+Other pipeline functions: 
+\code{\link{di_99bb2d51}()}
 
 Other pipeline functions: 
 \code{\link{di_99bb2d51}()}
@@ -479,6 +511,7 @@ Other pipeline functions:
 \code{\link{di_99bb2d51}()}
 }
 \concept{pipeline functions}
+\keyword{04528545}
 \keyword{06230ea3}
 \keyword{084860fd}
 \keyword{0d61380a}
@@ -507,4 +540,5 @@ Other pipeline functions:
 \keyword{e775900b}
 \keyword{f2109e69}
 \keyword{f635934a}
+\keyword{fc2caef8}
 \keyword{pipeline_id:}

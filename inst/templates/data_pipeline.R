@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_{{ dpid }}()
 #' }
-dp_{{ dpid }} <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "{{ dpid }}"
   name <- get_shortname(uid)
@@ -24,7 +24,6 @@ dp_{{ dpid }} <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
-  # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (!exist$raw) {
     # If the data is downloaded from online sources
@@ -50,7 +49,6 @@ dp_{{ dpid }} <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
   if (!exist$clean) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # IMPORT DATA
-  # NOTE: optional
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Example for data that needs to be locally available
   filepath <- here::here(path,"raw","name_of_file.extension")
@@ -61,7 +59,6 @@ dp_{{ dpid }} <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
   
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # FORMAT DATA
-  # NOTE: optional
   # WARNING: In order for filters to work, names of column should be: 
   #             year      = year
   #             longitude = longitude
@@ -72,13 +69,12 @@ dp_{{ dpid }} <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE METADATA
-  # WARNING: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   meta <- get_metadata(
     pipeline_type = "data",
     pipeline_id = uid,
-    pipeline_crs = crs, 
     pipeline_bbox = bbox, 
+    pipeline_bbox_crs = bbox_crs, 
     pipeline_timespan = timespan, 
     access = timestamp(), 
     data_bbox = sf::st_bbox(dat), 
@@ -95,19 +91,17 @@ dp_{{ dpid }} <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # CREATE BIBTEX
-  # WARNING: mandatory
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   bib <- get_bib(uid)
   # _________________________________________________________________________________________ #
   
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # APPLY SUBSETS AND CRS SPECIFIED BY USER
-  # NOTE: optional, only if applicable
+  # APPLY SUBSETS SPECIFIED BY USER
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   dat <- dp_parameters(
     dat, 
-    crs = crs, 
     bbox = bbox, 
+    bbox_crs = bbox_crs, 
     timespan = timespan
   )
   # _________________________________________________________________________________________ #

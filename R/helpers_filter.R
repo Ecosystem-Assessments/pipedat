@@ -3,8 +3,10 @@
 bbox_crop <- function(dat, bbox, crs) {
   bb <- bbox_poly(bbox, crs)
   if ("sf" %in% class(dat)) {
+    bb <- sf::st_transform(bb, crs = sf::st_crs(dat))
     sf::st_intersection(dat, bb)
   } else if ("stars" %in% class(dat)) {
+    bb <- sf::st_transform(bb, crs = sf::st_crs(dat))
     sf::st_crop(dat, bb)
   } else if (class(dat) == "data.frame") {
     uid <- (dat$longitude >= bbox["xmin"] & dat$longitude <= bbox["xmax"]) &
@@ -21,13 +23,7 @@ timespan_filter <- function(dat, timespan) {
 }
 
 # Applying pipeline arguments set by user
-dp_parameters <- function(dat, crs = NULL, bbox = NULL, timespan = NULL) {
-  if (!is.null(crs)) {
-    if (is.na(sf::st_crs(dat)$epsg) | sf::st_crs(dat)$epsg != crs) {
-      dat <- sf::st_transform(dat, crs = crs)
-    }
-  }
-
+dp_parameters <- function(dat, bbox = NULL, bbox_crs = NULL, timespan = NULL) {
   if (!is.null(bbox)) {
     dat <- bbox_crop(dat, bbox, crs)
   }

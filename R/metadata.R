@@ -9,8 +9,8 @@
 #' @param pipeline_creators creators of the data pipeline
 #' @param pipeline_date date YYYY-MM-DD (%Y-%m-%s) that pipeline was created
 #' @param pipeline_url url to data pipeline code
-#' @param pipeline_crs spatial projection used to transform the spatial data into a uniform projection. Default is set to `crs = 4326`
 #' @param pipeline_bbox bounding box that was used to spatially subset the queried data, if applicable. The bounding box should be of the form c(xmin, ymin, xmax, ymax),
+#' @param pipeline_bbox_crs spatial projection of the bbox specified by user. 
 #' @param pipeline_timespan time span that was used to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried c(year1, year2, ...),
 #' @param name short name of data queried
 #' @param description description of data queried
@@ -35,8 +35,8 @@
 #' \dontrun{
 #' meta <- get_metadata(
 #'   pipeline_id = uid,
-#'   pipeline_crs = crs,
 #'   pipeline_bbox = bbox,
+#'   pipeline_bbox_crs = bbox_crs,
 #'   pipeline_timespan = timespan,
 #'   access = timestamp(),
 #'   data_bbox = sf::st_bbox(dat),
@@ -54,8 +54,8 @@ metadata <- function(pipeline_type,
                      pipeline_creators,
                      pipeline_date,
                      pipeline_url,
-                     pipeline_crs,
                      pipeline_bbox = NULL,
+                     pipeline_bbox_crs = NULL,
                      pipeline_timespan = NULL,
                      name,
                      description,
@@ -80,8 +80,8 @@ metadata <- function(pipeline_type,
   meta$pipeline$creators <- pipeline_creators
   meta$pipeline$date_created <- pipeline_date
   meta$pipeline$url <- pipeline_url
-  meta$pipeline$pipeline_crs <- pipeline_crs
   meta$pipeline$pipeline_bbox <- pipeline_bbox
+  meta$pipeline$pipeline_bbox_crs <- pipeline_bbox_crs
   meta$pipeline$pipeline_timespan <- pipeline_timespan
 
   # Description of data or integration pipeline
@@ -111,7 +111,7 @@ metadata <- function(pipeline_type,
 
 #' @describeIn metadata builds metadata from internal package data
 #' @export
-get_metadata <- function(pipeline_type, pipeline_id, pipeline_crs = 4326, pipeline_bbox = NULL, pipeline_timespan = NULL, access = timestamp(), data_bbox = NULL, data_timespan = NULL, integration_grid = NULL, ...) {
+get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox_crs = NULL, pipeline_bbox = NULL, pipeline_timespan = NULL, access = timestamp(), data_bbox = NULL, data_timespan = NULL, integration_grid = NULL, ...) {
   dat <- get_pipeline(pipeline_id)
   contact <- get_contact(pipeline_id)
   if (nrow(contact) == 0) contact <- NULL
@@ -121,7 +121,7 @@ get_metadata <- function(pipeline_type, pipeline_id, pipeline_crs = 4326, pipeli
     pipeline_creators = get_creator(pipeline_id),
     pipeline_date = dat$date_created,
     pipeline_url = get_pipeline_url(pipeline_id),
-    pipeline_crs = pipeline_crs,
+    pipeline_bbox_crs = pipeline_bbox_crs,
     pipeline_bbox = pipeline_bbox,
     pipeline_timespan = pipeline_timespan,
     name = get_name(pipeline_id),

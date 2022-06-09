@@ -52,41 +52,41 @@
 \alias{dp_71944efd}
 \title{Atlantic Shoreline Classification}
 \usage{
-dp_68609420(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_68609420(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_e775900b(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_e775900b(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_35608fef(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_35608fef(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_084860fd(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_084860fd(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_c676dc2b(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_c676dc2b(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_b9024b04(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_b9024b04(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_d147406d(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_d147406d(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_d96dec16(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_d96dec16(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_804db12e(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_804db12e(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_906f1155(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_906f1155(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_2aafec74(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_2aafec74(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_90e90110(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_90e90110(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_3348d162(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_3348d162(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_21f8a758(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_21f8a758(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_f635934a(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_f635934a(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_f2109e69(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_f2109e69(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_4f84f0e3(
-  crs = 4326,
   bbox = NULL,
+  bbox_crs = NULL,
   timespan = NULL,
   halpern_years = NULL,
   halpern_layers = NULL,
@@ -94,8 +94,8 @@ dp_4f84f0e3(
 )
 
 dp_7c8c4da1(
-  crs = 4326,
   bbox = NULL,
+  bbox_crs = NULL,
   timespan = NULL,
   invasive_model = c("current", "projected"),
   invasive_model_type = c("model", "stdev"),
@@ -103,32 +103,34 @@ dp_7c8c4da1(
   ...
 )
 
-dp_4b72884d(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_4b72884d(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_3d1bfb8e(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_3d1bfb8e(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_06230ea3(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_06230ea3(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_750b39f9(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_750b39f9(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_8509eeb1(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_8509eeb1(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_0d61380a(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_0d61380a(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_d87b7f5f(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_d87b7f5f(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_1b4dba19(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_1b4dba19(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_8449dee0(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_8449dee0(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_fc2caef8(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_fc2caef8(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_04528545(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_04528545(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_71944efd(crs = 4326, bbox = NULL, timespan = NULL, ...)
+dp_71944efd(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
+
+\item{bbox_crs}{spatial projection of bounding box argument, defaults to epsg: 4326}
 
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
 
@@ -143,8 +145,6 @@ dp_71944efd(crs = 4326, bbox = NULL, timespan = NULL, ...)
 \item{invasive_model_type}{type of model to load, either \code{model} or \code{stdev}}
 
 \item{invasive_species}{\code{species} and/or \code{richness}}
-
-\item{bbox_crs}{spatial projection of bounding box argument, defaults to epsg: 4326}
 }
 \description{
 Atlantic Shoreline Classification

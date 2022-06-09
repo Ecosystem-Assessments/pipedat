@@ -92,7 +92,7 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       if (is.null(bbox)) {
         bbox4326 <- NULL
       } else {
-        bbox4326 <- bbox_poly(bbox, crs = crs) |>
+        bbox4326 <- bbox_poly(bbox, crs = bbox_crs) |>
           sf::st_transform(crs = 4326) |>
           sf::st_bbox()
       }
@@ -129,12 +129,6 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     bib <- get_bib(uid)
     # _________________________________________________________________________________________ #
-
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # APPLY SUBSETS AND CRS SPECIFIED BY USER
-    # NOTE: optional, only if applicable
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    warning("WARNING: The shipping dataset from Global Fishing Watch (id: 8449dee0) is a very large dataset; hence the native spatial projection (EPSG: 4326) is kept rather than transformed. Remember to consider this for further analyses.") # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # EXPORT

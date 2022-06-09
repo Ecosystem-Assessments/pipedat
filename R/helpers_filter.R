@@ -25,7 +25,7 @@ timespan_filter <- function(dat, timespan) {
 # Applying pipeline arguments set by user
 dp_parameters <- function(dat, bbox = NULL, bbox_crs = NULL, timespan = NULL) {
   if (!is.null(bbox)) {
-    dat <- bbox_crop(dat, bbox, crs)
+    dat <- bbox_crop(dat, bbox, bbox_crs)
   }
 
   if (!is.null(timespan)) {

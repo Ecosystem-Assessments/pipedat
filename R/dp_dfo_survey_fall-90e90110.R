@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_90e90110()
 #' }
-dp_90e90110 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_90e90110 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "90e90110"
   name <- get_shortname(uid)

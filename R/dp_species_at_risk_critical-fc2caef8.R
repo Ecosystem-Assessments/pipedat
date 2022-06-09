@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_fc2caef8()
 #' }
-dp_fc2caef8 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_fc2caef8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "fc2caef8"
   name <- get_shortname(uid)

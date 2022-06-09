@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_804db12e()
 #' }
-dp_804db12e <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_804db12e <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "804db12e"
   name <- get_shortname(uid)

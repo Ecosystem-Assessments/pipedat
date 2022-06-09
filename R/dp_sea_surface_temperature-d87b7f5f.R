@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_d87b7f5f()
 #' }
-dp_d87b7f5f <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_d87b7f5f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "d87b7f5f"
   name <- get_shortname(uid)

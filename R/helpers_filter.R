@@ -1,14 +1,20 @@
 # ------------------------------------------------------------------------------
 # Intersection with bounding box
-bbox_crop <- function(dat, bbox, crs) {
-  bb <- bbox_poly(bbox, crs)
+bbox_crop <- function(dat, bbox, bbox_crs, data_crs = sf::st_crs(dat)) { 
+  bb <- bbox_poly(bbox, bbox_crs) |>
+        sf::st_transform(crs = data_crs)
   if ("sf" %in% class(dat)) {
-    bb <- sf::st_transform(bb, crs = sf::st_crs(dat))
     sf::st_intersection(dat, bb)
   } else if ("stars" %in% class(dat)) {
-    bb <- sf::st_transform(bb, crs = sf::st_crs(dat))
     sf::st_crop(dat, bb)
-  } else if (class(dat) == "data.frame") {
+  } else if ("data.frame" %in% class(dat)) {
+    xy <- sf::st_coordinates(bb)
+    bbox <- c(
+      xmin = min(xy[,'X']), 
+      ymin = min(xy[,'Y']), 
+      xmax = max(xy[,'X']), 
+      ymax = max(xy[,'Y'])      
+    )
     uid <- (dat$longitude >= bbox["xmin"] & dat$longitude <= bbox["xmax"]) &
       (dat$latitude >= bbox["ymin"] & dat$latitude <= bbox["ymax"])
     dat[uid, ]
@@ -23,9 +29,9 @@ timespan_filter <- function(dat, timespan) {
 }
 
 # Applying pipeline arguments set by user
-dp_parameters <- function(dat, bbox = NULL, bbox_crs = NULL, timespan = NULL) {
+dp_parameters <- function(dat, bbox = NULL, bbox_crs = NULL, data_crs = sf::st_crs(dat), timespan = NULL) {
   if (!is.null(bbox)) {
-    dat <- bbox_crop(dat, bbox, bbox_crs)
+    dat <- bbox_crop(dat, bbox, bbox_crs, data_crs)
   }
 
   if (!is.null(timespan)) {

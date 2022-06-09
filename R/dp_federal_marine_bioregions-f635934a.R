@@ -49,6 +49,8 @@ dp_f635934a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # NOTE: optional
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat <- sf::st_make_valid(dat)
+    # WARNING: There is a problem with the crs when exporting as a geojson, so I am transforming it
+    dat <- sf::st_transform(dat, crs = 4326)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -60,7 +62,6 @@ dp_f635934a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       pipeline_id = uid,
       pipeline_bbox = bbox,
       pipeline_bbox_crs = bbox_crs,
-      pipeline_timespan = timespan,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat),
     )

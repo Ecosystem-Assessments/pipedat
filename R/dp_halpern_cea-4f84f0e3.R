@@ -3,6 +3,7 @@
 #' @eval get_description("4f84f0e3")
 #'
 #' @eval dp_params()
+#' @param ... further arguments used in functions, if applicable.
 #' @param halpern_years years of data to load, choices are 2008 and 2013
 #' @param halpern_layers name of layers to download from the Halpern dataset. Possible entries are: "artisanal_fishing","demersal_destructive_fishing","demersal_destructive_fishing","demersal_nondest_high_bycatch","demersal_nondest_low_bycatch","inorganic","invasives","night_lights","ocean_acidification","ocean_pollution","oil_rigs","pelagic_high_bycatch","pelagic_low_bycatch","plumes_fert","plumes_pest","population","shipping","slr","sst","uv".
 #'

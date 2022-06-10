@@ -202,6 +202,12 @@ get_pipeline_url <- function(pipeline_id) {
   glue("{repo}/blob/main/R/dp_{dat$data_shortname}-{pipeline_id}.R")
 }
 
+get_pipeline_type <- function(pipeline_id) {
+  dat <- lapply(pipeline_id, get_pipeline) |>
+         dplyr::bind_rows()
+  dat$pipeline_type
+}
+
 get_rawid <- function(pipeline_id) {
   dat <- integ
   uid <- dat$integration_id %in% pipeline_id

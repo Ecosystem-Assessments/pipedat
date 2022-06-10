@@ -2,7 +2,9 @@
 #'
 #' @eval get_description("16c0d3ad")
 #'
+#' @eval dp_params()
 #' @eval di_params()
+#' @param ... further arguments used in functions, if applicable.
 #'
 #' @family pipeline functions
 #' @rdname integration_pipelines
@@ -14,7 +16,7 @@
 #' \dontrun{
 #' di_16c0d3ad()
 #' }
-di_16c0d3ad <- function(grid = NULL, ...) {
+di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
   # Output folders and other objects used
   uid <- "16c0d3ad"
   name <- get_shortname(uid)
@@ -28,8 +30,9 @@ di_16c0d3ad <- function(grid = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    data_id <- get_rawid(uid) # String with data to import
-    dat <- importdat(data_id)
+    raw_id <- get_rawid(uid) # String with data to import
+    pipedat(raw_id, bbox, bbox_crs, timespan)
+    dat <- importdat(raw_id)
 
     # Study grid, if applicable
     if (is.null(grid)) {
@@ -67,7 +70,7 @@ di_16c0d3ad <- function(grid = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = data_id,
+      integration_data = raw_id,
       integration_grid = get_grid_info(grid) # if applicable
     )
     # _________________________________________________________________________________________ #

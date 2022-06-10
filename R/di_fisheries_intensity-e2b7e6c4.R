@@ -2,8 +2,10 @@
 #'
 #' @eval get_description("e2b7e6c4")
 #'
+#' @eval dp_params()
 #' @eval di_params()
 #' @param fishing_intensity_metric type of fishing intensity metric to evaluate, one of: 1: Fishing effort density, no normalization; 2: Fishing effort density; 3: Fishing biomass yield density; 4: Fishing relative biomass yield density. Passed on to eaMethods::fishing_intensity().
+#' @param ... further arguments used in functions, if applicable.
 #'
 #' @family pipeline functions
 #' @rdname integration_pipelines
@@ -15,7 +17,7 @@
 #' \dontrun{
 #' di_e2b7e6c4()
 #' }
-di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
+di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, fishing_intensity_metric = 3, ...) {
   # Output folders and other objects used
   uid <- "e2b7e6c4"
   name <- get_shortname(uid)
@@ -31,8 +33,9 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    data_id <- get_rawid(uid) # String with data to import
-    dat <- importdat(data_id)
+    raw_id <- get_rawid(uid) # String with data to import
+    pipedat(raw_id, bbox, bbox_crs, timespan)
+    dat <- importdat(raw_id)
     logbooks <- dat[["fisheries_logbooks-f2109e69.csv"]]
     gear <- dat[["fisheries_logbooks-f2109e69_gear.csv"]]
     species <- dat[["fisheries_logbooks-f2109e69_species.csv"]]
@@ -283,7 +286,7 @@ di_e2b7e6c4 <- function(grid = NULL, fishing_intensity_metric = 3, ...) {
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = data_id,
+      integration_data = raw_id,
       integration_grid = get_grid_info(grid)
     )
 

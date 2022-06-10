@@ -2,7 +2,9 @@
 #'
 #' @eval get_description("99bb2d51")
 #'
+#' @eval dp_params()
 #' @eval di_params()
+#' @param ... further arguments used in functions, if applicable.
 #'
 #' @family pipeline functions
 #' @rdname integration_pipelines
@@ -14,7 +16,7 @@
 #' \dontrun{
 #' di_99bb2d51()
 #' }
-di_99bb2d51 <- function(grid = NULL, ...) {
+di_99bb2d51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
   # Output folders and other objects used
   uid <- "99bb2d51"
   name <- get_shortname(uid)
@@ -31,8 +33,9 @@ di_99bb2d51 <- function(grid = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    data_id <- get_rawid(uid) # String with data to import
-    dat <- importdat(data_id)
+    raw_id <- get_rawid(uid) # String with data to import
+    pipedat(raw_id, bbox, bbox_crs, timespan)
+    dat <- importdat(raw_id)
     bound2016 <- dat[["census_boundary_2016-c676dc2b.geojson"]]
     bound2021 <- dat[["census_boundary_2021-b9024b04.geojson"]]
     pop2016 <- dat[["census_population_2016-d147406d.csv"]]
@@ -127,7 +130,7 @@ di_99bb2d51 <- function(grid = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = data_id,
+      integration_data = raw_id,
       integration_grid = get_grid_info(grid) # if applicable
     )
     # _________________________________________________________________________________________ #

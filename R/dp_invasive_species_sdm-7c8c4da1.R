@@ -3,6 +3,7 @@
 #' @eval get_description("7c8c4da1")
 #'
 #' @eval dp_params()
+#' @param ... further arguments used in functions, if applicable.
 #' @param invasive_model model to load, either `current` or `projected`
 #' @param invasive_model_type type of model to load, either `model` or `stdev`
 #' @param invasive_species `species` and/or `richness`

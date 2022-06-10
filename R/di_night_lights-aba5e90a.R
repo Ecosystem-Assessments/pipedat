@@ -2,7 +2,9 @@
 #'
 #' @eval get_description("aba5e90a")
 #'
+#' @eval dp_params()
 #' @eval di_params()
+#' @param ... further arguments used in functions, if applicable.
 #'
 #' @family pipeline functions
 #' @rdname integration_pipelines
@@ -14,7 +16,7 @@
 #' \dontrun{
 #' di_aba5e90a()
 #' }
-di_aba5e90a <- function(grid = NULL, ...) {
+di_aba5e90a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
   # Output folders and other objects used
   uid <- "aba5e90a"
   name <- get_shortname(uid)
@@ -28,8 +30,9 @@ di_aba5e90a <- function(grid = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    data_id <- get_rawid(uid)
-    dat <- importdat(data_id)
+    raw_id <- get_rawid(uid)
+    pipedat(raw_id, bbox, bbox_crs, timespan)
+    dat <- importdat(raw_id)
 
     if (is.null(grid)) {
       grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
@@ -66,7 +69,7 @@ di_aba5e90a <- function(grid = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = data_id,
+      integration_data = raw_id,
       integration_grid = get_grid_info(grid)
     )
     # _________________________________________________________________________________________ #

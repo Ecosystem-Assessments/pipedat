@@ -2,7 +2,9 @@
 #'
 #' @eval get_description("606d08ea")
 #'
+#' @eval dp_params()
 #' @eval di_params()
+#' @param ... further arguments used in functions, if applicable.
 #'
 #' @family pipeline functions
 #' @rdname integration_pipelines
@@ -14,7 +16,7 @@
 #' \dontrun{
 #' di_606d08ea()
 #' }
-di_606d08ea <- function(grid = NULL, ...) {
+di_606d08ea <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
   # Output folders and other objects used
   uid <- "606d08ea"
   name <- get_shortname(uid)
@@ -30,8 +32,9 @@ di_606d08ea <- function(grid = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    data_id <- get_rawid(uid) # String with data to import
-    dat <- importdat(data_id)
+    raw_id <- get_rawid(uid) # String with data to import
+    pipedat(raw_id, bbox, bbox_crs, timespan)
+    dat <- importdat(raw_id)
     sst <- dat[["sea_surface_temperature-d87b7f5f.csv"]]
     ref <- dat[["sea_surface_temperature_climatology-1b4dba19.csv"]]
 
@@ -182,7 +185,7 @@ di_606d08ea <- function(grid = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = data_id,
+      integration_data = raw_id,
       integration_grid = get_grid_info(grid) # if applicable
     )
     # _________________________________________________________________________________________ #

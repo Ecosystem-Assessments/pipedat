@@ -3,6 +3,7 @@
 #' @eval get_description("35608fef")
 #'
 #' @eval dp_params()
+#' @param ... further arguments used in functions, if applicable.
 #'
 #' @family pipeline functions
 #' @rdname data_pipelines

@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_b9024b04()
 #' }
-dp_b9024b04 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_b9024b04 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "b9024b04"
   name <- get_shortname(uid)
@@ -54,8 +54,8 @@ dp_b9024b04 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_crs = crs,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat),
       data_timespan = 2021
@@ -77,8 +77,8 @@ dp_b9024b04 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     sf::sf_use_s2(FALSE)
     dat <- dp_parameters(
       dat,
-      crs = crs,
-      bbox = bbox
+      bbox = bbox,
+      bbox_crs = bbox_crs
     )
     # _________________________________________________________________________________________ #
 

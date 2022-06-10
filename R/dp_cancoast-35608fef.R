@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_35608fef()
 #' }
-dp_35608fef <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_35608fef <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "35608fef"
   name <- get_shortname(uid)
@@ -66,8 +66,8 @@ dp_35608fef <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_crs = crs,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = sf::st_bbox(sea_level),
       data_timespan = c(2010, 2011),
@@ -87,13 +87,13 @@ dp_35608fef <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     sea_level <- dp_parameters(
       sea_level,
-      crs = crs,
-      bbox = bbox
+      bbox = bbox,
+      bbox_crs = bbox_crs
     )
     material <- dp_parameters(
       material,
-      crs = crs,
-      bbox = bbox
+      bbox = bbox,
+      bbox_crs = bbox_crs
     )
     # _________________________________________________________________________________________ #
 

@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_8509eeb1()
 #' }
-dp_8509eeb1 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_8509eeb1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "8509eeb1"
   name <- get_shortname(uid)
@@ -82,8 +82,8 @@ dp_8509eeb1 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_crs = 4326,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       pipeline_timespan = timespan,
       access = "2022-04-26",
       data_bbox = sf::st_bbox(dat),
@@ -104,11 +104,9 @@ dp_8509eeb1 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat <- dp_parameters(
       dat,
-      crs = 4326,
       bbox = bbox,
-      timespan = NULL
+      bbox_crs = bbox_crs
     )
-    warning("WARNING: The lights at night dataset (id: 8509eeb1) is a very large dataset; hence the native spatial projection (EPSG: 4326) is kept rather than transformed. Remember to consider this for further analyses.")
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

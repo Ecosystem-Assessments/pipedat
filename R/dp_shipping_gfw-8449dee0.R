@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_8449dee0()
 #' }
-dp_8449dee0 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "8449dee0"
   name <- get_shortname(uid)
@@ -88,18 +88,21 @@ dp_8449dee0 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
         ymax = max(dat[[i]]$latitude)
       )
 
-      # Make sure bounding box is in crs = 4326
-      if (is.null(bbox)) {
-        bbox4326 <- NULL
-      } else {
-        bbox4326 <- bbox_poly(bbox, crs = crs) |>
-          sf::st_transform(crs = 4326) |>
-          sf::st_bbox()
-      }
-
       # Crop
-      dat[[i]] <- dp_parameters(dat[[i]], crs = NULL, bbox = bbox4326, timespan = years)
-      ndat[[i]] <- dp_parameters(ndat[[i]], crs = NULL, bbox = bbox4326, timespan = years)
+      dat[[i]] <- dp_parameters(
+        dat[[i]],
+        bbox = bbox,
+        bbox_crs = bbox_crs,
+        data_crs = 4326,
+        timespan = years
+      )
+      ndat[[i]] <- dp_parameters(
+        ndat[[i]],
+        bbox = bbox,
+        bbox_crs = bbox_crs,
+        data_crs = 4326,
+        timespan = years
+      )
     }
 
     dat <- dplyr::bind_rows(dat)
@@ -114,8 +117,8 @@ dp_8449dee0 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_crs = 4326,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       pipeline_timespan = timespan,
       access = "2022-02-28",
       data_bbox = bb,
@@ -129,12 +132,6 @@ dp_8449dee0 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     bib <- get_bib(uid)
     # _________________________________________________________________________________________ #
-
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # APPLY SUBSETS AND CRS SPECIFIED BY USER
-    # NOTE: optional, only if applicable
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    warning("WARNING: The shipping dataset from Global Fishing Watch (id: 8449dee0) is a very large dataset; hence the native spatial projection (EPSG: 4326) is kept rather than transformed. Remember to consider this for further analyses.") # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # EXPORT

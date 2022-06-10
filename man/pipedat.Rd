@@ -5,14 +5,14 @@
 \alias{pipedat}
 \title{Execute data pipelines}
 \usage{
-pipedat(uid, crs = 4326, bbox = NULL, timespan = NULL, ...)
+pipedat(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}
 
-\item{crs}{spatial projection to use to transform the spatial data into a uniform projection}
-
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
+
+\item{bbox_crs}{spatial projection of bounding box argument, defaults to epsg: 4326}
 
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
 

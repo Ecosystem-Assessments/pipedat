@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_f2109e69()
 #' }
-dp_f2109e69 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_f2109e69 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "f2109e69"
   name <- get_shortname(uid)
@@ -74,8 +74,8 @@ dp_f2109e69 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_crs = crs,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       pipeline_timespan = timespan,
       access = "2021-06-11",
       data_bbox = dat_bbox,
@@ -94,13 +94,11 @@ dp_f2109e69 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Require bbox in epsg:4326
-    bb <- bbox_poly(bbox, crs) |>
-      sf::st_transform(4326) |>
-      sf::st_bbox()
     dat <- dp_parameters(
       dat,
-      bbox = bb,
+      bbox = bbox,
+      bbox_crs  = bbox_crs,
+      data_crs = 4326,
       timespan = timespan
     )
     # _________________________________________________________________________________________ #

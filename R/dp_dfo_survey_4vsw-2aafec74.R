@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_2aafec74()
 #' }
-dp_2aafec74 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_2aafec74 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "2aafec74"
   name <- get_shortname(uid)
@@ -75,6 +75,7 @@ dp_2aafec74 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
       pipeline_type = "data",
       pipeline_id = uid,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       pipeline_timespan = timespan,
       access = timestamp(),
       data_bbox = dat_bbox,
@@ -96,6 +97,8 @@ dp_2aafec74 <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     gsinf <- dp_parameters(
       gsinf,
       bbox = bbox,
+      bbox_crs = bbox_crs,
+      data_crs = 4326,
       timespan = timespan
     )
     # _________________________________________________________________________________________ #

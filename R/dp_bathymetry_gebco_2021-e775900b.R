@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_e775900b()
 #' }
-dp_e775900b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_e775900b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "e775900b"
   name <- get_shortname(uid)
@@ -86,6 +86,7 @@ dp_e775900b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
       pipeline_type = "data",
       pipeline_id = uid,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = dat_bbox,
       data_timespan = 2021
@@ -103,7 +104,7 @@ dp_e775900b <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    dat <- lapply(dat, dp_parameters, crs = 4326, bbox = bbox)
+    dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

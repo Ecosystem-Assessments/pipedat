@@ -16,7 +16,7 @@
 #' \dontrun{
 #' dp_4f84f0e3()
 #' }
-dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_years = NULL, halpern_layers = NULL, ...) {
+dp_4f84f0e3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, halpern_years = NULL, halpern_layers = NULL, ...) {
   # Output folders and other objects used
   uid <- "4f84f0e3"
   name <- get_shortname(uid)
@@ -162,6 +162,7 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_years 
       pipeline_type = "data",
       pipeline_id = uid,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat[[1]]),
       data_timespan = 1985:2013
@@ -178,13 +179,7 @@ dp_4f84f0e3 <- function(crs = 4326, bbox = NULL, timespan = NULL, halpern_years 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    if (!is.null(bbox)) {
-      bbox <- bbox_poly(bbox, crs = 4326) |>
-        sf::st_transform(crs = sf::st_crs(dat[[1]])) |>
-        sf::st_bbox()
-      dat <- lapply(dat, dp_parameters, bbox = bbox)
-    }
-    warning("WARNING: The Halpern datasets (id: 4f84f0e3) can be very large; hence the native spatial projection (EPSG: 54009) is kept rather than transformed. Remember to consider this for further analyses.")
+    dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

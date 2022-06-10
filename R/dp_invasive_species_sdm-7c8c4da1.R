@@ -17,7 +17,7 @@
 #' \dontrun{
 #' dp_7c8c4da1()
 #' }
-dp_7c8c4da1 <- function(crs = 4326, bbox = NULL, timespan = NULL, invasive_model = c("current", "projected"), invasive_model_type = c("model", "stdev"), invasive_species = c("species", "richness"), ...) {
+dp_7c8c4da1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, invasive_model = c("current", "projected"), invasive_model_type = c("model", "stdev"), invasive_species = c("species", "richness"), ...) {
   # Output folders and other objects used
   uid <- "7c8c4da1"
   name <- get_shortname(uid)
@@ -123,6 +123,7 @@ dp_7c8c4da1 <- function(crs = 4326, bbox = NULL, timespan = NULL, invasive_model
       pipeline_type = "data",
       pipeline_id = uid,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = dat_bbox,
       data_timespan = c(2020, 2075)
@@ -140,8 +141,8 @@ dp_7c8c4da1 <- function(crs = 4326, bbox = NULL, timespan = NULL, invasive_model
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    atl <- lapply(atl, dp_parameters, crs = 4326, bbox = bbox)
-    pac <- lapply(pac, dp_parameters, crs = 4326, bbox = bbox)
+    atl <- lapply(atl, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
+    pac <- lapply(pac, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

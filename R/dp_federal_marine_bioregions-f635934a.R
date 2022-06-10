@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_f635934a()
 #' }
-dp_f635934a <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_f635934a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "f635934a"
   name <- get_shortname(uid)
@@ -49,6 +49,8 @@ dp_f635934a <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # NOTE: optional
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat <- sf::st_make_valid(dat)
+    # WARNING: There is a problem with the crs when exporting as a geojson, so I am transforming it
+    dat <- sf::st_transform(dat, crs = 4326)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -58,9 +60,8 @@ dp_f635934a <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_crs = crs,
       pipeline_bbox = bbox,
-      pipeline_timespan = timespan,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat),
     )
@@ -79,8 +80,8 @@ dp_f635934a <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat <- dp_parameters(
       dat,
-      crs = crs,
-      bbox = bbox
+      bbox = bbox,
+      bbox_crs = bbox_crs
     )
     # _________________________________________________________________________________________ #
 

@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_3d1bfb8e()
 #' }
-dp_3d1bfb8e <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_3d1bfb8e <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "3d1bfb8e"
   name <- get_shortname(uid)
@@ -84,6 +84,7 @@ dp_3d1bfb8e <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
       pipeline_type = "data",
       pipeline_id = uid,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat[[1]]),
       data_timespan = 2015:2020
@@ -104,8 +105,8 @@ dp_3d1bfb8e <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     for (i in 1:length(dat)) {
       dat[[i]] <- dp_parameters(
         dat[[i]],
-        crs = 4326,
-        bbox = bbox
+        bbox = bbox,
+        bbox_crs = bbox_crs
       )
     }
     # _________________________________________________________________________________________ #

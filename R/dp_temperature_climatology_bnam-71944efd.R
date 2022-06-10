@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_71944efd()
 #' }
-dp_71944efd <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
+dp_71944efd <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "71944efd"
   name <- get_shortname(uid)
@@ -62,6 +62,7 @@ dp_71944efd <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
       pipeline_type = "data",
       pipeline_id = uid,
       pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
       access = timestamp(),
       data_bbox = sf::st_bbox(dat[[1]]),
       data_timespan = 1990:2015
@@ -79,7 +80,7 @@ dp_71944efd <- function(crs = 4326, bbox = NULL, timespan = NULL, ...) {
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    dat <- lapply(dat, dp_parameters, crs = 4326, bbox = bbox)
+    dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

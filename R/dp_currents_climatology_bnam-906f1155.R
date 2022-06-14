@@ -110,7 +110,7 @@ dp_906f1155 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # APPLY SUBSETS AND CRS SPECIFIED BY USER
     # NOTE: optional, only if applicable
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
+    dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs, data_crs = 4326)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

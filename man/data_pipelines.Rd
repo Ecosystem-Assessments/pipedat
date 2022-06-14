@@ -134,7 +134,7 @@ dp_71944efd(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
 
-\item{...}{further arguments used in individual data pipelines, if applicable.}
+\item{...}{further arguments used in functions, if applicable.}
 
 \item{halpern_years}{years of data to load, choices are 2008 and 2013}
 
@@ -421,94 +421,94 @@ dp_71944efd()
 \code{\link{pipedat}}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 
 Other pipeline functions: 
-\code{\link{di_99bb2d51}()}
+\code{\link{di_62753cdf}()}
 }
 \concept{pipeline functions}
 \keyword{04528545}

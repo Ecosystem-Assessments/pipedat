@@ -5,7 +5,7 @@
 \alias{pipedat}
 \title{Execute data pipelines}
 \usage{
-pipedat(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+pipedat(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...)
 }
 \arguments{
 \item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}
@@ -16,7 +16,9 @@ pipedat(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
 
-\item{...}{further arguments used in individual data pipelines, if applicable.}
+\item{grid}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template}
+
+\item{...}{further arguments used in functions, if applicable.}
 }
 \value{
 This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.

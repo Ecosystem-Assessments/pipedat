@@ -14,7 +14,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' pipeint("0001")
+#' pipedat("0001")
 #' }
 #' @export
 masteringrid <- function(dat, grid = NULL, name = "intensity") {

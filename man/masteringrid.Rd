@@ -23,6 +23,6 @@ user-specified study grid, if applicable, which we refer to as \emph{data integr
 }
 \examples{
 \dontrun{
-pipeint("0001")
+pipedat("0001")
 }
 }

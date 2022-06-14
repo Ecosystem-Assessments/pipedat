@@ -27,12 +27,12 @@ pipedat <- function(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = N
   
   # Execute data pipelines
   lapply(
-    uid,
+    uid[data_pipeline],
     function(x) {
       do.call(
         glue("dp_{x}"),
         list(
-          uid = uid,
+          uid = uid[data_pipeline],
           bbox = bbox,
           bbox_crs = bbox_crs,
           timespan = timespan
@@ -43,12 +43,12 @@ pipedat <- function(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = N
   
   # Execute data integration pipelines
   lapply(
-    uid,
+    uid[integration_pipeline],
     function(x) {
       do.call(
         glue("di_{x}"),
         list(
-          uid = uid,
+          uid = uid[integration_pipeline],
           bbox = bbox,
           bbox_crs = bbox_crs,
           timespan = timespan,

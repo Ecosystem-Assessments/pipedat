@@ -7,6 +7,7 @@
 #' @param dat object with spatial data to import in study grid, either `sf` or `stars` object
 #' @param grid spatial grid used for data integration. Can be a `sf` object containing polygons or a `stars` rasters that will be used as a template. Individual cells must be identified by a unique identifier called `uid`. If NULL, the function attempts to load a grids `./data/data-grid/grid_raster.tif` or `./data/data-grid/grid.poly.geojson`.
 #' @param name name of column for the data imported in study grid, defaults to "intensity"
+#' @param negative logical, if FALSE then values < 0 are filtered out
 #'
 #' @return A data.frame with columns `uid` related to study grid unique identifier and a column with named `name` with the values imported
 #'
@@ -17,7 +18,7 @@
 #' pipedat("0001")
 #' }
 #' @export
-masteringrid <- function(dat, grid = NULL, name = "intensity") {
+masteringrid <- function(dat, grid = NULL, name = "intensity", negative = FALSE) {
   # WARNING: For R CMD CHECK
   intensity <- uid <- x <- y <- NULL
 
@@ -38,8 +39,9 @@ masteringrid <- function(dat, grid = NULL, name = "intensity") {
       dplyr::arrange(uid) |>
       dplyr::select(-x, -y) |>
       stats::setNames(c("intensity", "uid")) |>
-      dplyr::filter(intensity > 0) |>
       dplyr::select(uid, intensity)
+
+    if (!negative) dat <- dplyr::filter(dat, intensity > 0)
 
     if (nrow(dat) > 0) colnames(dat)[2] <- name
     dat

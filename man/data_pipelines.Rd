@@ -7,7 +7,7 @@
 %   R/dp_census_population_2021-d96dec16.R, R/dp_contaminated_sites-804db12e.R,
 %   R/dp_currents_climatology_bnam-906f1155.R,
 %   R/dp_dfo_survey_4vsw-2aafec74.R, R/dp_dfo_survey_fall-90e90110.R,
-%   R/dp_dfo_survey_summer-3348d162.R, R/dp_dp_dfo_survey_sping-21f8a758.R,
+%   R/dp_dfo_survey_sping-21f8a758.R, R/dp_dfo_survey_summer-3348d162.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
 %   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
 %   R/dp_invasive_species_sdm-7c8c4da1.R, R/dp_marine_disposal_sites-4b72884d.R,
@@ -32,8 +32,8 @@
 \alias{dp_906f1155}
 \alias{dp_2aafec74}
 \alias{dp_90e90110}
-\alias{dp_3348d162}
 \alias{dp_21f8a758}
+\alias{dp_3348d162}
 \alias{dp_f635934a}
 \alias{dp_f2109e69}
 \alias{dp_4f84f0e3}
@@ -76,9 +76,9 @@ dp_2aafec74(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_90e90110(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
-dp_3348d162(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
-
 dp_21f8a758(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_3348d162(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_f635934a(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
@@ -195,13 +195,13 @@ DFO Research Vessel Survey Fall
 
 The Fisheries and Oceans Canada (DFO) ecosystem surveys consist of research vessel survey data collected to monitor the distribution and abundance of fish and invertebrates throughout the Scotian Shelf, Bay of Fundy and Georges Bank. The fall survey occurs primarily in October and November, but sets from September and December are also present in the data
 
-DFO Research Vessel Survey Summer
-
-The Fisheries and Oceans Canada (DFO) ecosystem surveys consist of research vessel survey data collected to monitor the distribution and abundance of fish and invertebrates throughout the Scotian Shelf, Bay of Fundy and Georges Bank. The Summer survey occurs in June, July and August and these focus on the Scotian Shelf and Bay of Fundy (i.e. 4VWX 5Yb, expanding recently to include the Laurentian Channel and Georges Bank (5Zc)
-
 DFO Research Vessel Survey Spring
 
 The Fisheries and Oceans Canada (DFO) ecosystem surveys consist of research vessel survey data collected to monitor the distribution and abundance of fish and invertebrates throughout the Scotian Shelf, Bay of Fundy and Georges Bank. The Spring survey occurs in January, February, March and April, and focus on Georges Bank
+
+DFO Research Vessel Survey Summer
+
+The Fisheries and Oceans Canada (DFO) ecosystem surveys consist of research vessel survey data collected to monitor the distribution and abundance of fish and invertebrates throughout the Scotian Shelf, Bay of Fundy and Georges Bank. The Summer survey occurs in June, July and August and these focus on the Scotian Shelf and Bay of Fundy (i.e. 4VWX 5Yb, expanding recently to include the Laurentian Channel and Georges Bank (5Zc)
 
 Federal Marine Bioregions
 
@@ -305,10 +305,10 @@ dp_2aafec74()
 dp_90e90110()
 }
 \dontrun{
-dp_3348d162()
+dp_21f8a758()
 }
 \dontrun{
-dp_21f8a758()
+dp_3348d162()
 }
 \dontrun{
 dp_f635934a()

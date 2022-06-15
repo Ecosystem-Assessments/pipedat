@@ -30,7 +30,7 @@ di_62753cdf <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     raw_id <- get_rawid(uid) # String with data to import
     pipedat(raw_id, bbox, bbox_crs, timespan)
-    dat <- importdat(raw_id) 
+    dat <- importdat(raw_id)
 
     # Study grid, if applicable
     if (is.null(grid)) {
@@ -38,7 +38,7 @@ di_62753cdf <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
     }
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # ANALYZE / FORMAT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -55,15 +55,15 @@ di_62753cdf <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       integration_data = raw_id,
       integration_grid = get_grid_info(grid) # if applicable
     )
-      
+
     # To add additional metadata for queried data
-    meta <- add_metadata(meta, 
+    meta <- add_metadata(meta,
       info1 = c("Format as lists and dataframes to be rendered as yaml"),
       info2 = c("Formatting thus matters"),
       info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-    )  
+    )
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE BIBTEX
     # WARNING: mandatory
@@ -72,18 +72,18 @@ di_62753cdf <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT 
+    # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data 
-    fm <- here::here(path,glue("{nm}.csv"))
+    # Formatted data
+    fm <- here::here(path, glue("{nm}.csv"))
     utils::write.csv(dat, fm, row.names = FALSE)
 
     # Metadata
-    mt <- here::here(path,glue("{nm}.yaml"))
+    mt <- here::here(path, glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
-    
+
     # Bibtex
-    bi <- here::here(path,glue("{nm}.bib"))
+    bi <- here::here(path, glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   }

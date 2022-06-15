@@ -204,7 +204,7 @@ get_pipeline_url <- function(pipeline_id) {
 
 get_pipeline_type <- function(pipeline_id) {
   dat <- lapply(pipeline_id, get_pipeline) |>
-         dplyr::bind_rows()
+    dplyr::bind_rows()
   dat$pipeline_type
 }
 

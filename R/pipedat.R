@@ -24,7 +24,7 @@ pipedat <- function(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = N
   type <- get_pipeline_type(uid)
   data_pipeline <- type == "data"
   integration_pipeline <- type == "integration"
-  
+
   # Execute data pipelines
   lapply(
     uid[data_pipeline],
@@ -40,7 +40,7 @@ pipedat <- function(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = N
       )
     }
   )
-  
+
   # Execute data integration pipelines
   lapply(
     uid[integration_pipeline],

@@ -30,14 +30,14 @@ di_608c7f2f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     raw_id <- get_rawid(uid) # String with data to import
     pipedat(raw_id, bbox, bbox_crs, timespan)
-    dat <- importdat(raw_id) 
-    
+    dat <- importdat(raw_id)
+
     if (is.null(grid)) {
       grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
     }
     grid <- sf::st_transform(grid, st_crs(dat[[1]]))
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # ANALYZE / FORMAT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

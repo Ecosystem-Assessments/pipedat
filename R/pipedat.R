@@ -35,7 +35,8 @@ pipedat <- function(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = N
           uid = uid[data_pipeline],
           bbox = bbox,
           bbox_crs = bbox_crs,
-          timespan = timespan
+          timespan = timespan,
+          ...
         )
       )
     }
@@ -52,7 +53,8 @@ pipedat <- function(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = N
           bbox = bbox,
           bbox_crs = bbox_crs,
           timespan = timespan,
-          grid = grid
+          grid = grid,
+          ...
         )
       )
     }

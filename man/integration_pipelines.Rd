@@ -2,8 +2,9 @@
 % Please edit documentation in R/di_bathymetry_gebco_2021-ee0dd36a.R,
 %   R/di_currents_climatology_bnam-62753cdf.R,
 %   R/di_direct_human_impact-99bb2d51.R, R/di_fisheries_intensity-e2b7e6c4.R,
-%   R/di_halpern_cea-16c0d3ad.R, R/di_marine_nammals_wwf_romm-aa3dcb26.R,
-%   R/di_night_lights-aba5e90a.R, R/di_salinity_climatology_bnam-608c7f2f.R,
+%   R/di_halpern_cea-16c0d3ad.R, R/di_invasive_species_richness-84b6ea0b.R,
+%   R/di_marine_nammals_wwf_romm-aa3dcb26.R, R/di_night_lights-aba5e90a.R,
+%   R/di_salinity_climatology_bnam-608c7f2f.R,
 %   R/di_sea_surface_temperature_anomalies-606d08ea.R,
 %   R/di_shipping_intensity-72312316.R,
 %   R/di_temperature_climatology_bnam-c055366b.R
@@ -13,6 +14,7 @@
 \alias{di_99bb2d51}
 \alias{di_e2b7e6c4}
 \alias{di_16c0d3ad}
+\alias{di_84b6ea0b}
 \alias{di_aa3dcb26}
 \alias{di_aba5e90a}
 \alias{di_608c7f2f}
@@ -37,6 +39,8 @@ di_e2b7e6c4(
 )
 
 di_16c0d3ad(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...)
+
+di_84b6ea0b(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...)
 
 di_aa3dcb26(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...)
 
@@ -93,6 +97,10 @@ Global cumulative human impacts assessments in 2008 and 2013
 
 Integration of data from global cumulative human impacts assessments in 2008 and 2013 in study grid
 
+Invasive species environmental stressor
+
+Assessment of the risk associated with species invasions based on invasive species distribution models
+
 Marine mammals
 
 Assessment of the intensity of observations of marine mammals
@@ -132,6 +140,9 @@ di_e2b7e6c4()
 }
 \dontrun{
 di_16c0d3ad()
+}
+\dontrun{
+di_84b6ea0b()
 }
 \dontrun{
 di_aa3dcb26()
@@ -175,6 +186,11 @@ di_c055366b()
 
 \code{\link{pipedat}}
 
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{dp_68609420}()}
+
 Other pipeline functions: 
 \code{\link{dp_68609420}()}
 
@@ -214,6 +230,7 @@ Other pipeline functions:
 \keyword{608c7f2f}
 \keyword{62753cdf}
 \keyword{72312316}
+\keyword{84b6ea0b}
 \keyword{99bb2d51}
 \keyword{aa3dcb26}
 \keyword{aba5e90a}

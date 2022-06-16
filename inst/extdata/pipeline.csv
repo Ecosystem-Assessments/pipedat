@@ -40,3 +40,4 @@
 "608c7f2f","integration","2022-06-14","salinity_climatology_bnam","Monthly salinity climatology","Monthly mean salinity from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period",NA,NA,NA
 "62753cdf","integration","2022-06-14","currents_climatology_bnam","Monthly currents climatology","Monthly mean salinity from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period",NA,NA,NA
 "ee0dd36a","integration","2022-06-14","bathymetry_gebco_2021","The GEBCO_2021 Grid","The GEBCO_2021 Grid was published in July 2021 and is a global terrain model for ocean and land, providing elevation data, in meters, on a 15 arc-second interval grid",NA,NA,NA
+"84b6ea0b","integration","2022-06-16","invasive_species_richness","Invasive species environmental stressor","Assessment of the risk associated with species invasions based on invasive species distribution models",NA,NA,NA

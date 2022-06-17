@@ -4,6 +4,8 @@
 #' @name pipedat
 #'
 #' @importFrom glue glue glue_sql
+#' @importFrom grDevices dev.off png
+#' @importFrom graphics par
 #' @importFrom RefManageR BibEntry WriteBib
 #' @importFrom rlang sym
 #' @importFrom sf st_bbox st_write st_read st_transform
@@ -57,6 +59,46 @@ bbox_poly <- function(bbox, crs) {
 }
 
 # ------------------------------------------------------------------------------
+# Get basemap data, to add to R/sysdata.rda
+get_basemap <- function() {
+  # Quebec + Maritimes provinces
+  canada <- raster::getData("GADM", country = "CAN", level = 1, path = "data")
+  canada <- sf::st_as_sf(canada)
+  qc <- canada[canada$NAME_1 == "Qu\u00e9bec", ]
+  ns <- canada[canada$NAME_1 == "Nova Scotia", ]
+  nb <- canada[canada$NAME_1 == "New Brunswick", ]
+  nfl <- canada[canada$NAME_1 == "Newfoundland and Labrador", ]
+  pei <- canada[canada$NAME_1 == "Prince Edward Island", ]
+
+  # Canada
+  canada <- raster::getData("GADM", country = "CAN", level = 0, path = "data")
+  canada <- sf::st_as_sf(canada)
+
+  # USA
+  usa <- raster::getData("GADM", country = "USA", level = 0, path = "data")
+  usa <- sf::st_as_sf(usa)
+
+  # Delete loaded data
+  files <- dir("./data", pattern = ".rds", full.names = TRUE)
+  file.remove(files)
+
+  # Store in list
+  basemap <- list()
+  suppressWarnings({
+    basemap$qc <- sf::st_simplify(qc, dTolerance = 200, preserveTopology = FALSE)
+    basemap$ns <- sf::st_simplify(ns, dTolerance = 200, preserveTopology = FALSE)
+    basemap$nb <- sf::st_simplify(nb, dTolerance = 200, preserveTopology = FALSE)
+    basemap$nfl <- sf::st_simplify(nfl, dTolerance = 200, preserveTopology = FALSE)
+    basemap$pei <- sf::st_simplify(pei, dTolerance = 200, preserveTopology = FALSE)
+    basemap$can <- sf::st_simplify(canada, dTolerance = 600, preserveTopology = FALSE)
+    basemap$usa <- sf::st_simplify(usa, dTolerance = 600, preserveTopology = FALSE)
+  })
+
+  # Export
+  save(basemap, file = "./inst/extdata/basemap.rds")
+}
+
+# ------------------------------------------------------------------------------
 # Update R/sysdata.rda
 # Move to a separate file in inst/extdata at some point
 update_rda <- function() {
@@ -70,6 +112,7 @@ update_rda <- function() {
   files_raw <- read.csv(file = "inst/extdata/files_raw.csv")
   files_clean <- read.csv(file = "inst/extdata/files_clean.csv")
   files_integrated <- read.csv(file = "inst/extdata/files_integrated.csv")
+  load(file = "inst/extdata/basemap.rda")
 
   usethis::use_data(
     pipeline,
@@ -82,6 +125,7 @@ update_rda <- function() {
     files_raw,
     files_clean,
     files_integrated,
+    basemap,
     internal = TRUE,
     overwrite = TRUE
   )

@@ -42,9 +42,11 @@ Suggests:
     eaMethods,
     fs, 
     graphics,
+    graphicsutils,
     grDevices,
     ids,
     knitr,
+    latex2exp,
     purrr,
     raster,
     readr,
@@ -56,4 +58,5 @@ Suggests:
     tidyr,
     usethis,
     uuid,
+    viridis,
     whisker

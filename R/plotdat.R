@@ -3,11 +3,12 @@
 #' These functions are used to produce basic plots of the grid and data integrated using
 #' the pipedat package, and used to produce a summary report using `pipereport()`.
 #'
+#' @param uid unique identifier of integrated data to plot
 #' @param grid sf object of the grid used for data integration. If NULL, the function attempts to
 #' import `./data/data-grid/grid_poly.geojson`.
 #'
 #' @family figure functions
-#' @rdname pipedat_figures
+#' @rdname plotdat
 #'
 #' @return Exports pngs of the figures selected
 #'
@@ -15,9 +16,44 @@
 #'
 #' @examples
 #' \dontrun{
-#' figure_grid()
+#' plotdat()
 #' }
-figure_grid <- function(grid = NULL) {
+plotdat <- function(uid) {
+  # Data
+  dat <- griddat(uid) |>
+    dplyr::select(-uid)
+  nm <- colnames(sf::st_drop_geometry(dat))
+  name <- gsub("-", " -  ", nm)
+  name <- gsub("_", " ", name)
+  name <- stringr::str_to_sentence(name)
+  bbox <- sf::st_bbox(dat)
+
+  # Folders
+  path <- here::here("figures", "figures-integrated")
+  exist <- file.exists(path)
+  if (!exist) dir.create(path, recursive = TRUE)
+
+  for (i in 1:length(nm)) {
+    grDevices::png(
+      here::here(path, glue("{nm[i]}.png")),
+      res = 300,
+      width = 100,
+      height = 70,
+      units = "mm",
+      pointsize = 12
+    )
+    pipeplot(
+      dat[, i],
+      bbox = bbox,
+      main = name[i]
+    )
+    grDevices::dev.off()
+  }
+}
+
+#' @rdname plotdat
+#' @export
+plotgrid <- function(grid = NULL) {
   if (is.null(grid)) {
     grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
   }

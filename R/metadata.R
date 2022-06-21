@@ -153,7 +153,7 @@ add_metadata <- function(meta, ...) {
 get_pipeline <- function(pipeline_id) {
   dat <- pipeline
   uid <- numeric(length(pipeline_id))
-  for(i in 1:length(pipeline_id)) {
+  for (i in 1:length(pipeline_id)) {
     uid[i] <- which(dat$pipeline_id == pipeline_id[i])
   }
   dat[uid, ]

@@ -26,7 +26,7 @@ pipeflow <- function(config) {
     uid = dat$data_workflow$data_pipeline,
     bbox = bbox,
     bbox_crs = crs,
-    timespan = timespan    
+    timespan = timespan
   )
 
   # Integration pipelines
@@ -36,15 +36,15 @@ pipeflow <- function(config) {
     bbox_crs = crs,
     timespan = timespan
   )
-  
-  # # Grid 
+
+  # # Grid
   # pipegrid(
-  # 
+  #
   # )
-  
+
   # Grid figure
   plotgrid()
-  
+
   # Integrated data figures
   plotdat(dat$data_workflow$data_integration)
 }

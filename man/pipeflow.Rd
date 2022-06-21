@@ -7,16 +7,16 @@
 pipeflow(config)
 }
 \arguments{
-\item{config}{path to a yaml data workflow configuration file prepared by the user. Use \code{pipenew()} to generate a new configuration file template.}
+\item{config}{path to a yaml data workflow configuration file prepared by the user. Use \code{pipenew()} to generate a new configuration file template. Alternatively, this can be a list organized as a yaml document.}
 }
 \value{
 This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data, and all integrated data.
 }
 \description{
-This function is used execute an entire data workflow that will download, format, integrate, and incorporate all spatial data into a regular grid to generate a ready to work with integrated dataset. It builds on the functions \code{pipedat}, \code{pipeconnect} and \code{pipegrid} and used a data workflow yaml configuration file to execute the complete the workflow.
+This function is used execute an entire data workflow that will download, format, integrate, and incorporate all spatial data into a regular grid to generate a ready to work with integrated dataset. It uses a data workflow yaml configuration file to execute the complete the workflow.
 }
 \examples{
 \dontrun{
-pipeflow(config = "./data/config/data_workflow.yaml")
+pipeflow(config = "./workflow.yaml")
 }
 }

@@ -42,6 +42,7 @@ dp_c676dc2b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       here::here(path, "raw", "lda_000b16a_e.shp"),
       quiet = TRUE
     ) |>
+      sf::st_transform(4326) |>
       sf::st_make_valid()
     # _________________________________________________________________________________________ #
 

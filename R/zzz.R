@@ -5,7 +5,7 @@
 #'
 #' @importFrom glue glue glue_sql
 #' @importFrom grDevices dev.off png colorRampPalette
-#' @importFrom graphics par box layout lines mtext 
+#' @importFrom graphics par box layout lines mtext
 #' @importFrom graphics polygon text
 #' @importFrom RefManageR BibEntry WriteBib
 #' @importFrom rlang sym

@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' pipeflow(config = "./data/config/data_workflow.yaml")
+#' pipeflow(config = "./workflow.yaml")
 #' }
 pipeflow <- function(config) {
   # Load yaml configuration file

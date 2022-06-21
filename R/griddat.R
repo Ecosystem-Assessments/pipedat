@@ -30,7 +30,7 @@ griddat <- function(uid, grid = NULL) {
   }
 
   # Join all data together
-  dat <- purrr::reduce(dat, dplyr::left_join, by = "uid")
+  dat <- purrr::reduce(dat, dplyr::full_join, by = "uid")
 
   # Join to grid
   dat <- dplyr::left_join(grid, dat, by = "uid")

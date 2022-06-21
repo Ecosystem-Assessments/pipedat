@@ -23,7 +23,7 @@ plotdat <- function(uid) {
   dat <- griddat(uid) |>
     dplyr::select(-uid)
   nm <- colnames(sf::st_drop_geometry(dat))
-  name <- gsub("-", " -  ", nm)
+  name <- gsub("-", " - ", nm)
   name <- gsub("_", " ", name)
   name <- stringr::str_to_sentence(name)
   bbox <- sf::st_bbox(dat)

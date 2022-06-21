@@ -1,0 +1,28 @@
+data_workflow:
+  parameters: 
+    crs: 4326
+    bbox:
+      xmin: -67
+      ymin: 39
+      xmax: -54
+      ymax: 47
+    grid: 
+      resolution: 
+      - 10
+        10
+      bbox:
+        xmin: -180
+        ymin: -90
+        xmax: 180
+        ymax: 90
+  data_pipeline:
+  - c676dc2b
+  - b9024b04
+  - d147406d
+  - d96dec16
+  - 0d61380a
+  - 71944efd
+  data_integration:
+  - 99bb2d51
+  - 608c7f2f
+  - c055366b

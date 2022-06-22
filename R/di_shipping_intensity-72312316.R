@@ -84,6 +84,16 @@ di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
         dplyr::arrange(uid) |>
         dplyr::select(-x, -y)
     }
+
+    # Devide hours and num_vessels
+    n <- glue("{nm}-{shipping_type}-{years}")
+    ship_vessels <- ship_hours <- list()
+    for (i in 1:length(ship)) {
+      ship_vessels[[i]] <- dplyr::select(ship[[i]], uid, num_vessels)
+      ship_hours[[i]] <- dplyr::select(ship[[i]], uid, hours)
+      colnames(ship_vessels[[i]])[2] <- glue("{n[i]}-num_vessels")
+      colnames(ship_hours[[i]])[2] <- glue("{n[i]}-hours")
+    }
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -109,8 +119,10 @@ di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{nm}-{years}.csv"))
-    for (i in 1:length(years)) utils::write.csv(ship[[i]], fm[i], row.names = FALSE)
+    fm <- here::here(path, glue("{nm}-{shipping_type}-{years}-num_vessels.csv"))
+    for (i in 1:length(years)) utils::write.csv(ship_vessels[[i]], fm[i], row.names = FALSE)
+    fm <- here::here(path, glue("{nm}-{shipping_type}-{years}-hours.csv"))
+    for (i in 1:length(years)) utils::write.csv(ship_hours[[i]], fm[i], row.names = FALSE)
 
     # Metadata
     mt <- here::here(path, glue("{nm}.yaml"))

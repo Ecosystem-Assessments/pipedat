@@ -141,7 +141,7 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     fm <- glue("{path}/{nm}")
     utils::write.csv(dat, glue("{fm}-interpolated.csv"), row.names = FALSE)
     utils::write.csv(ndat, glue("{fm}-noninterpolated.csv"), row.names = FALSE)
-    unlink(glue("{path}raw/shipping_Dec_2021/"), recursive = TRUE)
+    unlink(glue("{path}/raw/shipping_Dec_2021/"), recursive = TRUE)
 
     # Metadata
     mt <- glue("{path}/{nm}.yaml")

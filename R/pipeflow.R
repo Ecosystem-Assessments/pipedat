@@ -22,21 +22,25 @@ pipeflow <- function(config) {
   timespan <- dat$data_workflow$parameters$timespan
 
   # Data pipelines
-  pipedat(
-    uid = dat$data_workflow$data_pipeline,
-    bbox = bbox,
-    bbox_crs = crs,
-    timespan = timespan
-  )
+  if (!is.null(dat$data_workflow$data_pipeline)) {
+    pipedat(
+      uid = dat$data_workflow$data_pipeline,
+      bbox = bbox,
+      bbox_crs = crs,
+      timespan = timespan
+    )    
+  }
 
   # Integration pipelines
-  pipedat(
-    uid = dat$data_workflow$data_integration,
-    bbox = bbox,
-    bbox_crs = crs,
-    timespan = timespan
-  )
-
+  if (!is.null(dat$data_workflow$data_integration)) {
+    pipedat(
+      uid = dat$data_workflow$data_integration,
+      bbox = bbox,
+      bbox_crs = crs,
+      timespan = timespan
+    )
+  }
+  
   # # Grid
   # pipegrid(
   #
@@ -46,5 +50,7 @@ pipeflow <- function(config) {
   plotgrid()
 
   # Integrated data figures
-  plotdat(dat$data_workflow$data_integration)
+  if (!is.null(dat$data_workflow$data_integration)) {
+    plotdat(dat$data_workflow$data_integration)
+  }
 }

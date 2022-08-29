@@ -28,7 +28,7 @@ pipeflow <- function(config) {
       bbox = bbox,
       bbox_crs = crs,
       timespan = timespan
-    )    
+    )
   }
 
   # Integration pipelines
@@ -40,7 +40,7 @@ pipeflow <- function(config) {
       timespan = timespan
     )
   }
-  
+
   # # Grid
   # pipegrid(
   #

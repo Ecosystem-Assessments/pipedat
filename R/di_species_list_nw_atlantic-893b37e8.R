@@ -30,10 +30,10 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     raw_id <- get_rawid(uid) # String with data to import
     pipedat(raw_id, bbox, bbox_crs, timespan)
-    dat <- importdat(raw_id) 
+    dat <- importdat(raw_id)
     carms <- dat["carms_checklist-084860fd.csv"][[1]]
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # ANALYZE / FORMAT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -50,34 +50,34 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
         "dfo_survey_4vsw-2aafec74-gsspecies.csv",
         "dfo_survey_fall-90e90110-gsspecies.csv",
         "dfo_survey_spring-21f8a758-gsspecies.csv",
-        "dfo_survey_summer-3348d162-gsspecies.csv"        
+        "dfo_survey_summer-3348d162-gsspecies.csv"
       )
     ]
-    
-  
-    for(i in 1:length(obs_lists)) {
-      spfq <- table(obs_lists[[i]]$SPEC) |> 
-              as.data.frame() |>
-              dplyr::mutate(Var1 = as.integer(as.character(Var1)))
+
+
+    for (i in 1:length(obs_lists)) {
+      spfq <- table(obs_lists[[i]]$SPEC) |>
+        as.data.frame() |>
+        dplyr::mutate(Var1 = as.integer(as.character(Var1)))
       spid <- unique(obs_lists[[i]]$SPEC)
       lsid <- sp_lists[[i]]$CODE %in% spid
       sp_lists[[i]] <- sp_lists[[i]][lsid, ] |>
-                       dplyr::left_join(spfq, by = c("CODE" = "Var1"))
+        dplyr::left_join(spfq, by = c("CODE" = "Var1"))
     }
-    
+
     # -----
     species <- dplyr::bind_rows(sp_lists) |>
-               dplyr::group_by(CODE, SPEC, COMM) |>
-               dplyr::summarise(Freq = sum(Freq))
-               
+      dplyr::group_by(CODE, SPEC, COMM) |>
+      dplyr::summarise(Freq = sum(Freq))
+
     # Adjust species scientific names
     species$SPEC <- stringr::str_to_sentence(species$SPEC)
 
     # Check with CaRMS
     species$SPEC %in% carms$ScientificName
-    
+
     "dfo_survey_4vsw-2aafec74-gscat.csv"
-    
+
     "dfo_survey_4vsw-2aafec74-gsspecies.csv"
     # _________________________________________________________________________________________ #
 
@@ -91,7 +91,7 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       integration_data = raw_id
     )
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE BIBTEX
     # WARNING: mandatory
@@ -100,18 +100,18 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT 
+    # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data 
-    fm <- here::here(path,glue("{nm}.csv"))
+    # Formatted data
+    fm <- here::here(path, glue("{nm}.csv"))
     utils::write.csv(dat, fm, row.names = FALSE)
 
     # Metadata
-    mt <- here::here(path,glue("{nm}.yaml"))
+    mt <- here::here(path, glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
-    
+
     # Bibtex
-    bi <- here::here(path,glue("{nm}.bib"))
+    bi <- here::here(path, glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   }

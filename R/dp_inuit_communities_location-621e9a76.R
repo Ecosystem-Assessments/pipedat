@@ -1,6 +1,6 @@
-#' @eval get_name("70efb2b0")
+#' @eval get_name("621e9a76")
 #'
-#' @eval get_description("70efb2b0")
+#' @eval get_description("621e9a76")
 #'
 #' @eval dp_params()
 #'
@@ -8,15 +8,15 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 70efb2b0
+#' @keywords pipeline_id: 621e9a76
 #'
 #' @examples
 #' \dontrun{
-#' dp_70efb2b0()
+#' dp_621e9a76()
 #' }
-dp_70efb2b0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
+dp_621e9a76 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
-  uid <- "70efb2b0"
+  uid <- "621e9a76"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
   exist <- check_files(uid, name, ondisk = FALSE)
@@ -26,10 +26,12 @@ dp_70efb2b0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # DOWNLOAD DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (!exist$raw) {
-    "https://native-land.ca/api/index.php?maps=territories" |>
-      geojsonsf::geojson_sf() |>
-      sf::st_zm(drop = TRUE, what = "ZM") |>
-      sf::st_write(here::here(path, "raw", "native_land_digital.geojson"), delete_dsn = TRUE)
+    govcan <- get_pipeline(uid)$data_uuid
+    pipeload(
+      govcan = govcan,
+      output = here::here(path, "raw"),
+      large = FALSE
+    )
   }
   # _________________________________________________________________________________________ #
 
@@ -38,7 +40,7 @@ dp_70efb2b0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat <- sf::st_read(
-      here::here(path, "raw", "native_land_digital.geojson"),
+      here::here(path, "raw", "Communaute_Inuite_Inuit_Community.shp"),
       quiet = TRUE
     )
     # _________________________________________________________________________________________ #
@@ -65,12 +67,11 @@ dp_70efb2b0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # APPLY SUBSETS SPECIFIED BY USER
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    on.exit(sf::sf_use_s2(TRUE), add = TRUE)
-    sf::sf_use_s2(FALSE)
     dat <- dp_parameters(
       dat,
       bbox = bbox,
-      bbox_crs = bbox_crs
+      bbox_crs = bbox_crs,
+      timespan = timespan
     )
     # _________________________________________________________________________________________ #
 
@@ -78,8 +79,8 @@ dp_70efb2b0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{nm}-territories.geojson"))
-    sf::st_write(dat, dsn = fm, quiet = TRUE)
+    fm <- here::here(path, glue("{nm}.geojson")) # NOTE: not necessarily spatial data
+    sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
 
     # Metadata
     mt <- here::here(path, glue("{nm}.yaml"))

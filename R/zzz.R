@@ -38,6 +38,14 @@ use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
 timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")
 
 # ------------------------------------------------------------------------------
+# Helper function to remove and then add whitespaces again
+trim_then_add <- function(string) {
+  string <- stringr::str_trim(string, side = "both")
+  string <- glue::glue(" {string} ")  
+  string
+}
+
+# ------------------------------------------------------------------------------
 # add new data to list of pipelines
 append_dp <- function(pipeline_id, name, type) {
   dat <- utils::read.csv("inst/extdata/pipeline.csv")

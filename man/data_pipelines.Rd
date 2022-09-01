@@ -9,16 +9,19 @@
 %   R/dp_dfo_survey_4vsw-2aafec74.R, R/dp_dfo_survey_fall-90e90110.R,
 %   R/dp_dfo_survey_sping-21f8a758.R, R/dp_dfo_survey_summer-3348d162.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
-%   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
+%   R/dp_first_nations_location-ce594316.R, R/dp_fisheries_logbooks-f2109e69.R,
+%   R/dp_halpern_cea-4f84f0e3.R, R/dp_inuit_communities_location-621e9a76.R,
 %   R/dp_invasive_species_sdm-7c8c4da1.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R, R/dp_marine_seismic-06230ea3.R,
-%   R/dp_maritimes_grid-750b39f9.R, R/dp_night_lights-8509eeb1.R,
-%   R/dp_salinity_climatology_bnam-0d61380a.R,
+%   R/dp_maritimes_grid-750b39f9.R, R/dp_native_land_digital-70efb2b0.R,
+%   R/dp_night_lights-8509eeb1.R, R/dp_salinity_climatology_bnam-0d61380a.R,
 %   R/dp_sea_surface_temperature-d87b7f5f.R,
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
 %   R/dp_shipping_gfw-8449dee0.R, R/dp_species_at_risk_critical-fc2caef8.R,
 %   R/dp_species_at_risk_range-04528545.R,
-%   R/dp_temperature_climatology_bnam-71944efd.R
+%   R/dp_temperature_climatology_bnam-71944efd.R,
+%   R/dp_terrestrial_human_footprint_venter-103a233e.R,
+%   R/dp_terrestrial_human_footprint_williams-e2349037.R
 \name{dp_68609420}
 \alias{dp_68609420}
 \alias{dp_e775900b}
@@ -35,13 +38,16 @@
 \alias{dp_21f8a758}
 \alias{dp_3348d162}
 \alias{dp_f635934a}
+\alias{dp_ce594316}
 \alias{dp_f2109e69}
 \alias{dp_4f84f0e3}
+\alias{dp_621e9a76}
 \alias{dp_7c8c4da1}
 \alias{dp_4b72884d}
 \alias{dp_3d1bfb8e}
 \alias{dp_06230ea3}
 \alias{dp_750b39f9}
+\alias{dp_70efb2b0}
 \alias{dp_8509eeb1}
 \alias{dp_0d61380a}
 \alias{dp_d87b7f5f}
@@ -50,6 +56,8 @@
 \alias{dp_fc2caef8}
 \alias{dp_04528545}
 \alias{dp_71944efd}
+\alias{dp_103a233e}
+\alias{dp_e2349037}
 \title{Atlantic Shoreline Classification}
 \usage{
 dp_68609420(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
@@ -82,6 +90,8 @@ dp_3348d162(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_f635934a(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
+dp_ce594316(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
 dp_f2109e69(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_4f84f0e3(
@@ -92,6 +102,8 @@ dp_4f84f0e3(
   halpern_layers = NULL,
   ...
 )
+
+dp_621e9a76(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_7c8c4da1(
   bbox = NULL,
@@ -111,6 +123,8 @@ dp_06230ea3(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_750b39f9(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
+dp_70efb2b0(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
 dp_8509eeb1(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_0d61380a(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
@@ -126,6 +140,10 @@ dp_fc2caef8(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 dp_04528545(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_71944efd(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_103a233e(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_e2349037(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
@@ -207,6 +225,10 @@ Federal Marine Bioregions
 
 The spatial planning framework for Canada's national network of Marine Protected Areas (MPAs) is comprised of 13 ecologically defined bioregions that cover Canada's oceans and the Great Lakes.
 
+First Nations Location
+
+The First Nations geographic location dataset contains the geographic location of First Nations (groups and subgroups) in Canada as points as well as basic attributes data.
+
 Commercial fisheries logbooks
 
 A compilation of landing data from Zonal Interchange File Format (ZIFF) data between 2000 and 2020
@@ -214,6 +236,10 @@ A compilation of landing data from Zonal Interchange File Format (ZIFF) data bet
 Global cumulative human impacts assessments in 2008 and 2013
 
 Data from the assessments of global marine cumulative human impacts in 2008 and 2013
+
+Inuit Communities Location
+
+The Inuit Communities geographic location dataset contains the geographic location of Inuit Communities in Canada as points, as well as data attributes specific to each community.
 
 Invasive species distribution models
 
@@ -234,6 +260,10 @@ The Geological Survey of Canada (Atlantic and Pacific) has collected marine surv
 Maritimes cumulative effects assessment study area grid
 
 Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment
+
+Native Land Digital
+
+Native Land is an app to help map Indigenous territories, treaties, and languages. The map provided does not represent or intend to represent official or legal boundaries of any Indigenous nations. To learn about definitive boundaries, contact the nations in question. Also, the map is not perfect -- it is a work in progress with tons of contributions from the community. Please send fixes to info@native-land.ca if you find errors.
 
 Nighttime Ligths
 
@@ -266,6 +296,14 @@ Fisheries and Oceans Canada Species at Risk Distribution (Range) for species lis
 Monthly temperature climatology
 
 Monthly mean temperature from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period
+
+Terrestrial human footprint
+
+Data from: Global terrestrial Human Footprint maps for 1993 and 2009
+
+Terrestrial human footprint
+
+Change in terrestrial human footprint drives continued loss of intact ecosystems
 }
 \examples{
 \dontrun{
@@ -314,10 +352,16 @@ dp_3348d162()
 dp_f635934a()
 }
 \dontrun{
+dp_ce594316()
+}
+\dontrun{
 dp_f2109e69()
 }
 \dontrun{
 dp_4f84f0e3()
+}
+\dontrun{
+dp_621e9a76()
 }
 \dontrun{
 dp_7c8c4da1()
@@ -333,6 +377,9 @@ dp_06230ea3()
 }
 \dontrun{
 dp_750b39f9()
+}
+\dontrun{
+dp_70efb2b0()
 }
 \dontrun{
 dp_8509eeb1()
@@ -357,6 +404,12 @@ dp_04528545()
 }
 \dontrun{
 dp_71944efd()
+}
+\dontrun{
+dp_103a233e()
+}
+\dontrun{
+dp_e2349037()
 }
 }
 \seealso{
@@ -419,6 +472,31 @@ dp_71944efd()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
 
 Other pipeline functions: 
 \code{\link{di_ee0dd36a}()}
@@ -515,6 +593,7 @@ Other pipeline functions:
 \keyword{06230ea3}
 \keyword{084860fd}
 \keyword{0d61380a}
+\keyword{103a233e}
 \keyword{1b4dba19}
 \keyword{21f8a758}
 \keyword{2aafec74}
@@ -523,7 +602,9 @@ Other pipeline functions:
 \keyword{3d1bfb8e}
 \keyword{4b72884d}
 \keyword{4f84f0e3}
+\keyword{621e9a76}
 \keyword{68609420}
+\keyword{70efb2b0}
 \keyword{71944efd}
 \keyword{750b39f9}
 \keyword{7c8c4da1}
@@ -534,9 +615,11 @@ Other pipeline functions:
 \keyword{90e90110}
 \keyword{b9024b04}
 \keyword{c676dc2b}
+\keyword{ce594316}
 \keyword{d147406d}
 \keyword{d87b7f5f}
 \keyword{d96dec16}
+\keyword{e2349037}
 \keyword{e775900b}
 \keyword{f2109e69}
 \keyword{f635934a}

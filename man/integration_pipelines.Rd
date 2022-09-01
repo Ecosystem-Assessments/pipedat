@@ -7,6 +7,7 @@
 %   R/di_salinity_climatology_bnam-608c7f2f.R,
 %   R/di_sea_surface_temperature_anomalies-606d08ea.R,
 %   R/di_shipping_intensity-72312316.R,
+%   R/di_species_list_nw_atlantic-893b37e8.R,
 %   R/di_temperature_climatology_bnam-c055366b.R
 \name{di_ee0dd36a}
 \alias{di_ee0dd36a}
@@ -20,6 +21,7 @@
 \alias{di_608c7f2f}
 \alias{di_606d08ea}
 \alias{di_72312316}
+\alias{di_893b37e8}
 \alias{di_c055366b}
 \title{The GEBCO_2021 Grid}
 \usage{
@@ -58,6 +60,8 @@ di_72312316(
   shipping_type = "interpolated",
   ...
 )
+
+di_893b37e8(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...)
 
 di_c055366b(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...)
 }
@@ -121,6 +125,10 @@ Shipping intensity
 
 Assessment of the intensity of commercial shipping between 2017 and 2020 using data from the Global Fishing Watch.
 
+Species list North West Atlantic
+
+Script to extract a list of species for the North West Atlantic using the CaRMS species checklist (id:084860fd) and observational data from various sources
+
 Monthly temperature climatology
 
 Monthly mean temperature from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period
@@ -160,6 +168,9 @@ di_606d08ea()
 di_72312316()
 }
 \dontrun{
+di_893b37e8()
+}
+\dontrun{
 di_c055366b()
 }
 }
@@ -187,6 +198,11 @@ di_c055366b()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{dp_68609420}()}
 
 Other pipeline functions: 
 \code{\link{dp_68609420}()}
@@ -231,6 +247,7 @@ Other pipeline functions:
 \keyword{62753cdf}
 \keyword{72312316}
 \keyword{84b6ea0b}
+\keyword{893b37e8}
 \keyword{99bb2d51}
 \keyword{aa3dcb26}
 \keyword{aba5e90a}

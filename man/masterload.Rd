@@ -2,18 +2,23 @@
 % Please edit documentation in R/masterload.R
 \name{masterload}
 \alias{masterload}
-\title{Imports data in global R environment}
+\alias{masterwrite}
+\title{Imports and export data in or from global R environment}
 \usage{
 masterload(path)
+
+masterwrite(obj, path)
 }
 \arguments{
-\item{path}{path to disk of the file to import}
+\item{path}{path to disk of the file to import or export. Do not specify the extension if exporting using \code{masterwrite()}.}
+
+\item{obj}{object to write to disk}
 }
 \value{
 This function returns objects in the global R environment
 }
 \description{
-This function is used to import data of various format in R
+These functions are used to import or export data of various format in R
 }
 \examples{
 \dontrun{

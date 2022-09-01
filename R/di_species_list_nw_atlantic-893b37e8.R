@@ -74,23 +74,23 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       dplyr::group_by(SPEC) |>
       dplyr::summarise(Freq = sum(Freq))
 
-    
+
     # Get species AphiaID
     # uid <- worrms::wm_name2id_(name = species$SPEC)
     load("temp.rda")
     df <- data.frame(SPEC = names(uid), aphiaID = unlist(uid))
     species <- dplyr::left_join(species, df, by = "SPEC") |>
-               dplyr::mutate(aphiaID = ifelse(aphiaID == -999, NA, aphiaID))
-    
-    
+      dplyr::mutate(aphiaID = ifelse(aphiaID == -999, NA, aphiaID))
+
+
     verif <- dplyr::filter(species, is.na(aphiaID))
     as.data.frame(verif)
 
     # as.data.frame(sp)
     # taxize::classification()
-    
-    
-    
+
+
+
     # # Try to get aphiaID
     # library(worrms)
     # dat$scientificName <- gsub(' sp\\.', '', dat$scientificName) # Add points between names
@@ -99,71 +99,71 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # aphia <- wm_name2id_(name = sp) # Extract aphia ids from worms
     # sp <- data.frame(scientificName = sp, aphiaID = unlist(aphia)) # Data frame with species and aphiaID
     # message("WARNING: There are 19 species for which the aphia is not correct. To verify manually")
-    # 
-    
-    
-  
-
-  #   # Taxonomy
-  # library(taxize)
-  # uid <- taxize::get_ids(species$SPEC[1:10], db = "eol")
-  # classif <- classification(aphia$aphiaID, db = "worms")
-  # 
-  # # -----
-  # x <- classif
-  # nm <- names(classif)
-  # for(i in 1:length(classif)) {
-  #   x[[i]] <- as.data.frame(x[[i]]) %>%
-  #             select(-id)
-  # 
-  #   # -----
-  #   if ("species" %in% x[[i]]$rank) {
-  #     gn <- x[[i]]$rank == "Genus"
-  #     sp <- x[[i]]$rank == "Species"
-  #     temp <- c(paste(x[[i]]$name[gn], x[[i]]$name[sp]), "ScientificName")
-  #   } else {
-  #     temp <- c(last(x[[i]]$name), "ScientificName")
-  #   }
-  #   x[[i]] <- rbind(x[[i]], temp)
-  # 
-  #   # -----
-  #   x[[i]]$aphiaID <- nm[i]
-  # }
-  # 
-  # # -----
-  # class(x) <- "list"
-  # x <- bind_rows(x)
-  # 
-  # # -----
-  # x <- x %>%
-  #      pivot_wider(id_cols = aphiaID,
-  #                  names_from = rank,
-  #                  values_from = name) %>%
-  #      mutate(aphiaID = as.numeric(aphiaID)) %>%
-  #      select(aphiaID, ScientificName, Kingdom, Phylum, Class, Order, Family, Genus, Species)
-  # 
-  # 
-  # # -----
-  # aphia <- left_join(aphia, x, by = "aphiaID")
+    #
 
 
-    
+
+
+    #   # Taxonomy
+    # library(taxize)
+    # uid <- taxize::get_ids(species$SPEC[1:10], db = "eol")
+    # classif <- classification(aphia$aphiaID, db = "worms")
+    #
+    # # -----
+    # x <- classif
+    # nm <- names(classif)
+    # for(i in 1:length(classif)) {
+    #   x[[i]] <- as.data.frame(x[[i]]) %>%
+    #             select(-id)
+    #
+    #   # -----
+    #   if ("species" %in% x[[i]]$rank) {
+    #     gn <- x[[i]]$rank == "Genus"
+    #     sp <- x[[i]]$rank == "Species"
+    #     temp <- c(paste(x[[i]]$name[gn], x[[i]]$name[sp]), "ScientificName")
+    #   } else {
+    #     temp <- c(last(x[[i]]$name), "ScientificName")
+    #   }
+    #   x[[i]] <- rbind(x[[i]], temp)
+    #
+    #   # -----
+    #   x[[i]]$aphiaID <- nm[i]
+    # }
+    #
+    # # -----
+    # class(x) <- "list"
+    # x <- bind_rows(x)
+    #
+    # # -----
+    # x <- x %>%
+    #      pivot_wider(id_cols = aphiaID,
+    #                  names_from = rank,
+    #                  values_from = name) %>%
+    #      mutate(aphiaID = as.numeric(aphiaID)) %>%
+    #      select(aphiaID, ScientificName, Kingdom, Phylum, Class, Order, Family, Genus, Species)
+    #
+    #
+    # # -----
+    # aphia <- left_join(aphia, x, by = "aphiaID")
+
+
+
     # [566] "Polychaeta c."
     # [567] "Polychaeta c.,large"
     # [568] "Polychaeta c.,small"
     # "Aristeidae f"
     # [494] "Crab"
-    # [506] "Lithodes/neolithodes"    
+    # [506] "Lithodes/neolithodes"
     # " () "
 
-    
-    
-    
+
+
+
     # # Check with CaRMS
     # species$SPEC %in% carms$ScientificName
-    # 
+    #
     # "dfo_survey_4vsw-2aafec74-gscat.csv"
-    # 
+    #
     # "dfo_survey_4vsw-2aafec74-gsspecies.csv"
     # _________________________________________________________________________________________ #
 
@@ -212,7 +212,7 @@ remove_code <- function(df) {
     2001, # Crustacea larvae (1)
     8000, # Ctenophores,coelenterates,porifera (8)
     1100, # Eggs (17)
-    100,  # Finfishes (6)
+    100, # Finfishes (6)
     1200, # Fish eggs-unidentified (11)
     9400, # Foreign articles,garbage (10)
     9301, # Fucus (13)
@@ -236,7 +236,7 @@ remove_code <- function(df) {
     9999, # Reserved (14)
     3999, # Sand tube (2)
     8530, # Sea corals (24)
-    592,  # Shark (1)
+    592, # Shark (1)
     2499, # Shrimp-like (1)
     8327, # Coral unidentified (130)
     9200, # Stones and rocks (27)
@@ -244,7 +244,7 @@ remove_code <- function(df) {
     9001, # Unid fish and invertebrates (3)
     9002, # Unid fish and remains (1)
     9000, # Unid remains,digested (26)
-    90,   # Fish (13)
+    90, # Fish (13)
     9991, # Unidentified (341)
     9992, # Unidentified (132)
     9993, # Unidentified (89)
@@ -257,9 +257,9 @@ remove_code <- function(df) {
     1092, # Unidentified b (20)
     1093, # Unidentified c (10)
     1094, # Unidentified d (10)
-    1095  # Unidentified e (6)
+    1095 # Unidentified e (6)
   )
-    
+
   iid <- df$CODE %in% remco
   df[!iid, ]
 }

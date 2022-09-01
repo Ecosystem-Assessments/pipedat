@@ -26,7 +26,8 @@
 pipenew <- function(name = NULL, template = "data_workflow") {
   pip <- template == "data_pipeline"
   int <- template == "data_integration"
-  if (pip | int) {
+  pdg <- template == "data_govcan"
+  if (pip | int | pdg) {
     # Data for template
     out <- list()
     out$dpid <- rnd_id() # Create unique ID of length 8
@@ -39,11 +40,27 @@ pipenew <- function(name = NULL, template = "data_workflow") {
     # Update data/data_pipelines.rda
     if (pip) append_dp(pipeline_id = out$dpid, name = out$name, type = "data")
     if (int) append_dp(pipeline_id = out$dpid, name = out$name, type = "integration")
+    if (pdg) {
+      append_dp(
+        pipeline_id = out$dpid,
+        name = out$name,
+        type = "data",
+        url = "https://open.canada.ca/data/en/dataset/",
+        avail = "open"
+      )
+    }
 
     # Generate template
     if (pip) {
       use_template(
         template = "templates/data_pipeline.R",
+        data = out,
+        save_as = glue("R/dp_{name}-{out$dpid}.R")
+      )
+    }
+    if (pdg) {
+      use_template(
+        template = "templates/data_pipeline_govcan.R",
         data = out,
         save_as = glue("R/dp_{name}-{out$dpid}.R")
       )

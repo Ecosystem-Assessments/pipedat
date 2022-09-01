@@ -1,6 +1,6 @@
-#' @eval get_name("70efb2b0")
+#' @eval get_name("{{ dpid }}")
 #'
-#' @eval get_description("70efb2b0")
+#' @eval get_description("{{ dpid }}")
 #'
 #' @eval dp_params()
 #'
@@ -8,36 +8,48 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 70efb2b0
+#' @keywords pipeline_id: {{ dpid }}
 #'
 #' @examples
 #' \dontrun{
-#' dp_70efb2b0()
+#' dp_{{ dpid }}()
 #' }
-dp_70efb2b0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
+dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
-  uid <- "70efb2b0"
+  uid <- "{{ dpid }}"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
   exist <- check_files(uid, name, ondisk = FALSE)
   path <- make_output(uid, name)
-
+    
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (!exist$raw) {
-    "https://native-land.ca/api/index.php?maps=territories" |>
-      geojsonsf::geojson_sf() |>
-      sf::st_zm(drop = TRUE, what = "ZM") |>
-      sf::st_write(here::here(path, "raw", "native_land_digital.geojson"), delete_dsn = TRUE)
+    govcan <- get_pipeline(uid)$data_uuid
+    pipeload(
+      govcan = govcan, 
+      output = here::here(path, "raw"), 
+      large = FALSE
+    )
   }
   # _________________________________________________________________________________________ #
-
+    
   if (!exist$clean) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    dat <- masterload(here::here(path, "raw", "native_land_digital.geojson"))
+    dat <- masterload(here::here(path, "raw", "data.shp"))  
+    # _________________________________________________________________________________________ #
+    
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # FORMAT DATA
+    # WARNING: In order for filters to work, names of column should be: 
+    #             year      = year
+    #             longitude = longitude
+    #             latitude  = latitude
+    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -46,10 +58,12 @@ dp_70efb2b0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_bbox = bbox,
-      pipeline_bbox_crs = bbox_crs,
-      access = timestamp(),
-      data_bbox = sf::st_bbox(dat)
+      pipeline_bbox = bbox, 
+      pipeline_bbox_crs = bbox_crs, 
+      pipeline_timespan = timespan, 
+      access = timestamp(), 
+      data_bbox = sf::st_bbox(dat), 
+      data_timespan = sort(unique(dat$year))
     )
     # _________________________________________________________________________________________ #
 
@@ -58,30 +72,29 @@ dp_70efb2b0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     bib <- get_bib(uid)
     # _________________________________________________________________________________________ #
-
+    
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # APPLY SUBSETS SPECIFIED BY USER
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    on.exit(sf::sf_use_s2(TRUE), add = TRUE)
-    sf::sf_use_s2(FALSE)
     dat <- dp_parameters(
-      dat,
-      bbox = bbox,
-      bbox_crs = bbox_crs
+      dat, 
+      bbox = bbox, 
+      bbox_crs = bbox_crs, 
+      timespan = timespan
     )
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT
+    # EXPORT 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data
-    fm <- here::here(path, glue("{nm}-territories"))
+    # Formatted data   
+    fm <- here::here(path,glue("{nm}"))
     masterwrite(dat, fm)
-
+    
     # Metadata & bibtex
     mt <- here::here(path, nm)
     masterwrite(meta, mt)
-    masterwrite(bib, mt)
+    masterwrite(bib, mt)  
     # _________________________________________________________________________________________ #
-  } # if exist clean, don't run again
+  } #if exist clean, don't run again
 }

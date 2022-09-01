@@ -41,13 +41,13 @@ timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")
 # Helper function to remove and then add whitespaces again
 trim_then_add <- function(string) {
   string <- stringr::str_trim(string, side = "both")
-  string <- glue::glue(" {string} ")  
+  string <- glue::glue(" {string} ")
   string
 }
 
 # ------------------------------------------------------------------------------
 # add new data to list of pipelines
-append_dp <- function(pipeline_id, name, type) {
+append_dp <- function(pipeline_id, name, type, url = NULL, avail = NULL) {
   dat <- utils::read.csv("inst/extdata/pipeline.csv")
   dat <- dplyr::bind_rows(
     dat,
@@ -55,7 +55,9 @@ append_dp <- function(pipeline_id, name, type) {
       pipeline_id = pipeline_id,
       pipeline_type = type,
       date_created = timestamp(),
-      data_shortname = name
+      data_shortname = name,
+      data_url = url,
+      data_availability = avail
     )
   )
   write.csv(dat, "inst/extdata/pipeline.csv", row.names = FALSE)

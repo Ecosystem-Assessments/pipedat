@@ -202,43 +202,43 @@ di_c055366b()
 \code{\link{pipedat}}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 
 Other pipeline functions: 
-\code{\link{dp_68609420}()}
+\code{\link{dp_786f7481}()}
 }
 \concept{pipeline functions}
 \keyword{16c0d3ad}

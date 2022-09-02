@@ -9,8 +9,9 @@
 %   R/dp_dfo_survey_4vsw-2aafec74.R, R/dp_dfo_survey_fall-90e90110.R,
 %   R/dp_dfo_survey_sping-21f8a758.R, R/dp_dfo_survey_summer-3348d162.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
-%   R/dp_first_nations_location-ce594316.R, R/dp_fisheries_logbooks-f2109e69.R,
-%   R/dp_halpern_cea-4f84f0e3.R, R/dp_inuit_communities_location-621e9a76.R,
+%   R/dp_first_nations_location-ce594316.R,
+%   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
+%   R/dp_inuit_communities_location-621e9a76.R, R/dp_inuit_regions-3fa4aeb6.R,
 %   R/dp_invasive_species_sdm-7c8c4da1.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R, R/dp_marine_seismic-06230ea3.R,
 %   R/dp_maritimes_grid-750b39f9.R, R/dp_native_land_digital-70efb2b0.R,
@@ -44,6 +45,7 @@
 \alias{dp_f2109e69}
 \alias{dp_4f84f0e3}
 \alias{dp_621e9a76}
+\alias{dp_3fa4aeb6}
 \alias{dp_7c8c4da1}
 \alias{dp_4b72884d}
 \alias{dp_3d1bfb8e}
@@ -109,6 +111,8 @@ dp_4f84f0e3(
 )
 
 dp_621e9a76(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_3fa4aeb6(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_7c8c4da1(
   bbox = NULL,
@@ -252,6 +256,10 @@ Inuit Communities Location
 
 The Inuit Communities geographic location dataset contains the geographic location of Inuit Communities in Canada as points, as well as data attributes specific to each community.
 
+Inuit Regions (Inuit Nunangat)
+
+The Inuit Regions, also known as the Inuit Nunangat, dataset contains the geographical boundaries of the 4 Inuit Regions in Canada: Inuvialuit, Nunavut, Nunavik and Nunatsiavut.
+
 Invasive species distribution models
 
 Species distribution models and occurrence data for marine invasive species hotspot identification
@@ -382,6 +390,9 @@ dp_4f84f0e3()
 dp_621e9a76()
 }
 \dontrun{
+dp_3fa4aeb6()
+}
+\dontrun{
 dp_7c8c4da1()
 }
 \dontrun{
@@ -508,6 +519,11 @@ dp_7a44eaf0()
 
 \code{\link{pipedat}}
 
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
 Other pipeline functions: 
 \code{\link{di_ee0dd36a}()}
 
@@ -631,6 +647,7 @@ Other pipeline functions:
 \keyword{3348d162}
 \keyword{35608fef}
 \keyword{3d1bfb8e}
+\keyword{3fa4aeb6}
 \keyword{4b72884d}
 \keyword{4f84f0e3}
 \keyword{621e9a76}

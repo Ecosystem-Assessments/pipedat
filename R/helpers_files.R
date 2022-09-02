@@ -163,6 +163,6 @@ msgNoIntegration <- function(uid, name) {
 
 msgInfo <- function(..., appendLF = TRUE) {
   txt <- paste(cli::symbol$info, ...)
-  message(crayon::blue(txt), appendLF = appendLF)
+  message(crayon::green(txt), appendLF = appendLF)
   invisible(txt)
 }

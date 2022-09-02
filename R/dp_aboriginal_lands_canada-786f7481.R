@@ -1,6 +1,6 @@
-#' @eval get_name("{{ dpid }}")
+#' @eval get_name("786f7481")
 #'
-#' @eval get_description("{{ dpid }}")
+#' @eval get_description("786f7481")
 #'
 #' @eval dp_params()
 #'
@@ -8,48 +8,40 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: 786f7481
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ dpid }}()
+#' dp_786f7481()
 #' }
-dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
+dp_786f7481 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
-  uid <- "{{ dpid }}"
+  uid <- "786f7481"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
   exist <- check_files(uid, name, ondisk = FALSE)
   path <- make_output(uid, name)
-    
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (!exist$raw) {
     govcan <- get_pipeline(uid)$data_uuid
     pipeload(
-      govcan = govcan, 
-      output = here::here(path, "raw"), 
+      govcan = govcan,
+      output = here::here(path, "raw"),
       large = FALSE
     )
   }
   # _________________________________________________________________________________________ #
-    
+
   if (!exist$clean) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    dat <- masterload(here::here(path, "raw", "data.shp"))  
-    # _________________________________________________________________________________________ #
-    
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # FORMAT DATA
-    # WARNING: In order for filters to work, names of column should be: 
-    #             year      = year
-    #             longitude = longitude
-    #             latitude  = latitude
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    
+    dat <- list()
+    dat[[1]] <- masterload(here::here(path, "raw", "AL_TA_CA_2_146_MODIFIED_eng.shp"))
+    dat[[2]] <- masterload(here::here(path, "raw", "AL_TA_CA_2_146_CONFIRMED_eng.shp"))
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -58,12 +50,10 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_bbox = bbox, 
-      pipeline_bbox_crs = bbox_crs, 
-      pipeline_timespan = timespan, 
-      access = timestamp(), 
-      data_bbox = sf::st_bbox(dat), 
-      data_timespan = sort(unique(dat$year))
+      pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
+      access = timestamp(),
+      data_bbox = sf::st_bbox(dat[[1]])
     )
     # _________________________________________________________________________________________ #
 
@@ -72,32 +62,27 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     bib <- get_bib(uid)
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # APPLY SUBSETS SPECIFIED BY USER
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
-    # sf::sf_use_s2(FALSE)
-    # dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs, timespan = timespan)
-    dat <- dp_parameters(
-      dat,
-      bbox = bbox,
-      bbox_crs = bbox_crs,
-      timespan = timespan
-    )
+    on.exit(sf::sf_use_s2(TRUE), add = TRUE)
+    sf::sf_use_s2(FALSE)
+    dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT 
+    # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data   
-    fm <- here::here(path,glue("{nm}"))
-    masterwrite(dat, fm)
-    
+    # Formatted data
+    suffix <- c("modified", "confirmed")
+    fm <- here::here(path, glue("{nm}-{suffix}"))
+    for (i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
+
     # Metadata & bibtex
     mt <- here::here(path, nm)
     masterwrite(meta, mt)
-    masterwrite(bib, mt)  
+    masterwrite(bib, mt)
     # _________________________________________________________________________________________ #
-  } #if exist clean, don't run again
+  } # if exist clean, don't run again
 }

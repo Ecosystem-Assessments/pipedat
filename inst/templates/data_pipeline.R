@@ -98,10 +98,13 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # APPLY SUBSETS SPECIFIED BY USER
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
+    # sf::sf_use_s2(FALSE)
+    # dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs, timespan = timespan)
     dat <- dp_parameters(
-      dat, 
-      bbox = bbox, 
-      bbox_crs = bbox_crs, 
+      dat,
+      bbox = bbox,
+      bbox_crs = bbox_crs,
       timespan = timespan
     )
     # _________________________________________________________________________________________ #

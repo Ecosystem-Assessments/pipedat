@@ -21,7 +21,8 @@
 %   R/dp_species_at_risk_range-04528545.R,
 %   R/dp_temperature_climatology_bnam-71944efd.R,
 %   R/dp_terrestrial_human_footprint_venter-103a233e.R,
-%   R/dp_terrestrial_human_footprint_williams-e2349037.R
+%   R/dp_terrestrial_human_footprint_williams-e2349037.R,
+%   R/dp_tribal_councils_location-7a44eaf0.R
 \name{dp_786f7481}
 \alias{dp_786f7481}
 \alias{dp_68609420}
@@ -59,6 +60,7 @@
 \alias{dp_71944efd}
 \alias{dp_103a233e}
 \alias{dp_e2349037}
+\alias{dp_7a44eaf0}
 \title{Aboriginal Lands of Canada Legislative Boundaries}
 \usage{
 dp_786f7481(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
@@ -147,6 +149,8 @@ dp_71944efd(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 dp_103a233e(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_e2349037(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_7a44eaf0(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 }
 \arguments{
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
@@ -311,6 +315,10 @@ Data from: Global terrestrial Human Footprint maps for 1993 and 2009
 Terrestrial human footprint
 
 Change in terrestrial human footprint drives continued loss of intact ecosystems
+
+Tribal Councils Location
+
+The tribal council geographic location dataset contains the geographic location of all tribal councils in Canada as points as well as basic attributes data. Each tribal council point represents its address as it is registered in Indigenous and Northern Affairs Canada (INAC) Indian Government Support System (IGSS).
 }
 \examples{
 \dontrun{
@@ -421,6 +429,9 @@ dp_103a233e()
 \dontrun{
 dp_e2349037()
 }
+\dontrun{
+dp_7a44eaf0()
+}
 }
 \seealso{
 \code{\link{pipedat}}
@@ -494,6 +505,11 @@ dp_e2349037()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
 
 Other pipeline functions: 
 \code{\link{di_ee0dd36a}()}
@@ -623,6 +639,7 @@ Other pipeline functions:
 \keyword{71944efd}
 \keyword{750b39f9}
 \keyword{786f7481}
+\keyword{7a44eaf0}
 \keyword{7c8c4da1}
 \keyword{804db12e}
 \keyword{8449dee0}

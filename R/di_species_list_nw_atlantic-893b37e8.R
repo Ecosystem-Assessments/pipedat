@@ -70,101 +70,14 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       dplyr::summarise(Freq = sum(Freq)) |>
       dplyr::arrange(SPEC) |>
       remove_code() |> # See helper function at the end
+      eaMethods::clean_taxa(field = "SPEC") |>
+      change_taxa_name() |> # See helper function at the end
       eaMethods::review_taxa(field = "SPEC") |>
       dplyr::group_by(SPEC) |>
-      dplyr::summarise(Freq = sum(Freq))
-
-
-    # Get species AphiaID
-    # uid <- worrms::wm_name2id_(name = species$SPEC)
-    load("temp.rda")
-    df <- data.frame(SPEC = names(uid), aphiaID = unlist(uid))
-    species <- dplyr::left_join(species, df, by = "SPEC") |>
-      dplyr::mutate(aphiaID = ifelse(aphiaID == -999, NA, aphiaID))
-
-
-    verif <- dplyr::filter(species, is.na(aphiaID))
-    as.data.frame(verif)
-
-    # as.data.frame(sp)
-    # taxize::classification()
-
-
-
-    # # Try to get aphiaID
-    # library(worrms)
-    # dat$scientificName <- gsub(' sp\\.', '', dat$scientificName) # Add points between names
-    # dat$scientificName <- stringr::str_trim(dat$scientificName, side = 'both') # Remove white spaces
-    # sp <- sort(unique(dat$scientificName)) # Unique species
-    # aphia <- wm_name2id_(name = sp) # Extract aphia ids from worms
-    # sp <- data.frame(scientificName = sp, aphiaID = unlist(aphia)) # Data frame with species and aphiaID
-    # message("WARNING: There are 19 species for which the aphia is not correct. To verify manually")
-    #
-
-
-
-
-    #   # Taxonomy
-    # library(taxize)
-    # uid <- taxize::get_ids(species$SPEC[1:10], db = "eol")
-    # classif <- classification(aphia$aphiaID, db = "worms")
-    #
-    # # -----
-    # x <- classif
-    # nm <- names(classif)
-    # for(i in 1:length(classif)) {
-    #   x[[i]] <- as.data.frame(x[[i]]) %>%
-    #             select(-id)
-    #
-    #   # -----
-    #   if ("species" %in% x[[i]]$rank) {
-    #     gn <- x[[i]]$rank == "Genus"
-    #     sp <- x[[i]]$rank == "Species"
-    #     temp <- c(paste(x[[i]]$name[gn], x[[i]]$name[sp]), "ScientificName")
-    #   } else {
-    #     temp <- c(last(x[[i]]$name), "ScientificName")
-    #   }
-    #   x[[i]] <- rbind(x[[i]], temp)
-    #
-    #   # -----
-    #   x[[i]]$aphiaID <- nm[i]
-    # }
-    #
-    # # -----
-    # class(x) <- "list"
-    # x <- bind_rows(x)
-    #
-    # # -----
-    # x <- x %>%
-    #      pivot_wider(id_cols = aphiaID,
-    #                  names_from = rank,
-    #                  values_from = name) %>%
-    #      mutate(aphiaID = as.numeric(aphiaID)) %>%
-    #      select(aphiaID, ScientificName, Kingdom, Phylum, Class, Order, Family, Genus, Species)
-    #
-    #
-    # # -----
-    # aphia <- left_join(aphia, x, by = "aphiaID")
-
-
-
-    # [566] "Polychaeta c."
-    # [567] "Polychaeta c.,large"
-    # [568] "Polychaeta c.,small"
-    # "Aristeidae f"
-    # [494] "Crab"
-    # [506] "Lithodes/neolithodes"
-    # " () "
-
-
-
-
-    # # Check with CaRMS
-    # species$SPEC %in% carms$ScientificName
-    #
-    # "dfo_survey_4vsw-2aafec74-gscat.csv"
-    #
-    # "dfo_survey_4vsw-2aafec74-gsspecies.csv"
+      dplyr::summarise(Freq = sum(Freq)) |>
+      eaMethods::get_aphia(field = "SPEC") |>
+      eaMethods::get_classification()
+    # masterwrite(species,"temp_species")
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -190,7 +103,7 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
     fm <- here::here(path, glue("{nm}.csv"))
-    utils::write.csv(dat, fm, row.names = FALSE)
+    utils::write.csv(species, fm, row.names = FALSE)
 
     # Metadata
     mt <- here::here(path, glue("{nm}.yaml"))
@@ -207,7 +120,9 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
 remove_code <- function(df) {
   remco <- c(
     1510, # Buccinidae eggs (259)
+    2529, # Calappa megalops (1)
     1530, # Cephalopoda eggs (4)
+    290, # Clupeidae/osmeridae (1)
     2507, # Crab (13)
     2001, # Crustacea larvae (1)
     8000, # Ctenophores,coelenterates,porifera (8)
@@ -217,16 +132,25 @@ remove_code <- function(df) {
     9400, # Foreign articles,garbage (10)
     9301, # Fucus (13)
     1511, # Gasteropoda eggs (12)
+    8363, # Halipterus (4)
     1218, # Hemitripterus americanus, eggs (1)
+    2810, # Hyperia (2)
+    2802, # Hyperia oculata (1)
     1312, # Hyppolytid eggs (1)
     1600, # Invertebrate eggs (3)
+    2525, # Lithodes/neolitodes (31)
+    4514, # Loliginidae,ommastrephidae (55)
     1701, # Marine invertebrata (1)
     1500, # Mollusca eggs (8)
     1228, # Myoxocephalus eggs (1)
+    4233, # Nassa bivittata (3)
+    4235, # Nassariidae thaisidae (1)
     8366, # No longer used - phakellia (2)
+    8355, # Octopoda, cirrata (3)
     9630, # Organic debris (39)
     7000, # Parasites,round worms (1)
     4349, # Pectinidae shells (4)
+    4310, # Protobranchia, heterodonta (70)
     1199, # Purse barndoor skate (2)
     1203, # Purse little skate (37)
     1202, # Purse smooth skate (5)
@@ -240,6 +164,7 @@ remove_code <- function(df) {
     2499, # Shrimp-like (1)
     8327, # Coral unidentified (130)
     9200, # Stones and rocks (27)
+    9300, # Thallophyta (49)
     9003, # Unid fish and eggs (1)
     9001, # Unid fish and invertebrates (3)
     9002, # Unid fish and remains (1)
@@ -262,4 +187,39 @@ remove_code <- function(df) {
 
   iid <- df$CODE %in% remco
   df[!iid, ]
+}
+
+
+# Change names
+change_taxa_name <- function(df) {
+  dat <- rbind(
+    c("Henrica", "Henricia"),
+    c("Ophiura sarsi", "Ophiura sarsii"),
+    c("Acanthephyra exemia", "Acanthephyra eximia"),
+    c("Aristaepsis edwardsinana", "Aristaeopsis edwardsiana"),
+    c("Arrhis phyllonix", "Arrhis phyllonyx"),
+    c("Arrhoges occidentali", "Arrhoges occidentalis"),
+    c("Astrotecten duplicatus", "Astropecten duplicatus"),
+    c("Calathura branchiata", "Calathura brachiata"),
+    c("Ceremaster granularis", "Ceramaster granularis"),
+    c("Chionoecetes opili", "Chionoecetes opilio"),
+    c("Evermanella indica", "Evermannella indica"),
+    c("Glycera", "Ichnopus"),
+    c("Gonatus steenstrupii", "Gonatus steenstrupi"),
+    c("Gorgonocephalidae,asteronychidae", "Gorgonocephalus"),
+    c("Omosudis lowei", "Omosudis lowii"),
+    c("Paralepis atlantica kroyer", "Magnisudis atlantica"),
+    c("Pitar morrhuana", "Agriopoma morrhuanum"),
+    c("Porania pulvilis", "Porania pulvillus"),
+    c("Poraniomorpha borealis", "Poraniomorpha hispida"),
+    c("Sabinea sarsi", "Sabinea sarsii"),
+    c("Terebratulina septentrionali", "Terebratulina septentrionalis"),
+    c("Velutina laevigata", "Velutina velutina")
+  )
+  dat <- data.frame(from = dat[, 1], to = dat[, 2])
+  for (i in 1:nrow(dat)) {
+    iid <- df$SPEC %in% dat$from[i]
+    df$SPEC[iid] <- dat$to[i]
+  }
+  df
 }

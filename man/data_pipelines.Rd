@@ -4,7 +4,9 @@
 %   R/dp_cancoast-35608fef.R, R/dp_carms_checklist-084860fd.R,
 %   R/dp_census_boundary_2016-c676dc2b.R, R/dp_census_boundary_2021-b9024b04.R,
 %   R/dp_census_population_2016-d147406d.R,
-%   R/dp_census_population_2021-d96dec16.R, R/dp_contaminated_sites-804db12e.R,
+%   R/dp_census_population_2021-d96dec16.R,
+%   R/dp_community_wellbeing_index-e328da3a.R,
+%   R/dp_contaminated_sites-804db12e.R,
 %   R/dp_currents_climatology_bnam-906f1155.R,
 %   R/dp_dfo_survey_4vsw-2aafec74.R, R/dp_dfo_survey_fall-90e90110.R,
 %   R/dp_dfo_survey_sping-21f8a758.R, R/dp_dfo_survey_summer-3348d162.R,
@@ -35,6 +37,7 @@
 \alias{dp_b9024b04}
 \alias{dp_d147406d}
 \alias{dp_d96dec16}
+\alias{dp_e328da3a}
 \alias{dp_804db12e}
 \alias{dp_906f1155}
 \alias{dp_2aafec74}
@@ -84,6 +87,8 @@ dp_b9024b04(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 dp_d147406d(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_d96dec16(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_e328da3a(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_804db12e(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
@@ -227,6 +232,10 @@ Population and dwelling counts, for dissemination areas, 2016 Census
 Census population 2021
 
 Population and dwelling counts: Canada, provinces and territories, census subdivisions and dissemination areas
+
+Community Well-Being Index
+
+The Community Well-Being (CWB) Index is a method of assessing socio-economic well-being in Canadian communities. Various indicators of socio-economic well-being, including education, labour force activity, income and housing, are derived from Statistics Canada's Census of Population and combined to give each community a well-being 'score'. These scores are used to compare well-being across First Nations and Inuit communities with well-being in other Canadian communities.
 
 Federal Contaminated Sites Inventory
 
@@ -375,6 +384,9 @@ dp_d147406d()
 }
 \dontrun{
 dp_d96dec16()
+}
+\dontrun{
+dp_e328da3a()
 }
 \dontrun{
 dp_804db12e()
@@ -546,6 +558,11 @@ dp_7a44eaf0()
 
 \code{\link{pipedat}}
 
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
 Other pipeline functions: 
 \code{\link{di_ee0dd36a}()}
 
@@ -698,6 +715,7 @@ Other pipeline functions:
 \keyword{d87b7f5f}
 \keyword{d96dec16}
 \keyword{e2349037}
+\keyword{e328da3a}
 \keyword{e775900b}
 \keyword{f2109e69}
 \keyword{f635934a}

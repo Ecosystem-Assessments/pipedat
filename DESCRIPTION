@@ -60,4 +60,5 @@ Suggests:
     usethis,
     uuid,
     viridis,
-    whisker
+    whisker,
+    XML

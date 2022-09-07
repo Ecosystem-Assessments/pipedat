@@ -1,70 +1,70 @@
-#' @eval get_name("{{ dpid }}")
+#' @eval get_name("fdd796d7")
 #'
-#' @eval get_description("{{ dpid }}")
+#' @eval get_description("fdd796d7")
 #'
 #' @eval dp_params()
+#' @param groundfish_variables name of variables to import from the summer groundfish interpolated
+#' results Possible entries are: "sea_water_temperature","sea_water_temperature_anomaly",
+#' "sea_water_practical_salinity","sea_water_practical_salinity_anomaly",
+#' "sea_floor_depth_below_sea_surface"
 #'
 #' @family pipeline functions
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: fdd796d7
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ dpid }}()
+#' dp_fdd796d7()
 #' }
-dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
+dp_fdd796d7 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, groundfish_variables = c("sea_water_temperature", "sea_water_temperature_anomaly", "sea_water_practical_salinity", "sea_water_practical_salinity_anomaly"), ...) {
   # Output folders and other objects used
-  uid <- "{{ dpid }}"
+  uid <- "fdd796d7"
   name <- get_shortname(uid)
   nm <- glue("{name}-{uid}")
   exist <- check_files(uid, name, ondisk = FALSE)
   path <- make_output(uid, name)
-    
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (!exist$raw) {
-    # If the data is downloaded from online sources
-    urls <- c(
-      "url1",
-      "url2",
-      "..."
-    )
-    
-    # If the data is downloaded from open government using `rgovcan`
-    govcan <- get_pipeline(uid)$data_uuid
-    
+    # List of files on ftp server
+    # From: https://gist.github.com/adamhsparks/18f7702906f33dd66788e0078979ff9a
+    ftp_base <- "ftp://198.103.183.98/GreenanB/summerGroundfishInterpolatedResults/"
+    list_files <- curl::new_handle()
+    curl::handle_setopt(list_files, ftp_use_epsv = TRUE, dirlistonly = TRUE)
+    con <- curl::curl(url = ftp_base, "r", handle = list_files)
+    files <- readLines(con)
+    close(con)
+
     # Load
-    pipeload(
-      urls = urls, 
-      govcan = govcan, 
-      output = here::here(path, "raw"), 
-      large = FALSE
-    )
+    urls <- glue("{ftp_base}{files}")
+    # Maybe a connection problem causing this
+    # Unsure whether it's on my end or if the ftp is limiting the downloads
+    for (i in i:length(urls)) {
+      pipeload(
+        urls = urls[i],
+        output = here::here(path, "raw"),
+        large = TRUE
+      )
+    }
   }
   # _________________________________________________________________________________________ #
-    
+
   if (!exist$clean) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Example for data that needs to be locally available
-    filepath <- here::here(path,"raw","name_of_file.extension")
-    check_data(filepath, path)
-    
-      
-    # _________________________________________________________________________________________ #
-    
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # FORMAT DATA
-    # WARNING: In order for filters to work, names of column should be: 
-    #             year      = year
-    #             longitude = longitude
-    #             latitude  = latitude
-    # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    
+    files <- dir(here::here(path, "raw"), full.names = TRUE)
+    years <- substr(files, nchar(files) - 6, nchar(files) - 3) |> as.numeric()
+    if (!is.null(timespan)) files <- files[years %in% timespan]
+    dat <- lapply(
+      files,
+      stars::read_ncdf,
+      var = groundfish_variables
+    )
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -73,20 +73,13 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_bbox = bbox, 
-      pipeline_bbox_crs = bbox_crs, 
-      pipeline_timespan = timespan, 
-      access = timestamp(), 
-      data_bbox = sf::st_bbox(dat), 
-      data_timespan = sort(unique(dat$year))
+      pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
+      pipeline_timespan = timespan,
+      access = timestamp(),
+      data_bbox = sf::st_bbox(dat[[1]]),
+      data_timespan = 1970:2020
     )
-    
-    # To add additional metadata for queried data
-    meta <- add_metadata(meta, 
-      info1 = c("Format as lists and dataframes to be rendered as yaml"),
-      info2 = c("Formatting thus matters"),
-      info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-    )  
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -94,32 +87,28 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     bib <- get_bib(uid)
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # APPLY SUBSETS SPECIFIED BY USER
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
     # sf::sf_use_s2(FALSE)
-    # dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs, timespan = timespan)
-    dat <- dp_parameters(
-      dat,
-      bbox = bbox,
-      bbox_crs = bbox_crs,
-      timespan = timespan
-    )
+    dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT 
+    # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data   
-    fm <- here::here(path,glue("{nm}"))
-    masterwrite(dat, fm)
-    
+    # Formatted data
+    name <- tools::file_path_sans_ext(basename(files))
+    name <- substr(name, 48, nchar(name))
+    fm <- here::here(path, glue("{nm}-{name}"))
+    for (i in 1:length(dat)) masterwrite(dat[[i]], fm[i])
+
     # Metadata & bibtex
     mt <- here::here(path, nm)
     masterwrite(meta, mt)
-    masterwrite(bib, mt)  
+    masterwrite(bib, mt)
     # _________________________________________________________________________________________ #
-  } #if exist clean, don't run again
+  } # if exist clean, don't run again
 }

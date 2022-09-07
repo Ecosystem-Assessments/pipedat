@@ -20,6 +20,7 @@
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
 %   R/dp_shipping_gfw-8449dee0.R, R/dp_species_at_risk_critical-fc2caef8.R,
 %   R/dp_species_at_risk_range-04528545.R,
+%   R/dp_summer_groundfish_interpolated-fdd796d7.R,
 %   R/dp_temperature_climatology_bnam-71944efd.R,
 %   R/dp_terrestrial_human_footprint_venter-103a233e.R,
 %   R/dp_terrestrial_human_footprint_williams-e2349037.R,
@@ -59,6 +60,7 @@
 \alias{dp_8449dee0}
 \alias{dp_fc2caef8}
 \alias{dp_04528545}
+\alias{dp_fdd796d7}
 \alias{dp_71944efd}
 \alias{dp_103a233e}
 \alias{dp_e2349037}
@@ -148,6 +150,15 @@ dp_fc2caef8(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_04528545(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
+dp_fdd796d7(
+  bbox = NULL,
+  bbox_crs = NULL,
+  timespan = NULL,
+  groundfish_variables = c("sea_water_temperature", "sea_water_temperature_anomaly",
+    "sea_water_practical_salinity", "sea_water_practical_salinity_anomaly"),
+  ...
+)
+
 dp_71944efd(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_103a233e(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
@@ -174,6 +185,11 @@ dp_7a44eaf0(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 \item{invasive_model_type}{type of model to load, either \code{model} or \code{stdev}}
 
 \item{invasive_species}{\code{species} and/or \code{richness}}
+
+\item{groundfish_variables}{name of variables to import from the summer groundfish interpolated
+results Possible entries are: "sea_water_temperature","sea_water_temperature_anomaly",
+"sea_water_practical_salinity","sea_water_practical_salinity_anomaly",
+"sea_floor_depth_below_sea_surface"}
 }
 \description{
 Aboriginal Lands of Canada Legislative Boundaries
@@ -312,6 +328,10 @@ DFO Species at risk range
 
 Fisheries and Oceans Canada Species at Risk Distribution (Range) for species listed as Endangered, Threatened or Special Concern under the Species at Risk Act (SARA)
 
+Summer Groundfish Interpolated Results Scotian Shelf
+
+Temperature data from the summer groundfish survey of Fisheries and Oceans Canada on the Scotian Shelf
+
 Monthly temperature climatology
 
 Monthly mean temperature from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period
@@ -432,6 +452,9 @@ dp_fc2caef8()
 dp_04528545()
 }
 \dontrun{
+dp_fdd796d7()
+}
+\dontrun{
 dp_71944efd()
 }
 \dontrun{
@@ -520,6 +543,11 @@ dp_7a44eaf0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
 
 Other pipeline functions: 
 \code{\link{di_ee0dd36a}()}
@@ -674,4 +702,5 @@ Other pipeline functions:
 \keyword{f2109e69}
 \keyword{f635934a}
 \keyword{fc2caef8}
+\keyword{fdd796d7}
 \keyword{pipeline_id:}

@@ -31,7 +31,6 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     raw_id <- get_rawid(uid) # String with data to import
     pipedat(raw_id, bbox, bbox_crs, timespan)
     dat <- importdat(raw_id)
-    carms <- dat["carms_checklist-084860fd.csv"][[1]]
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -182,7 +181,18 @@ remove_code <- function(df) {
     1092, # Unidentified b (20)
     1093, # Unidentified c (10)
     1094, # Unidentified d (10)
-    1095 # Unidentified e (6)
+    1095, # Unidentified e (6)
+    979, # Alepocephalus (1) - Kept at the species level
+    928, # Argyropelecus (2) - Kept at the species level
+    295, # Bathylagus (1) - Kept at the species level
+    1007, # Bathyraja (1) - Kept at the species level
+    515, # Careproctus (2) - Kept at the species level
+    1064, # Coryphaenoides (1) - Kept at the species level
+    4569, # Gonatus (4) - Kept at the species level
+    1191, # Leucoraja (482) - Kept at the species level
+    1013, # Nezumia (5) - Kept at the species level
+    565, # Paralepis (5) - Kept at the species level
+    1052 # Rouleina (1) - Kept at the species level
   )
 
   iid <- df$CODE %in% remco
@@ -207,12 +217,17 @@ change_taxa_name <- function(df) {
     c("Glycera", "Ichnopus"),
     c("Gonatus steenstrupii", "Gonatus steenstrupi"),
     c("Gorgonocephalidae,asteronychidae", "Gorgonocephalus"),
+    c("Gorgonocephalus lamarcki", "Gorgonocephalus lamarckii"),
+    c("Margarites groenlandica", "Margarites groenlandicus"),
     c("Omosudis lowei", "Omosudis lowii"),
     c("Paralepis atlantica kroyer", "Magnisudis atlantica"),
     c("Pitar morrhuana", "Agriopoma morrhuanum"),
     c("Porania pulvilis", "Porania pulvillus"),
     c("Poraniomorpha borealis", "Poraniomorpha hispida"),
     c("Sabinea sarsi", "Sabinea sarsii"),
+    c("Sergestes", "Eusergestes arcticus"),
+    c("Sergestes arcticus", "Eusergestes arcticus"),
+    c("Serrivomer beani", "Serrivomer beanii"),
     c("Terebratulina septentrionali", "Terebratulina septentrionalis"),
     c("Velutina laevigata", "Velutina velutina")
   )

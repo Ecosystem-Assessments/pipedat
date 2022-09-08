@@ -17,7 +17,8 @@
 %   R/dp_invasive_species_sdm-7c8c4da1.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R, R/dp_marine_seismic-06230ea3.R,
 %   R/dp_maritimes_grid-750b39f9.R, R/dp_native_land_digital-70efb2b0.R,
-%   R/dp_night_lights-8509eeb1.R, R/dp_salinity_climatology_bnam-0d61380a.R,
+%   R/dp_night_lights-8509eeb1.R, R/dp_river_discharge_stlawrence-b39ddb9f.R,
+%   R/dp_salinity_climatology_bnam-0d61380a.R,
 %   R/dp_sea_surface_temperature-d87b7f5f.R,
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
 %   R/dp_shipping_gfw-8449dee0.R, R/dp_species_at_risk_critical-fc2caef8.R,
@@ -57,6 +58,7 @@
 \alias{dp_750b39f9}
 \alias{dp_70efb2b0}
 \alias{dp_8509eeb1}
+\alias{dp_b39ddb9f}
 \alias{dp_0d61380a}
 \alias{dp_d87b7f5f}
 \alias{dp_1b4dba19}
@@ -142,6 +144,8 @@ dp_750b39f9(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 dp_70efb2b0(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_8509eeb1(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_b39ddb9f(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_0d61380a(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
@@ -313,6 +317,10 @@ Nighttime Ligths
 
 A new consistently processed time series of annual global VIIRS nighttime lights has been produced from monthly cloud-free average radiance grids spanning 2012 to 2020. The new methodology is a modification of the original method based on nightly data (Annual VNL V1). Visite https://eogdata.mines.edu/products/vnl/#annual_v2 for more information.
 
+River discharge in the St. Lawrence
+
+Monthly water discharge for the 78 main rivers in the Estuary and Gulf of St. Lawrence between 1948 and 2021
+
 Monthly salinity climatology
 
 Monthly mean salinity from Bedford Institute of Oceanography North Atlantic Model (BNAM) results averaged over 1990 to 2015 period
@@ -446,6 +454,9 @@ dp_70efb2b0()
 dp_8509eeb1()
 }
 \dontrun{
+dp_b39ddb9f()
+}
+\dontrun{
 dp_0d61380a()
 }
 \dontrun{
@@ -559,6 +570,11 @@ dp_7a44eaf0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
 
 Other pipeline functions: 
 \code{\link{di_ee0dd36a}()}
@@ -708,6 +724,7 @@ Other pipeline functions:
 \keyword{8509eeb1}
 \keyword{906f1155}
 \keyword{90e90110}
+\keyword{b39ddb9f}
 \keyword{b9024b04}
 \keyword{c676dc2b}
 \keyword{ce594316}

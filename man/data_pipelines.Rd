@@ -16,8 +16,11 @@
 %   R/dp_inuit_communities_location-621e9a76.R, R/dp_inuit_regions-3fa4aeb6.R,
 %   R/dp_invasive_species_sdm-7c8c4da1.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R, R/dp_marine_seismic-06230ea3.R,
-%   R/dp_maritimes_grid-750b39f9.R, R/dp_native_land_digital-70efb2b0.R,
-%   R/dp_night_lights-8509eeb1.R, R/dp_river_discharge_stlawrence-b39ddb9f.R,
+%   R/dp_maritimes_grid-750b39f9.R, R/dp_mercury_canadian_arctic-091d10ec.R,
+%   R/dp_native_land_digital-70efb2b0.R, R/dp_night_lights-8509eeb1.R,
+%   R/dp_opes_pbdes_north_atlantic-caa1fb75.R,
+%   R/dp_perfluoroalkyl_substances_canadian_arctic-0bf96a89.R,
+%   R/dp_river_discharge_stlawrence-b39ddb9f.R,
 %   R/dp_salinity_climatology_bnam-0d61380a.R,
 %   R/dp_sea_surface_temperature-d87b7f5f.R,
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
@@ -56,8 +59,11 @@
 \alias{dp_3d1bfb8e}
 \alias{dp_06230ea3}
 \alias{dp_750b39f9}
+\alias{dp_091d10ec}
 \alias{dp_70efb2b0}
 \alias{dp_8509eeb1}
+\alias{dp_caa1fb75}
+\alias{dp_0bf96a89}
 \alias{dp_b39ddb9f}
 \alias{dp_0d61380a}
 \alias{dp_d87b7f5f}
@@ -141,9 +147,15 @@ dp_06230ea3(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_750b39f9(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
+dp_091d10ec(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
 dp_70efb2b0(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_8509eeb1(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_caa1fb75(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_0bf96a89(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_b39ddb9f(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
@@ -309,6 +321,10 @@ Maritimes cumulative effects assessment study area grid
 
 Gridded study area used jointly with N. Kelly and G. Murphy for the Maritimes region cumulative effects assessment
 
+Mercury concentrations in the Canadian Arctic marine ecosystem
+
+This dataset contains 2005 concentrations of total mercury (THg), gaseous elemental mercury (GEM), methylated mercury, dimethyl mercury (DMHg) in the water column of the Canadian Arctic.
+
 Native Land Digital
 
 Native Land is an app to help map Indigenous territories, treaties, and languages. The map provided does not represent or intend to represent official or legal boundaries of any Indigenous nations. To learn about definitive boundaries, contact the nations in question. Also, the map is not perfect -- it is a work in progress with tons of contributions from the community. Please send fixes to info@native-land.ca if you find errors.
@@ -316,6 +332,14 @@ Native Land is an app to help map Indigenous territories, treaties, and language
 Nighttime Ligths
 
 A new consistently processed time series of annual global VIIRS nighttime lights has been produced from monthly cloud-free average radiance grids spanning 2012 to 2020. The new methodology is a modification of the original method based on nightly data (Annual VNL V1). Visite https://eogdata.mines.edu/products/vnl/#annual_v2 for more information.
+
+Concentrations of organophosphate esters (OPEs) and polybrominated diphenyl ethers (PBDEs) in the North Atlantic Ocean
+
+This dataset contains the ambient dissolved concentrations of organophosphate esters (OPEs) and polybrominated diphenyl ethers (PBDEs) in North Atlantic Ocean (Greenland Sea) as well as a summary of the passive polyethylene samplers (PEs) deployed.
+
+Perfluoroalkyl substances (PFAS) in the Canadian Arctic marine ecosystem
+
+This dataset contains concentrations of perfluoroalkyl substances (PFAS) in seawater sampled in various locations in the Arctic ranging from 2005-2008.
 
 River discharge in the St. Lawrence
 
@@ -448,10 +472,19 @@ dp_06230ea3()
 dp_750b39f9()
 }
 \dontrun{
+dp_091d10ec()
+}
+\dontrun{
 dp_70efb2b0()
 }
 \dontrun{
 dp_8509eeb1()
+}
+\dontrun{
+dp_caa1fb75()
+}
+\dontrun{
+dp_0bf96a89()
 }
 \dontrun{
 dp_b39ddb9f()
@@ -572,6 +605,21 @@ dp_7a44eaf0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
 
 Other pipeline functions: 
 \code{\link{di_ee0dd36a}()}
@@ -700,6 +748,8 @@ Other pipeline functions:
 \keyword{04528545}
 \keyword{06230ea3}
 \keyword{084860fd}
+\keyword{091d10ec}
+\keyword{0bf96a89}
 \keyword{0d61380a}
 \keyword{103a233e}
 \keyword{1b4dba19}
@@ -727,6 +777,7 @@ Other pipeline functions:
 \keyword{b39ddb9f}
 \keyword{b9024b04}
 \keyword{c676dc2b}
+\keyword{caa1fb75}
 \keyword{ce594316}
 \keyword{d147406d}
 \keyword{d87b7f5f}

@@ -21,45 +21,45 @@ dp_0bf96a89 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   nm <- glue("{name}-{uid}")
   exist <- check_files(uid, name, ondisk = FALSE)
   path <- make_output(uid, name)
-    
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (!exist$raw) {
     govcan <- get_pipeline(uid)$data_uuid
     pipeload(
-      govcan = govcan, 
-      output = here::here(path, "raw"), 
+      govcan = govcan,
+      output = here::here(path, "raw"),
       large = FALSE
     )
   }
   # _________________________________________________________________________________________ #
-    
+
   if (!exist$clean) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     p <- here::here(
-      path, 
-      "raw", 
+      path,
+      "raw",
       "NCP_ArcticMarineEcosystem__PerfluoroalkylSubstances_Concentrations_EN_FR.csv"
     )
     dat <- readr::read_csv(p, skip = 30)
     dat <- dat[1:28, ] |>
-           sf::st_as_sf(coords = c("Longitude","Latitude"), crs = 4326, remove = FALSE)
+      sf::st_as_sf(coords = c("Longitude", "Latitude"), crs = 4326, remove = FALSE)
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE METADATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     meta <- get_metadata(
       pipeline_type = "data",
       pipeline_id = uid,
-      pipeline_bbox = bbox, 
-      pipeline_bbox_crs = bbox_crs, 
-      access = timestamp(), 
-      data_bbox = sf::st_bbox(dat), 
-      data_timespan = c(2005,2008)
+      pipeline_bbox = bbox,
+      pipeline_bbox_crs = bbox_crs,
+      access = timestamp(),
+      data_bbox = sf::st_bbox(dat),
+      data_timespan = c(2005, 2008)
     )
     # _________________________________________________________________________________________ #
 
@@ -68,7 +68,7 @@ dp_0bf96a89 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     bib <- get_bib(uid)
     # _________________________________________________________________________________________ #
-    
+
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # APPLY SUBSETS SPECIFIED BY USER
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -83,16 +83,16 @@ dp_0bf96a89 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT 
+    # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data   
-    fm <- here::here(path,glue("{nm}"))
+    # Formatted data
+    fm <- here::here(path, glue("{nm}"))
     masterwrite(dat, fm)
-    
+
     # Metadata & bibtex
     mt <- here::here(path, nm)
     masterwrite(meta, mt)
-    masterwrite(bib, mt)  
+    masterwrite(bib, mt)
     # _________________________________________________________________________________________ #
-  } #if exist clean, don't run again
+  } # if exist clean, don't run again
 }

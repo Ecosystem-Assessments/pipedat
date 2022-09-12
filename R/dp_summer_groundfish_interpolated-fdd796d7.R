@@ -43,7 +43,7 @@ dp_fdd796d7 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, groundfis
     urls <- glue("{ftp_base}{files}")
     # Maybe a connection problem causing this
     # Unsure whether it's on my end or if the ftp is limiting the downloads
-    for (i in i:length(urls)) {
+    for (i in 1:length(urls)) {
       pipeload(
         urls = urls[i],
         output = here::here(path, "raw"),

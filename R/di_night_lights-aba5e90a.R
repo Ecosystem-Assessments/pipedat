@@ -40,6 +40,7 @@ di_aba5e90a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     if (sf::st_crs(grid)$epsg != sf::st_crs(dat[[1]])$epsg) {
       grid <- sf::st_transform(grid, crs = st_crs(dat[[1]]))
     }
+    names(grid) <- "uid"
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -53,10 +54,10 @@ di_aba5e90a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
         stars::st_warp(dat[[i]], grid) |>
         c(grid) |>
         as.data.frame() |>
-        dplyr::filter(!is.na(grid_raster.tif)) |>
         dplyr::arrange(uid) |>
         dplyr::select(-x, -y)
       colnames(nightlights[[i]]) <- c("nightlights", "uid")
+      nightlights[[i]] <- dplyr::filter(nightlights[[i]], !is.na(nightlights))
       nightlights[[i]] <- nightlights[[i]][nightlights[[i]][, 1] > 0, ] |>
         dplyr::select(uid, nightlights)
     }

@@ -31,7 +31,7 @@ masterload <- function(path) {
   }
 
   ## CSV or DAT
-  if (ext == "csv" | ext == "dat") {
+  if (ext == "csv") {
     dat <- utils::read.csv(path)
   }
 

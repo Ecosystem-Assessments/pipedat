@@ -58,9 +58,9 @@ di_aba5e90a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
         dplyr::select(-x, -y)
       colnames(nightlights[[i]]) <- c("nightlights", "uid")
       nightlights[[i]] <- dplyr::filter(nightlights[[i]], !is.na(nightlights)) |>
-                          dplyr::filter(!is.na(uid)) |>
-                          dplyr::filter(nightlights > 0) |> 
-                          dplyr::select(uid, nightlights)
+        dplyr::filter(!is.na(uid)) |>
+        dplyr::filter(nightlights > 0) |>
+        dplyr::select(uid, nightlights)
     }
     # _________________________________________________________________________________________ #
 

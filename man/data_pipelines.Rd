@@ -2,6 +2,7 @@
 % Please edit documentation in R/dp_aboriginal_lands_canada-786f7481.R,
 %   R/dp_atlantic_shoreline-68609420.R, R/dp_bathymetry_gebco_2021-e775900b.R,
 %   R/dp_cancoast-35608fef.R, R/dp_carms_checklist-084860fd.R,
+%   R/dp_cartes_ecoforestieres-d770f210.R,
 %   R/dp_census_boundary_2016-c676dc2b.R, R/dp_census_boundary_2021-b9024b04.R,
 %   R/dp_census_population_2016-d147406d.R,
 %   R/dp_census_population_2021-d96dec16.R,
@@ -37,6 +38,7 @@
 \alias{dp_e775900b}
 \alias{dp_35608fef}
 \alias{dp_084860fd}
+\alias{dp_d770f210}
 \alias{dp_c676dc2b}
 \alias{dp_b9024b04}
 \alias{dp_d147406d}
@@ -87,6 +89,14 @@ dp_e775900b(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 dp_35608fef(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_084860fd(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_d770f210(
+  bbox = NULL,
+  bbox_crs = NULL,
+  timespan = NULL,
+  feuillet = NULL,
+  ...
+)
 
 dp_c676dc2b(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
@@ -197,6 +207,8 @@ dp_7a44eaf0(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 \item{...}{further arguments used in functions, if applicable.}
 
+\item{feuillet}{code for the feuillet to downlaod}
+
 \item{halpern_years}{years of data to load, choices are 2008 and 2013}
 
 \item{halpern_layers}{name of layers to download from the Halpern dataset. Possible entries are: "artisanal_fishing","demersal_destructive_fishing","demersal_destructive_fishing","demersal_nondest_high_bycatch","demersal_nondest_low_bycatch","inorganic","invasives","night_lights","ocean_acidification","ocean_pollution","oil_rigs","pelagic_high_bycatch","pelagic_low_bycatch","plumes_fert","plumes_pest","population","shipping","slr","sst","uv".}
@@ -232,6 +244,10 @@ CanCoast 2.0: data and indices to describe the sensitivity of Canada's marine co
 WoRMS North-West Atlantic species checklist
 
 CaRMS and WoRMS species list for the North-West Atlantic area of interest
+
+Carte écoforestière originale et résultats d'inventaire
+
+La carte écoforestière originale et résultats d’inventaire constituent un regroupement de données écoforestières comprenant la carte écoforestière originale et de nombreuses autres tables fournissant de l’information se rattachant directement aux peuplements forestiers. L'information contenue dans ce jeu de données correspond au portrait de la forêt jusqu'à l'année de la photographie aérienne
 
 Census cartographic boundary files 2016
 
@@ -404,6 +420,9 @@ dp_35608fef()
 }
 \dontrun{
 dp_084860fd()
+}
+\dontrun{
+dp_d770f210()
 }
 \dontrun{
 dp_c676dc2b()
@@ -612,6 +631,11 @@ dp_7a44eaf0()
 
 \code{\link{pipedat}}
 
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
 Other pipeline functions: 
 \code{\link{di_ee0dd36a}()}
 
@@ -780,6 +804,7 @@ Other pipeline functions:
 \keyword{caa1fb75}
 \keyword{ce594316}
 \keyword{d147406d}
+\keyword{d770f210}
 \keyword{d87b7f5f}
 \keyword{d96dec16}
 \keyword{e2349037}

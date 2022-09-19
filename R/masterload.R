@@ -30,8 +30,8 @@ masterload <- function(path) {
     dat <- stars::read_stars(path, quiet = TRUE)
   }
 
-  ## CSV
-  if (ext == "csv") {
+  ## CSV or DAT
+  if (ext == "csv" | ext == "dat") {
     dat <- utils::read.csv(path)
   }
 

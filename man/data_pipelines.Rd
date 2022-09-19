@@ -12,8 +12,8 @@
 %   R/dp_dfo_survey_4vsw-2aafec74.R, R/dp_dfo_survey_fall-90e90110.R,
 %   R/dp_dfo_survey_sping-21f8a758.R, R/dp_dfo_survey_summer-3348d162.R,
 %   R/dp_federal_marine_bioregions-f635934a.R,
-%   R/dp_first_nations_location-ce594316.R,
-%   R/dp_fisheries_logbooks-f2109e69.R, R/dp_halpern_cea-4f84f0e3.R,
+%   R/dp_first_nations_location-ce594316.R, R/dp_fisheries_logbooks-f2109e69.R,
+%   R/dp_geolocated_placenames-b5433840.R, R/dp_halpern_cea-4f84f0e3.R,
 %   R/dp_inuit_communities_location-621e9a76.R, R/dp_inuit_regions-3fa4aeb6.R,
 %   R/dp_invasive_species_sdm-7c8c4da1.R, R/dp_marine_disposal_sites-4b72884d.R,
 %   R/dp_marine_mammals_wwf_romm-3d1bfb8e.R, R/dp_marine_seismic-06230ea3.R,
@@ -24,6 +24,7 @@
 %   R/dp_river_discharge_stlawrence-b39ddb9f.R,
 %   R/dp_salinity_climatology_bnam-0d61380a.R,
 %   R/dp_sea_surface_temperature-d87b7f5f.R,
+%   R/dp_sea_surface_temperature_anomalies_dfo-9d64101c.R,
 %   R/dp_sea_surface_temperature_climatology-1b4dba19.R,
 %   R/dp_shipping_gfw-8449dee0.R, R/dp_species_at_risk_critical-fc2caef8.R,
 %   R/dp_species_at_risk_range-04528545.R,
@@ -53,6 +54,7 @@
 \alias{dp_f635934a}
 \alias{dp_ce594316}
 \alias{dp_f2109e69}
+\alias{dp_b5433840}
 \alias{dp_4f84f0e3}
 \alias{dp_621e9a76}
 \alias{dp_3fa4aeb6}
@@ -69,6 +71,7 @@
 \alias{dp_b39ddb9f}
 \alias{dp_0d61380a}
 \alias{dp_d87b7f5f}
+\alias{dp_9d64101c}
 \alias{dp_1b4dba19}
 \alias{dp_8449dee0}
 \alias{dp_fc2caef8}
@@ -126,6 +129,8 @@ dp_ce594316(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_f2109e69(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
+dp_b5433840(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
 dp_4f84f0e3(
   bbox = NULL,
   bbox_crs = NULL,
@@ -172,6 +177,8 @@ dp_b39ddb9f(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 dp_0d61380a(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_d87b7f5f(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
+
+dp_9d64101c(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
 dp_1b4dba19(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...)
 
@@ -305,6 +312,10 @@ Commercial fisheries logbooks
 
 A compilation of landing data from Zonal Interchange File Format (ZIFF) data between 2000 and 2020
 
+Geolocated placenames in Canada
+
+The collection of geolocated placenames in Canada represents a consistent and comprehensive distribution of named places across Canada. Named places include large and small cities, villages, First Nations Communities, Small Hamlets etc.
+
 Global cumulative human impacts assessments in 2008 and 2013
 
 Data from the assessments of global marine cumulative human impacts in 2008 and 2013
@@ -368,6 +379,10 @@ Monthly mean salinity from Bedford Institute of Oceanography North Atlantic Mode
 Sea surface temperature anomalies
 
 Surface-water temperature anomalies from the Department of Fisheries and Oceans� (DFO) Atlantic Zone Monitoring Program (AZMP)
+
+Sea surface temperature anomalies
+
+Surface-water temperature anomalies from the Department of Fisheries and Oceans (DFO) Atlantic Zone Monitoring Program (AZMP) between 2010 and 2022
 
 Sea surface temperature anomalies climatology
 
@@ -467,6 +482,9 @@ dp_ce594316()
 dp_f2109e69()
 }
 \dontrun{
+dp_b5433840()
+}
+\dontrun{
 dp_4f84f0e3()
 }
 \dontrun{
@@ -513,6 +531,9 @@ dp_0d61380a()
 }
 \dontrun{
 dp_d87b7f5f()
+}
+\dontrun{
+dp_9d64101c()
 }
 \dontrun{
 dp_1b4dba19()
@@ -632,6 +653,16 @@ dp_7a44eaf0()
 \code{\link{pipedat}}
 
 \code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+\code{\link{pipedat}}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
+
+Other pipeline functions: 
+\code{\link{di_ee0dd36a}()}
 
 Other pipeline functions: 
 \code{\link{di_ee0dd36a}()}
@@ -798,7 +829,9 @@ Other pipeline functions:
 \keyword{8509eeb1}
 \keyword{906f1155}
 \keyword{90e90110}
+\keyword{9d64101c}
 \keyword{b39ddb9f}
+\keyword{b5433840}
 \keyword{b9024b04}
 \keyword{c676dc2b}
 \keyword{caa1fb75}

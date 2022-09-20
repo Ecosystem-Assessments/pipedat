@@ -246,7 +246,12 @@ get_filepaths <- function(pipeline_id) {
   dat[file.exists(dat)]
 }
 
-get_grid_info <- function(grd) {
+get_grid_info <- function(grd = NULL) {
+  if (is.null(grd)) {
+    grd <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
+    names(grd) <- "uid"
+  }
+
   type <- class(grd)
   poly <- "sf" %in% type
   type_text <- ifelse(poly, "polygon", "raster")

@@ -20,25 +20,34 @@ pipeflow <- function(config) {
   crs <- dat$data_workflow$parameters$crs
   bbox <- unlist(dat$data_workflow$parameters$bbox)
   timespan <- dat$data_workflow$parameters$timespan
+  params <- dat$data_workflow$params
 
   # Data pipelines
   if (!is.null(dat$data_workflow$data_pipeline)) {
-    pipedat(
-      uid = dat$data_workflow$data_pipeline,
-      bbox = bbox,
-      bbox_crs = crs,
-      timespan = timespan
+    args <- c(
+      list(
+        uid = dat$data_workflow$data_pipeline,
+        bbox = bbox,
+        bbox_crs = crs,
+        timespan = timespan
+      ),
+      params
     )
+    do.call(pipedat, args)
   }
 
   # Integration pipelines
   if (!is.null(dat$data_workflow$data_integration)) {
-    pipedat(
-      uid = dat$data_workflow$data_integration,
-      bbox = bbox,
-      bbox_crs = crs,
-      timespan = timespan
+    args <- c(
+      list(
+        uid = dat$data_workflow$data_integration,
+        bbox = bbox,
+        bbox_crs = crs,
+        timespan = timespan
+      ),
+      params
     )
+    do.call(pipedat, args)
   }
 
   # # Grid

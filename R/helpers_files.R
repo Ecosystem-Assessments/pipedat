@@ -55,16 +55,16 @@ check_files <- function(uid, name, ondisk = FALSE) {
 
   # Check if raw files exist
   exist <- list()
-  if (length(paths$raw_files > 0)) {
+  if (length(paths$raw_files) > 0) {
     exist$raw <- lapply(paths$raw_files, file.exists) |>
       unlist() |>
-      all()
+      any()
   } else {
     exist$raw <- FALSE
   }
 
   # Check if cleaned files exist
-  if (length(paths$clean_files > 0)) {
+  if (length(paths$clean_files) > 0) {
     exist$clean <- lapply(paths$clean_files, file.exists) |>
       unlist() |>
       any()
@@ -73,10 +73,10 @@ check_files <- function(uid, name, ondisk = FALSE) {
   }
 
   # Check if integrated files exist
-  if (length(paths$integrated_files > 0)) {
+  if (length(paths$integrated_files) > 0) {
     exist$integrated <- lapply(paths$integrated_files, file.exists) |>
       unlist() |>
-      all()
+      any()
   } else {
     exist$integrated <- FALSE
   }

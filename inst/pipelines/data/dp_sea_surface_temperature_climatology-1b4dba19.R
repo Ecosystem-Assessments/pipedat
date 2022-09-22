@@ -18,10 +18,9 @@
 dp_1b4dba19 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "1b4dba19"
-  name <- get_shortname(uid)
-  nm <- glue("{name}-{uid}")
-  exist <- check_files(uid, name, ondisk = TRUE)
-  path <- make_output(uid, name)
+  nm <- glue("{get_shortname(uid)}-{uid}")
+  exist <- check_files(uid, ondisk = TRUE)
+  path <- make_output(uid)
 
   if (!exist$clean) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

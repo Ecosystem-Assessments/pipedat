@@ -18,10 +18,9 @@
 dp_06230ea3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "06230ea3"
-  name <- get_shortname(uid)
-  nm <- glue("{name}-{uid}")
-  exist <- check_files(uid, name, ondisk = FALSE)
-  path <- make_output(uid, name)
+  nm <- glue("{get_shortname(uid)}-{uid}")
+  exist <- check_files(uid)
+  path <- make_output(uid)
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # DOWNLOAD DATA

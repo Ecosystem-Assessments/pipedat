@@ -19,6 +19,9 @@
 #' @importFrom stats setNames na.omit
 #' @importFrom utils read.csv write.csv read.table
 #' @importFrom yaml yaml.load_file write_yaml read_yaml
+#' @importFrom rlang abort warn
+#' @importFrom cli symbol
+#' @importFrom crayon blue
 NULL
 
 
@@ -33,17 +36,6 @@ use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
   writeLines(whisker::whisker.render(template, ...), save_as)
 }
 
-# ------------------------------------------------------------------------------
-# Timestamp
-timestamp <- function() format(Sys.time(), format = "%Y-%m-%d")
-
-# ------------------------------------------------------------------------------
-# Helper function to remove and then add whitespaces again
-trim_then_add <- function(string) {
-  string <- stringr::str_trim(string, side = "both")
-  string <- glue::glue(" {string} ")
-  string
-}
 
 # ------------------------------------------------------------------------------
 # add new data to list of pipelines
@@ -61,12 +53,6 @@ append_dp <- function(pipeline_id, name, type, url = NULL, avail = NULL) {
     )
   )
   write.csv(dat, "inst/extdata/pipeline.csv", row.names = FALSE)
-}
-
-# Create polygon from bbox
-bbox_poly <- function(bbox, crs) {
-  sf::st_bbox(bbox, crs = sf::st_crs(crs)) |>
-    sf::st_as_sfc()
 }
 
 # ------------------------------------------------------------------------------
@@ -110,9 +96,27 @@ get_basemap <- function() {
 }
 
 # ------------------------------------------------------------------------------
+# Pipelines as list of functions
+# For developers only
+get_pipeline_code <- function() {
+  # List of available pipelines
+  files <- dir("inst/pipelines", recursive = TRUE, full.names = TRUE)
+  uid <- substr(files, nchar(files) - 9, nchar(files) - 2)
+  pipecode <- lapply(files, source, local = TRUE)
+  for (i in 1:length(pipecode)) {
+    pipecode[[i]] <- pipecode[[i]]$value
+  }
+  names(pipecode) <- uid
+
+  # Export
+  save(pipecode, file = "./inst/extdata/pipeline_code.rda")
+}
+
+# ------------------------------------------------------------------------------
 # Update R/sysdata.rda
 # Move to a separate file in inst/extdata at some point
 update_rda <- function() {
+  get_pipeline_code()
   pipeline <- read.csv(file = "inst/extdata/pipeline.csv")
   contact <- read.csv(file = "inst/extdata/contact.csv")
   pcite <- read.csv(file = "inst/extdata/pipeline_citekey.csv")
@@ -124,6 +128,8 @@ update_rda <- function() {
   files_clean <- read.csv(file = "inst/extdata/files_clean.csv")
   files_integrated <- read.csv(file = "inst/extdata/files_integrated.csv")
   load(file = "inst/extdata/basemap.rda")
+  load(file = "inst/extdata/pipeline_code.rda")
+
 
   usethis::use_data(
     pipeline,
@@ -137,7 +143,50 @@ update_rda <- function() {
     files_clean,
     files_integrated,
     basemap,
+    pipecode,
     internal = TRUE,
     overwrite = TRUE
   )
+}
+
+# --------------------------------------------------------------------------------
+# Helper messages
+# Skip download
+msgNoLoad <- function(uid) {
+  rlang::warn(c(
+    glue("The data for the {get_shortname(uid)} pipeline (id: {uid}) is already available on disk, download was thus skipped."),
+    "i" = "Delete or move files from disk for data to be downloaded again."
+  ))
+}
+
+msgNoClean <- function(uid) {
+  rlang::warn(c(
+    glue("The cleaned data from the {get_shortname(uid)} pipeline (id: {uid}) is already available on disk, data formatting was thus skipped."),
+    "i" = "Delete or move files from disk for data to be downloaded again."
+  ))
+}
+
+# If data is needed locally, stop process
+msgOnDisk <- function(uid, paths) {
+  rlang::abort(c(
+    glue("The data for the {get_shortname(uid)} pipeline (id: {uid}) is unavailable remotely and needs to be on disk for the pipeline to work."),
+    "i" = "The raw data should be available at the following paths:",
+    "",
+    paths$raw_files
+  ))
+}
+
+msgNoIntegration <- function(uid) {
+  rlang::warn(c(
+    glue("The integrated data from the {get_shortname(uid)} pipeline (id: {uid}) is already available on disk, data integration was thus skipped."),
+    "i" = "Delete or move files from disk for data to be downloaded again."
+  ))
+}
+
+
+
+msgInfo <- function(..., appendLF = TRUE) {
+  txt <- paste(cli::symbol$info, ...)
+  message(crayon::green(txt), appendLF = appendLF)
+  invisible(txt)
 }

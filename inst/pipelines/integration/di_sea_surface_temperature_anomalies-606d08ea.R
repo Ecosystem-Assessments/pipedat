@@ -200,19 +200,19 @@ di_606d08ea <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm1 <- here::here(path, glue("{nm}-positive-{year}.csv"))
-    fm2 <- here::here(path, glue("{nm}-negative-{year}.csv"))
+    fm1 <- here::here(path, glue::glue("{nm}-positive-{year}.csv"))
+    fm2 <- here::here(path, glue::glue("{nm}-negative-{year}.csv"))
     for (i in 1:length(year)) {
       utils::write.csv(sst_pos[[i]], fm1[i], row.names = FALSE)
       utils::write.csv(sst_neg[[i]], fm2[i], row.names = FALSE)
     }
 
     # Metadata
-    mt <- here::here(path, glue("{nm}.yaml"))
+    mt <- here::here(path, glue::glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- here::here(path, glue("{nm}.bib"))
+    bi <- here::here(path, glue::glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   }

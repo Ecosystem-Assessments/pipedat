@@ -77,15 +77,15 @@ dp_750b39f9 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
+    fm <- glue::glue("{path}/{nm}.geojson") # NOTE: not necessarily spatial data
     sf::st_write(dat, dsn = fm, quiet = TRUE) # for spatial data
 
     # Metadata
-    mt <- glue("{path}/{nm}.yaml")
+    mt <- glue::glue("{path}/{nm}.yaml")
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- glue("{path}/{nm}.bib")
+    bi <- glue::glue("{path}/{nm}.bib")
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

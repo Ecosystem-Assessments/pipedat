@@ -13,7 +13,7 @@ make_paths <- function(uid) {
   paths$clean_output <- here::here(
     "data",
     "data-raw",
-    glue("{name}-{uid}")
+    glue::glue("{name}-{uid}")
   )
 
   # Clean files
@@ -38,7 +38,7 @@ make_paths <- function(uid) {
   paths$integrated_output <- here::here(
     "data",
     "data-integrated",
-    glue("{name}-{uid}")
+    glue::glue("{name}-{uid}")
   )
 
   # Integrated files
@@ -203,7 +203,7 @@ get_bib <- function(uid) {
 get_pipeline_url <- function(uid) {
   dat <- get_pipeline(uid)
   repo <- "https://github.com/Ecosystem-Assessments/pipedat"
-  glue("{repo}/blob/main/R/dp_{dat$data_shortname}-{uid}.R")
+  glue::glue("{repo}/blob/main/R/dp_{dat$data_shortname}-{uid}.R")
 }
 
 #' @describeIn pipeline_setup get pipeline type
@@ -229,7 +229,7 @@ get_folderpaths <- function(uid) {
   here::here(
     "data",
     ifelse(dat$pipeline_type == "data", "data-raw", "data-integrated"),
-    glue("{dat$data_shortname}-{dat$pipeline_id}")
+    glue::glue("{dat$data_shortname}-{dat$pipeline_id}")
   )
 }
 

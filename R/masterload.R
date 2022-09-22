@@ -36,7 +36,7 @@ masterload <- function(path) {
   }
 
   # Identify which data were loaded
-  msgInfo("Imported file:", glue("{name}.{ext}"))
+  msgInfo("Imported file:", glue::glue("{name}.{ext}"))
 
   # -----
   invisible(dat)
@@ -52,13 +52,13 @@ masterwrite <- function(obj, path) {
   ## GEOJSON
   if ("sf" %in% cls) {
     ext <- "geojson"
-    sf::st_write(obj, glue("{path}.{ext}"), quiet = TRUE)
+    sf::st_write(obj, glue::glue("{path}.{ext}"), quiet = TRUE)
   }
 
   ## GeoTIFF
   if ("stars" %in% cls) {
     ext <- "tif"
-    stars::write_stars(obj, glue("{path}.{ext}"), quiet = TRUE)
+    stars::write_stars(obj, glue::glue("{path}.{ext}"), quiet = TRUE)
   }
 
   ## CSV
@@ -67,21 +67,21 @@ masterwrite <- function(obj, path) {
       (!"stars" %in% cls & !"sf" %in% cls)
   ) {
     ext <- "csv"
-    utils::write.csv(obj, glue("{path}.{ext}"), row.names = FALSE)
+    utils::write.csv(obj, glue::glue("{path}.{ext}"), row.names = FALSE)
   }
 
   ## YAML
   if ("list" %in% cls) {
     ext <- "yaml"
-    yaml::write_yaml(obj, glue("{path}.{ext}"), column.major = FALSE)
+    yaml::write_yaml(obj, glue::glue("{path}.{ext}"), column.major = FALSE)
   }
 
   ## Bibtex
   if ("BibEntry" %in% cls) {
     ext <- "bib"
-    RefManageR::WriteBib(obj, file = glue("{path}.{ext}"), verbose = FALSE)
+    RefManageR::WriteBib(obj, file = glue::glue("{path}.{ext}"), verbose = FALSE)
   }
 
   # Identify which data were loaded
-  msgInfo("Exported file:", glue("{basename(path)}.{ext}"))
+  msgInfo("Exported file:", glue::glue("{basename(path)}.{ext}"))
 }

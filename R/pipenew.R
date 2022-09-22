@@ -55,21 +55,21 @@ pipenew <- function(name = NULL, template = "data_workflow") {
       use_template(
         template = "templates/data_pipeline.R",
         data = out,
-        save_as = glue("inst/pipelines/data/dp_{name}-{out$dpid}.R")
+        save_as = glue::glue("inst/pipelines/data/dp_{name}-{out$dpid}.R")
       )
     }
     if (pdg) {
       use_template(
         template = "templates/data_pipeline_govcan.R",
         data = out,
-        save_as = glue("inst/pipelines/data/dp_{name}-{out$dpid}.R")
+        save_as = glue::glue("inst/pipelines/data/dp_{name}-{out$dpid}.R")
       )
     }
     if (int) {
       use_template(
         template = "templates/integration_pipeline.R",
         data = out,
-        save_as = glue("inst/pipelines/integration/di_{name}-{out$dpid}.R")
+        save_as = glue::glue("inst/pipelines/integration/di_{name}-{out$dpid}.R")
       )
     }
   }
@@ -78,7 +78,7 @@ pipenew <- function(name = NULL, template = "data_workflow") {
     if (is.null(name)) name <- "data_workflow"
     use_template(
       template = "templates/data_workflow.yaml",
-      save_as = glue("./{name}.yaml")
+      save_as = glue::glue("./{name}.yaml")
     )
   }
 }

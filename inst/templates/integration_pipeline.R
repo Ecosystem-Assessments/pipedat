@@ -74,7 +74,7 @@ di_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = 
     # EXPORT 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data   
-    fm <- here::here(path,glue("{nm}"))
+    fm <- here::here(path,glue::glue("{nm}"))
     # for(i in 1:length(dat)) masterwrite(dat[[i]], fm[i])
     masterwrite(dat, fm)
     

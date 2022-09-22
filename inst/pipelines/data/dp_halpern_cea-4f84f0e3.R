@@ -115,7 +115,7 @@ dp_4f84f0e3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, halpern_y
     files <- dir(here::here(path, "raw"), full.names = TRUE)
     lapply(
       files,
-      function(x) file.rename(x, glue("{x}.zip"))
+      function(x) file.rename(x, glue::glue("{x}.zip"))
     )
   }
   # _________________________________________________________________________________________ #
@@ -187,7 +187,7 @@ dp_4f84f0e3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, halpern_y
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
     name <- tools::file_path_sans_ext(basename(files))
-    fm <- glue("{path}/{nm}-{urls$years}-{name}.tif")
+    fm <- glue::glue("{path}/{nm}-{urls$years}-{name}.tif")
     for (i in 1:length(name)) stars::write_stars(dat[[i]], fm[i])
 
     # Delete decompressed file, as they are very big
@@ -195,11 +195,11 @@ dp_4f84f0e3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, halpern_y
     unlink(here::here(path, "raw", "2013"), recursive = TRUE)
 
     # Metadata
-    mt <- here::here(path, glue("{nm}.yaml"))
+    mt <- here::here(path, glue::glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- here::here(path, glue("{nm}.bib"))
+    bi <- here::here(path, glue::glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

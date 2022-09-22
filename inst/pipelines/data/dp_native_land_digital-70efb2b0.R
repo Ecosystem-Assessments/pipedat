@@ -74,7 +74,7 @@ dp_70efb2b0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{nm}-territories"))
+    fm <- here::here(path, glue::glue("{nm}-territories"))
     masterwrite(dat, fm)
 
     # Metadata & bibtex

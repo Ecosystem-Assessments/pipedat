@@ -149,10 +149,10 @@ dp_7c8c4da1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, invasive_
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    name_atl <- glue("{tools::file_path_sans_ext(basename(files_atl))}-Atlantic")
-    name_pac <- glue("{tools::file_path_sans_ext(basename(files_pac))}-Pacific")
-    fm_atl <- here::here(path, glue("{nm}-{name_atl}.tif"))
-    fm_pac <- here::here(path, glue("{nm}-{name_pac}.tif"))
+    name_atl <- glue::glue("{tools::file_path_sans_ext(basename(files_atl))}-Atlantic")
+    name_pac <- glue::glue("{tools::file_path_sans_ext(basename(files_pac))}-Pacific")
+    fm_atl <- here::here(path, glue::glue("{nm}-{name_atl}.tif"))
+    fm_pac <- here::here(path, glue::glue("{nm}-{name_pac}.tif"))
     # Atlantic
     for (i in 1:length(fm_atl)) {
       try(
@@ -175,11 +175,11 @@ dp_7c8c4da1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, invasive_
     }
 
     # Metadata
-    mt <- here::here(path, glue("{nm}.yaml"))
+    mt <- here::here(path, glue::glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- here::here(path, glue("{nm}.bib"))
+    bi <- here::here(path, glue::glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

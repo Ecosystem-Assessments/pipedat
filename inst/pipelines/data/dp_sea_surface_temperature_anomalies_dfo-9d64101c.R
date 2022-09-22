@@ -94,7 +94,7 @@ dp_9d64101c <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       # Export formatted data
       ym <- basename(files[i]) |>
         substr(1, 6)
-      fm <- here::here(path, glue("{nm}-{ym}"))
+      fm <- here::here(path, glue::glue("{nm}-{ym}"))
       masterwrite(dat, fm)
     }
     # Remove unzipped data to avoid using memory unnecessarily

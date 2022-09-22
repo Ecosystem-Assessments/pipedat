@@ -47,7 +47,7 @@ pipedat <- function(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = N
     uid[integration_pipeline],
     function(x) {
       do.call(
-        glue("di_{x}"),
+        glue::glue("di_{x}"),
         list(
           uid = uid[integration_pipeline],
           bbox = bbox,

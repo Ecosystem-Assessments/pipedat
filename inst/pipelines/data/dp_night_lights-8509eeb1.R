@@ -113,7 +113,7 @@ dp_8509eeb1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- glue("{path}/{nm}-{years}.tif")
+    fm <- glue::glue("{path}/{nm}-{years}.tif")
     for (i in 1:length(years)) {
       uid <- which(names(dat) == years[i])
       stars::write_stars(dat[uid], fm[i])
@@ -122,11 +122,11 @@ dp_8509eeb1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     unlink(newfiles)
 
     # Metadata
-    mt <- glue("{path}/{nm}.yaml")
+    mt <- glue::glue("{path}/{nm}.yaml")
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- glue("{path}/{nm}.bib")
+    bi <- glue::glue("{path}/{nm}.bib")
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

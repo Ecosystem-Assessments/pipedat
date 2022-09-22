@@ -97,21 +97,21 @@ di_62753cdf <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     name <- gsub("906f1155", "62753cdf", name)
     fm <- here::here(path, name)
     for (i in 1:length(dat)) {
-      fm2 <- glue("{fm[i]}-{tolower(descr)}.csv")
+      fm2 <- glue::glue("{fm[i]}-{tolower(descr)}.csv")
       for (j in 1:length(dat[[i]])) {
         utils::write.csv(dat[[i]][[j]], fm2[j], row.names = FALSE)
       }
     }
 
-    fm <- here::here(path, glue("{nm}.csv"))
+    fm <- here::here(path, glue::glue("{nm}.csv"))
     utils::write.csv(dat, fm, row.names = FALSE)
 
     # Metadata
-    mt <- here::here(path, glue("{nm}.yaml"))
+    mt <- here::here(path, glue::glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- here::here(path, glue("{nm}.bib"))
+    bi <- here::here(path, glue::glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   }

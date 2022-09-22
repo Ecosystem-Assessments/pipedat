@@ -50,11 +50,11 @@ dp_35608fef <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       quiet = TRUE
     )
     # shoreline_v2 <- sf::st_read(
-    #   glue("{path}raw/CANCOAST_SHORELINE_V2/CANCOAST_SHORELINE_V2.shp"),
+    #   glue::glue("{path}raw/CANCOAST_SHORELINE_V2/CANCOAST_SHORELINE_V2.shp"),
     #   quiet = TRUE
     # )
     # shoreline_v3 <- sf::st_read(
-    #   glue("{path}raw/CANCOAST_SHORELINE_V3/CANCOAST_SHORELINE_V3.shp"),
+    #   glue::glue("{path}raw/CANCOAST_SHORELINE_V3/CANCOAST_SHORELINE_V3.shp"),
     #   quiet = TRUE
     # )
     # _________________________________________________________________________________________ #
@@ -101,19 +101,19 @@ dp_35608fef <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Sea level
-    fm <- glue("{path}/{nm}_sea_level.geojson") # NOTE: not necessarily spatial data
+    fm <- glue::glue("{path}/{nm}_sea_level.geojson") # NOTE: not necessarily spatial data
     sf::st_write(sea_level, dsn = fm, quiet = TRUE) # for spatial data
 
     # Material
-    fm <- glue("{path}/{nm}_material.geojson") # NOTE: not necessarily spatial data
+    fm <- glue::glue("{path}/{nm}_material.geojson") # NOTE: not necessarily spatial data
     sf::st_write(material, dsn = fm, quiet = TRUE) # for spatial data
 
     # Metadata
-    mt <- glue("{path}/{nm}.yaml")
+    mt <- glue::glue("{path}/{nm}.yaml")
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- glue("{path}/{nm}.bib")
+    bi <- glue::glue("{path}/{nm}.bib")
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

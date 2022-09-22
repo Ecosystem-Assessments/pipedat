@@ -85,15 +85,15 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{nm}-{name}.csv"))
+    fm <- here::here(path, glue::glue("{nm}-{name}.csv"))
     for (i in 1:length(fm)) utils::write.csv(dat[[i]], fm[i], row.names = FALSE)
 
     # Metadata
-    mt <- here::here(path, glue("{nm}.yaml"))
+    mt <- here::here(path, glue::glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- here::here(path, glue("{nm}.bib"))
+    bi <- here::here(path, glue::glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   }

@@ -108,23 +108,23 @@ dp_f2109e69 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Fisheries data
-    fm <- here::here(path, glue("{nm}.csv"))
+    fm <- here::here(path, glue::glue("{nm}.csv"))
     utils::write.csv(dat, fm, row.names = FALSE)
 
     # Gear type
-    gr <- glue("{path}/{nm}_gear.csv")
+    gr <- glue::glue("{path}/{nm}_gear.csv")
     utils::write.csv(gear, gr, row.names = FALSE)
 
     # Species list
-    sp <- glue("{path}/{nm}_species.csv")
+    sp <- glue::glue("{path}/{nm}_species.csv")
     utils::write.csv(species, sp, row.names = FALSE)
 
     # Metadata
-    mt <- glue("{path}/{nm}.yaml")
+    mt <- glue::glue("{path}/{nm}.yaml")
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- glue("{path}/{nm}.bib")
+    bi <- glue::glue("{path}/{nm}.bib")
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

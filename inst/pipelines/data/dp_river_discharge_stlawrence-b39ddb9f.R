@@ -87,7 +87,7 @@ dp_b39ddb9f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{nm}-{c('coordinates','water_discharge')}"))
+    fm <- here::here(path, glue::glue("{nm}-{c('coordinates','water_discharge')}"))
     masterwrite(xy, fm[1])
     masterwrite(dat, fm[2])
 

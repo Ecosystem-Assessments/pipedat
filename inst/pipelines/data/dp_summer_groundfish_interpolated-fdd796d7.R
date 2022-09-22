@@ -39,7 +39,7 @@ dp_fdd796d7 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, groundfis
     close(con)
 
     # Load
-    urls <- glue("{ftp_base}{files}")
+    urls <- glue::glue("{ftp_base}{files}")
     # Maybe a connection problem causing this
     # Unsure whether it's on my end or if the ftp is limiting the downloads
     for (i in 1:length(urls)) {
@@ -101,7 +101,7 @@ dp_fdd796d7 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, groundfis
     # Formatted data
     name <- tools::file_path_sans_ext(basename(files))
     name <- substr(name, 48, nchar(name))
-    fm <- here::here(path, glue("{nm}-{name}"))
+    fm <- here::here(path, glue::glue("{nm}-{name}"))
     for (i in 1:length(dat)) masterwrite(dat[[i]], fm[i])
 
     # Metadata & bibtex

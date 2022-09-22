@@ -107,18 +107,18 @@ dp_21f8a758 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
     fm <- here::here(path, nm)
-    utils::write.csv(gscat, glue("{fm}-gscat.csv"), row.names = FALSE)
-    utils::write.csv(gsdet, glue("{fm}-gsdet.csv"), row.names = FALSE)
-    utils::write.csv(gsinf, glue("{fm}-gsinf.csv"), row.names = FALSE)
-    utils::write.csv(gsspecies, glue("{fm}-gsspecies.csv"), row.names = FALSE)
-    utils::write.csv(gsmissions, glue("{fm}-gsmissions.csv"), row.names = FALSE)
+    utils::write.csv(gscat, glue::glue("{fm}-gscat.csv"), row.names = FALSE)
+    utils::write.csv(gsdet, glue::glue("{fm}-gsdet.csv"), row.names = FALSE)
+    utils::write.csv(gsinf, glue::glue("{fm}-gsinf.csv"), row.names = FALSE)
+    utils::write.csv(gsspecies, glue::glue("{fm}-gsspecies.csv"), row.names = FALSE)
+    utils::write.csv(gsmissions, glue::glue("{fm}-gsmissions.csv"), row.names = FALSE)
 
     # Metadata
-    mt <- here::here(path, glue("{nm}.yaml"))
+    mt <- here::here(path, glue::glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- here::here(path, glue("{nm}.bib"))
+    bi <- here::here(path, glue::glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

@@ -114,7 +114,7 @@ dp_e775900b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     name <- gsub("\\.0", "", files)
     name <- gsub("gebco_2021_sub_ice_topo_", "", name) |>
       tools::file_path_sans_ext()
-    fm <- here::here(path, glue("{nm}-{name}.tif"))
+    fm <- here::here(path, glue::glue("{nm}-{name}.tif"))
     for (i in 1:length(fm)) {
       try(
         {
@@ -129,11 +129,11 @@ dp_e775900b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     unlink(here::here(path, "raw", "gebco_2021"), recursive = TRUE)
 
     # Metadata
-    mt <- here::here(path, glue("{nm}.yaml"))
+    mt <- here::here(path, glue::glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- here::here(path, glue("{nm}.bib"))
+    bi <- here::here(path, glue::glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

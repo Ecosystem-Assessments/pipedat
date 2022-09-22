@@ -86,15 +86,15 @@ di_84b6ea0b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # Formatted data
     name <- gsub(raw_id, uid, name)
     name <- gsub("_sdm-", "_richness-", name)
-    fm <- here::here(path, glue("{name}.csv"))
+    fm <- here::here(path, glue::glue("{name}.csv"))
     for (i in 1:length(dat)) utils::write.csv(dat[[i]], fm[i], row.names = FALSE)
 
     # Metadata
-    mt <- here::here(path, glue("{nm}.yaml"))
+    mt <- here::here(path, glue::glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- here::here(path, glue("{nm}.bib"))
+    bi <- here::here(path, glue::glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   }

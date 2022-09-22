@@ -114,7 +114,7 @@ dp_e2349037 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{nm}-{datnames}.tif"))
+    fm <- here::here(path, glue::glue("{nm}-{datnames}.tif"))
     for (i in 1:length(fm)) {
       stars::write_stars(dat[[i]], fm[i])
     }
@@ -126,11 +126,11 @@ dp_e2349037 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     unlink(here::here(path, "raw", "human_footprint_reclassification_files"), recursive = TRUE)
 
     # Metadata
-    mt <- here::here(path, glue("{nm}.yaml"))
+    mt <- here::here(path, glue::glue("{nm}.yaml"))
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- here::here(path, glue("{nm}.bib"))
+    bi <- here::here(path, glue::glue("{nm}.bib"))
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

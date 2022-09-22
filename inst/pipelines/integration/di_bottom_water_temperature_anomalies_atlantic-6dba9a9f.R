@@ -74,7 +74,7 @@ di_6dba9a9f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{name}"))
+    fm <- here::here(path, glue::glue("{name}"))
     for (i in 1:length(dat)) masterwrite(dat[[i]], fm[i])
 
     # Metadata & bibtex

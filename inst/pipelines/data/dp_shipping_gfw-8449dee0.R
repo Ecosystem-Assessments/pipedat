@@ -29,7 +29,7 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Unzip
     zipfiles <- dir(glue("{path}/raw"), full.names = TRUE)
-    lapply(zipfiles, utils::unzip, exdir = glue("{path}/raw"))
+    lapply(zipfiles, utils::unzip, exdir = glue::glue("{path}/raw"))
 
     # -----
     # NOTE: Very large datasets, hence we crop the dataset right away
@@ -52,14 +52,14 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
 
     # Interpolated data
     inter <- dir(
-      glue("{path}/raw/shipping_Dec_2021"),
+      glue::glue("{path}/raw/shipping_Dec_2021"),
       pattern = "_interpolated.csv",
       full.names = TRUE
     )
 
     # Non interpolated data
     nointer <- dir(
-      glue("{path}/raw/shipping_Dec_2021"),
+      glue::glue("{path}/raw/shipping_Dec_2021"),
       pattern = "_noninterpolated.csv",
       full.names = TRUE
     )
@@ -137,17 +137,17 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- glue("{path}/{nm}")
-    utils::write.csv(dat, glue("{fm}-interpolated.csv"), row.names = FALSE)
-    utils::write.csv(ndat, glue("{fm}-noninterpolated.csv"), row.names = FALSE)
+    fm <- glue::glue("{path}/{nm}")
+    utils::write.csv(dat, glue::glue("{fm}-interpolated.csv"), row.names = FALSE)
+    utils::write.csv(ndat, glue::glue("{fm}-noninterpolated.csv"), row.names = FALSE)
     unlink(glue("{path}/raw/shipping_Dec_2021/"), recursive = TRUE)
 
     # Metadata
-    mt <- glue("{path}/{nm}.yaml")
+    mt <- glue::glue("{path}/{nm}.yaml")
     yaml::write_yaml(meta, mt, column.major = FALSE)
 
     # Bibtex
-    bi <- glue("{path}/{nm}.bib")
+    bi <- glue::glue("{path}/{nm}.bib")
     RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again

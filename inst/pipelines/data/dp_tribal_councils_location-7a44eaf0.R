@@ -74,7 +74,7 @@ dp_7a44eaf0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue("{nm}"))
+    fm <- here::here(path, glue::glue("{nm}"))
     masterwrite(dat, fm)
 
     # Metadata & bibtex

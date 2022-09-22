@@ -75,7 +75,7 @@ dp_786f7481 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
     suffix <- c("modified", "confirmed")
-    fm <- here::here(path, glue("{nm}-{suffix}"))
+    fm <- here::here(path, glue::glue("{nm}-{suffix}"))
     for (i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
 
     # Metadata & bibtex

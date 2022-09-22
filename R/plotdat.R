@@ -35,7 +35,7 @@ plotdat <- function(uid) {
 
   for (i in 1:length(nm)) {
     grDevices::png(
-      here::here(path, glue("{nm[i]}.png")),
+      here::here(path, glue::glue("{nm[i]}.png")),
       res = 300,
       width = 100,
       height = 70,

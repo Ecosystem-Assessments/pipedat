@@ -59,7 +59,7 @@ pipeplot.sf <- function(dat, bbox, main = NULL, type = NULL, subtitle = NULL, un
   # Add sources
   if (!is.null(references)) {
     refs <- stringr::str_split(references, ",") |> unlist()
-    txt <- glue("Raw data : {references}. Details : Appendix 1.")
+    txt <- glue::glue("Raw data : {references}. Details : Appendix 1.")
     graphics::mtext(
       text = txt,
       side = 1,
@@ -240,7 +240,7 @@ plot_legend_cont <- function(range = c(0, 1),
   }
 
   # Add that it's > 0, not 0
-  lab[1] <- glue("> {lab[1]}")
+  lab[1] <- glue::glue("> {lab[1]}")
 
   graphics::text(
     x = x,

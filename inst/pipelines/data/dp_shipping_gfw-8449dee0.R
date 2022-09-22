@@ -28,7 +28,7 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # NOTE: optional
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Unzip
-    zipfiles <- dir(glue("{path}/raw"), full.names = TRUE)
+    zipfiles <- dir(glue::glue("{path}/raw"), full.names = TRUE)
     lapply(zipfiles, utils::unzip, exdir = glue::glue("{path}/raw"))
 
     # -----
@@ -140,7 +140,7 @@ dp_8449dee0 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     fm <- glue::glue("{path}/{nm}")
     utils::write.csv(dat, glue::glue("{fm}-interpolated.csv"), row.names = FALSE)
     utils::write.csv(ndat, glue::glue("{fm}-noninterpolated.csv"), row.names = FALSE)
-    unlink(glue("{path}/raw/shipping_Dec_2021/"), recursive = TRUE)
+    unlink(glue::glue("{path}/raw/shipping_Dec_2021/"), recursive = TRUE)
 
     # Metadata
     mt <- glue::glue("{path}/{nm}.yaml")

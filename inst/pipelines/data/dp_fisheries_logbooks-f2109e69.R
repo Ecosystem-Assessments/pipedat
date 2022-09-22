@@ -31,7 +31,7 @@ dp_f2109e69 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     latit_GIS <- longit_GIS <- Remarques <- NULL # for R CMD CHECK
     # Function to import ZIFF data
     import_ziff <- function(filename) {
-      utils::read.csv(glue("{path}/raw/{filename}")) |>
+      utils::read.csv(glue::glue("{path}/raw/{filename}")) |>
         dplyr::filter(!is.na(latit_GIS) & !is.na(longit_GIS))
     }
 
@@ -44,10 +44,10 @@ dp_f2109e69 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     dat <- dplyr::bind_rows(d)
 
     # Gear types
-    gear <- utils::read.csv(glue("{path}/raw/Codes_engin.csv"))
+    gear <- utils::read.csv(glue::glue("{path}/raw/Codes_engin.csv"))
 
     # Species list
-    species <- utils::read.csv(glue("{path}/raw/Codes_especes.csv")) |>
+    species <- utils::read.csv(glue::glue("{path}/raw/Codes_especes.csv")) |>
       dplyr::select(-Remarques)
     # _________________________________________________________________________________________ #
 

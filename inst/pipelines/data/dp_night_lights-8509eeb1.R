@@ -48,9 +48,9 @@ dp_8509eeb1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # )
 
     # Decompress files
-    gzfiles <- dir(glue("{path}/raw/"), pattern = ".gz", full.names = TRUE)
+    gzfiles <- dir(glue::glue("{path}/raw/"), pattern = ".gz", full.names = TRUE)
     lapply(gzfiles, function(x) R.utils::gunzip(x, remove = FALSE))
-    newfiles <- dir(glue("{path}/raw/"), full.names = TRUE)
+    newfiles <- dir(glue::glue("{path}/raw/"), full.names = TRUE)
     newfiles <- newfiles[!newfiles %in% gzfiles]
     # _________________________________________________________________________________________ #
 

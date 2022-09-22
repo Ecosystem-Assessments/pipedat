@@ -122,7 +122,7 @@ dp_4f84f0e3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, halpern_y
 
   if (!exist$clean) {
     # Unzip
-    zipfiles <- basename(glue("{urls$urls}.zip"))
+    zipfiles <- basename(glue::glue("{urls$urls}.zip"))
     if (2008 %in% halpern_years) {
       dir.create(here::here(path, "raw", "2008"))
       iid <- which(urls$years == 2008)

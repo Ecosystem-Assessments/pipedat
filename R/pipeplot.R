@@ -22,8 +22,8 @@ pipeplot <- function(dat, ...) {
 #' @export
 pipeplot.sf <- function(dat, bbox, main = NULL, type = NULL, subtitle = NULL, unit_data = NULL, references = NULL, ...) {
 
-  # pdf(glue('./figures/figures-format/{data_id}.pdf'), width = 7, height = 5, pointsize = 12)
-  # png(glue('./figures/delete.png'), res = 300, width = 100, height = 70, units = "mm", pointsize = 12)
+  # pdf(glue::glue('./figures/figures-format/{data_id}.pdf'), width = 7, height = 5, pointsize = 12)
+  # png(glue::glue('./figures/delete.png'), res = 300, width = 100, height = 70, units = "mm", pointsize = 12)
 
   # -----------------------------------------------------
   # layout

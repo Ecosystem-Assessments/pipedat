@@ -39,7 +39,7 @@ dp_804db12e <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     files <- dir(here::here(path, "raw"))
     suppressMessages(suppressWarnings({
-      dat <- readr::read_csv(glue("{path}/raw/{files}"))
+      dat <- readr::read_csv(glue::glue("{path}/raw/{files}"))
     }))
     # _________________________________________________________________________________________ #
 

@@ -19,7 +19,7 @@ dp_f2109e69 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "f2109e69"
   name <- get_shortname(uid)
-  nm <- glue("{get_shortname(uid)}-{uid}")
+  nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid, ondisk = TRUE)
   path <- make_output(uid)
 

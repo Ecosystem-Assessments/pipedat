@@ -20,7 +20,7 @@
 di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, fishing_intensity_metric = 3, ...) {
   # Output folders and other objects used
   uid <- "e2b7e6c4"
-  nm <- glue("{get_shortname(uid)}-{uid}")
+  nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid)
   path <- make_output(uid)
 

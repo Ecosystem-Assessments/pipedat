@@ -19,7 +19,7 @@
 di_6dba9a9f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
   # Output folders and other objects used
   uid <- "6dba9a9f"
-  nm <- glue("{get_shortname(uid)}-{uid}")
+  nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid)
   path <- make_output(uid)
 

@@ -19,7 +19,7 @@
 dp_d770f210 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, feuillet = NULL, ...) {
   # Output folders and other objects used
   uid <- "d770f210"
-  nm <- glue("{get_shortname(uid)}-{uid}")
+  nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid)
   path <- make_output(uid)
 

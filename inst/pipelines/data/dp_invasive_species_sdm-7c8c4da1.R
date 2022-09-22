@@ -21,7 +21,7 @@
 dp_7c8c4da1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, invasive_model = c("current", "projected"), invasive_model_type = c("model", "stdev"), invasive_species = c("species", "richness"), ...) {
   # Output folders and other objects used
   uid <- "7c8c4da1"
-  nm <- glue("{get_shortname(uid)}-{uid}")
+  nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid)
   path <- make_output(uid)
 

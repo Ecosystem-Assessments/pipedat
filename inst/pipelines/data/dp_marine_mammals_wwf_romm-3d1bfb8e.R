@@ -18,7 +18,7 @@
 dp_3d1bfb8e <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
   uid <- "3d1bfb8e"
-  nm <- glue("{get_shortname(uid)}-{uid}")
+  nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid, ondisk = TRUE)
   path <- make_output(uid)
 

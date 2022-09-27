@@ -163,8 +163,8 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # Formatted data   
     fm_pos <- here::here(path,glue::glue("{nm}-positive-{datnames$years}-{datnames$months}"))
     fm_neg <- here::here(path,glue::glue("{nm}-negative-{datnames$years}-{datnames$months}"))
-    for(i in 1:length(dat)) masterwrite(pos[[i]], fm[i])
-    for(i in 1:length(dat)) masterwrite(neg[[i]], fm[i])
+    for(i in 1:length(dat)) masterwrite(pos[[i]], fm_pos[i])
+    for(i in 1:length(dat)) masterwrite(neg[[i]], fm_neg[i])
     
     # Metadata & bibtex
     mt <- here::here(path, nm)

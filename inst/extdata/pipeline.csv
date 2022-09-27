@@ -61,3 +61,4 @@
 "9d64101c","data","2022-09-19","sea_surface_temperature_anomalies_dfo","Sea surface temperature anomalies","Surface-water temperature anomalies from the Department of Fisheries and Oceans (DFO) Atlantic Zone Monitoring Program (AZMP) between 2010 and 2022",NA,NA,"on demand"
 "6dba9a9f","integration","2022-09-20","bottom_water_temperature_anomalies_atlantic","Bottom water temperature anomalies in the Atlantic","Integration of bottom water temperature anomalies on the Scotian Shelf between 1970 and 2020",NA,NA,NA
 "004b3c51","data","2022-09-22","canadian_eez","Canadian Exclusive Economic Zone","Canadian Exclusive Economic Zone","http://marineregions.org/mrgid/8493",NA,"open"
+"3992e1a6","integration","2022-09-26","sea_surface_temperature_anomalies_dfo","Sea surface temperature anomalies intensity","Assessment of the intensity of positive and negative sea surface temperature anomalies between 2010 and 2022.",NA,NA,NA

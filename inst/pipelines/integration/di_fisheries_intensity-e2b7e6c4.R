@@ -39,11 +39,11 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     gear <- dat[["fisheries_logbooks-f2109e69_gear.csv"]]
     species <- dat[["fisheries_logbooks-f2109e69_species.csv"]]
     logbooks <- logbooks[c(1:100000, 2e6:2.1e6), ]
+    
     if (is.null(grid)) {
       grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
     }
     grid <- sf::st_transform(grid, crs = 4326)
-
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -176,12 +176,57 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     logbooks <- logbooks |>
       dplyr::arrange(as.Date(date_cap))
 
+
+# sf::st_write(logbooks, "logtemp.geojson", quiet = TRUE)
+# logbooks <- sf::st_read("logtemp.geojson", delete_dsn = TRUE)
+
     # Simplify problem by trimming down the number of cells to consider
     datid <- sf::st_intersects(logbooks, grid) |>
       unlist() |>
       unique() |>
       sort()
     grid <- grid[datid, ]
+
+    # Let's try something to try to not run into memory issues. It will be inefficient, but as long 
+    # as the job gets done under 24h, I don't truly care
+    years <- format(as.Date(logbooks$date_cap), format = "%Y")
+    year_id <- unique(years) |> sort() 
+    year_id <- year_id[year_id != "1999"]
+    gearClass <- logbooks$gearClass
+    gear_id <- unique(gearClass) |> sort() 
+    iid <- expand.grid(gear_id, year_id, stringsAsFactors = FALSE)
+    iids <- apply(iid, 1, function(x) which(gearClass == x[1] & years == x[2]))
+    
+    # Seperately subset dataset to keep this out of the function. 
+    # Might be useless, but I'm trying to figure out where the code is breaking in terms of memory.
+    # If this works I'll keep it like this, it will not really matter as long as it works
+    l <- list()
+    for(i in 1:length(iids)) l[[i]] <- logbooks[iids[[i]], ]  
+        
+    m <- list()
+    for(i in 1:length(l)) {
+      # Break down in smaller subsets
+      seq_id <- seq(1, nrow(l[[i]]), by = 1000)
+      fid <- data.frame(
+        from = seq_id, 
+        to = c(seq_id[-1], nrow(l[[i]]))
+      )
+
+      m[[i]] <- list()
+      for(j in 1:nrow(fid)) {
+        print(glue::glue("                      {i} of {nrow(iid)} ({iid$Var1[i]}-{iid$Var2[i]}) - iter {j} of {nrow(fid)}"))
+        m[[i]][[j]] <- eaMethods::fishing_intensity(
+          l[[i]][fid$from[j]:fid$to[j], ],
+          grid,
+          metric = 3,
+          biomass_field = "catch"
+        )        
+      }
+      
+      m[[i]] <- dplyr::bind_rows(m[[i]]) |>
+                dplyr::group_by(uid) |>
+                dplyr::summarise(catch = sum(FishBiomassKg))
+    }
 
     # # -----
     # temp2 <- function() {
@@ -327,16 +372,13 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue::glue("{nm}-{year_id}.csv"))
-    for (i in 1:length(fm)) utils::write.csv(l[[i]], fm[i], row.names = FALSE)
-
-    # Metadata
-    mt <- here::here(path, glue::glue("{nm}.yaml"))
-    yaml::write_yaml(meta, mt, column.major = FALSE)
-
-    # Bibtex
-    bi <- here::here(path, glue::glue("{nm}.bib"))
-    RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
+    fm <- here::here(path, glue::glue("{nm}-{iid$Var1}-{iid$Var2}"))
+    for(i in 1:length(m)) masterwrite(m[[i]], fm[i])
+    
+    # Metadata & bibtex
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
     # _________________________________________________________________________________________ #
   }
 }

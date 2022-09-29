@@ -53,6 +53,9 @@ di_ee0dd36a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       if (nrow(dat[[i]]) == 0) dat[[i]] <- NULL
     }
     name <- tools::file_path_sans_ext(names(dat))
+    
+    # Positive values for bathymetry
+    for(i in 1:length(dat)) dat[[i]][,2] <- abs(dat[[i]][,2])
 
     # _________________________________________________________________________________________ #
 

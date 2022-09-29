@@ -40,6 +40,7 @@ Depends:
 Suggests:
     archive,
     eaMethods,
+    fasterize,
     fs, 
     geojsonsf,
     graphics,

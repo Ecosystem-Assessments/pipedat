@@ -38,12 +38,6 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     logbooks <- dat[["fisheries_logbooks-f2109e69.csv"]]
     gear <- dat[["fisheries_logbooks-f2109e69_gear.csv"]]
     species <- dat[["fisheries_logbooks-f2109e69_species.csv"]]
-    logbooks <- logbooks[c(1:100000, 2e6:2.1e6), ]
-    
-    if (is.null(grid)) {
-      grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
-    }
-    grid <- sf::st_transform(grid, crs = 4326)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -154,13 +148,6 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # Create spatial object
     logbooks <- sf::st_as_sf(logbooks, coords = c("longitude", "latitude"), crs = 4326)
 
-    # Simplify problem by trimming down the number of points to consider
-    datid <- sf::st_intersects(grid, logbooks) |>
-      unlist() |>
-      unique() |>
-      sort()
-    logbooks <- logbooks[datid, ]
-
     # -----
     logbooks <- sf::st_transform(logbooks, crs = 32198)
     fix <- logbooks[logbooks$mobility == "F", ] |>
@@ -176,17 +163,6 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     logbooks <- logbooks |>
       dplyr::arrange(as.Date(date_cap))
 
-
-# sf::st_write(logbooks, "logtemp.geojson", quiet = TRUE)
-# logbooks <- sf::st_read("logtemp.geojson", delete_dsn = TRUE)
-
-    # Simplify problem by trimming down the number of cells to consider
-    datid <- sf::st_intersects(logbooks, grid) |>
-      unlist() |>
-      unique() |>
-      sort()
-    grid <- grid[datid, ]
-
     # Let's try something to try to not run into memory issues. It will be inefficient, but as long 
     # as the job gets done under 24h, I don't truly care
     years <- format(as.Date(logbooks$date_cap), format = "%Y")
@@ -196,6 +172,7 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     gear_id <- unique(gearClass) |> sort() 
     iid <- expand.grid(gear_id, year_id, stringsAsFactors = FALSE)
     iids <- apply(iid, 1, function(x) which(gearClass == x[1] & years == x[2]))
+    name <- glue::glue("{nm}-{iid[,1]}-{iid[,2]}")
     
     # Seperately subset dataset to keep this out of the function. 
     # Might be useless, but I'm trying to figure out where the code is breaking in terms of memory.
@@ -203,126 +180,24 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     l <- list()
     for(i in 1:length(iids)) l[[i]] <- logbooks[iids[[i]], ]  
         
+    # Rasterize data
+    grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
+    names(grid) <- "uid"
+    if (sf::st_crs(grid)$epsg != 4326) grid <- sf::st_transform(grid, crs = 4326)
+    bb <- sf::st_bbox(grid)
+    r <- raster(xmn=bb$xmin, xmx=bb$xmax, ymn=bb$ymin, ymx=bb$ymax, crs = 4326, resolution = 0.01)
     m <- list()
     for(i in 1:length(l)) {
-      # Break down in smaller subsets
-      seq_id <- seq(1, nrow(l[[i]]), by = 1000)
-      fid <- data.frame(
-        from = seq_id, 
-        to = c(seq_id[-1], nrow(l[[i]]))
-      )
-
-      m[[i]] <- list()
-      for(j in 1:nrow(fid)) {
-        print(glue::glue("                      {i} of {nrow(iid)} ({iid$Var1[i]}-{iid$Var2[i]}) - iter {j} of {nrow(fid)}"))
-        m[[i]][[j]] <- eaMethods::fishing_intensity(
-          l[[i]][fid$from[j]:fid$to[j], ],
-          grid,
-          metric = 3,
-          biomass_field = "catch"
-        )        
-      }
-      
-      m[[i]] <- dplyr::bind_rows(m[[i]]) |>
-                dplyr::group_by(uid) |>
-                dplyr::summarise(catch = sum(FishBiomassKg))
+      m[[i]] <- fasterize::fasterize(
+        l[[i]], 
+        r, 
+        field = "catch", 
+        fun="sum"
+      ) |>
+      stars::st_as_stars() |>
+      masteringrid(grid, name[i])
     }
-
-    # # -----
-    # temp2 <- function() {
-    #   years <- format(as.Date(logbooks$date_cap), format = "%Y")
-    #   year_id <- sort(unique(years))
-    #   year_id <- year_id[year_id != "1999"]
-    #   gearClass <- logbooks$gearClass
-    #   gear_id <- sort(unique(gearClass))
-    #   iid <- expand.grid(gear_id, year_id, stringsAsFactors = FALSE)
-    #   nrow(logbooks)
-    #   x <- data.frame(beg = seq(1, 54001, by = 1000), end = c(seq(1000, 54000, by = 1000), 54501))
-    #   x <- x[1:2, ]
-    #
-    #   tic("loop")
-    #   l <- list()
-    #   # for (i in 1:nrow(iid)) {
-    #   for (i in 1:nrow(x)) {
-    #     # datid <- years %in% iid$Var2[i] & gearClass %in% iid$Var1[i]
-    #     datid <- x$beg[i]:x$end[i]
-    #     l[[i]] <- eaMethods::fishing_intensity(
-    #       logbooks[datid, ],
-    #       grid,
-    #       metric = 3,
-    #       biomass_field = "catch"
-    #     )
-    #   }
-    #   toc()
-    #
-    #   tic("foreach")
-    #   # l <- foreach (i=1:nrow(iid)) %do% {
-    #   l <- foreach(i = 1:nrow(x)) %do% {
-    #     datid <- x$beg[i]:x$end[i]
-    #     # datid <- years %in% iid$Var2[i] & gearClass %in% iid$Var1[i]
-    #     l[[i]] <- eaMethods::fishing_intensity(
-    #       logbooks[datid, ],
-    #       grid,
-    #       metric = 3,
-    #       biomass_field = "catch"
-    #     )
-    #   }
-    #   toc()
-    #
-    #   registerDoParallel(8)
-    #   tic("doParallel")
-    #   l <- foreach(i = 1:nrow(x)) %dopar% {
-    #     # l <- foreach (i=1:nrow(iid)) %dopar% {
-    #     # datid <- years %in% iid$Var2[i] & gearClass %in% iid$Var1[i]
-    #     datid <- x$beg[i]:x$end[i]
-    #     l[[i]] <- eaMethods::fishing_intensity(
-    #       logbooks[datid, ],
-    #       grid,
-    #       metric = 3,
-    #       biomass_field = "catch"
-    #     )
-    #   }
-    #   toc()
-    #   stopImplicitCluster()
-    #
-    #   iid <- split(iid, 1:nrow(x))
-    #   # iid <- split(iid, 1:nrow(iid))
-    #   temp <- function(y) {
-    #     # datid <- logbooks$years %in% y['Var2'] & logbooks$gearClass %in% y['Var1']
-    #     datid <- x$beg[i]:x$end[i]
-    #     eaMethods::fishing_intensity(
-    #       logbooks[datid, ],
-    #       grid,
-    #       metric = 3,
-    #       biomass_field = "catch"
-    #     )
-    #   }
-    #
-    #   tic("lapply")
-    #   l <- lapply(x, temp)
-    #   # l <- lapply(iid, temp)
-    #   toc()
-    #
-    #   tic("mclapply")
-    #   l <- parallel::mclapply(x, temp, mc.cores = 8)
-    #   # l <- parallel::mclapply(iid, temp, mc.cores = 8)
-    #   toc()
-    # }
-    # temp2()
-    # # https://nceas.github.io/oss-lessons/parallel-computing-in-r/parallel-computing-in-r.html
-    # # _________________________________________________________________________________________ #
-    #
-    # logbooks$years <- format(as.Date(logbooks$date_cap), format = "%Y")
-    # x <- dplyr::group_by(logbooks, gearClass, years)
-    #
-    # x <- function() {
-    #   dplyr::group_by(logbooks, gearClass, years) |>
-    #     eaMethods::fishing_intensity(areaGrid = grid, metric = 3, biomass_field = "catch") |>
-    #     dplyr::ungroup()
-    # }
-    # system.time({
-    #   y <- x()
-    # })
+    
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE METADATA
     # WARNING: mandatory

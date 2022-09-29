@@ -34,7 +34,7 @@ di_608c7f2f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     if (is.null(grid)) {
       grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
     }
-    grid <- sf::st_transform(grid, st_crs(dat[[1]]))
+    grid <- sf::st_transform(grid, sf::st_crs(dat[[1]]))
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

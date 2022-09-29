@@ -57,7 +57,7 @@ plotgrid <- function(grid = NULL) {
   if (is.null(grid)) {
     grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
   }
-  grid <- sf::st_transform(grid, st_crs(basemap$can))
+  grid <- sf::st_transform(grid, sf::st_crs(basemap$can))
 
   # Folders
   path <- here::here("figures", "figures-grid")

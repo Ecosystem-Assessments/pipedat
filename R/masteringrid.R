@@ -29,7 +29,7 @@ masteringrid <- function(dat, grid = NULL, name = "intensity", negative = FALSE)
       grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
       names(grid) <- "uid"
     }
-    grid <- sf::st_transform(grid, st_crs(dat))
+    grid <- sf::st_transform(grid, sf::st_crs(dat))
 
     # Integrate in grid
     dat <- stars::st_warp(dat, grid) |>
@@ -53,6 +53,6 @@ masteringrid <- function(dat, grid = NULL, name = "intensity", negative = FALSE)
   #   if (is.null(grid)) {
   #     grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
   #   }
-  #   grid <- sf::st_transform(grid, st_crs(dat))
+  #   grid <- sf::st_transform(grid, sf::st_crs(dat))
   # }
 }

@@ -37,7 +37,7 @@ di_aba5e90a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
     }
     if (sf::st_crs(grid)$epsg != sf::st_crs(dat[[1]])$epsg) {
-      grid <- sf::st_transform(grid, crs = st_crs(dat[[1]]))
+      grid <- sf::st_transform(grid, crs = sf::st_crs(dat[[1]]))
     }
     names(grid) <- "uid"
     # _________________________________________________________________________________________ #

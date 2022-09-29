@@ -185,7 +185,14 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     names(grid) <- "uid"
     if (sf::st_crs(grid)$epsg != 4326) grid <- sf::st_transform(grid, crs = 4326)
     bb <- sf::st_bbox(grid)
-    r <- raster(xmn=bb$xmin, xmx=bb$xmax, ymn=bb$ymin, ymx=bb$ymax, crs = 4326, resolution = 0.01)
+    r <- raster::raster(
+      xmn=bb$xmin, 
+      xmx=bb$xmax, 
+      ymn=bb$ymin, 
+      ymx=bb$ymax, 
+      crs = 4326, 
+      resolution = 0.01
+    )
     m <- list()
     for(i in 1:length(l)) {
       m[[i]] <- fasterize::fasterize(

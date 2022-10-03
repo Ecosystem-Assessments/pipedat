@@ -110,6 +110,27 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       neg[[i]]$anomalies <- abs(neg[[i]]$anomalies)
     }
     
+    # Annual sum
+    # NOTE: this part should be removed and the rest of the code adjusted accordingly 
+    #       for monthly rather than annual rasters
+    annualSum <- function(x, iid) {
+      x <- x[iid] |>
+           lapply(dplyr::select, anomalies) |>
+           dplyr::bind_cols() |>
+           rowSums(na.rm = TRUE)
+      cbind(pos[[1]][,c("longitude","latitude")], x)
+    }
+    pos_ann <- neg_ann <- list()
+    for(i in 1:length(ys)) {
+      iid <- which(datnames$years == ys[i])
+      pos_ann[[i]] <- annualSum(pos, iid)
+      neg_ann[[i]] <- annualSum(neg, iid)
+      colnames(pos_ann[[i]])[3] <- glue::glue("{nm}-positive-{ys[i]}")
+      colnames(neg_ann[[i]])[3] <- glue::glue("{nm}-negative-{ys[i]}")
+    } 
+    pos <- pos_ann 
+    neg <- neg_ann
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #                                 RASTERIZE
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -161,10 +182,12 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data   
-    fm_pos <- here::here(path,glue::glue("{nm}-positive-{datnames$years}-{datnames$months}"))
-    fm_neg <- here::here(path,glue::glue("{nm}-negative-{datnames$years}-{datnames$months}"))
-    for(i in 1:length(dat)) masterwrite(pos[[i]], fm_pos[i])
-    for(i in 1:length(dat)) masterwrite(neg[[i]], fm_neg[i])
+    fm_pos <- here::here(path,glue::glue("{nm}-positive-{ys}"))
+    # fm_pos <- here::here(path,glue::glue("{nm}-positive-{datnames$years}-{datnames$months}"))
+    fm_neg <- here::here(path,glue::glue("{nm}-negative-{ys}"))
+    # fm_neg <- here::here(path,glue::glue("{nm}-negative-{datnames$years}-{datnames$months}"))
+    for(i in 1:length(pos)) masterwrite(pos[[i]], fm_pos[i])
+    for(i in 1:length(neg)) masterwrite(neg[[i]], fm_neg[i])
     
     # Metadata & bibtex
     mt <- here::here(path, nm)

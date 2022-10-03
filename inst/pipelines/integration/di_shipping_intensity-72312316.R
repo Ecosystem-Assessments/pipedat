@@ -4,7 +4,8 @@
 #'
 #' @eval dp_params()
 #' @eval di_params()
-#' @param shipping_type one of "interpolated" or "noninterpolated"
+#' @param shipping_model one of "interpolated" or "noninterpolated"
+#' @param shipping_type one of "num_vessels" or "hours"
 #' @param ... further arguments used in functions, if applicable.
 #'
 #' @family pipeline functions
@@ -17,7 +18,7 @@
 #' \dontrun{
 #' di_72312316()
 #' }
-di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, shipping_type = "interpolated", ...) {
+di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, shipping_model = "interpolated", shipping_type = "num_vessels", ...) {
   # Output folders and other objects used
   uid <- "72312316"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
@@ -35,11 +36,11 @@ di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     raw_id <- get_rawid(uid) # String with data to import
     pipedat(raw_id, bbox, bbox_crs, timespan)
     dat <- importdat(raw_id)
-    if (shipping_type == "interpolated") {
+    if (shipping_model == "interpolated") {
       shipping <- dat[["shipping_gfw-8449dee0-interpolated.csv"]]
     }
 
-    if (shipping_type == "noninterpolated") {
+    if (shipping_model == "noninterpolated") {
       shipping <- dat[["shipping_gfw-8449dee0-noninterpolated.csv"]]
     }
 
@@ -118,10 +119,14 @@ di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue::glue("{nm}-{shipping_type}-{years}-num_vessels.csv"))
-    for (i in 1:length(years)) utils::write.csv(ship_vessels[[i]], fm[i], row.names = FALSE)
-    fm <- here::here(path, glue::glue("{nm}-{shipping_type}-{years}-hours.csv"))
-    for (i in 1:length(years)) utils::write.csv(ship_hours[[i]], fm[i], row.names = FALSE)
+    if (shipping_type == "num_vessels") {
+      fm <- here::here(path, glue::glue("{nm}-{shipping_model}-vessels-{years}.csv"))
+      for (i in 1:length(years)) utils::write.csv(ship_vessels[[i]], fm[i], row.names = FALSE)      
+    }
+    if (shipping_type == "hours") {
+      fm <- here::here(path, glue::glue("{nm}-{shipping_model}-hours-{years}.csv"))
+      for (i in 1:length(years)) utils::write.csv(ship_hours[[i]], fm[i], row.names = FALSE)
+    }
 
     # Metadata
     mt <- here::here(path, glue::glue("{nm}.yaml"))

@@ -56,7 +56,9 @@ pipeflow <- function(config) {
   # )
 
   # Grid figure
-  plotgrid()
+  if (file.exists("data/data-grid/")) {
+    plotgrid()    
+  }
 
   # Integrated data figures
   if (!is.null(dat$data_workflow$data_integration)) {

@@ -78,7 +78,7 @@ dp_d770f210 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, feuillet 
     # This is not reproducible
     # 31N for Val-d'Or
     dat <- sf::st_read("data/data-raw/cartes_ecoforestieres-d770f210/raw/PRODUITS_IEQM_31N_93.gdb", layer = "PEE_ORI_31N")
-    bbox <- c(xmin = -78.05, ymin = 47.9, xmax = -77.5, ymax = 48.19)
+    bbox <- c(xmin = -77.7, ymin = 47.9, xmax = -77.5, ymax = 48.19)
     bbox_crs <- 4326
     bb <- bbox_poly(bbox, bbox_crs) |>
       sf::st_transform(sf::st_crs(dat))
@@ -100,8 +100,8 @@ dp_d770f210 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, feuillet 
     feuillu <- "F"
     dat$type[dat$TYPE_COUV %in% feuillu] <- "Feuillus"
 
-    conifere <- "R"
-    dat$type[dat$TYPE_COUV %in% conifere] <- "Résineux"
+    # conifere <- "R"
+    # dat$type[dat$TYPE_COUV %in% conifere] <- "Résineux"
 
     mixte <- "M"
     dat$type[dat$TYPE_COUV %in% mixte] <- "Mixte"
@@ -128,10 +128,35 @@ dp_d770f210 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, feuillet 
 
     # dat$classif <- glue::glue("{dat$type}-{dat$age}-{dat$perturbations}-{dat$interventions}-{dat$TYPE_TER}")
     # dat$classif <- glue::glue("{dat$type}-{dat$TYPE_TER}")
-    dat$classif <- glue::glue("{dat$type}")
-    x <- dat[dat$classif != "" & !is.na(dat$classif), ]
+    dat$classif <- as.character(glue::glue("{dat$type}"))
+    x <- dat[dat$classif != "" & !is.na(dat$classif), ] |>
+    dplyr::select(classif) |>
+    sf::st_cast("LINESTRING") |>
+    sf::st_transform(4326) 
+    
+    
     # mapview(dat[,'classif'], alpha = 0.5)
+    library(mapview)
+    mapviewOptions(fgb = FALSE)
     mapview(x[, "classif"], alpha = 0.5)
+    mapview(y[, "classif"], alpha = 0.5)
+    
+    library(sp)
+    x<-c(-85.57768, -85.53748, -85.56880, -85.59405, -85.57524, -85.56148, -85.59133, -85.58460, -85.55561, -85.53497)
+y<-c(30.30360, 30.32251, 30.28610, 30.31114, 30.32091, 30.34385, 30.26825, 30.31113, 30.35082, 30.32276)
+a<-c(1:10)
+xy<-data.frame(x,y,a)
+latslongs <- sp::SpatialPointsDataFrame(coords=xy[,c(1,2)],data=xy,proj4string =CRS("+proj=longlat + ellps=WGS84")) 
+
+lt <- as(x, "Spatial")
+
+# rgdal::writeOGR(latslongs, dsn=here::here(path,"forest.gpx"),
+rgdal::writeOGR(lt, dsn=here::here(path,"forest.gpx"),
+     dataset_options="GPX_USE_EXTENSIONS=yes",layer="waypoints",driver="GPX", overwrite_layer = T)
+    
+    
+
+    
 
     # _________________________________________________________________________________________ #
 

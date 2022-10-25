@@ -1,6 +1,6 @@
 #' Series of functions to process the data and integration pipelines
 #'
-#' @param uid unique identifier of queried data. 
+#' @param uid unique identifier of queried data.
 #' @param ondisk logical, whether the data should already be present locally, in cases when data are not available remotely (e.g. protected by data sharing agreements)
 #'
 #' @export
@@ -308,9 +308,9 @@ trim_then_add <- function(string) {
 # ------------------------------------------------------------------------------
 #' Subset data queried using pipedat functions
 #'
-#' This function is used to subset the data based on a bounding box and/or a time span 
+#' This function is used to subset the data based on a bounding box and/or a time span
 #'
-#' @param dat object to filter  
+#' @param dat object to filter
 #' @eval dp_params()
 #' @param data_crs spatial projection of object to filter, defaults to sf::st_crs(dat)"
 #'

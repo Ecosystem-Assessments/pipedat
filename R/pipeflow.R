@@ -57,7 +57,7 @@ pipeflow <- function(config) {
 
   # Grid figure
   if (file.exists("data/data-grid/")) {
-    plotgrid()    
+    plotgrid()
   }
 
   # Integrated data figures

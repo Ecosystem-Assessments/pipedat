@@ -195,11 +195,18 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       eaMethods::clean_taxa(field = "SPEC") |>
       change_taxa_name() |> # See helper function at the end
       eaMethods::review_taxa(field = "SPEC") |>
-      dplyr::group_by(SPEC) |>
+      dplyr::group_by(SPEC, CODE) |>
       dplyr::summarise(Freq = sum(Freq)) |>
-      eaMethods::get_aphia(field = "SPEC") |>
-      eaMethods::get_classification()
-    # masterwrite(species,"temp_species")
+      eaMethods::get_aphia(field = "SPEC") 
+      
+    # -----
+    codes <- dplyr::select(species, aphiaID, CODE, SPEC) |>
+             unique()
+
+    # -----
+    species <- dplyr::group_by(species, SPEC, aphiaID) |>
+               dplyr::summarise(Freq = sum(Freq)) |>
+               eaMethods::get_classification()
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -225,7 +232,9 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
     fm <- here::here(path, glue::glue("{nm}.csv"))
+    fm2 <- here::here(path, glue::glue("{nm}-codes.csv"))
     utils::write.csv(species, fm, row.names = FALSE)
+    utils::write.csv(codes, fm2, row.names = FALSE)
 
     # Metadata
     mt <- here::here(path, glue::glue("{nm}.yaml"))

@@ -259,6 +259,7 @@
 "84b6ea0b","invasive_species_richness-84b6ea0b-Present_Richness-Atlantic.csv"
 "84b6ea0b","invasive_species_richness-84b6ea0b-PresentRichness-Pacific.csv"
 "893b37e8","species_list_nw_atlantic-893b37e8.csv"
+"893b37e8","species_list_nw_atlantic-893b37e8-codes.csv"
 "6dba9a9f","bottom_water_temperature_anomalies_atlantic-6dba9a9f-bottomValues_1970.csv"
 "6dba9a9f","bottom_water_temperature_anomalies_atlantic-6dba9a9f-bottomValues_1971.csv"
 "6dba9a9f","bottom_water_temperature_anomalies_atlantic-6dba9a9f-bottomValues_1972.csv"
@@ -435,3 +436,4 @@
 "e2b7e6c4","fisheries_intensity-e2b7e6c4-PLB-2018.csv"
 "e2b7e6c4","fisheries_intensity-e2b7e6c4-PLB-2019.csv"
 "e2b7e6c4","fisheries_intensity-e2b7e6c4-PLB-2020.csv"
+"18869625","species_occurrences_nw_atlantic.csv"

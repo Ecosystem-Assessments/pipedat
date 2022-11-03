@@ -34,7 +34,6 @@ di_18869625 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     species <- dat[["species_list_nw_atlantic-893b37e8.csv"]] |>
                dplyr::filter(Freq >= min_n_obs)
     codes <- dat[["species_list_nw_atlantic-893b37e8-codes.csv"]]
-  
     # _________________________________________________________________________________________ #
     
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -59,16 +58,22 @@ di_18869625 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     obs <- dplyr::left_join(obs, codes[, c("aphiaID","CODE")], by = c("SPEC" = "CODE")) |>
            dplyr::filter(aphiaID %in% species$aphiaID)
     
-    
-
-    
-    # Filter data based on minimum observation specified
-    
-    
-    
-    # gscat species catch 
-    # gsinf spatial info 
-    
+    # Stations 
+    stations <- dat[
+      c(
+        "dfo_survey_4vsw-2aafec74-gsinf.csv",
+        "dfo_survey_fall-90e90110-gsinf.csv",
+        "dfo_survey_spring-21f8a758-gsinf.csv",
+        "dfo_survey_summer-3348d162-gsinf.csv"
+      )
+    ]
+    stations[[1]]$STRAT <- as.character(stations[[1]]$STRAT)
+    stations[[2]]$STRAT <- as.character(stations[[2]]$STRAT)
+    stations[[1]]$survey <- "4vsw"
+    stations[[2]]$survey <- "fall"
+    stations[[3]]$survey <- "spring"
+    stations[[4]]$survey <- "summer"
+    stations <- dplyr::bind_rows(stations)    
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -78,16 +83,8 @@ di_18869625 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = raw_id,
-      integration_grid = get_grid_info(grid) # if applicable
+      integration_data = raw_id
     )
-      
-    # To add additional metadata for queried data
-    meta <- add_metadata(meta, 
-      info1 = c("Format as lists and dataframes to be rendered as yaml"),
-      info2 = c("Formatting thus matters"),
-      info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-    )  
     # _________________________________________________________________________________________ #
     
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -101,9 +98,11 @@ di_18869625 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data   
-    fm <- here::here(path,glue::glue("{nm}"))
+    tmp <- c("occurrences","stations")
+    fm <- here::here(path,glue::glue("{nm}-{tmp}"))
     # for(i in 1:length(dat)) masterwrite(dat[[i]], fm[i])
-    masterwrite(dat, fm)
+    masterwrite(obs, fm[1])
+    masterwrite(stations, fm[2])
     
     # Metadata & bibtex
     mt <- here::here(path, nm)

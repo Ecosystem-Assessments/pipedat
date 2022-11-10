@@ -62,7 +62,7 @@ dp_b48b01d6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data   
     fm <- here::here(path,glue::glue("{nm}.csv"))
-    vroom::vroom_write(dat, glue::glue("{fm}.csv"), delim = ",")
+    vroom::vroom_write(dat, fm, delim = ",")
 
     # Delete to save memory
     unlink(here::here(path, "raw", "98100233.csv"), recursive = TRUE)

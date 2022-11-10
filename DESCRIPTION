@@ -61,5 +61,6 @@ Suggests:
     usethis,
     uuid,
     viridis,
+    vroom,
     whisker,
     XML

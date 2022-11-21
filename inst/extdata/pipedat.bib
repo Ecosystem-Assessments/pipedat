@@ -1,3 +1,22 @@
+@article{assis2018,
+  title = {Bio-{{ORACLE}} v2.0: {{Extending}} Marine Data Layers for Bioclimatic Modelling},
+  shorttitle = {Bio-{{ORACLE}} v2.0},
+  author = {Assis, Jorge and Tyberghein, Lennert and Bosch, Samuel and Verbruggen, Heroen and Serr{\~a}o, Ester A. and Clerck, Olivier De},
+  year = {2018},
+  journal = {Global Ecology and Biogeography},
+  volume = {27},
+  number = {3},
+  pages = {277--284},
+  issn = {1466-8238},
+  doi = {10.1111/geb.12693},
+  abstract = {Motivation The availability of user-friendly, high-resolution global environmental datasets is crucial for bioclimatic modelling. For terrestrial environments, WorldClim has served this purpose since 2005, but equivalent marine data only became available in 2012, with pioneer initiatives like Bio-ORACLE providing data layers for several ecologically relevant variables. Currently, the available marine data packages have not yet been updated to the most recent Intergovernmental Panel on Climate Change (IPCC) predictions nor to present times, and are mostly restricted to the top surface layer of the oceans, precluding the modelling of a large fraction of the benthic diversity that inhabits deeper habitats. To address this gap, we present a significant update of Bio-ORACLE for new future climate scenarios, present-day conditions and benthic layers (near sea bottom). The reliability of data layers was assessed using a cross-validation framework against in situ quality-controlled data. This test showed a generally good agreement between our data layers and the global climatic patterns. We also provide a package of functions in the R software environment (sdmpredictors) to facilitate listing, extraction and management of data layers and allow easy integration with the available pipelines for bioclimatic modelling. Main types of variable contained Surface and benthic layers for water temperature, salinity, nutrients, chlorophyll, sea ice, current velocity, phytoplankton, primary productivity, iron and light at bottom. Spatial location and grain Global at 5 arcmin (c. 0.08\textdegree{} or 9.2 km at the equator). Time period and grain Present (2000\textendash 2014) and future (2040\textendash 2050 and 2090\textendash 2100) environmental conditions based on monthly averages. Major taxa and level of measurement Marine biodiversity associated with sea surface and epibenthic habitats. Software format ASCII and TIFF grid formats for geographical information systems and a package of functions developed for R software.},
+  copyright = {\textcopyright{} 2017 John Wiley \& Sons Ltd},
+  langid = {english},
+  keywords = {Bio-ORACLE,bioclimatic modelling,environmental data,global,kriging,macroecology,marine,species distribution modelling},
+  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/geb.12693},
+  file = {/Users/davidbeauchesne/Zotero/storage/WGP6S9EZ/Assis et al. - 2018 - Bio-ORACLE v2.0 Extending marine data layers for .pdf}
+}
+
 @article{beauchesne2016a,
   title = {Thinking Outside the Box - {{Predicting}} Biotic Interactions in Data-Poor Environments},
   author = {Beauchesne, David and {Desjardins-Proulx}, Philippe and Archambault, Philippe and Gravel, Dominique},
@@ -37,6 +56,13 @@
   issn = {0013-936X},
   doi = {10.1021/es300578x},
   abstract = {We report here on the spatial distribution of C4, C6, and C8 perfluoroalkyl sulfonates, C6\textendash C14 perfluoroalkyl carboxylates, and perfluorooctanesulfonamide in the Atlantic and Arctic Oceans, including previously unstudied coastal waters of North and South America, and the Canadian Arctic Archipelago. Perfluorooctanoate (PFOA) and perfluorooctanesulfonate (PFOS) were typically the dominant perfluoroalkyl acids (PFAAs) in Atlantic water. In the midnorthwest Atlantic/Gulf Stream, sum PFAA concentrations ({$\sum$}PFAAs) were low (77\textendash 190 pg/L) but increased rapidly upon crossing into U.S. coastal water (up to 5800 pg/L near Rhode Island). {$\sum$}PFAAs in the northeast Atlantic were highest north of the Canary Islands (280\textendash 980 pg/L) and decreased with latitude. In the South Atlantic, concentrations increased near Rio de la Plata (Argentina/Uruguay; 350\textendash 540 pg/L {$\sum$}PFAAs), possibly attributable to insecticides containing N-ethyl perfluorooctanesulfonamide, or proximity to Montevideo and Buenos Aires. In all other southern hemisphere locations, {$\sum$}PFAAs were {$<$}210 pg/L. PFOA/PFOS ratios were typically {$\geq$}1 in the northern hemisphere, {$\sim$}1 near the equator, and {$\leq$}1 in the southern hemisphere. In the Canadian Arctic, {$\sum$}PFAAs ranged from 40 to 250 pg/L, with perfluoroheptanoate, PFOA, and PFOS among the PFAAs detected at the highest concentrations. PFOA/PFOS ratios (typically {$\gg$}1) decreased from Baffin Bay to the Amundsen Gulf, possibly attributable to increased atmospheric inputs. These data help validate global emissions models and contribute to understanding of long-range transport pathways and sources of PFAAs to remote regions.}
+}
+
+@manual{bosch2022,
+  type = {Manual},
+  title = {Sdmpredictors: {{Species}} Distribution Modelling Predictor Datasets},
+  author = {Bosch, Samuel and Fernandez, Salvador},
+  year = {2022}
 }
 
 @techreport{chasse2022,
@@ -598,6 +624,25 @@ S},
   author = {{Treasury Board of Canada Secretariat}},
   year = {2021},
   institution = {{Treasury Board of Canada Secretariat}}
+}
+
+@article{tyberghein2012,
+  title = {Bio-{{ORACLE}}: A Global Environmental Dataset for Marine Species Distribution Modelling},
+  shorttitle = {Bio-{{ORACLE}}},
+  author = {Tyberghein, Lennert and Verbruggen, Heroen and Pauly, Klaas and Troupin, Charles and Mineur, Frederic and Clerck, Olivier De},
+  year = {2012},
+  month = feb,
+  journal = {Global Ecology and Biogeography},
+  volume = {21},
+  number = {2},
+  pages = {272--281},
+  issn = {1466-8238},
+  doi = {10.1111/j.1466-8238.2011.00656.x},
+  abstract = {Aim The oceans harbour a great diversity of organisms whose distribution and ecological preferences are often poorly understood. Species distribution modelling (SDM) could improve our knowledge and inform marine ecosystem management and conservation. Although marine environmental data are available from various sources, there are currently no user-friendly, high-resolution global datasets designed for SDM applications. This study aims to fill this gap by assembling a comprehensive, uniform, high-resolution and readily usable package of global environmental rasters. Location Global, marine. Methods We compiled global coverage data, e.g. satellite-based and in situ measured data, representing various aspects of the marine environment relevant for species distributions. Rasters were assembled at a resolution of 5 arcmin (c. 9.2 km) and a uniform landmask was applied. The utility of the dataset was evaluated by maximum entropy SDM of the invasive seaweed Codium fragile ssp. fragile. Results We present Bio-ORACLE (ocean rasters for analysis of climate and environment), a global dataset consisting of 23 geophysical, biotic and climate rasters. This user-friendly data package for marine species distribution modelling is available for download at http://www.bio-oracle.ugent.be. The high predictive power of the distribution model of C. fragile ssp. fragile clearly illustrates the potential of the data package for SDM of shallow-water marine organisms. Main conclusions The availability of this global environmental data package has the potential to stimulate marine SDM. The high predictive success of the presence-only model of a notorious invasive seaweed shows that the information contained in Bio-ORACLE can be informative about marine distributions and permits building highly accurate species distribution models.},
+  copyright = {\textcopyright{} 2011 Blackwell Publishing Ltd},
+  langid = {english},
+  keywords = {Bio-ORACLE,Codium fragile,ecological niche modelling,environmental data,global,macroecology,marine,oceanography,species distribution modelling},
+  file = {/Users/davidbeauchesne/Zotero/storage/HXSZ78JZ/j.1466-8238.2011.00656.html}
 }
 
 @article{venter2016,

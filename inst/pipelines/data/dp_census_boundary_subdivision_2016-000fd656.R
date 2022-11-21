@@ -27,7 +27,7 @@ dp_000fd656 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (!exist$raw) {
     # If the data is downloaded from online sources
-    urls <- "http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/files-fichiers/2016/lpr_000b16a_e.zip"
+    urls <- "http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/files-fichiers/2016/lcsd000b16a_e.zip"
     pipeload(urls = urls, output = here::here(path, "raw"), large = TRUE)
   }
   # _________________________________________________________________________________________ #
@@ -36,12 +36,12 @@ dp_000fd656 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    utils::unzip(here::here(path, "raw", "lpr_000b16a_e.zip"), exdir = here::here(path, "raw"))
+    utils::unzip(here::here(path, "raw", "lcsd000b16a_e.zip"), exdir = here::here(path, "raw"))
     dat <- sf::st_read(
-      here::here(path, "raw", "lpr_000b16a_e.shp"),
+      here::here(path, "raw", "lcsd000b16a_e.shp"),
       quiet = TRUE
     ) |>
-      sf::st_make_valid()
+    sf::st_make_valid()
     # _________________________________________________________________________________________ #
     
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -84,11 +84,11 @@ dp_000fd656 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     masterwrite(dat, fm)
 
     # Delete to save memory
-    unlink(here::here(path, "raw", "lpr_000b16a_e.shp"), recursive = TRUE)
-    unlink(here::here(path, "raw", "lpr_000b16a_e.dbf"), recursive = TRUE)
-    unlink(here::here(path, "raw", "lpr_000b16a_e.prj"), recursive = TRUE)
-    unlink(here::here(path, "raw", "lpr_000b16a_e.shx"), recursive = TRUE)
-    unlink(here::here(path, "raw", "lpr_000b16a_e.xml"), recursive = TRUE)
+    unlink(here::here(path, "raw", "lcsd000b16a_e.shp"), recursive = TRUE)
+    unlink(here::here(path, "raw", "lcsd000b16a_e.dbf"), recursive = TRUE)
+    unlink(here::here(path, "raw", "lcsd000b16a_e.prj"), recursive = TRUE)
+    unlink(here::here(path, "raw", "lcsd000b16a_e.shx"), recursive = TRUE)
+    unlink(here::here(path, "raw", "lcsd000b16a_e.xml"), recursive = TRUE)
 
     # Metadata & bibtex
     mt <- here::here(path, nm)

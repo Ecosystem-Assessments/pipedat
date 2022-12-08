@@ -18,41 +18,13 @@
 #' pipedat("0001")
 #' }
 #' @export
-masteringrid <- function(dat, grid = NULL, name = "intensity", negative = FALSE) {
-  # WARNING: For R CMD CHECK
-  intensity <- uid <- x <- y <- NULL
-
+masteringrid <- function(dat, grd = here::here("data/grid/grid.tif")) {
   # stars objects
   if ("stars" %in% class(dat)) {
     # Get grid
-    if (is.null(grid)) {
-      grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
-      names(grid) <- "uid"
-    }
-    grid <- sf::st_transform(grid, sf::st_crs(dat))
+    if (class(grd) == "character") grd <- stars::read_stars(grd)
 
     # Integrate in grid
-    dat <- stars::st_warp(dat, grid) |>
-      c(grid) |>
-      as.data.frame() |>
-      dplyr::filter(!is.na(uid)) |>
-      dplyr::arrange(uid) |>
-      dplyr::select(-x, -y) |>
-      stats::setNames(c("intensity", "uid")) |>
-      dplyr::select(uid, intensity)
-
-    if (!negative) dat <- dplyr::filter(dat, intensity > 0)
-
-    if (nrow(dat) > 0) colnames(dat)[2] <- name
-    dat
+    stars::st_warp(dat, grd)
   }
-
-  # # sf objects
-  # if ("sf" %in% class(dat)) {
-  #   # Get grid
-  #   if (is.null(grid)) {
-  #     grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
-  #   }
-  #   grid <- sf::st_transform(grid, sf::st_crs(dat))
-  # }
 }

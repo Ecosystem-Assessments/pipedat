@@ -2,27 +2,32 @@
 % Please edit documentation in R/pipegrid.R
 \name{pipegrid}
 \alias{pipegrid}
-\title{Creates a study grid}
+\title{Creates a raster study grid}
 \usage{
-pipegrid(x = NULL, bbox = NULL, cellsize, crs = 4326)
+pipegrid(aoi, cellsize, crs = 4326)
 }
 \arguments{
-\item{x}{object of class sf or sfc}
-
-\item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
+\item{aoi}{object of class sf or sfc representing the area of interest, or the bounding box of the area to consider. The bounding box should be either a \code{bbox} class object from the \code{sf} package or of the form \code{c(xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)}}
 
 \item{cellsize}{target cellsize}
 
 \item{crs}{object of class crs; coordinate reference system of the target of the target grid in case argument x is missing, if x is not missing, its crs is inherited.}
 }
 \value{
-soon described
+a tif file and a csv file
 }
 \description{
-This function is used to create a study grid for data integration pipelines and for data workflows. It is a simple wrapper around \code{sf::st_make_grid}.
+This function is used to create a raster study grid that will serve as a template for data extractions
 }
 \examples{
 \dontrun{
-pipegrid()
+cellsize <- 1
+crs <- 4326 
+bb <- c(xmin = -45, ymin = -45, xmax = 45, ymax = 45)
+bbox <- sf::st_bbox(bb, crs = crs)
+aoi <- sf::st_as_sfc(bbox, crs = crs)
+pipegrid(bb, cellsize, crs)
+pipegrid(bbox, cellsize, crs)
+pipegrid(aoi, cellsize, crs)
 }
 }

@@ -4,7 +4,7 @@
 \alias{masteringrid}
 \title{Generic function incorporate data in study grid}
 \usage{
-masteringrid(dat, grid = NULL, name = "intensity", negative = FALSE)
+masteringrid(dat, grd = here::here("data/grid/grid.tif"))
 }
 \arguments{
 \item{dat}{object with spatial data to import in study grid, either \code{sf} or \code{stars} object}

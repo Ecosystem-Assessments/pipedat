@@ -17,6 +17,6 @@ This function is used execute an entire data workflow that will download, format
 }
 \examples{
 \dontrun{
-pipeflow(config = "./workflow.yaml")
+pipeflow(config = "./data/config/pipedat.yml")
 }
 }

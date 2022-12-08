@@ -20,8 +20,7 @@ di_params <- function() {
 
 grid_params <- function() {
   c(
-    "@param x object of class sf or sfc",
-    "@param bbox bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form `c(xmin, ymin, xmax, ymax)`",
+    "@param aoi object of class sf or sfc representing the area of interest, or the bounding box of the area to consider. The bounding box should be either a `bbox` class object from the `sf` package or of the form `c(xmin = xmin, ymin = ymin, xmax = xmax, ymax = ymax)`",
     "@param cellsize target cellsize",
     "@param crs object of class crs; coordinate reference system of the target of the target grid in case argument x is missing, if x is not missing, its crs is inherited."
   )

@@ -23,7 +23,7 @@ pipegrid <- function(aoi, cellsize, crs = 4326) {
   # Create grid template
   if ("sfc" %in% class(aoi)) {
     aoi <- sf::st_as_sf(aoi, crs = crs)
-  } else if (class(aoi) %in% c("bbox","numeric","integer")){
+  } else if (c("bbox","numeric","integer") %in% class(aoi)){
     aoi <- sf::st_bbox(aoi, crs = crs) |>
            sf::st_as_sfc() |>
            sf::st_as_sf()

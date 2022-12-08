@@ -32,34 +32,16 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     raw_id <- get_rawid(uid) # String with data to import
     pipedat(raw_id, bbox, bbox_crs, timespan)
     dat <- importdat(raw_id)
-
-    # Study grid, if applicable
-    if (is.null(grid)) {
-      grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
-    }
-    grid <- sf::st_transform(grid, sf::st_crs(dat[[1]]))
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # ANALYZE / FORMAT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+    dat <- lapply(dat, masteringrid)
     name <- names(dat)
     name <- gsub("halpern_cea-4f84f0e3-", "", name)
     name <- gsub(".tif", "", name)
-    pipedat_rasterize <- function(dat, name) {
-      dat <- stars::st_warp(dat, grid) |>
-        c(grid) |>
-        as.data.frame() |>
-        dplyr::filter(!is.na(grid_raster.tif)) |>
-        dplyr::arrange(uid) |>
-        dplyr::select(-x, -y) |>
-        stats::setNames(c("intensity", "uid")) |>
-        dplyr::filter(intensity > 0) |>
-        dplyr::select(uid, intensity)
-      colnames(dat)[2] <- name
-      dat
-    }
-    for (i in 1:length(dat)) dat[[i]] <- pipedat_rasterize(dat[[i]], name[i])
+    
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -69,8 +51,7 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = raw_id,
-      integration_grid = get_grid_info(grid) # if applicable
+      integration_data = raw_id
     )
     # _________________________________________________________________________________________ #
 
@@ -85,16 +66,13 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue::glue("{nm}-{name}.csv"))
-    for (i in 1:length(fm)) utils::write.csv(dat[[i]], fm[i], row.names = FALSE)
+    fm <- here::here(path, glue::glue("{nm}-{name}"))
+    for (i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
 
-    # Metadata
-    mt <- here::here(path, glue::glue("{nm}.yaml"))
-    yaml::write_yaml(meta, mt, column.major = FALSE)
-
-    # Bibtex
-    bi <- here::here(path, glue::glue("{nm}.bib"))
-    RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
+    # Metadata & bibtex
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)
     # _________________________________________________________________________________________ #
   }
 }

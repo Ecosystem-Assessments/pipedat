@@ -44,9 +44,7 @@ di_6dba9a9f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     name <- glue::glue("{nm}{name}")
     for (i in 1:length(dat)) {
       dat[[i]] <- masteringrid(
-        dat[[i]],
-        grid = NULL,
-        name = name[i]
+        dat[[i]]
       )
     }
     # _________________________________________________________________________________________ #
@@ -58,8 +56,7 @@ di_6dba9a9f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = raw_id,
-      integration_grid = get_grid_info() # if applicable
+      integration_data = raw_id
     )
     # _________________________________________________________________________________________ #
 

@@ -44,13 +44,13 @@ di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       shipping <- dat[["shipping_gfw-8449dee0-noninterpolated.csv"]]
     }
 
-    # Study grid, if applicable
-    if (is.null(grid)) {
-      # grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
-      grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
-    }
-    grid <- sf::st_transform(grid, crs = 4326)
-    names(grid) <- "uid"
+    # # Study grid, if applicable
+    # if (is.null(grid)) {
+    #   # grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
+    #   grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
+    # }
+    # grid <- sf::st_transform(grid, crs = 4326)
+    # names(grid) <- "uid"
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -77,22 +77,17 @@ di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
           coords = c("longitude", "latitude")
         ) |>
         sf::st_set_crs(4326) |>
-        stars::st_warp(grid) |>
-        c(grid) |>
-        as.data.frame() |>
-        dplyr::filter(!is.na(uid)) |>
-        dplyr::arrange(uid) |>
-        dplyr::select(-x, -y)
-    }
+        masteringrid()    
+      }
 
     # Devide hours and num_vessels
     n <- glue::glue("{nm}-{shipping_type}-{years}")
     ship_vessels <- ship_hours <- list()
     for (i in 1:length(ship)) {
-      ship_vessels[[i]] <- dplyr::select(ship[[i]], uid, num_vessels)
-      ship_hours[[i]] <- dplyr::select(ship[[i]], uid, hours)
-      colnames(ship_vessels[[i]])[2] <- glue::glue("{n[i]}-num_vessels")
-      colnames(ship_hours[[i]])[2] <- glue::glue("{n[i]}-hours")
+      ship_vessels[[i]] <- dplyr::select(ship[[i]], num_vessels)
+      ship_hours[[i]] <- dplyr::select(ship[[i]], hours)
+      names(ship_vessels[[i]]) <- glue::glue("{n[i]}-num_vessels")
+      names(ship_hours[[i]]) <- glue::glue("{n[i]}-hours")
     }
     # _________________________________________________________________________________________ #
 
@@ -103,8 +98,7 @@ di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = raw_id,
-      integration_grid = get_grid_info(grid) # if applicable
+      integration_data = raw_id
     )
     # _________________________________________________________________________________________ #
 
@@ -120,21 +114,18 @@ di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
     if (shipping_type == "num_vessels") {
-      fm <- here::here(path, glue::glue("{nm}-{shipping_model}-vessels-{years}.csv"))
-      for (i in 1:length(years)) utils::write.csv(ship_vessels[[i]], fm[i], row.names = FALSE)      
+      fm <- here::here(path, glue::glue("{nm}-{shipping_model}-vessels-{years}"))
+      for (i in 1:length(years)) masterwrite(ship_vessels[[i]], fm[i])
     }
     if (shipping_type == "hours") {
       fm <- here::here(path, glue::glue("{nm}-{shipping_model}-hours-{years}.csv"))
-      for (i in 1:length(years)) utils::write.csv(ship_hours[[i]], fm[i], row.names = FALSE)
+      for (i in 1:length(years)) masterwrite(ship_hours[[i]], fm[i])
     }
 
-    # Metadata
-    mt <- here::here(path, glue::glue("{nm}.yaml"))
-    yaml::write_yaml(meta, mt, column.major = FALSE)
-
-    # Bibtex
-    bi <- here::here(path, glue::glue("{nm}.bib"))
-    RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
+    # Metadata & bibtex
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
     # _________________________________________________________________________________________ #
   }
 }

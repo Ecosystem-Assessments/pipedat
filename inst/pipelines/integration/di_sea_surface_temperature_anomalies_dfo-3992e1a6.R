@@ -48,15 +48,6 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     iid <- datnames$months %in% c("05","06","07","08","09","10","11")
     datnames <- datnames[iid, ]
     dat <- dat[iid]
-
-
-    # Study grid, if applicable
-    if (is.null(grid)) {
-      grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
-    }
-    if (sf::st_crs(grid)$epsg != 4326) {
-      grid <- sf::st_transform(grid, crs = 4326)
-    }
     # _________________________________________________________________________________________ #
     
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -145,15 +136,7 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # Rasterize and warp to study area grid
     pipedat_rasterize <- function(pts) {
       dat <- stars::st_rasterize(pts, dx = 2000, dy = 2000) |>
-        stars::st_warp(grid) |>
-        c(grid) |>
-        as.data.frame() |>
-        dplyr::filter(!is.na(grid_raster.tif)) |>
-        dplyr::arrange(uid) |>
-        dplyr::select(-x, -y) |>
-        stats::setNames(c("intensity", "uid")) |>
-        dplyr::filter(intensity > 0) |>
-        dplyr::select(uid, intensity)
+        masteringrid() 
     }
     pos <- lapply(pos, pipedat_rasterize)
     neg <- lapply(neg, pipedat_rasterize)
@@ -166,8 +149,7 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = raw_id,
-      integration_grid = get_grid_info(grid) # if applicable
+      integration_data = raw_id
     )
     # _________________________________________________________________________________________ #
     

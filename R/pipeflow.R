@@ -68,8 +68,8 @@ pipeflow <- function(config) {
   }
 
 
-  # Integrated data figures
-  if (!is.null(dat$pipedat$data_integration)) {
-    plotdat(dat$pipedat$data_integration)
-  }
+  # # Integrated data figures
+  # if (!is.null(dat$pipedat$data_integration)) {
+  #   plotdat(dat$pipedat$data_integration)
+  # }
 }

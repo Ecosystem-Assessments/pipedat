@@ -187,7 +187,7 @@ dp_4f84f0e3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, halpern_y
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
     name <- tools::file_path_sans_ext(basename(files))
-    fm <- glue::glue("{path}/{nm}-{urls$years}-{name}.tif")
+    fm <- glue::glue("{path}/{nm}-{name}-{urls$years}.tif")
     for (i in 1:length(name)) stars::write_stars(dat[[i]], fm[i])
 
     # Delete decompressed file, as they are very big

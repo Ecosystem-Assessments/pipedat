@@ -114,11 +114,11 @@ di_72312316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
     if (shipping_type == "num_vessels") {
-      fm <- here::here(path, glue::glue("{nm}-{shipping_model}-vessels-{years}"))
+      fm <- here::here(path, glue::glue("{nm}-{shipping_model}_vessels-{years}"))
       for (i in 1:length(years)) masterwrite(ship_vessels[[i]], fm[i])
     }
     if (shipping_type == "hours") {
-      fm <- here::here(path, glue::glue("{nm}-{shipping_model}-hours-{years}.csv"))
+      fm <- here::here(path, glue::glue("{nm}-{shipping_model}_hours-{years}.csv"))
       for (i in 1:length(years)) masterwrite(ship_hours[[i]], fm[i])
     }
 

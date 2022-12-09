@@ -40,7 +40,8 @@ di_6dba9a9f <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # ANALYZE / FORMAT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     name <- tools::file_path_sans_ext(names(dat)) |>
-      substr(40, 57)
+      substr(40, 57) |>
+      stringr::str_replace("_","-")
     name <- glue::glue("{nm}{name}")
     for (i in 1:length(dat)) {
       dat[[i]] <- masteringrid(

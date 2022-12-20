@@ -25,7 +25,10 @@ pipeflow <- function(config) {
   params <- dat$pipedat$params
 
   # Grid
-  if (dat$pipedat$parameters$make_grid) {
+  if (
+    dat$pipedat$parameters$make_grid &
+    !file.exists(here::here("data","grid","grid.tif"))
+  ) {
     if (is.na(aoi) | is.null(aoi)) {
       aoi <- bbox
     } else {  

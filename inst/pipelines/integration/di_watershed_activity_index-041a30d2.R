@@ -61,7 +61,8 @@ di_041a30d2 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data   
     name <- lapply(dat, function(x) tools::file_path_sans_ext(names(x))) |> unlist()
-    fm <- here::here(path,glue::glue("{nm}-{name}"))
+    name <- gsub("57121439","041a30d2", name)
+    fm <- here::here(path,glue::glue("{name}"))
     for(i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
 
     # Metadata & bibtex

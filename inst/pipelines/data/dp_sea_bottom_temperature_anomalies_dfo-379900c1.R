@@ -1,6 +1,6 @@
-#' @eval get_name("9d64101c")
+#' @eval get_name("379900c1")
 #'
-#' @eval get_description("9d64101c")
+#' @eval get_description("379900c1")
 #'
 #' @eval dp_params()
 #'
@@ -8,15 +8,15 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 9d64101c
+#' @keywords pipeline_id: 379900c1
 #'
 #' @examples
 #' \dontrun{
-#' dp_9d64101c()
+#' dp_379900c1()
 #' }
-dp_9d64101c <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
+dp_379900c1 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
   # Output folders and other objects used
-  uid <- "9d64101c"
+  uid <- "379900c1"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid, ondisk = TRUE)
   path <- make_output(uid)
@@ -26,12 +26,12 @@ dp_9d64101c <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     utils::unzip(
-      here::here(path, "raw", "SST.zip"),
-      exdir = here::here(path, "raw", "SST")
+      here::here(path, "raw", "SBT.zip"),
+      exdir = here::here(path, "raw", "SBT")
     )
-    files <- dir(here::here(path, "raw", "SST"))
+    files <- dir(here::here(path, "raw", "SBT"))
     if (!is.null(timespan)) files <- files[as.numeric(files) %in% timespan]
-    files <- dir(here::here(path, "raw", "SST", files), recursive = TRUE, full.names = TRUE)
+    files <- dir(here::here(path, "raw", "SBT", files), recursive = TRUE, full.names = TRUE)
     # There are potentially too many files, so I have to do everything in a loop to avoid
     # memory issues. I only load one to get the metadata and then I do everything else in a loop
     import_dat <- function(dat) {
@@ -64,7 +64,7 @@ dp_9d64101c <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       pipeline_timespan = timespan,
       access = timestamp(),
       data_bbox = bb,
-      data_timespan = 2000:2022
+      data_timespan = 2010:2022
     )
     # _________________________________________________________________________________________ #
 
@@ -98,7 +98,7 @@ dp_9d64101c <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       masterwrite(dat, fm)
     }
     # Remove unzipped data to avoid using memory unnecessarily
-    unlink(here::here(path, "raw", "SST"), recursive = TRUE)
+    unlink(here::here(path, "raw", "SBT"), recursive = TRUE)
     # _________________________________________________________________________________________ #
   } # if exist clean, don't run again
 }

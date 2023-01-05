@@ -79,3 +79,4 @@
 "57121439","data","2022-12-13","watershed_activity_index","Watershed activity index","TBD",NA,NA,"available"
 "041a30d2","integration","2022-12-20","watershed_activity_index","Integration of watershed activity index in study grid",NA,NA,NA,NA
 "379900c1","data","2022-12-21","sea_bottom_temperature_anomalies_dfo","Sea bottom temperature anomalies","Bottom-water temperature anomalies from the Department of Fisheries and Oceans (DFO) Atlantic Zone Monitoring Program (AZMP) between 2000 and 2022",NA,NA,"on demand"
+"7c150fc3","integration","2023-01-05","species_list_marine_mammals_birds","Marine mammals and birds in eastern Canada","List of marine mammal and marine bird species in eastern Canada from CARMs species list",NA,NA,NA

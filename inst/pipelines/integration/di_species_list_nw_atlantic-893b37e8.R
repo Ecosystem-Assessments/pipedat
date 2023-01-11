@@ -128,6 +128,7 @@ di_893b37e8 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       c("Omosudis lowei", "Omosudis lowii"),
       c("Paralepis atlantica kroyer", "Magnisudis atlantica"),
       c("Pitar morrhuana", "Agriopoma morrhuanum"),
+      c("Pycnogonum littorale","Pycnogonum litorale"),
       c("Porania pulvilis", "Porania pulvillus"),
       c("Poraniomorpha borealis", "Poraniomorpha hispida"),
       c("Sabinea sarsi", "Sabinea sarsii"),

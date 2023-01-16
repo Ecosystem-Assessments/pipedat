@@ -130,7 +130,7 @@ di_5c829738 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data   
     dates <- expand.grid(ys, ms) |> dplyr::arrange(Var1, Var2)
-    fm <- here::here(path,glue::glue("{nm}-positive-{dates$Var1}_{dates$Var2}"))
+    fm <- here::here(path,glue::glue("{nm}-{dates$Var1}_{dates$Var2}"))
     for(i in 1:length(sst)) masterwrite(sst[[i]], fm[i])
     
     # Metadata & bibtex

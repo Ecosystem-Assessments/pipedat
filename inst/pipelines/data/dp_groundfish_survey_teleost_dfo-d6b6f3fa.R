@@ -52,8 +52,8 @@ dp_d6b6f3fa <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       pipeline_bbox_crs = bbox_crs, 
       pipeline_timespan = timespan, 
       access = timestamp(), 
-      data_bbox = sf::st_bbox(dat), 
-      data_timespan = sort(unique(dat$year))
+      # data_bbox = sf::st_bbox(dat), 
+      data_timespan = 2004:2021
     )    
     # _________________________________________________________________________________________ #
 
@@ -69,12 +69,12 @@ dp_d6b6f3fa <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
     # sf::sf_use_s2(FALSE)
     # dat <- lapply(dat, dp_parameters, bbox = bbox, bbox_crs = bbox_crs, timespan = timespan)
-    dat <- dp_parameters(
-      dat,
-      bbox = bbox,
-      bbox_crs = bbox_crs,
-      timespan = timespan
-    )
+    # dat <- dp_parameters(
+    #   dat,
+    #   bbox = bbox,
+    #   bbox_crs = bbox_crs,
+    #   timespan = timespan
+    # )
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

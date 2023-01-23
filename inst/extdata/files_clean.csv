@@ -1028,3 +1028,8 @@
 "5b61d05c","groundfish_survey_4t_dfo-5b61d05c.csv"
 "1386850b","species_vulnerability-1386850b.csv"
 "0b902b1e","species_trophic_sensitivity-0b902b1e.csv"
+"08e94a14","sea_birds_ecsas-08e94a14-vessel_watches.geojson"
+"08e94a14","sea_birds_ecsas-08e94a14-vessel_sightings.geojson"
+"08e94a14","sea_birds_ecsas-08e94a14-aerial_sightings.geojson"
+"08e94a14","sea_birds_ecsas-08e94a14-aerial_transects.geojson"
+"08e94a14","sea_birds_ecsas-08e94a14-aerial_unique_transects.csv"

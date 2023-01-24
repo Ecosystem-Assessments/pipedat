@@ -121,12 +121,7 @@ update_rda <- function() {
   contact <- read.csv(file = "inst/extdata/contact.csv")
   pcite <- read.csv(file = "inst/extdata/pipeline_citekey.csv")
   pcontact <- read.csv(file = "inst/extdata/pipeline_contact.csv")
-  pcreator <- read.csv(file = "inst/extdata/pipeline_creator.csv")
   bib <- RefManageR::ReadBib("inst/extdata/pipedat.bib")
-  integ <- read.csv(file = "inst/extdata/data_integration.csv")
-  files_raw <- read.csv(file = "inst/extdata/files_raw.csv")
-  files_clean <- read.csv(file = "inst/extdata/files_clean.csv")
-  files_integrated <- read.csv(file = "inst/extdata/files_integrated.csv")
   load(file = "inst/extdata/basemap.rda")
   load(file = "inst/extdata/pipeline_code.rda")
 
@@ -136,12 +131,7 @@ update_rda <- function() {
     contact,
     pcite,
     pcontact,
-    pcreator,
     bib,
-    integ,
-    files_raw,
-    files_clean,
-    files_integrated,
     basemap,
     pipecode,
     internal = TRUE,

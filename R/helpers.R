@@ -40,13 +40,15 @@ make_path <- function(uid) {
 
 
 #' @export
-#' @describeIn pipeline_setup check if raw data exists
+#' @describeIn pipeline_setup check if raw or formatted data exists
 check_raw <- function(uid) {
   path <- make_path(uid)
   name <- get_shortname(uid)
   rawpath <- here::here(path, "raw")
+  fmtpath <- here::here(path, "format")
   execute <- !file.exists(here::here(path, glue::glue("{name}-{uid}-raw.tar.xz"))) &
-    length(dir(rawpath)) == 0
+    length(dir(rawpath)) == 0 &
+    length(dir(fmtpath)) == 0
   if (execute) {
     path <- here::here(
       path,

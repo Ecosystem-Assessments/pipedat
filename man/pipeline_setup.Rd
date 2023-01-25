@@ -70,7 +70,7 @@ Series of functions to access metadata information
 
 \item \code{make_path}: base path for all data formatted through pipedat
 
-\item \code{check_raw}: check if raw data exists
+\item \code{check_raw}: check if raw or formatted data exists
 
 \item \code{check_format}: check if formatted data exists
 

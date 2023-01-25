@@ -41,10 +41,10 @@ pipeflow <- function(config) {
   }
 
   # Data pipelines
-  if (!is.null(dat$pipedat$data_pipeline)) {
+  if (!is.null(dat$pipedat$pipelines)) {
     args <- c(
       list(
-        uid = dat$pipedat$data_pipeline,
+        uid = dat$pipedat$pipelines,
         bbox = bbox,
         timespan = timespan,
         integrate = integrate,

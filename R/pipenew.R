@@ -47,14 +47,14 @@ pipenew <- function(name = NULL, template = "workflow") {
     # Generate template
     if (pip) {
       use_template(
-        template = "templates/data_pipeline.R",
+        template = "templates/pipeline.R",
         data = out,
         save_as = glue::glue("inst/pipelines/{name}-{out$dpid}.R")
       )
     }
     if (pdg) {
       use_template(
-        template = "templates/data_pipeline_govcan.R",
+        template = "templates/pipeline_govcan.R",
         data = out,
         save_as = glue::glue("inst/pipelines/{name}-{out$dpid}.R")
       )

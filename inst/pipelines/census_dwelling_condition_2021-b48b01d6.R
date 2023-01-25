@@ -5,7 +5,7 @@
 #' @eval dp_params()
 #'
 #' @family pipeline functions
-#' @rdname data_pipelines
+#' @rdname pipelines
 #' @seealso \code{\link{pipedat}}
 #'
 #' @keywords pipeline_id: b48b01d6

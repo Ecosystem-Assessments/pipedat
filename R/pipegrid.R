@@ -1,37 +1,43 @@
-#' Creates a study grid
+#' Creates a raster study grid
 #'
-#' This function is used to create a study grid for data integration pipelines and for data workflows. It is a simple wrapper around `sf::st_make_grid`.
+#' This function is used to create a raster study grid that will serve as a template for data extractions
 #'
 #' @eval grid_params()
 #'
-#' @return soon described
+#' @return a tif file and a csv file
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' pipegrid()
+#' cellsize <- 1
+#' crs <- 4326 
+#' bb <- c(xmin = -45, ymin = -45, xmax = 45, ymax = 45)
+#' bbox <- sf::st_bbox(bb, crs = crs)
+#' aoi <- sf::st_as_sfc(bbox, crs = crs)
+#' pipegrid(bb, cellsize, crs)
+#' pipegrid(bbox, cellsize, crs)
+#' pipegrid(aoi, cellsize, crs)
 #' }
-pipegrid <- function(x = NULL, bbox = NULL, cellsize, crs = 4326) {
-  if (!is.null(x) & !is.null(bbox)) {
-    stop("Choose a single option between a `sf` or `sfc` object or a bounding box.")
+pipegrid <- function(aoi, cellsize, crs = 4326) {
+  # Create grid template
+  if ("sfc" %in% class(aoi)) {
+    aoi <- sf::st_as_sf(aoi, crs = crs)
+  } else if (any(c("bbox","numeric","integer") %in% class(aoi))) {
+    aoi <- sf::st_bbox(aoi, crs = crs) |>
+           sf::st_as_sfc() |>
+           sf::st_as_sf()
   }
-
-  # Offset by default is st_bbox(x)[c("xmin", "ymin")]. Will stick with that
-  # Polygonal grid
-  if (!is.null(x)) {
-    grd_poly <- sf::st_make_grid(x, cellsize = cellsize, crs = crs)
-  } else if (!is.null(bbox)) {
-    grd_poly <- bbox_poly(bbox, crs) |>
-      sf::st_make_grid(cellsize = cellsize, crs = crs)
-  }
-
-  # Raster grid
-  grd_ras <- stars::st_as_stars(grd_poly, dx = cellsize, dy = cellsize)
-
+  grd <- stars::st_rasterize(aoi, dx = cellsize, dy = cellsize)
+  
   # Export
-  out <- "data/data-grid/"
-  if (!file.exists(out)) dir.create(out, recursive = TRUE)
-  sf::st_write(grd_poly, dsn = glue::glue("{out}grid_poly.geojson"), quiet = TRUE)
-  stars::write_stars(grd_ras, dsn = glue::glue("{out}grid_raster.tif"), quiet = TRUE)
+  ## Raster grid
+  out <- here::here("data","grid")
+  chk_create(out)
+  stars::write_stars(grd, dsn = here::here(out, "grid.tif"), quiet = TRUE, delete_dsn = TRUE)
+  
+  ## Polygon of area of interest 
+  out <- here::here("data","aoi")
+  chk_create(out)
+  sf::st_write(aoi, dsn = here::here(out, "aoi.gpkg"), quiet = TRUE, delete_dsn = TRUE)  
 }

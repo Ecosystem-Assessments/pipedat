@@ -28,7 +28,7 @@ NULL
 # ------------------------------------------------------------------------------
 # Gracieuseté de Kevin Cazelles: https://github.com/KevCaz
 # my simple(r) version of use template
-use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
+use_template <- function(template, save_as = stdout(), pkg = "pipefn", ...) {
   template <- readLines(
     fs::path_package(package = pkg, template)
   )
@@ -39,13 +39,12 @@ use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
 
 # ------------------------------------------------------------------------------
 # add new data to list of pipelines
-append_dp <- function(pipeline_id, name, type, url = NULL, avail = NULL) {
+append_dp <- function(pipeline_id, name, url = NULL, avail = NULL) {
   dat <- utils::read.csv("inst/extdata/pipeline.csv")
   dat <- dplyr::bind_rows(
     dat,
     c(
       pipeline_id = pipeline_id,
-      pipeline_type = type,
       date_created = timestamp(),
       data_shortname = name,
       data_url = url,
@@ -121,6 +120,7 @@ update_rda <- function() {
   contact <- read.csv(file = "inst/extdata/contact.csv")
   pcite <- read.csv(file = "inst/extdata/pipeline_citekey.csv")
   pcontact <- read.csv(file = "inst/extdata/pipeline_contact.csv")
+  pcreator <- read.csv(file = "inst/extdata/pipeline_creator.csv")
   bib <- RefManageR::ReadBib("inst/extdata/pipedat.bib")
   load(file = "inst/extdata/basemap.rda")
   load(file = "inst/extdata/pipeline_code.rda")
@@ -131,6 +131,7 @@ update_rda <- function() {
     contact,
     pcite,
     pcontact,
+    pcreator,
     bib,
     basemap,
     pipecode,

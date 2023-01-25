@@ -1,4 +1,4 @@
-Package: pipedat
+Package: pipefn
 Title: Pipelines to Access, Load, and Format Data from Various Sources
 Version: 0.0.0.9000
 Authors@R: 

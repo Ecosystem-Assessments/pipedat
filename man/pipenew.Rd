@@ -4,12 +4,12 @@
 \alias{pipenew}
 \title{Creates a new files from templates}
 \usage{
-pipenew(name = NULL, template = "data_workflow")
+pipenew(name = NULL, template = "workflow")
 }
 \arguments{
 \item{name}{for a data pipeline or a data connect, name of the data that will be accessed through this new data pipeline. The name should be short and will only be used to ease the readability of the file structure, as each data pipeline is identified by a unique identifier rather than its name. For a data workflow, name of the data workflow; defaults to \code{data_workflow}}
 
-\item{template}{name of the template to generate, one of \code{data_pipeline}, \code{data_connect}, \code{data_workflow}. Defaults to \code{data_workflow}, as it is the most likely template to be needed by a user of the package.}
+\item{template}{name of the template to generate, one of \code{data} , \code{data_govcan} or \code{workflow}. Defaults to \code{data_workflow}, as it is the most likely template to be needed by a user of the package.}
 }
 \value{
 This function creates new files from the template available in \verb{inst/templates/}
@@ -26,9 +26,9 @@ Templates available are data pipelines, data connects, and data workflows.
 pipenew()
 
 # New data pipeline
-pipenew("dfo_logbooks", template = "data_pipeline")
+pipenew("dfo_logbooks", template = "data")
 
 # New data connect
-pipenew("fisheries_intensity", template = "data_connect")
+pipenew("fisheries_intensity", template = "data")
 }
 }

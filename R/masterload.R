@@ -21,7 +21,7 @@ masterload <- function(path) {
 
   # Import file depending on extension
   ## GEOJSON
-  if (ext %in% c("geojson", "shp")) {
+  if (ext %in% c("gpkg","geojson", "shp")) {
     dat <- sf::st_read(path, quiet = TRUE)
   }
 
@@ -51,7 +51,7 @@ masterwrite <- function(obj, path) {
   # Import file depending on extension
   ## GEOJSON
   if ("sf" %in% cls) {
-    ext <- "geojson"
+    ext <- "gpkg"
     sf::st_write(obj, glue::glue("{path}.{ext}"), quiet = TRUE)
   }
 

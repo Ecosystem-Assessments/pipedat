@@ -6,7 +6,7 @@
 #' Templates available are data pipelines, data connects, and data workflows.
 #'
 #' @param name for a data pipeline or a data connect, name of the data that will be accessed through this new data pipeline. The name should be short and will only be used to ease the readability of the file structure, as each data pipeline is identified by a unique identifier rather than its name. For a data workflow, name of the data workflow; defaults to `data_workflow`
-#' @param template name of the template to generate, one of `data_pipeline`, `data_connect`, `data_workflow`. Defaults to `data_workflow`, as it is the most likely template to be needed by a user of the package.
+#' @param template name of the template to generate, one of `data` , `data_govcan` or `workflow`. Defaults to `data_workflow`, as it is the most likely template to be needed by a user of the package.
 #'
 #' @return This function creates new files from the template available in `inst/templates/`
 #'
@@ -18,33 +18,27 @@
 #' pipenew()
 #'
 #' # New data pipeline
-#' pipenew("dfo_logbooks", template = "data_pipeline")
+#' pipenew("dfo_logbooks", template = "data")
 #'
 #' # New data connect
-#' pipenew("fisheries_intensity", template = "data_connect")
+#' pipenew("fisheries_intensity", template = "data")
 #' }
-pipenew <- function(name = NULL, template = "data_workflow") {
-  pip <- template == "data_pipeline"
-  int <- template == "data_integration"
+pipenew <- function(name = NULL, template = "workflow") {
+  pip <- template == "data"
   pdg <- template == "data_govcan"
-  if (pip | int | pdg) {
+  if (pip | pdg) {
     # Data for template
     out <- list()
     out$dpid <- rnd_id() # Create unique ID of length 8
     out$date_created <- timestamp()
     out$name <- name
 
-    # Create "R/" if it does not exist
-    if (!file.exists("R/")) dir.create("R/")
-
     # Update data/data_pipelines.rda
-    if (pip) append_dp(pipeline_id = out$dpid, name = out$name, type = "data")
-    if (int) append_dp(pipeline_id = out$dpid, name = out$name, type = "integration")
+    if (pip) append_dp(pipeline_id = out$dpid, name = out$name)
     if (pdg) {
       append_dp(
         pipeline_id = out$dpid,
         name = out$name,
-        type = "data",
         url = "https://open.canada.ca/data/en/dataset/",
         avail = "open"
       )
@@ -55,30 +49,25 @@ pipenew <- function(name = NULL, template = "data_workflow") {
       use_template(
         template = "templates/data_pipeline.R",
         data = out,
-        save_as = glue::glue("inst/pipelines/data/dp_{name}-{out$dpid}.R")
+        save_as = glue::glue("inst/pipelines/{name}-{out$dpid}.R")
       )
     }
     if (pdg) {
       use_template(
         template = "templates/data_pipeline_govcan.R",
         data = out,
-        save_as = glue::glue("inst/pipelines/data/dp_{name}-{out$dpid}.R")
-      )
-    }
-    if (int) {
-      use_template(
-        template = "templates/integration_pipeline.R",
-        data = out,
-        save_as = glue::glue("inst/pipelines/integration/di_{name}-{out$dpid}.R")
+        save_as = glue::glue("inst/pipelines/{name}-{out$dpid}.R")
       )
     }
   }
 
-  if (template == "data_workflow") {
-    if (is.null(name)) name <- "data_workflow"
+  if (template == "workflow") {
+    out <- here::here("data","pipedat-config")
+    chk_create(out)
+    if (is.null(name)) name <- "pipeflow"
     use_template(
-      template = "templates/data_workflow.yaml",
-      save_as = glue::glue("./{name}.yaml")
+      template = "templates/pipeflow.yml",
+      save_as = glue::glue("data/pipedat-config/{name}.yml")
     )
   }
 }

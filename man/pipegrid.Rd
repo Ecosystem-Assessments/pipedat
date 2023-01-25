@@ -24,7 +24,7 @@ This function is used to create a raster study grid that will serve as a templat
 \examples{
 \dontrun{
 cellsize <- 1
-crs <- 4326 
+crs <- 4326
 bb <- c(xmin = -45, ymin = -45, xmax = 45, ymax = 45)
 bbox <- sf::st_bbox(bb, crs = crs)
 aoi <- sf::st_as_sfc(bbox, crs = crs)

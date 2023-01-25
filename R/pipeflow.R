@@ -17,33 +17,39 @@ pipeflow <- function(config) {
   dat <- yaml::read_yaml(config)
 
   # Parameters
-  crs <- dat$data_workflow$parameters$crs
-  bbox <- unlist(dat$data_workflow$parameters$bbox)
-  timespan <- dat$data_workflow$parameters$timespan
-  params <- dat$data_workflow$params
+  crs <- dat$pipedat$parameters$crs
+  bbox <- unlist(dat$pipedat$parameters$bbox)
+  timespan <- dat$pipedat$parameters$timespan
+  cellsize <- dat$pipedat$parameters$cellsize
+  aoi <- dat$pipedat$parameters$aoi
+  grd <- dat$pipedat$params$grid
+  integrate <- dat$pipedat$parameters$integrate
+  keep_raw <- dat$pipedat$parameters$keep_raw
+  params <- dat$pipedat$params
 
-  # Data pipelines
-  if (!is.null(dat$data_workflow$data_pipeline)) {
-    args <- c(
-      list(
-        uid = dat$data_workflow$data_pipeline,
-        bbox = bbox,
-        bbox_crs = crs,
-        timespan = timespan
-      ),
-      params
-    )
-    do.call(pipedat, args)
+  # Grid
+  if (
+    dat$pipedat$parameters$make_grid &
+    !file.exists(here::here("data","grid","grid.tif"))
+  ) {
+    if (is.na(aoi) | is.null(aoi)) {
+      aoi <- bbox
+    } else {  
+      aoi <- sf::st_read(aoi)
+    }
+    pipegrid(aoi, cellsize, crs)    
   }
 
-  # Integration pipelines
-  if (!is.null(dat$data_workflow$data_integration)) {
+  # Data pipelines
+  if (!is.null(dat$pipedat$data_pipeline)) {
     args <- c(
       list(
-        uid = dat$data_workflow$data_integration,
+        uid = dat$pipedat$data_pipeline,
         bbox = bbox,
-        bbox_crs = crs,
-        timespan = timespan
+        timespan = timespan,
+        integrate = integrate,
+        grd = grd,
+        keep_raw = keep_raw
       ),
       params
     )
@@ -55,13 +61,13 @@ pipeflow <- function(config) {
   #
   # )
 
-  # Grid figure
-  if (file.exists("data/data-grid/")) {
-    plotgrid()
-  }
+  # # Grid figure
+  # if (file.exists("data/data-grid/")) {
+  #   plotgrid()
+  # }
 
-  # Integrated data figures
-  if (!is.null(dat$data_workflow$data_integration)) {
-    plotdat(dat$data_workflow$data_integration)
-  }
+  # # Integrated data figures
+  # if (!is.null(dat$data_workflow$data_integration)) {
+  #   plotdat(dat$data_workflow$data_integration)
+  # }
 }

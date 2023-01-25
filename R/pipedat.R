@@ -29,6 +29,7 @@ pipedat <- function(uid, bbox = NULL, timespan = NULL, integrate = TRUE, grd = "
           uid = uid,
           bbox = bbox,
           timespan = timespan,
+          integrate = integrate,
           grd = grd,
           keep_raw = keep_raw,
           ...

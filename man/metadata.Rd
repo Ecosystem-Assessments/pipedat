@@ -31,7 +31,6 @@ metadata(
 get_metadata(
   pipeline_type,
   pipeline_id,
-  pipeline_bbox_crs = NULL,
   pipeline_bbox = NULL,
   pipeline_timespan = NULL,
   access = timestamp(),

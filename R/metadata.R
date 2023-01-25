@@ -79,7 +79,6 @@ metadata <- function(pipeline_type,
   meta$pipeline$date_created <- pipeline_date
   meta$pipeline$url <- pipeline_url
   meta$pipeline$pipeline_bbox <- pipeline_bbox
-  meta$pipeline$pipeline_bbox_crs <- pipeline_bbox_crs
   meta$pipeline$pipeline_timespan <- pipeline_timespan
 
   # Description of data or integration pipeline
@@ -109,7 +108,7 @@ metadata <- function(pipeline_type,
 
 #' @describeIn metadata builds metadata from internal package data
 #' @export
-get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox_crs = NULL, pipeline_bbox = NULL, pipeline_timespan = NULL, access = timestamp(), data_bbox = NULL, data_timespan = NULL, integration_grid = NULL, ...) {
+get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox = NULL, pipeline_timespan = NULL, access = timestamp(), data_bbox = NULL, data_timespan = NULL, integration_grid = NULL, ...) {
   dat <- get_pipeline(pipeline_id)
   contact <- get_contact(pipeline_id)
   if (nrow(contact) == 0) contact <- NULL
@@ -119,7 +118,6 @@ get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox_crs = NULL, p
     pipeline_creators = get_creator(pipeline_id),
     pipeline_date = dat$date_created,
     pipeline_url = get_pipeline_url(pipeline_id),
-    pipeline_bbox_crs = pipeline_bbox_crs,
     pipeline_bbox = pipeline_bbox,
     pipeline_timespan = pipeline_timespan,
     name = get_name(pipeline_id),

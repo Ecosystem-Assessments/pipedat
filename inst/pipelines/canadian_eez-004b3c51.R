@@ -1,6 +1,6 @@
-#' @eval get_name("{{ dpid }}")
+#' @eval get_name("004b3c51")
 #'
-#' @eval get_description("{{ dpid }}")
+#' @eval get_description("004b3c51")
 #'
 #' @eval dp_params()
 #'
@@ -8,15 +8,14 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: 004b3c51
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ dpid }}()
+#' dp_004b3c51()
 #' }
-dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
-  library(pipedat)
-  uid <- "{{ dpid }}"
+dp_004b3c51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
+  uid <- "004b3c51"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
 
@@ -26,21 +25,19 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
   if (check_raw(uid)) {
     # If the data is downloaded from online sources
     urls <- c(
-      "url1",
-      "url2",
-      "..."
+      "https://geo.vliz.be/geoserver/wfs?request=getfeature&service=wfs&version=1.0.0&typename=MarineRegions:eez&outputformat=SHAPE-ZIP&filter=%3CPropertyIsEqualTo%3E%3CPropertyName%3Emrgid%3C%2FPropertyName%3E%3CLiteral%3E8493%3C%2FLiteral%3E%3C%2FPropertyIsEqualTo%3E"
     )
-    
-    # If the data is downloaded from open government using `rgovcan`
-    govcan <- get_pipeline(uid)$data_uuid
-    
-    # Load
     pipeload(
       urls = urls, 
-      govcan = govcan, 
       output = here::here(path, "raw"), 
       large = FALSE
     )
+    file.rename(
+      dir(here::here(path,"raw"), full.names = TRUE),
+      here::here(path,"raw","eez.zip")
+    )
+    utils::unzip(here::here(path,"raw","eez.zip"), exdir = here::here(path, "raw"))
+    unlink(here::here(path,"raw","eez.zip"))
   }
   # _________________________________________________________________________________________ #    
   
@@ -48,45 +45,34 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
   # Format data 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_format(uid)) {
+    out <- here::here(path, "format")
+    
     # Files
-    files <- here::here(path,"raw") |>
-             dir(full.names = TRUE, recursive = TRUE)
-    
-    # Import
-    dat <- masterload(files)
+    dat <- masterload(here::here(path,"raw","eez.shp"))
   
-    # Format data
-    # WARNING: In order for filters to work, names of column should be: 
-    # year = year
-    # longitude = longitude
-    # latitude  = latitude
-    
     # Subset data (if specified by user)
-    # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
-    # sf::sf_use_s2(FALSE)
-    # dat <- lapply(dat, dp_parameters, bbox = bbox, timespan = timespan)
     dat <- dp_parameters(dat, bbox, timespan)
 
     # Export
-    fm <- here::here(path,glue::glue("{nm}"))
+    fm <- here::here(out,glue::glue("{nm}"))
     masterwrite(dat, fm)    
   } 
   # _________________________________________________________________________________________ #
 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Integrate data 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_integrated(uid)) {
-    # Import in grid
-    dat <- masteringrid(dat)
-    
-    # Export 
-    masterwrite(dat, here::here(path, "integrated", nm))
-  }
-  # _________________________________________________________________________________________ #
+  # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # # Integrate data 
+  # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # if (check_integrated(uid)) {
+  #   # Import in grid
+  #   dat <- masteringrid(dat)
+  # 
+  #   # Export 
+  #   masterwrite(dat, here::here(path, "integrated", nm))
+  # }
+  # # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata & bibtex
+  # Metadata & bibtex & code
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Metadata
   meta <- get_metadata(
@@ -96,13 +82,6 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
     pipeline_timespan = timespan, 
     access = timestamp()
   )
-  
-  # To add additional metadata for queried data
-  meta <- add_metadata(meta, 
-    info1 = c("Format as lists and dataframes to be rendered as yaml"),
-    info2 = c("Formatting thus matters"),
-    info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-  )  
   
   # bibtex
   bib <- get_bib(uid)

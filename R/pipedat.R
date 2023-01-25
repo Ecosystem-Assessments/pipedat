@@ -26,29 +26,11 @@ pipedat <- function(uid, bbox = NULL, timespan = NULL, integrate = TRUE, grd = "
       do.call(
         pipecode[[x]],
         list(
-          uid = uid[data_pipeline],
+          uid = uid,
           bbox = bbox,
           timespan = timespan,
           grd = grd,
           keep_raw = keep_raw,
-          ...
-        )
-      )
-    }
-  )
-
-  # Execute data integration pipelines
-  lapply(
-    uid[integration_pipeline],
-    function(x) {
-      do.call(
-        pipecode[[x]],
-        list(
-          uid = uid[integration_pipeline],
-          bbox = bbox,
-          bbox_crs = bbox_crs,
-          timespan = timespan,
-          grid = grid,
           ...
         )
       )

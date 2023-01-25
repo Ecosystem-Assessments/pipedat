@@ -14,10 +14,26 @@ chk_create <- function(path) {
 #'
 #' @export
 #' @describeIn pipeline_setup base path for all data formatted through pipedat
+write_pipeline <- function(uid) {
+  nm <- glue::glue("{get_shortname(uid)}-{uid}")
+  use_template(
+    template = glue::glue("pipelines/{nm}.R"),
+    save_as = glue::glue("data/pipedat/{nm}/{nm}.R")
+  )  
+}
+
+
+# ------------------------------------------------------------------------------
+#' Series of functions to process the data and integration pipelines
+#'
+#' @param uid unique identifier of queried data.
+#'
+#' @export
+#' @describeIn pipeline_setup base path for all data formatted through pipedat
 make_path <- function(uid) {
   here::here(
     "data",
-    "data-pipedat",
+    "pipedat",
     glue::glue("{pipedat::get_shortname(uid)}-{uid}")
   )
 }
@@ -27,7 +43,10 @@ make_path <- function(uid) {
 #' @describeIn pipeline_setup check if raw data exists
 check_raw <- function(uid) {
   path <- make_path(uid)
-  execute <- !file.exists(here::here(path, "raw.zip"))
+  name <- get_shortname(uid)
+  rawpath <- here::here(path, "raw")
+  execute <- !file.exists(here::here(path, glue::glue("{name}-{uid}-raw.tar.xz"))) &
+             length(dir(rawpath)) == 0
   if (execute) {
     path <- here::here(
       path,
@@ -42,6 +61,7 @@ check_raw <- function(uid) {
 #' @describeIn pipeline_setup check if formatted data exists
 check_format <- function(uid) {
   path <- make_path(uid)
+  name <- get_shortname(uid)
   format <- here::here(path, "format")
   execute <- !file.exists(format) | 
              length(dir(format)) == 0
@@ -51,7 +71,7 @@ check_format <- function(uid) {
     
     # If raw data is compressed only, decompress 
     if (!file.exists(here::here(path,"raw"))) {
-      archive::archive(here::here(path,"raw.zip"))
+      archive::archive(here::here(path,glue::glue("{name}-{uid}-raw.tar.xz")))
     }
   }
   invisible(execute)
@@ -74,8 +94,9 @@ check_integrated <- function(uid) {
 #' @describeIn pipeline_setup create raw.zip if it does not exist and remove raw/
 clean_path <- function(uid, keep_raw = TRUE) {
   path <- make_path(uid)
+  name <- get_shortname(uid)
   rawpath <- here::here(path, "raw")
-  rawzip <- here::here(path, "raw.tar.xz")
+  rawzip <- here::here(path, glue::glue("{name}-{uid}-raw.tar.xz"))
              
   # if raw/ exists but compressed file does not and keep_raw is true
   if (!file.exists(rawzip) & file.exists(rawpath) & keep_raw) {
@@ -150,6 +171,15 @@ get_description <- function(uid) {
 #' @export
 get_contact <- function(uid) {
   dat <- pcontact
+  pipid <- dat$pipeline_id %in% uid
+  iid <- dat$contact_id[pipid]
+  contact[contact$contact_id %in% iid, ]
+}
+
+#' @describeIn pipeline_setup get pipeline creator
+#' @export
+get_creator <- function(uid) {
+  dat <- pcreator
   pipid <- dat$pipeline_id %in% uid
   iid <- dat$contact_id[pipid]
   contact[contact$contact_id %in% iid, ]

@@ -25,11 +25,11 @@ masteringrid <- function(dat, grd = here::here("data/grid/grid.tif")) {
   if ("stars" %in% class(dat)) {
     stars::st_warp(dat, grd)
   }
-  
+
   # # sf objects
   # if ("sf" %in% class(dat)) {
-  #   exactextract::exact_extract() <- works with raster package 
-  #   fasterize::fasterize() <- works with raster package 
+  #   exactextract::exact_extract() <- works with raster package
+  #   fasterize::fasterize() <- works with raster package
   #   stars::st_rasterize() <- works directly with stars (obviously)
   # }
 }

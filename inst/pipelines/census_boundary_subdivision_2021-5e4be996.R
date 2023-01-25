@@ -1,6 +1,6 @@
-#' @eval get_name("{{ dpid }}")
+#' @eval get_name("5e4be996")
 #'
-#' @eval get_description("{{ dpid }}")
+#' @eval get_description("5e4be996")
 #'
 #' @eval dp_params()
 #'
@@ -8,14 +8,14 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: 5e4be996
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ dpid }}()
+#' dp_5e4be996()
 #' }
-dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
-  uid <- "{{ dpid }}"
+dp_5e4be996 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
+  uid <- "5e4be996"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
 
@@ -23,22 +23,11 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
   # DOWNLOAD DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_raw(uid)) {
-    # If the data is downloaded from online sources
-    urls <- c(
-      "url1",
-      "url2",
-      "..."
-    )
-    
-    # If the data is downloaded from open government using `rgovcan`
-    govcan <- get_pipeline(uid)$data_uuid
-    
-    # Load
+    urls <- "https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/files-fichiers/lcsd000b21a_e.zip"    
     pipeload(
       urls = urls, 
-      govcan = govcan, 
       output = here::here(path, "raw"), 
-      large = FALSE
+      large = TRUE
     )
   }
   # _________________________________________________________________________________________ #    
@@ -47,24 +36,19 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
   # Format data 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_format(uid)) {
-    # Files
-    files <- here::here(path,"raw") |>
-             dir(full.names = TRUE, recursive = TRUE)
-    
-    # Import
-    dat <- masterload(files)
-  
-    # Format data
-    # WARNING: In order for filters to work, names of column should be: 
-    # year = year
-    # longitude = longitude
-    # latitude  = latitude
+    zipfile <- here::here(path, "raw", "lcsd000b21a_e.zip")
+    utils::unzip(zipfile, exdir = here::here(path, "raw"))
+    dat <- sf::st_read(
+      here::here(path, "raw", "lcsd000b21a_e.shp"),
+      quiet = TRUE
+    ) |>
+      sf::st_make_valid()
+    unlink(zipfile)
     
     # Subset data (if specified by user)
-    # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
-    # sf::sf_use_s2(FALSE)
-    # dat <- lapply(dat, dp_parameters, bbox = bbox, timespan = timespan)
-    dat <- dp_parameters(dat, bbox, timespan)
+    on.exit(sf::sf_use_s2(TRUE), add = TRUE)
+    sf::sf_use_s2(FALSE)
+    dat <- dp_parameters(dat, bbox = bbox) 
 
     # Export
     fm <- here::here(path,"format",glue::glue("{nm}"))
@@ -72,17 +56,17 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
   } 
   # _________________________________________________________________________________________ #
 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Integrate data 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_integrated(uid)) {
-    # Import in grid
-    dat <- masteringrid(dat)
-    
-    # Export 
-    masterwrite(dat, here::here(path, "integrated", nm))
-  }
-  # _________________________________________________________________________________________ #
+  # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # # Integrate data 
+  # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # if (check_integrated(uid)) {
+  #   # Import in grid
+  #   dat <- masteringrid(dat)
+  # 
+  #   # Export 
+  #   masterwrite(dat, here::here(path, "integrated", nm))
+  # }
+  # # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Metadata & bibtex

@@ -19,7 +19,7 @@ write_pipeline <- function(uid) {
   use_template(
     template = glue::glue("pipelines/{nm}.R"),
     save_as = glue::glue("data/pipedat/{nm}/{nm}.R")
-  )  
+  )
 }
 
 
@@ -46,13 +46,13 @@ check_raw <- function(uid) {
   name <- get_shortname(uid)
   rawpath <- here::here(path, "raw")
   execute <- !file.exists(here::here(path, glue::glue("{name}-{uid}-raw.tar.xz"))) &
-             length(dir(rawpath)) == 0
+    length(dir(rawpath)) == 0
   if (execute) {
     path <- here::here(
       path,
       "raw"
     )
-    chk_create(path)    
+    chk_create(path)
   }
   invisible(execute)
 }
@@ -63,15 +63,15 @@ check_format <- function(uid) {
   path <- make_path(uid)
   name <- get_shortname(uid)
   format <- here::here(path, "format")
-  execute <- !file.exists(format) | 
-             length(dir(format)) == 0
+  execute <- !file.exists(format) |
+    length(dir(format)) == 0
   if (execute) {
-    # Create folder 
+    # Create folder
     chk_create(format)
-    
-    # If raw data is compressed only, decompress 
-    if (!file.exists(here::here(path,"raw"))) {
-      archive::archive(here::here(path,glue::glue("{name}-{uid}-raw.tar.xz")))
+
+    # If raw data is compressed only, decompress
+    if (!file.exists(here::here(path, "raw"))) {
+      archive::archive(here::here(path, glue::glue("{name}-{uid}-raw.tar.xz")))
     }
   }
   invisible(execute)
@@ -82,8 +82,8 @@ check_format <- function(uid) {
 check_integrated <- function(uid) {
   path <- make_path(uid)
   integrated <- here::here(path, "integrated")
-  execute <- !file.exists(integrated) | 
-             length(dir(integrated)) == 0
+  execute <- !file.exists(integrated) |
+    length(dir(integrated)) == 0
   if (execute) {
     chk_create(integrated)
   }
@@ -97,7 +97,7 @@ clean_path <- function(uid, keep_raw = TRUE) {
   name <- get_shortname(uid)
   rawpath <- here::here(path, "raw")
   rawzip <- here::here(path, glue::glue("{name}-{uid}-raw.tar.xz"))
-             
+
   # if raw/ exists but compressed file does not and keep_raw is true
   if (!file.exists(rawzip) & file.exists(rawpath) & keep_raw) {
     archive::archive_write_dir(
@@ -106,10 +106,10 @@ clean_path <- function(uid, keep_raw = TRUE) {
       recursive = TRUE
     )
   }
-  
+
   # If keep_raw is false and compressed file exists
   if (!keep_raw) unlink(rawzip)
-  
+
   # if raw/ exists
   if (file.exists(rawpath)) unlink(rawpath, recursive = TRUE)
 }
@@ -215,7 +215,7 @@ get_grid_info <- function(grd = here::here("data/grid/grid.tif")) {
   if (class(grd) == "character") grd <- stars::read_stars(grd)
   if (!"stars" %in% class(grd)) grd <- stars::st_as_stars(grd)
 
-  # Info 
+  # Info
   list(
     crs = sf::st_crs(grd)$epsg,
     resolution = stars::st_dimensions(grd),
@@ -312,5 +312,3 @@ bbox_poly <- function(bbox, crs = 4326) {
   sf::st_bbox(bbox, crs = sf::st_crs(crs)) |>
     sf::st_as_sfc()
 }
-
-

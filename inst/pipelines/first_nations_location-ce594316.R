@@ -1,6 +1,6 @@
-#' @eval get_name("{{ dpid }}")
+#' @eval get_name("ce594316")
 #'
-#' @eval get_description("{{ dpid }}")
+#' @eval get_description("ce594316")
 #'
 #' @eval dp_params()
 #'
@@ -8,14 +8,14 @@
 #' @rdname data_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: {{ dpid }}
+#' @keywords pipeline_id: ce594316
 #'
 #' @examples
 #' \dontrun{
-#' dp_{{ dpid }}()
+#' dp_ce594316()
 #' }
-dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
-  uid <- "{{ dpid }}"
+dp_ce594316 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
+  uid <- "ce594316"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
 
@@ -23,21 +23,10 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
   # DOWNLOAD DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_raw(uid)) {
-    # If the data is downloaded from online sources
-    urls <- c(
-      "url1",
-      "url2",
-      "..."
-    )
-    
-    # If the data is downloaded from open government using `rgovcan`
     govcan <- get_pipeline(uid)$data_uuid
-    
-    # Load
     pipeload(
-      urls = urls, 
-      govcan = govcan, 
-      output = here::here(path, "raw"), 
+      govcan = govcan,
+      output = here::here(path, "raw"),
       large = FALSE
     )
   }
@@ -47,41 +36,18 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
   # Format data 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_format(uid)) {
-    # Files
-    files <- here::here(path,"raw") |>
-             dir(full.names = TRUE, recursive = TRUE)
-    
-    # Import
-    dat <- masterload(files)
-  
-    # Format data
-    # WARNING: In order for filters to work, names of column should be: 
-    # year = year
-    # longitude = longitude
-    # latitude  = latitude
-    
+    dat <- sf::st_read(
+      here::here(path, "raw", "Premiere_Nation_First_Nation.shp"),
+      quiet = TRUE
+    )
+
     # Subset data (if specified by user)
-    # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
-    # sf::sf_use_s2(FALSE)
-    # dat <- lapply(dat, dp_parameters, bbox = bbox, timespan = timespan)
     dat <- dp_parameters(dat, bbox, timespan)
 
     # Export
     fm <- here::here(path,"format",glue::glue("{nm}"))
     masterwrite(dat, fm)    
   } 
-  # _________________________________________________________________________________________ #
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Integrate data 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_integrated(uid)) {
-    # Import in grid
-    dat <- masteringrid(dat)
-    
-    # Export 
-    masterwrite(dat, here::here(path, "integrated", nm))
-  }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -95,14 +61,7 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
     pipeline_timespan = timespan, 
     access = timestamp()
   )
-  
-  # To add additional metadata for queried data
-  meta <- add_metadata(meta, 
-    info1 = c("Format as lists and dataframes to be rendered as yaml"),
-    info2 = c("Formatting thus matters"),
-    info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-  )  
-  
+    
   # bibtex
   bib <- get_bib(uid)
 

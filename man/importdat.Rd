@@ -2,18 +2,20 @@
 % Please edit documentation in R/importdat.R
 \name{importdat}
 \alias{importdat}
-\title{Imports cleaned and integrated data in global R environment}
+\title{Imports formatted and integrated data in global R environment}
 \usage{
-importdat(uid)
+importdat(uid, type)
 }
 \arguments{
 \item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}
+
+\item{type}{type of data to import, one of "format" or "integrated"}
 }
 \value{
 This function returns objects in the global R environment
 }
 \description{
-This function is used to import cleaned and integrated data
+This function is used to import formatted and integrated data
 in the global R environment for use in other pipelines or
 user processes.
 }

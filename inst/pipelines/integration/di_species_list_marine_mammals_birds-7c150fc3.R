@@ -51,6 +51,29 @@ di_7c150fc3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       Genus,
       Species
     )
+    
+    # Additional species that are considered only at the scale of the genus or higher
+    add <- data.frame(
+      taxa = c(
+        "Alcidae",
+        "Gaviidae",
+        "Hydrobatidae",
+        "Larus",
+        "Melanitta",
+        "Phalacrocorax",
+        "Phalaropus",
+        "Somateria",
+        "Sternidae",
+        "Uria"        
+      )
+    ) 
+    add <- eaMethods::get_aphia(add, field = "taxa")
+    add$aphiaID[add$taxa == "Phalaropus"] <- 137049
+    add <- eaMethods::get_classification(add)
+    add <- dplyr::select(add, -taxa)
+    
+    # Combine
+    species <- dplyr::bind_rows(species,add)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

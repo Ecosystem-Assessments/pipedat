@@ -56,6 +56,7 @@ di_7c150fc3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     add <- data.frame(
       taxa = c(
         "Alcidae",
+        "Calonectris borealis",
         "Gaviidae",
         "Hydrobatidae",
         "Larus",
@@ -63,6 +64,7 @@ di_7c150fc3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
         "Phalacrocorax",
         "Phalaropus",
         "Somateria",
+        "Stercorarius",
         "Sternidae",
         "Uria"        
       )

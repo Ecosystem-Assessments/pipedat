@@ -62,34 +62,68 @@ dp_7a5323bb <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       
       # Get interactions & format
       otherkeys <- list("limit"=10000)
-      int <- lapply(
-        x, 
-        rglobi::get_interactions, 
-        interaction.type = interaction_type, 
-        otherkeys = otherkeys
-      ) |>
-      dplyr::bind_rows() |>
-      # int <- rglobi::get_interactions(
-      #   x, 
-      #   interaction.type = interaction_type, 
-      #   otherkeys = otherkeys
-      # ) |>
-      dplyr::filter(!interaction_type %in% rem) |>
-      dplyr::filter(!is.na(target_taxon_path)) |>
-      dplyr::mutate(target_taxon_name = stringr::str_trim(target_taxon_name, side = "both")) 
-
-      # To select only "species". Rough and prone to error, not very robust
-      iid <- lapply(int$target_taxon_name, function(x) stringr::str_detect(x, " ")) |> unlist()
-      int <- int[iid, ]
       
-      # Binary interactions
-      if (inter == "preyof") {
-        dplyr::select(int, predator = target_taxon_name, prey = source_taxon_name) |>
-        dplyr::distinct()
-      } else if (inter == "predof") {
-        dplyr::select(int, predator = source_taxon_name, prey = target_taxon_name) |>
-        dplyr::distinct()
+      # Divide in batches of 100
+      st <- 100
+      nsp <- length(x)
+      if (nsp > st) {
+        batch <- data.frame(
+          from = seq(1, nsp, by = st),
+          to = c(seq(st+1, nsp, by = st), nsp)
+        )        
+      } else {
+        batch <- data.frame(from = 1, to = nsp)
       }
+      
+      
+      for(i in 1:nrow(batch)) {
+        int <- rglobi::get_interactions(
+          x[batch$from[i]:batch$to[i]],
+          interaction.type = interaction_type, 
+          otherkeys = otherkeys
+        ) 
+      
+        if (nrow(int) > 0) {
+          int <- dplyr::filter(int, !interaction_type %in% rem) |>
+                 dplyr::filter(!is.na(target_taxon_path)) |>
+                 dplyr::mutate(
+                   target_taxon_name = stringr::str_trim(target_taxon_name, side = "both")
+                 ) 
+
+          # To select only "species". Rough and prone to error, not very robust
+          iid <- lapply(int$target_taxon_name, function(x) stringr::str_detect(x, " ")) |> unlist()
+          int <- int[iid, ]
+          
+          # Binary interactions
+          if (inter == "preyof") {
+            out <- here::here(path,"raw","preyof.csv")
+            int <- dplyr::select(int, predator = target_taxon_name, prey = source_taxon_name) |>
+                   dplyr::distinct()
+                   
+            if (!file.exists(out)) {
+              write.csv(int, file = out, row.names = FALSE)
+            } else {
+              temp <- read.csv(out)
+              int <- dplyr::bind_rows(temp, int) |>
+                     dplyr::distinct()
+              write.csv(int, file = out, row.names = FALSE)
+            }
+          } else if (inter == "predof") {
+            out <- here::here(path,"raw","predof.csv")
+            int <- dplyr::select(int, predator = source_taxon_name, prey = target_taxon_name) |>
+                   dplyr::distinct()
+            if (!file.exists(out)) {
+              write.csv(int, file = out, row.names = FALSE)
+            } else {
+              temp <- read.csv(out)
+              int <- rbind(temp, int) |>
+                     dplyr::distinct()
+              write.csv(int, file = out, row.names = FALSE)
+            }
+          }
+        }
+      }
+      print(i)
     }
     # _________________________________________________________________________________________ #
 
@@ -116,21 +150,35 @@ dp_7a5323bb <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
                    dplyr::rename(species = ScientificName)
                    
     # Get interactions from GloBI
-    preyof <- get_globi(species.add$species, inter = "preyof")
-    predof <- get_globi(species.add$species, inter = "predof")
-    interactions <- dplyr::bind_rows(preyof, predof)
+    get_globi(species.add$species, inter = "preyof")
+    get_globi(species.add$species, inter = "predof")
+    preyof <- read.csv(here::here(path,"raw","preyof.csv"))
+    predof <- read.csv(here::here(path,"raw","predof.csv"))
+    interactions <- dplyr::bind_rows(preyof, predof) |>
+                    dplyr::distinct()
 
     # Get aphia and taxonomy 
     # Limit to worms, as I am working only with marine species for this
-    species <- data.frame(species = c(interactions$predator, interactions$prey)[1:50]) |>
+    species <- data.frame(species = c(interactions$predator, interactions$prey)) |>
                dplyr::distinct() |>
-               dplyr::arrange(species) |>
-               eaMethods::get_aphia("species") |>
+               dplyr::arrange(species) 
+
+    # Remove special characters
+    iid <- gsub(" ","",species$species) |>
+           stringr::str_detect("[^A-Za-z]")
+    species$aphia <- NA # Don't ask...
+    
+    # Get aphia
+    species <- species[!iid,] |>
+               eaMethods::get_aphia("species") 
+               
+    # Get classification
+    classif <- dplyr::select(species, -aphia) |>
                na.omit() |>
-               eaMethods::get_classification()
+               eaMethods::get_classification()               
                
     # Remove binary interactions involving species for which taxonomy is not available
-    iid <- apply(interactions, 1, function(x) all(x %in% species$species))
+    iid <- apply(interactions, 1, function(x) all(x %in% classif$species))
     interactions <- interactions[iid, ]
     # _________________________________________________________________________________________ #
 
@@ -156,7 +204,7 @@ dp_7a5323bb <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     # Formatted data   
     fm <- here::here(path,glue::glue("{nm}-{c('interactions','species')}"))
     masterwrite(interactions, fm[1])
-    masterwrite(species, fm[2])
+    masterwrite(classif, fm[2])
     
     # Metadata & bibtex
     mt <- here::here(path, nm)

@@ -123,7 +123,6 @@ dp_7a5323bb <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
           }
         }
       }
-      print(i)
     }
     # _________________________________________________________________________________________ #
 
@@ -176,7 +175,7 @@ dp_7a5323bb <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
     classif <- dplyr::select(species, -aphia) |>
                na.omit() |>
                eaMethods::get_classification()               
-               
+    
     # Remove binary interactions involving species for which taxonomy is not available
     iid <- apply(interactions, 1, function(x) all(x %in% classif$species))
     interactions <- interactions[iid, ]

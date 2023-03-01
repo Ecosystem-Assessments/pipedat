@@ -36,6 +36,11 @@ use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
   writeLines(whisker::whisker.render(template, ...), save_as)
 }
 
+# ------------------------------------------------------------------------------
+#' Check if folder exists and create if not
+chk_create <- function(path) {
+  if (!file.exists(path)) dir.create(path, recursive = TRUE)
+}
 
 # ------------------------------------------------------------------------------
 # add new data to list of pipelines
@@ -190,3 +195,4 @@ msgInfo <- function(..., appendLF = TRUE) {
   message(crayon::green(txt), appendLF = appendLF)
   invisible(txt)
 }
+

@@ -1,6 +1,6 @@
-#' @eval get_name("16c0d3ad")
+#' @eval get_name("0d36cf5d")
 #'
-#' @eval get_description("16c0d3ad")
+#' @eval get_description("0d36cf5d")
 #'
 #' @eval dp_params()
 #' @eval di_params()
@@ -10,38 +10,40 @@
 #' @rdname integration_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 16c0d3ad
+#' @keywords pipeline_id: 0d36cf5d
 #'
 #' @examples
 #' \dontrun{
-#' di_16c0d3ad()
+#' di_0d36cf5d()
 #' }
-di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
+di_0d36cf5d <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
   # Output folders and other objects used
-  uid <- "16c0d3ad"
+  uid <- "0d36cf5d"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid)
   path <- make_output(uid)
 
   if (!exist$integrated) {
-    # WARNING: For R CMD CHECK
-    grid_raster.tif <- intensity <- x <- y <- NULL
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     raw_id <- get_rawid(uid) # String with data to import
     pipedat(raw_id, bbox, bbox_crs, timespan)
-    dat <- importdat(raw_id)
+    dat <- importdat(raw_id) 
     # _________________________________________________________________________________________ #
-
+    
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # ANALYZE / FORMAT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    dat <- lapply(dat, masteringrid)
-    name <- names(dat)
-    name <- gsub("halpern_cea-4f84f0e3-", "", name)
-    name <- gsub(".tif", "", name)
-    
+    dat <- lapply(
+      dat,
+      function(x) {
+        y =sf::st_as_sf(x, coords = c("longitude","latitude"), crs = 4326) |>
+        sf::st_transform(32198) |>
+        stars::st_rasterize(dx = 10000, dy = 10000) |>
+        masteringrid() 
+      }
+    )
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -54,7 +56,7 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       integration_data = raw_id
     )
     # _________________________________________________________________________________________ #
-
+    
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE BIBTEX
     # WARNING: mandatory
@@ -63,16 +65,17 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT
+    # EXPORT 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data
-    fm <- here::here(path, glue::glue("{nm}-{name}"))
-    for (i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
-
+    # Formatted data   
+    yr <- 2011:2020
+    fm <- here::here(path,glue::glue("{nm}-oxygen-{yr}"))
+    for(i in 1:length(dat)) masterwrite(dat[[i]][3], fm[i])
+    
     # Metadata & bibtex
     mt <- here::here(path, nm)
     masterwrite(meta, mt)
-    masterwrite(bib, mt)
+    masterwrite(bib, mt)  
     # _________________________________________________________________________________________ #
   }
 }

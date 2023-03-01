@@ -181,9 +181,7 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     for(i in 1:length(iids)) l[[i]] <- logbooks[iids[[i]], ]  
         
     # Rasterize data
-    grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
-    names(grid) <- "uid"
-    if (sf::st_crs(grid)$epsg != 4326) grid <- sf::st_transform(grid, crs = 4326)
+    grid <- stars::read_stars("data/grid/grid.tif", quiet = TRUE)
     bb <- sf::st_bbox(grid)
     r <- raster::raster(
       xmn=bb$xmin, 
@@ -191,7 +189,7 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       ymn=bb$ymin, 
       ymx=bb$ymax, 
       crs = 4326, 
-      resolution = 0.01
+      resolution = 0.02
     )
     m <- list()
     for(i in 1:length(l)) {
@@ -202,8 +200,9 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
         fun="sum"
       ) |>
       stars::st_as_stars() |>
-      masteringrid(grid, name[i])
+      masteringrid(grid)
     }
+    names(m) <- name
     
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE METADATA
@@ -212,8 +211,7 @@ di_e2b7e6c4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = raw_id,
-      integration_grid = get_grid_info(grid)
+      integration_data = raw_id
     )
 
     # To add additional metadata for queried data

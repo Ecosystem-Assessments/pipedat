@@ -1,6 +1,6 @@
-#' @eval get_name("16c0d3ad")
+#' @eval get_name("7c150fc3")
 #'
-#' @eval get_description("16c0d3ad")
+#' @eval get_description("7c150fc3")
 #'
 #' @eval dp_params()
 #' @eval di_params()
@@ -10,38 +10,72 @@
 #' @rdname integration_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 16c0d3ad
+#' @keywords pipeline_id: 7c150fc3
 #'
 #' @examples
 #' \dontrun{
-#' di_16c0d3ad()
+#' di_7c150fc3()
 #' }
-di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
+di_7c150fc3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
   # Output folders and other objects used
-  uid <- "16c0d3ad"
+  uid <- "7c150fc3"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid)
   path <- make_output(uid)
 
   if (!exist$integrated) {
-    # WARNING: For R CMD CHECK
-    grid_raster.tif <- intensity <- x <- y <- NULL
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     raw_id <- get_rawid(uid) # String with data to import
     pipedat(raw_id, bbox, bbox_crs, timespan)
-    dat <- importdat(raw_id)
+    dat <- importdat(raw_id)[[1]]
     # _________________________________________________________________________________________ #
-
+    
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # ANALYZE / FORMAT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    dat <- lapply(dat, masteringrid)
-    name <- names(dat)
-    name <- gsub("halpern_cea-4f84f0e3-", "", name)
-    name <- gsub(".tif", "", name)
+    species <- dplyr::filter(
+      dat,
+      Class %in% c("Mammalia","Aves")
+    ) |>
+    dplyr::rename(aphiaID = AphiaID) |>
+    dplyr::select(
+      aphiaID,
+      ScientificName,
+      Kingdom,
+      Phylum,
+      Class,
+      Order,
+      Family,
+      Genus,
+      Species
+    )
     
+    # Additional species that are considered only at the scale of the genus or higher
+    add <- data.frame(
+      taxa = c(
+        "Alcidae",
+        "Calonectris borealis",
+        "Gaviidae",
+        "Hydrobatidae",
+        "Larus",
+        "Melanitta",
+        "Phalacrocorax",
+        "Phalaropus",
+        "Somateria",
+        "Stercorarius",
+        "Sternidae",
+        "Uria"        
+      )
+    ) 
+    add <- eaMethods::get_aphia(add, field = "taxa")
+    add$aphiaID[add$taxa == "Phalaropus"] <- 137049
+    add <- eaMethods::get_classification(add)
+    add <- dplyr::select(add, -taxa)
+    
+    # Combine
+    species <- dplyr::bind_rows(species,add)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -52,9 +86,9 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       pipeline_type = "integration",
       pipeline_id = uid,
       integration_data = raw_id
-    )
+    )      
     # _________________________________________________________________________________________ #
-
+    
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE BIBTEX
     # WARNING: mandatory
@@ -63,16 +97,17 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT
+    # EXPORT 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data
-    fm <- here::here(path, glue::glue("{nm}-{name}"))
-    for (i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
-
+    # Formatted data   
+    fm <- here::here(path,glue::glue("{nm}"))
+    # for(i in 1:length(dat)) masterwrite(dat[[i]], fm[i])
+    masterwrite(species, fm)
+    
     # Metadata & bibtex
     mt <- here::here(path, nm)
     masterwrite(meta, mt)
-    masterwrite(bib, mt)
+    masterwrite(bib, mt)  
     # _________________________________________________________________________________________ #
   }
 }

@@ -4,16 +4,12 @@
 \alias{masteringrid}
 \title{Generic function incorporate data in study grid}
 \usage{
-masteringrid(dat, grid = NULL, name = "intensity", negative = FALSE)
+masteringrid(dat, grd = here::here("data/grid/grid.tif"))
 }
 \arguments{
 \item{dat}{object with spatial data to import in study grid, either \code{sf} or \code{stars} object}
 
 \item{grid}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template. Individual cells must be identified by a unique identifier called \code{uid}. If NULL, the function attempts to load a grids \code{./data/data-grid/grid_raster.tif} or \code{./data/data-grid/grid.poly.geojson}.}
-
-\item{name}{name of column for the data imported in study grid, defaults to "intensity"}
-
-\item{negative}{logical, if FALSE then values < 0 are filtered out}
 }
 \value{
 A data.frame with columns \code{uid} related to study grid unique identifier and a column with named \code{name} with the values imported

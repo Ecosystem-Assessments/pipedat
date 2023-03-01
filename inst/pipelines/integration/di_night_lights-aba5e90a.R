@@ -32,14 +32,6 @@ di_aba5e90a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     raw_id <- get_rawid(uid)
     pipedat(raw_id, bbox, bbox_crs, timespan)
     dat <- importdat(raw_id)
-
-    if (is.null(grid)) {
-      grid <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
-    }
-    if (sf::st_crs(grid)$epsg != sf::st_crs(dat[[1]])$epsg) {
-      grid <- sf::st_transform(grid, crs = sf::st_crs(dat[[1]]))
-    }
-    names(grid) <- "uid"
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -47,20 +39,7 @@ di_aba5e90a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     years <- names(dat)
     years <- substr(years, start = nchar(years) - 7, stop = nchar(years) - 4)
-    nightlights <- list()
-    for (i in 1:length(dat)) {
-      nightlights[[i]] <-
-        stars::st_warp(dat[[i]], grid) |>
-        c(grid) |>
-        as.data.frame() |>
-        dplyr::arrange(uid) |>
-        dplyr::select(-x, -y)
-      colnames(nightlights[[i]]) <- c("nightlights", "uid")
-      nightlights[[i]] <- dplyr::filter(nightlights[[i]], !is.na(nightlights)) |>
-        dplyr::filter(!is.na(uid)) |>
-        dplyr::filter(nightlights > 0) |>
-        dplyr::select(uid, nightlights)
-    }
+    nightlights <- lapply(dat, masteringrid)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -70,8 +49,7 @@ di_aba5e90a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = raw_id,
-      integration_grid = get_grid_info(grid)
+      integration_data = raw_id
     )
     # _________________________________________________________________________________________ #
 
@@ -86,16 +64,13 @@ di_aba5e90a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue::glue("{nm}-{years}.csv"))
-    for (i in 1:length(years)) utils::write.csv(nightlights[[i]], fm[i], row.names = FALSE)
+    fm <- here::here(path, glue::glue("{nm}-{years}"))
+    for (i in 1:length(years)) masterwrite(nightlights[[i]], fm[i])
 
-    # Metadata
-    mt <- here::here(path, glue::glue("{nm}.yaml"))
-    yaml::write_yaml(meta, mt, column.major = FALSE)
-
-    # Bibtex
-    bi <- here::here(path, glue::glue("{nm}.bib"))
-    RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
+    # Metadata & bibtex
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)      
     # _________________________________________________________________________________________ #
   }
 }

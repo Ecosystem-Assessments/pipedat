@@ -39,11 +39,6 @@ di_99bb2d51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     bound2021 <- dat[["census_boundary_2021-b9024b04.geojson"]]
     pop2016 <- dat[["census_population_2016-d147406d.csv"]]
     pop2021 <- dat[["census_population_2021-d96dec16.csv"]]
-
-    # Study grid, if applicable
-    if (is.null(grid)) {
-      grid <- sf::st_read("data/data-grid/grid_poly.geojson", quiet = TRUE)
-    }
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -52,7 +47,12 @@ di_99bb2d51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # Transform data in meters
     bound2016 <- sf::st_transform(bound2016, crs = 32198)
     bound2021 <- sf::st_transform(bound2021, crs = 32198)
-    grid <- sf::st_transform(grid, crs = 32198)
+    aoi <- sf::st_read("data/aoi/aoi.gpkg") 
+    grid_poly <- sf::st_make_grid(aoi, cellsize = 0.01, crs = 4326)
+    grid_poly <- grid_poly[aoi] |>
+                 sf::st_sf() |>
+                 dplyr::mutate(uid = 1:dplyr::n()) |>
+                 sf::st_transform(crs = 32198) 
 
     # Select only population data
     pop2016 <- dplyr::select(
@@ -76,16 +76,16 @@ di_99bb2d51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
 
     # Select grid cells that are less than 2km from the coast and apply a 10km buffer
     # Use dissemination area geometries as coastline
-    grid_buffer <- function(bound, grid) {
+    grid_buffer <- function(bound, grid_poly) {
       iid <- sf::st_buffer(bound, 2000) |>
-        sf::st_intersects(grid) |>
+        sf::st_intersects(grid_poly) |>
         unlist() |>
         unique() |>
         sort()
-      sf::st_buffer(grid[iid, ], 10000)
+      sf::st_buffer(grid_poly[iid, ], 10000)
     }
-    coast2016 <- grid_buffer(bound2016, grid)
-    coast2021 <- grid_buffer(bound2021, grid)
+    coast2016 <- grid_buffer(bound2016, grid_poly)
+    coast2021 <- grid_buffer(bound2021, grid_poly)
 
     # Select only dissemination areas that intersect with buffered grid cells
     bound_subset <- function(coast, bound) {
@@ -120,6 +120,17 @@ di_99bb2d51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     dhi <- list()
     dhi[[1]] <- prop_population(coast2016, bound2016)
     dhi[[2]] <- prop_population(coast2021, bound2021)
+
+    # -----
+    dat <- lapply(  
+      dhi, 
+      function(x) {
+        dplyr::left_join(grid_poly, x, by = "uid") |>
+        dplyr::select(-uid) |>
+        stars::st_rasterize() |>
+        masteringrid()
+      }
+    )
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -129,8 +140,7 @@ di_99bb2d51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     meta <- get_metadata(
       pipeline_type = "integration",
       pipeline_id = uid,
-      integration_data = raw_id,
-      integration_grid = get_grid_info(grid) # if applicable
+      integration_data = raw_id
     )
     # _________________________________________________________________________________________ #
 
@@ -145,16 +155,13 @@ di_99bb2d51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data
-    fm <- here::here(path, glue::glue("{nm}-{c(2016,2021)}.csv"))
-    for (i in 1:length(fm)) utils::write.csv(dhi[[i]], fm[i], row.names = FALSE)
+    fm <- here::here(path, glue::glue("{nm}-{c(2016,2021)}"))
+    for (i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
 
-    # Metadata
-    mt <- here::here(path, glue::glue("{nm}.yaml"))
-    yaml::write_yaml(meta, mt, column.major = FALSE)
-
-    # Bibtex
-    bi <- here::here(path, glue::glue("{nm}.bib"))
-    RefManageR::WriteBib(bib, file = bi, verbose = FALSE)
+    # Metadata & bibtex
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)
     # _________________________________________________________________________________________ #
   }
 }

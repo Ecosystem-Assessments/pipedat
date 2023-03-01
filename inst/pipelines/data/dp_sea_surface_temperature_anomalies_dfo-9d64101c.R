@@ -64,7 +64,7 @@ dp_9d64101c <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ...) {
       pipeline_timespan = timespan,
       access = timestamp(),
       data_bbox = bb,
-      data_timespan = 2010:2022
+      data_timespan = 2000:2022
     )
     # _________________________________________________________________________________________ #
 

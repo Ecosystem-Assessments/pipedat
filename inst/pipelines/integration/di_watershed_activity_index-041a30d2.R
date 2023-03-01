@@ -1,6 +1,6 @@
-#' @eval get_name("16c0d3ad")
+#' @eval get_name("041a30d2")
 #'
-#' @eval get_description("16c0d3ad")
+#' @eval get_description("041a30d2")
 #'
 #' @eval dp_params()
 #' @eval di_params()
@@ -10,38 +10,32 @@
 #' @rdname integration_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 16c0d3ad
+#' @keywords pipeline_id: 041a30d2
 #'
 #' @examples
 #' \dontrun{
-#' di_16c0d3ad()
+#' di_041a30d2()
 #' }
-di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
+di_041a30d2 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
   # Output folders and other objects used
-  uid <- "16c0d3ad"
+  uid <- "041a30d2"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid)
   path <- make_output(uid)
 
   if (!exist$integrated) {
-    # WARNING: For R CMD CHECK
-    grid_raster.tif <- intensity <- x <- y <- NULL
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # IMPORT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     raw_id <- get_rawid(uid) # String with data to import
     pipedat(raw_id, bbox, bbox_crs, timespan)
-    dat <- importdat(raw_id)
+    dat <- importdat(raw_id) 
     # _________________________________________________________________________________________ #
-
+    
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # ANALYZE / FORMAT DATA
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     dat <- lapply(dat, masteringrid)
-    name <- names(dat)
-    name <- gsub("halpern_cea-4f84f0e3-", "", name)
-    name <- gsub(".tif", "", name)
-    
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -54,7 +48,7 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       integration_data = raw_id
     )
     # _________________________________________________________________________________________ #
-
+    
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # CREATE BIBTEX
     # WARNING: mandatory
@@ -63,16 +57,18 @@ di_16c0d3ad <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # EXPORT
+    # EXPORT 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-    # Formatted data
-    fm <- here::here(path, glue::glue("{nm}-{name}"))
-    for (i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
+    # Formatted data   
+    name <- lapply(dat, function(x) tools::file_path_sans_ext(names(x))) |> unlist()
+    name <- gsub("57121439","041a30d2", name)
+    fm <- here::here(path,glue::glue("{name}"))
+    for(i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
 
     # Metadata & bibtex
     mt <- here::here(path, nm)
     masterwrite(meta, mt)
-    masterwrite(bib, mt)
+    masterwrite(bib, mt)  
     # _________________________________________________________________________________________ #
   }
 }

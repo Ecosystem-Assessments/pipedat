@@ -43,15 +43,15 @@ di_18869625 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     obs <- dat[
       c(
         "dfo_survey_4vsw-2aafec74-gscat.csv",
-        "dfo_survey_fall-90e90110-gscat.csv",
+        # "dfo_survey_fall-90e90110-gscat.csv",
         "dfo_survey_spring-21f8a758-gscat.csv",
         "dfo_survey_summer-3348d162-gscat.csv"
       )
     ]
-    obs[[1]]$survey <- "4vsw"
-    obs[[2]]$survey <- "fall"
-    obs[[3]]$survey <- "spring"
-    obs[[4]]$survey <- "summer"
+    obs[["dfo_survey_4vsw-2aafec74-gscat.csv"]]$survey <- "4vsw"
+    # obs[["dfo_survey_fall-90e90110-gscat.csv"]]$survey <- "fall"
+    obs[["dfo_survey_spring-21f8a758-gscat.csv"]]$survey <- "spring"
+    obs[["dfo_survey_summer-3348d162-gscat.csv"]]$survey <- "summer"
     obs <- dplyr::bind_rows(obs)
     
     # Add species aphiaID and filter species with >= min_n_obs
@@ -62,17 +62,17 @@ di_18869625 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     stations <- dat[
       c(
         "dfo_survey_4vsw-2aafec74-gsinf.csv",
-        "dfo_survey_fall-90e90110-gsinf.csv",
+        # "dfo_survey_fall-90e90110-gsinf.csv",
         "dfo_survey_spring-21f8a758-gsinf.csv",
         "dfo_survey_summer-3348d162-gsinf.csv"
       )
     ]
-    stations[[1]]$STRAT <- as.character(stations[[1]]$STRAT)
-    stations[[2]]$STRAT <- as.character(stations[[2]]$STRAT)
-    stations[[1]]$survey <- "4vsw"
-    stations[[2]]$survey <- "fall"
-    stations[[3]]$survey <- "spring"
-    stations[[4]]$survey <- "summer"
+    stations[["dfo_survey_4vsw-2aafec74-gsinf.csv"]]$STRAT <- as.character(stations[["dfo_survey_4vsw-2aafec74-gsinf.csv"]]$STRAT)
+    # stations[["dfo_survey_fall-90e90110-gsinf.csv"]]$STRAT <- as.character(stations[["dfo_survey_fall-90e90110-gsinf.csv"]]$STRAT)
+    stations[["dfo_survey_4vsw-2aafec74-gsinf.csv"]]$survey <- "4vsw"
+    # stations[["dfo_survey_fall-90e90110-gsinf.csv"]]$survey <- "fall"
+    stations[["dfo_survey_spring-21f8a758-gsinf.csv"]]$survey <- "spring"
+    stations[["dfo_survey_summer-3348d162-gsinf.csv"]]$survey <- "summer"
     stations <- dplyr::bind_rows(stations)    
     # _________________________________________________________________________________________ #
 

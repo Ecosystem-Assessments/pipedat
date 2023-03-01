@@ -1,6 +1,6 @@
-#' @eval get_name("3992e1a6")
+#' @eval get_name("5c829738")
 #'
-#' @eval get_description("3992e1a6")
+#' @eval get_description("5c829738")
 #'
 #' @eval dp_params()
 #' @eval di_params()
@@ -10,15 +10,15 @@
 #' @rdname integration_pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 3992e1a6
+#' @keywords pipeline_id: 5c829738
 #'
 #' @examples
 #' \dontrun{
-#' di_3992e1a6()
+#' di_5c829738()
 #' }
-di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
+di_5c829738 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
   # Output folders and other objects used
-  uid <- "3992e1a6"
+  uid <- "5c829738"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   exist <- check_files(uid)
   path <- make_output(uid)
@@ -31,7 +31,7 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     pipedat(raw_id, bbox, bbox_crs, timespan)
     dat <- importdat(raw_id) 
 
-    # Years     
+    # Years & months
     datnames <- names(dat)
     ysms <- substr(datnames, nchar(datnames)-9, nchar(datnames)-4)
     ys <- substr(ysms, 1,4)
@@ -45,9 +45,9 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     ms <- unique(ms)
 
     # Select only months from May to November due to biases in anomalies measurements
-    iid <- datnames$months %in% c("05","06","07","08","09","10","11")
-    datnames <- datnames[iid, ]
-    dat <- dat[iid]
+    # iid <- datnames$months %in% c("05","06","07","08","09","10","11")
+    # datnames <- datnames[iid, ]
+    # dat <- dat[iid]
     # _________________________________________________________________________________________ #
     
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -88,39 +88,6 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       x
     }
     sst <- lapply(sst, trans)
-    
-    # Positive & negative anomalies
-    pos <- neg <- sst
-    for (i in 1:length(sst)) {
-      pos[[i]]$anomalies <- ifelse(pos[[i]]$anomalies < 0, NA, pos[[i]]$anomalies)
-      neg[[i]]$anomalies <- ifelse(neg[[i]]$anomalies > 0, NA, neg[[i]]$anomalies)
-    }
-
-    # Transform negative anomalies as positive values
-    for (i in 1:length(sst)) {
-      neg[[i]]$anomalies <- abs(neg[[i]]$anomalies)
-    }
-    
-    # Annual sum
-    # NOTE: this part should be removed and the rest of the code adjusted accordingly 
-    #       for monthly rather than annual rasters
-    annualSum <- function(x, iid) {
-      x <- x[iid] |>
-           lapply(dplyr::select, anomalies) |>
-           dplyr::bind_cols() |>
-           rowSums(na.rm = TRUE)
-      cbind(pos[[1]][,c("longitude","latitude")], x)
-    }
-    pos_ann <- neg_ann <- list()
-    for(i in 1:length(ys)) {
-      iid <- which(datnames$years == ys[i])
-      pos_ann[[i]] <- annualSum(pos, iid)
-      neg_ann[[i]] <- annualSum(neg, iid)
-      colnames(pos_ann[[i]])[3] <- glue::glue("{nm}-positive-{ys[i]}")
-      colnames(neg_ann[[i]])[3] <- glue::glue("{nm}-negative-{ys[i]}")
-    } 
-    pos <- pos_ann 
-    neg <- neg_ann
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     #                                 RASTERIZE
@@ -130,16 +97,14 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
       sf::st_as_sf(x, coords = c("longitude", "latitude"), crs = 4326) |>
       sf::st_transform(crs = 32198)
     }
-    pos <- lapply(pos, spat)
-    neg <- lapply(neg, spat)
+    sst <- lapply(sst, spat)
     
     # Rasterize and warp to study area grid
     pipedat_rasterize <- function(pts) {
       dat <- stars::st_rasterize(pts, dx = 2000, dy = 2000) |>
         masteringrid() 
     }
-    pos <- lapply(pos, pipedat_rasterize)
-    neg <- lapply(neg, pipedat_rasterize)
+    sst <- lapply(sst, pipedat_rasterize)
     # _________________________________________________________________________________________ #
 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -164,12 +129,9 @@ di_3992e1a6 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NU
     # EXPORT 
     # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
     # Formatted data   
-    fm_pos <- here::here(path,glue::glue("{nm}-positive-{ys}"))
-    # fm_pos <- here::here(path,glue::glue("{nm}-positive-{datnames$years}-{datnames$months}"))
-    fm_neg <- here::here(path,glue::glue("{nm}-negative-{ys}"))
-    # fm_neg <- here::here(path,glue::glue("{nm}-negative-{datnames$years}-{datnames$months}"))
-    for(i in 1:length(pos)) masterwrite(pos[[i]], fm_pos[i])
-    for(i in 1:length(neg)) masterwrite(neg[[i]], fm_neg[i])
+    dates <- expand.grid(ys, ms) |> dplyr::arrange(Var1, Var2)
+    fm <- here::here(path,glue::glue("{nm}-{dates$Var1}_{dates$Var2}"))
+    for(i in 1:length(sst)) masterwrite(sst[[i]], fm[i])
     
     # Metadata & bibtex
     mt <- here::here(path, nm)

@@ -41,7 +41,13 @@ vignettes/*.pdf
 data-raw/
 data-grid/
 data-integrated/
-figures
 temp.rda
 temp_species.csv
-data-config/
+config/
+
+# Data file types 
+*.tif
+*.gpkg
+*.geojson
+
+!logo.png

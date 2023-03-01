@@ -41,7 +41,6 @@ vignettes/*.pdf
 data-raw/
 data-grid/
 data-integrated/
-figures
 temp.rda
 temp_species.csv
 config/
@@ -50,3 +49,5 @@ config/
 *.tif
 *.gpkg
 *.geojson
+
+!logo.png

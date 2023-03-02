@@ -23,7 +23,8 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/Ecosystem-Assessments/pipedat/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Ecosystem-Assessments/pipedat/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-*pipedat* is a package that provides pipelines to access, load, and format a variety of data from multiple sources programatically. The intent of this package is to support the varying projects undertaken under the umbrella organization *Ecosystem Assessments*. Certain datasets are directly accessed through APIs and open data portals, while others require a local copy of the raw data for varying reasons such as data whose distribution is limited or protected by data sharing agreements. The sole purpose of this package is to facilate the reproducible use and reuse of specific datasets accross different projects.
+*pipedat* is a R package that provides analytical pipelines to access, load, and format a variety of data from multiple sources programatically. The goal of *pipedat* is to enhance the capacity scientists, planners and the wider public to prepare and perform complex and reproducible ecosystem-scale assessments requiring the integration of multiple spatial datasets such as cumulative effects assessments in the context of ecosystem-based management, and Marxan analyses for the establishment of individual and networks of MPAs. In its current format, *pipedat* is strictly experimental and in development. We are however hoping to further develop this initiative in the hopes of greatly enhancing the efficiency, transparency and reproducibility of large-scale environmental assessments. 
+
 
 ## Installation
 
@@ -42,33 +43,12 @@ library(pipedat)
 
 ## Main features 
 
-The `pipedat` package is built around function called `pipedat()` that is used to access, load and format a wide variety of data; this function calls on a series of individual scripts built to access data programmatically and reproducibly, which we refer to as *data pipelines*. Individual data pipelines are executed by using their *unique identifier*, which are specific to the `pipedat` package. The full list of data pipelines available can be viewed with the `pipelist()` function: 
-
-```r
-# View list of pipelines 
-# pipelist()
-
-# Download and format a single dataset 
-# pipedat("a3jsd4jh")
-
-# Download and format multiple datasets
-# pipedat(c("a3jsd4jh","a8732975y","soif8yiao"))
-```
-
-By default, the `pipedat()` function will export the raw and formatted data in folders 'data/data-raw/' and `data/data-format`, respectively. 
+The `pipedat` package is built around function called `pipedat()` that is used to access, load and format a wide variety of data; this function calls on a series of individual scripts built to access data programmatically and reproducibly, which we refer to as *data pipelines*. Individual data pipelines are executed by using their *unique identifier*, which are specific to the `pipedat` package. By default, the `pipedat()` function will export the raw and formatted data in folders 'data/data-raw/' and `data/data-format`, respectively. 
 
 ## List of pipelines 
 
-### Data pipelines
-
 ```{r echo = FALSE}
 pipedat::pipelist("data")
-```
-
-### Integration pipelines
-
-```{r echo = FALSE}
-pipedat::pipelist("integration")
 ```
 
 ## How to contribute

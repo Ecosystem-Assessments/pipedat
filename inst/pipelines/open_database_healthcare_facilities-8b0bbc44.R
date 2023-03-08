@@ -70,17 +70,76 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   } 
   # _________________________________________________________________________________________ #
 
-  # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # # Integrate data 
-  # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # if (check_integrated(uid)) {
-  #   # Import in grid
-  #   dat <- masteringrid(dat)
-  # 
-  #   # Export 
-  #   masterwrite(dat, here::here(path, "integrated", nm))
-  # }
-  # # _________________________________________________________________________________________ #
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # Integrate data 
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  if (check_ingrid(uid)) {
+    # Health care facilities 
+    health <- importdat(uid, "format")[[2]]
+    
+    # # WARNING: will have to do this again, I unfortunately deleted the work we did... 
+    # # Type of healthcare facilities 
+    # type <- sf::st_drop_geometry(health) |>
+    #         dplyr::select(odhf_facility_type, source_facility_type) |>
+    #         dplyr::distinct()
+    # # Figure out how to reclassify so that it makes sense
+    # health <- dplyr::left_join(health, type, by = "source_facility_type")
+    # critical <- health[health$type %in% "critical",]
+    # longterm <- health[health$type %in% c("long-term","diagnostics","cnbnl"),]
+
+    # WARNING: For now...
+    critical <- c("Hospitals","Ambulatory health care services")
+    critical <- health[health$odhf_facility_type %in% critical, ] |>
+                dplyr::select(odhf_facility_type)
+    longterm <- "Nursing and residential care facilities"
+    longterm <- health[health$odhf_facility_type %in% longterm, ] |>
+                dplyr::select(odhf_facility_type)
+    
+    # Calculate distances 
+    # max_dist is not used for now
+    dist_calc <- function(from, to, max_dist = NULL) {
+      dat <- sf::st_distance(from, to) |>
+             units::set_units("km") |>
+             apply(MARGIN = 1, FUN = min)
+      
+      ## Cap to max dist
+      # max_dist <- max(dat, na.rm = TRUE)
+      # dat <- ifelse(dat > max_dist, max_dist, dat) 
+      
+      # Transform as an index between 0 and 1, with 1 being the farthest, and 0 the closest
+      # dat <- dat/max_dist
+      dat
+    }
+    
+    # Grid 
+    grd <- stars::read_stars(grd)
+
+    # Grid as points to measure distances 
+    grd_pts <- as.data.frame(grd) |>
+               dplyr::mutate(id = 1:dplyr::n()) 
+               
+    # Points data 
+    pts <- tidyr::drop_na(grd_pts) |>
+           dplyr::select(x,y,id) |>
+           sf::st_as_sf(coords = c("x","y"), crs = 4326) 
+               
+    # Distances 
+    pts$critical <- dist_calc(pts, critical)
+    pts$longterm <- dist_calc(pts, longterm)
+    
+    # To raster again
+    pts <- sf::st_drop_geometry(pts)
+    grd_pts <- dplyr::left_join(grd_pts, pts, by = "id")
+    critical <- dplyr::mutate(grd, critical = grd_pts$critical) |>
+                dplyr::select(critical)
+    longterm <- dplyr::mutate(grd, longterm = grd_pts$longterm) |>
+                dplyr::select(longterm)
+  
+    # Export 
+    masterwrite(critical, here::here(path, "ingrid", glue::glue("{nm}-critical")))
+    masterwrite(longterm, here::here(path, "ingrid", glue::glue("{nm}-longterm")))
+  }
+  # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Metadata & bibtex

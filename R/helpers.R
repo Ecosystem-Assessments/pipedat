@@ -80,14 +80,14 @@ check_format <- function(uid) {
 }
 
 #' @export
-#' @describeIn pipeline_setup check if integrated data exists
-check_integrated <- function(uid) {
+#' @describeIn pipeline_setup check if gridded data exists
+check_ingrid <- function(uid) {
   path <- make_path(uid)
-  integrated <- here::here(path, "integrated")
-  execute <- !file.exists(integrated) |
-    length(dir(integrated)) == 0
+  ingrid <- here::here(path, "ingrid")
+  execute <- !file.exists(ingrid) |
+    length(dir(ingrid)) == 0
   if (execute) {
-    chk_create(integrated)
+    chk_create(ingrid)
   }
   invisible(execute)
 }
@@ -122,11 +122,11 @@ get_filepaths <- function(uid) {
   path <- make_path(uid)
   rawpath <- here::here(path, "raw")
   fmtpath <- here::here(path, "format")
-  intpath <- here::here(path, "integrated")
+  ingpath <- here::here(path, "ingrid")
   filepaths <- list()
   filepaths$raw <- dir(rawpath, recursive = TRUE, full.names = TRUE)
   filepaths$format <- dir(fmtpath, recursive = TRUE, full.names = TRUE)
-  filepaths$integrated <- dir(intpath, recursive = TRUE, full.names = TRUE)
+  filepaths$ingrid <- dir(ingpath, recursive = TRUE, full.names = TRUE)
   invisible(filepaths)
 }
 

@@ -5,7 +5,7 @@
 \alias{make_path}
 \alias{check_raw}
 \alias{check_format}
-\alias{check_integrated}
+\alias{check_ingrid}
 \alias{clean_path}
 \alias{get_filepaths}
 \alias{get_pipeline}
@@ -28,7 +28,7 @@ check_raw(uid)
 
 check_format(uid)
 
-check_integrated(uid)
+check_ingrid(uid)
 
 clean_path(uid, keep_raw = TRUE)
 
@@ -74,7 +74,7 @@ Series of functions to access metadata information
 
 \item \code{check_format}: check if formatted data exists
 
-\item \code{check_integrated}: check if integrated data exists
+\item \code{check_ingrid}: check if gridded data exists
 
 \item \code{clean_path}: create raw.zip if it does not exist and remove raw/
 

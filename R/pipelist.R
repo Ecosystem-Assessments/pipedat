@@ -14,11 +14,10 @@
 #' \dontrun{
 #' pipelist()
 #' }
-pipelist <- function(type = "data") {
+pipelist <- function() {
   # Data
   data_description <- data_name <- pipeline_id <- NULL
-  uid <- pipeline$pipeline_type == type
-  dat <- pipeline[uid, ] |>
+  dat <- pipeline |>
     dplyr::select(pipeline_id, data_name, data_description)
   key <- lapply(dat$pipeline_id, get_citekey)
   dat$cite <- unlist(

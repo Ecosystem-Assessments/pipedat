@@ -15,8 +15,8 @@ Description: This package provides pipelines to access, load, and format
     local copy of the raw data for varying reasons such as data whose 
     distribution is limited or protected by data sharing agreements.
 License: MIT + file LICENSE
-URL: https://github.com/Ecosystem-Assessments/pipedat
-BugReports: https://github.com/Ecosystem-Assessments/pipedat/issues
+URL: https://github.com/david-beauchesne/pipedat
+BugReports: https://github.com/david-beauchesne/pipedat/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

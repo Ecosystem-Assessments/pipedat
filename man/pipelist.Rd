@@ -4,7 +4,7 @@
 \alias{pipelist}
 \title{List of available data pipalines}
 \usage{
-pipelist(type = "data")
+pipelist()
 }
 \arguments{
 \item{type}{type of pipeline, one of \code{data} or \code{connect}}

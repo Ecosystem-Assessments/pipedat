@@ -74,25 +74,27 @@ dp_004b3c51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Metadata & bibtex & code
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata
-  meta <- get_metadata(
-    pipeline_type = "data",
-    pipeline_id = uid,
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    access = timestamp()
-  )
-  
-  # bibtex
-  bib <- get_bib(uid)
+  if (check_raw(uid) | check_format(uid)) {  
+    # Metadata
+    meta <- get_metadata(
+      pipeline_type = "data",
+      pipeline_id = uid,
+      pipeline_bbox = bbox, 
+      pipeline_timespan = timespan, 
+      access = timestamp()
+    )
+    
+    # bibtex
+    bib <- get_bib(uid)
 
-  # Export
-  mt <- here::here(path, nm)
-  masterwrite(meta, mt)
-  masterwrite(bib, mt)  
-  write_pipeline(uid)
+    # Export
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
+    write_pipeline(uid)
 
-  # Clean 
-  clean_path(uid, keep_raw)
+    # Clean 
+    clean_path(uid, keep_raw)
+  }
   # _________________________________________________________________________________________ #
 }

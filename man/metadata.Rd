@@ -4,6 +4,8 @@
 \alias{metadata}
 \alias{get_metadata}
 \alias{add_metadata}
+\alias{gather_meta}
+\alias{gather_bib}
 \title{Create a yaml metadata file}
 \usage{
 metadata(
@@ -41,6 +43,12 @@ get_metadata(
 )
 
 add_metadata(meta, ...)
+
+add_metadata(meta, ...)
+
+gather_meta()
+
+gather_bib()
 }
 \arguments{
 \item{pipeline_type}{type of pipeline, one of "data" or "integration"}
@@ -102,6 +110,12 @@ through the data pipeline.
 \item \code{get_metadata}: builds metadata from internal package data
 
 \item \code{add_metadata}: add additional information on queried data to metadata
+
+\item \code{add_metadata}: add additional information on queried data to metadata
+
+\item \code{gather_meta}: Script to extract metadata and contact from raw data list
+
+\item \code{gather_bib}: Script to create a single bib file from the downloaded raw data using pipedat
 }}
 
 \examples{

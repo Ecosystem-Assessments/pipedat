@@ -12,7 +12,7 @@
 #' \dontrun{
 #' pipeflow(config = "./workflow.yaml")
 #' }
-pipeflow <- function(config) {
+pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
   # Load yaml configuration file
   dat <- yaml::read_yaml(config)
 
@@ -56,17 +56,16 @@ pipeflow <- function(config) {
     do.call(pipedat, args)
   }
 
-  # # Grid
-  # pipegrid(
-  #
-  # )
+  # Metadata 
+  gather_bib()
+  gather_meta()
 
-  # # Grid figure
+  # # Grid/aoi figure
   # if (file.exists("data/data-grid/")) {
   #   plotgrid()
   # }
 
-  # # Integrated data figures
+  # # Gridded data figures
   # if (!is.null(dat$data_workflow$data_integration)) {
   #   plotdat(dat$data_workflow$data_integration)
   # }

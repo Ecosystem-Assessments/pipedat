@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_8b0bbc44()
 #' }
-dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
+dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
   uid <- "8b0bbc44"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
@@ -73,7 +73,7 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Integrate data 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_ingrid(uid)) {
+  if (check_ingrid(uid) & ingrid) {
     # Health care facilities 
     health <- importdat(uid, "format")[[2]]
     
@@ -86,7 +86,7 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
     # health <- dplyr::left_join(health, type, by = "source_facility_type")
     # critical <- health[health$type %in% "critical",]
     # longterm <- health[health$type %in% c("long-term","diagnostics","cnbnl"),]
-
+    
     # WARNING: For now...
     critical <- c("Hospitals","Ambulatory health care services")
     critical <- health[health$odhf_facility_type %in% critical, ] |>
@@ -101,28 +101,28 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
       dat <- sf::st_distance(from, to) |>
              units::set_units("km") |>
              apply(MARGIN = 1, FUN = min)
-      
+    
       ## Cap to max dist
       # max_dist <- max(dat, na.rm = TRUE)
       # dat <- ifelse(dat > max_dist, max_dist, dat) 
-      
+    
       # Transform as an index between 0 and 1, with 1 being the farthest, and 0 the closest
       # dat <- dat/max_dist
       dat
     }
     
     # Grid 
-    grd <- stars::read_stars(grd)
-
+    grd <- stars::read_stars(here::here("data","grid","grid.tif"))
+    
     # Grid as points to measure distances 
     grd_pts <- as.data.frame(grd) |>
                dplyr::mutate(id = 1:dplyr::n()) 
-               
+    
     # Points data 
     pts <- tidyr::drop_na(grd_pts) |>
            dplyr::select(x,y,id) |>
            sf::st_as_sf(coords = c("x","y"), crs = 4326) 
-               
+
     # Distances 
     pts$critical <- dist_calc(pts, critical)
     pts$longterm <- dist_calc(pts, longterm)
@@ -134,7 +134,7 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
                 dplyr::select(critical)
     longterm <- dplyr::mutate(grd, longterm = grd_pts$longterm) |>
                 dplyr::select(longterm)
-  
+    
     # Export 
     masterwrite(critical, here::here(path, "ingrid", glue::glue("{nm}-critical")))
     masterwrite(longterm, here::here(path, "ingrid", glue::glue("{nm}-longterm")))
@@ -144,27 +144,25 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Metadata & bibtex
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_raw(uid) | check_format(uid)) {  
-    # Metadata
-    meta <- get_metadata(
-      pipeline_type = "data",
-      pipeline_id = uid,
-      pipeline_bbox = bbox, 
-      pipeline_timespan = timespan, 
-      access = timestamp()
-    )
-    
-    # bibtex
-    bib <- get_bib(uid)
+  # Metadata
+  meta <- get_metadata(
+    pipeline_type = "data",
+    pipeline_id = uid,
+    pipeline_bbox = bbox, 
+    pipeline_timespan = timespan, 
+    access = timestamp()
+  )
+  
+  # bibtex
+  bib <- get_bib(uid)
 
-    # Export
-    mt <- here::here(path, nm)
-    masterwrite(meta, mt)
-    masterwrite(bib, mt)  
-    write_pipeline(uid)
+  # Export
+  mt <- here::here(path, nm)
+  masterwrite(meta, mt)
+  masterwrite(bib, mt)  
+  write_pipeline(uid)
 
-    # Clean 
-    clean_path(uid, keep_raw)
-  }
+  # Clean 
+  clean_path(uid, keep_raw)
   # _________________________________________________________________________________________ #
 }

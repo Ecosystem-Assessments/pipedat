@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_5e4be996()
 #' }
-dp_5e4be996 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
+dp_5e4be996 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
   uid <- "5e4be996"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
@@ -59,7 +59,7 @@ dp_5e4be996 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # # Integrate data 
   # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # if (check_integrated(uid)) {
+  # if (check_ingrid(uid) & ingrid) {
   #   # Import in grid
   #   dat <- masteringrid(dat)
   # 
@@ -71,34 +71,32 @@ dp_5e4be996 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Metadata & bibtex
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_raw(uid) | check_format(uid)) {  
-    # Metadata
-    meta <- get_metadata(
-      pipeline_type = "data",
-      pipeline_id = uid,
-      pipeline_bbox = bbox, 
-      pipeline_timespan = timespan, 
-      access = timestamp()
-    )
-    
-    # To add additional metadata for queried data
-    meta <- add_metadata(meta, 
-      info1 = c("Format as lists and dataframes to be rendered as yaml"),
-      info2 = c("Formatting thus matters"),
-      info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-    )  
-    
-    # bibtex
-    bib <- get_bib(uid)
+  # Metadata
+  meta <- get_metadata(
+    pipeline_type = "data",
+    pipeline_id = uid,
+    pipeline_bbox = bbox, 
+    pipeline_timespan = timespan, 
+    access = timestamp()
+  )
+  
+  # To add additional metadata for queried data
+  meta <- add_metadata(meta, 
+    info1 = c("Format as lists and dataframes to be rendered as yaml"),
+    info2 = c("Formatting thus matters"),
+    info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
+  )  
+  
+  # bibtex
+  bib <- get_bib(uid)
 
-    # Export
-    mt <- here::here(path, nm)
-    masterwrite(meta, mt)
-    masterwrite(bib, mt)  
-    write_pipeline(uid)
+  # Export
+  mt <- here::here(path, nm)
+  masterwrite(meta, mt)
+  masterwrite(bib, mt)  
+  write_pipeline(uid)
 
-    # Clean 
-    clean_path(uid, keep_raw)
-  }
+  # Clean 
+  clean_path(uid, keep_raw)
   # _________________________________________________________________________________________ #
 }

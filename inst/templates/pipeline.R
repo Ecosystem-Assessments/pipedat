@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_{{ dpid }}()
 #' }
-dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
+dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
   uid <- "{{ dpid }}"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
@@ -75,7 +75,7 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = h
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Integrate data 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_integrated(uid)) {
+  if (check_ingrid(uid) & ingrid) {
     # Import in grid
     dat <- masteringrid(dat)
     

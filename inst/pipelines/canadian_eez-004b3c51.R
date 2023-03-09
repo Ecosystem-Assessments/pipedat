@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_004b3c51()
 #' }
-dp_004b3c51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
+dp_004b3c51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
   uid <- "004b3c51"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
@@ -62,7 +62,7 @@ dp_004b3c51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # # Integrate data 
   # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # if (check_integrated(uid)) {
+  # if (check_ingrid(uid) & ingrid) {
   #   # Import in grid
   #   dat <- masteringrid(dat)
   # 
@@ -74,27 +74,25 @@ dp_004b3c51 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Metadata & bibtex & code
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_raw(uid) | check_format(uid)) {  
-    # Metadata
-    meta <- get_metadata(
-      pipeline_type = "data",
-      pipeline_id = uid,
-      pipeline_bbox = bbox, 
-      pipeline_timespan = timespan, 
-      access = timestamp()
-    )
-    
-    # bibtex
-    bib <- get_bib(uid)
+  # Metadata
+  meta <- get_metadata(
+    pipeline_type = "data",
+    pipeline_id = uid,
+    pipeline_bbox = bbox, 
+    pipeline_timespan = timespan, 
+    access = timestamp()
+  )
+  
+  # bibtex
+  bib <- get_bib(uid)
 
-    # Export
-    mt <- here::here(path, nm)
-    masterwrite(meta, mt)
-    masterwrite(bib, mt)  
-    write_pipeline(uid)
+  # Export
+  mt <- here::here(path, nm)
+  masterwrite(meta, mt)
+  masterwrite(bib, mt)  
+  write_pipeline(uid)
 
-    # Clean 
-    clean_path(uid, keep_raw)
-  }
+  # Clean 
+  clean_path(uid, keep_raw)
   # _________________________________________________________________________________________ #
 }

@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_a56e753b()
 #' }
-dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = here::here("data","grid","grid.tif"), integrate = TRUE, keep_raw = TRUE, ...) {
+dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
   uid <- "a56e753b"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
@@ -87,7 +87,7 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # # Integrate data 
   # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # if (check_integrated(uid)) {
+  # if (check_ingrid(uid) & ingrid) {
   #   # Import in grid
   #   dat <- masteringrid(dat)
   # 
@@ -99,25 +99,23 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, grd = her
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   # Metadata & bibtex
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_raw(uid) | check_format(uid)) {  
-    # Metadata
-    meta <- get_metadata(
-      pipeline_type = "data",
-      pipeline_id = uid,
-      access = timestamp()
-    )
-    
-    # bibtex
-    bib <- get_bib(uid)
+  # Metadata
+  meta <- get_metadata(
+    pipeline_type = "data",
+    pipeline_id = uid,
+    access = timestamp()
+  )
+  
+  # bibtex
+  bib <- get_bib(uid)
 
-    # Export
-    mt <- here::here(path, nm)
-    masterwrite(meta, mt)
-    masterwrite(bib, mt)  
-    write_pipeline(uid)
+  # Export
+  mt <- here::here(path, nm)
+  masterwrite(meta, mt)
+  masterwrite(bib, mt)  
+  write_pipeline(uid)
 
-    # Clean 
-    clean_path(uid, keep_raw)
-  }
+  # Clean 
+  clean_path(uid, keep_raw)
   # _________________________________________________________________________________________ #
 }

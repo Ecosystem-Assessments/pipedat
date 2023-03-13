@@ -34,7 +34,8 @@ make_path <- function(uid) {
   here::here(
     "data",
     "pipedat",
-    glue::glue("{pipedat::get_shortname(uid)}-{uid}")
+    # glue::glue("{pipedat::get_shortname(uid)}-{uid}")
+    glue::glue("{get_shortname(uid)}-{uid}")
   )
 }
 

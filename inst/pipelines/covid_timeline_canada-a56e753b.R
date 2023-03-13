@@ -84,16 +84,52 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   } 
   # _________________________________________________________________________________________ #
 
-  # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # # Integrate data 
-  # # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # if (check_ingrid(uid) & ingrid) {
-  #   # Import in grid
-  #   dat <- masteringrid(dat)
-  # 
-  #   # Export 
-  #   masterwrite(dat, here::here(path, "integrated", nm))
-  # }
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # Integrate data 
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  if (check_ingrid(uid) & ingrid) {
+    dat <- importdat(uid, "format")
+    hr <- dat[["covid_timeline_canada-a56e753b-hr_wgs84.gpkg"]] |> 
+          dplyr::mutate(hruid = as.character(hruid)) |>
+          dplyr::select(hruid)
+    
+    hrpop <- dat[["covid_timeline_canada-a56e753b-hr.csv"]] |>
+             dplyr::select(hruid, pop) |>
+             dplyr::mutate(hruid = as.character(hruid))
+             
+    ### NOTE: First go at cases and deaths, just take the cumulative total 
+    cases <- dat[["covid_timeline_canada-a56e753b-CovidTimelineCanada_hr.csv"]] |>
+             dplyr::group_by(name, sub_region_1) |>
+             dplyr::summarize(value = max(value)) |>
+             dplyr::ungroup()
+    iid <- cases$name == "cases"
+    deaths <- cases[!iid, ] |>
+              dplyr::select(hruid = sub_region_1, deaths = value) |>
+              dplyr::mutate(hruid = as.character(hruid))
+    cases <- cases[iid, ] |>
+             dplyr::select(hruid = sub_region_1, cases = value) |>
+             dplyr::mutate(hruid = as.character(hruid))
+
+    # Join to spatial data and divide by total population
+    cases <- dplyr::left_join(hr, cases, by = "hruid") |> 
+             dplyr::left_join(hrpop, by = "hruid") |>
+             dplyr::mutate(cases_pop_prop = cases / pop) |>
+             dplyr::select(cases_pop_prop) |>
+             stars::st_rasterize()
+    deaths <- dplyr::left_join(hr, deaths, by = "hruid") |> 
+             dplyr::left_join(hrpop, by = "hruid") |>
+             dplyr::mutate(deaths_pop_prop = deaths / pop) |>
+             dplyr::select(deaths_pop_prop) |>
+             stars::st_rasterize()
+    
+    # Import in grid
+    cases <- masteringrid(cases)
+    deaths <- masteringrid(deaths)
+  
+    # Export 
+    masterwrite(cases, here::here(path, "ingrid", glue::glue("{nm}-cases_population_proportion")))
+    masterwrite(deaths, here::here(path, "ingrid", glue::glue("{nm}-deaths_population_proportion")))
+  }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #

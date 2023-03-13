@@ -33,11 +33,11 @@ dp_f4abec86 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   # Format data 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_format(uid)) {
-    dat <- masterload(here::here(path,"raw","98100246.csv"))
-
-    # Export
-    fm <- here::here(path,"format",glue::glue("{nm}"))
-    masterwrite(dat, fm)    
+    # Nothing to format, simply rename & copy file 
+    file.copy(
+      from = here::here(path,"raw","98100246.csv"), 
+      to = here::here(path,"format",glue::glue("{nm}.csv"))
+    )
   } 
   # _________________________________________________________________________________________ #
 

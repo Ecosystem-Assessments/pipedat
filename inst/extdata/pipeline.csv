@@ -34,12 +34,5 @@
 "5e4be996","2022-11-10","census_boundary_subdivision_2021","Census cartographic subdivision boundary files 2021","Boundary files for subdivision areas of the 2021 Canadian census","https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/files-fichiers/lcsd000b21a_e.zip",NA,"open"
 "929a1773","2022-11-14","census_water_treatment","Census water treatment","Treatment of main source of water by households, Canada, provinces and census metropolitan areas (CMA)","https://www150.statcan.gc.ca/n1/tbl/csv/38100277-eng.zip",NA,"open"
 "000fd656","2022-11-14","census_boundary_subdivision_2016","Census cartographic subdivision boundary files 2016","Boundary files for subdivision areas of the 2016 Canadian census","http://www12.statcan.gc.ca/census-recensement/2011/geo/bound-limit/files-fichiers/2016/lcsd000b16a_e.zip",NA,"open"
-"29fcc65f","2023-01-25","geolocated_placenames",NA,NA,NA,NA,NA
-"f1d96800","2023-01-25","inuit_communities_location",NA,NA,NA,NA,NA
-"5dec0449","2023-01-25","first_nations_location",NA,NA,NA,NA,NA
-"4467226e","2023-01-25","covid_timeline_canada",NA,NA,NA,NA,NA
-"e4689b08","2023-01-25","census_boundary_subdivision_2021",NA,NA,NA,NA,NA
-"e4430c32","2023-01-25","census_housing_suitability_2021",NA,NA,NA,NA,NA
-"925635c1","2023-01-25","census_dwelling_condition_2021",NA,NA,NA,NA,NA
-"665c5a47","2023-01-25","census_acceptable_housing_2021",NA,NA,NA,NA,NA
-"aac50768","2023-01-25","open_database_healthcare_facilities",NA,NA,NA,NA,NA
+"175ec912","2023-03-09","housing_acceptability_canada","Assessment of acceptable housing in Canada","Acceptable housing across Canada based on Statistics Canada's census and statistics on acceptable housing, dwelling conditions, and housing suitability",NA,NA,"open"
+"288ca300","2023-03-13","census_boundary_division_2021","Census cartographic subdivision boundary files 2016","Boundary files for subdivision areas of the 2016 Canadian census","https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/files-fichiers/lcd_000b21a_e.zip",NA,"open"

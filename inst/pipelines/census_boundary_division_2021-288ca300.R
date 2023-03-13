@@ -1,6 +1,6 @@
-#' @eval get_name("5e4be996")
+#' @eval get_name("288ca300")
 #'
-#' @eval get_description("5e4be996")
+#' @eval get_description("288ca300")
 #'
 #' @eval dp_params()
 #'
@@ -8,14 +8,14 @@
 #' @rdname pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: 5e4be996
+#' @keywords pipeline_id: 288ca300
 #'
 #' @examples
 #' \dontrun{
-#' dp_5e4be996()
+#' dp_288ca300()
 #' }
-dp_5e4be996 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
-  uid <- "5e4be996"
+dp_288ca300 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
+  uid <- "288ca300"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
 
@@ -23,7 +23,7 @@ dp_5e4be996 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   # DOWNLOAD DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_raw(uid)) {
-    urls <- "https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/files-fichiers/lcsd000b21a_e.zip"    
+    urls <- "https://www12.statcan.gc.ca/census-recensement/2021/geo/sip-pis/boundary-limites/files-fichiers/lcd_000b21a_e.zip"
     pipeload(
       urls = urls, 
       output = here::here(path, "raw"), 
@@ -36,10 +36,10 @@ dp_5e4be996 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   # Format data 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_format(uid)) {
-    zipfile <- here::here(path, "raw", "lcsd000b21a_e.zip")
+    zipfile <- here::here(path, "raw", "lcd_000b21a_e.zip")
     utils::unzip(zipfile, exdir = here::here(path, "raw"))
     dat <- sf::st_read(
-      here::here(path, "raw", "lcsd000b21a_e.shp"),
+      here::here(path, "raw", "lcd_000b21a_e.shp"),
       quiet = TRUE
     ) |>
       sf::st_make_valid()

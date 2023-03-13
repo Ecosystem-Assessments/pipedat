@@ -33,3 +33,20 @@ masteringrid <- function(dat, grd = here::here("data/grid/grid.tif")) {
   #   stars::st_rasterize() <- works directly with stars (obviously)
   # }
 }
+
+#' @describeIn masteringrid Function to gather all tif files generated in a pipedat projects
+#' @export
+gather_ingrid <- function() {
+  # Locate files 
+  files <- dir(here::here("data","pipedat"), recursive = TRUE, full.names = TRUE)
+  iid <- stringr::str_detect(files, "ingrid")
+  files <- files[iid]
+
+  # Copy files in same location
+  out <- here::here("data","pipegrid")
+  chk_create(out)
+  file.copy(
+    from = files,
+    to = here::here(out, basename(files))
+  )
+}

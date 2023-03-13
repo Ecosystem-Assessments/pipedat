@@ -2,9 +2,12 @@
 % Please edit documentation in R/masteringrid.R
 \name{masteringrid}
 \alias{masteringrid}
+\alias{gather_ingrid}
 \title{Generic function incorporate data in study grid}
 \usage{
 masteringrid(dat, grd = here::here("data/grid/grid.tif"))
+
+gather_ingrid()
 }
 \arguments{
 \item{dat}{object with spatial data to import in study grid, either \code{sf} or \code{stars} object}
@@ -19,6 +22,11 @@ This function is used to incorporate data in a study grid in a generic way, \emp
 warping raster data to a new raster object with a different resolution.
 user-specified study grid, if applicable, which we refer to as \emph{data integration pipelines}.
 }
+\section{Functions}{
+\itemize{
+\item \code{gather_ingrid}: Function to gather all tif files generated in a pipedat projects
+}}
+
 \examples{
 \dontrun{
 pipedat("0001")

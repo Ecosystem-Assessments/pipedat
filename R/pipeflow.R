@@ -57,7 +57,7 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
   }
 
   # Gather all data in grid from project 
-  gather_grid()
+  gather_ingrid()
 
   # Metadata 
   gather_bib()

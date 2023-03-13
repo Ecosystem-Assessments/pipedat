@@ -73,13 +73,13 @@ dp_175ec912 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     dplyr::mutate(
       percent_household_not_suitable = 
         household_size_not_suitable / 
-        (household_size_suitable + household_size_not_suitable),
-      household_not_suitable = percent_household_not_suitable / 
-                               max(percent_household_not_suitable, na.rm = TRUE)
+        (household_size_suitable + household_size_not_suitable)#,
+      #household_not_suitable = percent_household_not_suitable / 
+      #                         max(percent_household_not_suitable, na.rm = TRUE)
     ) |>
     dplyr::select(
       DGUID, 
-      household_not_suitable
+      percent_household_not_suitable
     ) 
     
     ## Census 2021 dwelling condition
@@ -110,13 +110,13 @@ dp_175ec912 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     dplyr::mutate(
       percent_major_repairs_needed = 
         major_repairs_needed / 
-        (regular_maintenance_needed + minor_repairs_needed + major_repairs_needed),
-      major_repairs_needed = 
-        percent_major_repairs_needed / max(percent_major_repairs_needed, na.rm = TRUE)
+        (regular_maintenance_needed + minor_repairs_needed + major_repairs_needed)#,
+      #major_repairs_needed = 
+      #  percent_major_repairs_needed / max(percent_major_repairs_needed, na.rm = TRUE)
     ) |>
     dplyr::select(
       DGUID, 
-      major_repairs_needed
+      percent_major_repairs_needed
     ) 
 
     ## Census 2021 acceptable housing
@@ -147,12 +147,12 @@ dp_175ec912 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     iid <- stringr::str_detect(colnames(ah), "below")
     ah$below_thresholds <- rowSums(ah[, iid])
     ah$percent_below_thresholds <- ah$below_thresholds / (ah$below_thresholds + ah$acceptable)
-    ah$below_thresholds <- ah$percent_below_thresholds / 
-                           max(ah$percent_below_thresholds, na.rm = TRUE)
+    # ah$below_thresholds <- ah$percent_below_thresholds / 
+    #                        max(ah$percent_below_thresholds, na.rm = TRUE)
     ah <- dplyr::select(
       ah,
       DGUID,
-      below_thresholds
+      percent_below_thresholds
     )   
     
     # Combine with census subdivisions 
@@ -172,9 +172,9 @@ dp_175ec912 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   if (check_ingrid(uid) & ingrid) {
     dat <- importdat(uid, "format")[[1]] |>
            stars::st_rasterize()
-    hs <- dplyr::select(dat, household_not_suitable) |> masteringrid()
-    dc <- dplyr::select(dat, major_repairs_needed) |> masteringrid()
-    ah <- dplyr::select(dat, below_thresholds) |> masteringrid()
+    hs <- dplyr::select(dat, percent_household_not_suitable) |> masteringrid()
+    dc <- dplyr::select(dat, percent_major_repairs_needed) |> masteringrid()
+    ah <- dplyr::select(dat, percent_below_thresholds) |> masteringrid()
     
     # Export 
     masterwrite(hs, here::here(path, "ingrid", glue::glue("{nm}-house_suitability")))

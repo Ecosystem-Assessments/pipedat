@@ -25,7 +25,7 @@ dp_37563350 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   if (check_raw(uid)) {
     # If the data is downloaded from online sources
     urls <- c(
-      "https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/details/download-telecharger/comp/GetFile.cfm?Lang=E&FILETYPE=CSV&GEONO=004"
+      "https://www12.statcan.gc.ca/census-recensement/2021/dp-pd/prof/details/download-telecharger/comp/GetFile.cfm?Lang=E&FILETYPE=CSV&GEONO=005"
     )    
     pipeload(
       urls = urls, 
@@ -33,7 +33,7 @@ dp_37563350 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       large = FALSE
     )
     file.rename(
-      from = here::here(path,"raw","GetFile.cfm?Lang=E&FILETYPE=CSV&GEONO=004"),
+      from = here::here(path,"raw","GetFile.cfm?Lang=E&FILETYPE=CSV&GEONO=005"),
       to = here::here(path, "raw","census_profile_2021.csv")
     )
   }

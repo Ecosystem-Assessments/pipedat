@@ -57,7 +57,7 @@ metadata <- function(pipeline_type,
                      pipeline_timespan = NULL,
                      name,
                      description,
-                     contacts = NULL,
+                     contacts = '',
                      access = timestamp(),
                      citekey,
                      data_timespan = NULL,
@@ -111,7 +111,7 @@ metadata <- function(pipeline_type,
 get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox = NULL, pipeline_timespan = NULL, access = timestamp(), data_bbox = NULL, data_timespan = NULL, integration_grid = NULL, ...) {
   dat <- get_pipeline(pipeline_id)
   contact <- get_contact(pipeline_id)
-  if (nrow(contact) == 0) contact <- NULL
+  if (nrow(contact) == 0) contact <- ''
   meta <- metadata(
     pipeline_id = pipeline_id,
     pipeline_type = pipeline_type,

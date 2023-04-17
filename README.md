@@ -26,10 +26,12 @@ enhancing the efficiency, transparency and reproducibility of
 large-scale environmental assessments.
 
 WARNING: This version of the package is deprecated and kept for
-reproducibility purposes for the [`nceadfo`]() project, which heavily
-relies in the `pipedat` package. The `pipedat` package was begun in the
-wake of the `nceadfo` project; with `nceadfo` complete, I regrouped and
-thought of ways to make `pipedat` better and simpler to use.
+reproducibility purposes for the
+[`nceadfo`](https://github.com/Ecosystem-Assessments/nceadfo) project,
+which heavily relies in the `pipedat` package. The `pipedat` package was
+begun in the wake of the `nceadfo` project; with `nceadfo` complete, I
+regrouped and thought of ways to make `pipedat` better and simpler to
+use.
 
 Since `pipedat` is actively developed and structured as part of other
 ongoing projects, it is likely that other partial versions like this

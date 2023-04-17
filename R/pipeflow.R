@@ -12,16 +12,19 @@
 #' \dontrun{
 #' pipeflow(config = "./data/config/pipedat.yml")
 #' }
-pipeflow <- function(config) {
+pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
   # Load yaml configuration file
   dat <- yaml::read_yaml(config)
 
   # Parameters
   crs <- dat$pipedat$parameters$crs
   bbox <- unlist(dat$pipedat$parameters$bbox)
+  timespan <- dat$pipedat$parameters$timespan
   cellsize <- dat$pipedat$parameters$cellsize
   aoi <- dat$pipedat$parameters$aoi
-  timespan <- dat$pipedat$parameters$timespan
+  grd <- dat$pipedat$params$grid
+  integrate <- dat$pipedat$parameters$integrate
+  keep_raw <- dat$pipedat$parameters$keep_raw
   params <- dat$pipedat$params
 
   # Grid
@@ -36,43 +39,37 @@ pipeflow <- function(config) {
     }
     pipegrid(aoi, cellsize, crs)    
   }
-  # 
-  # # Grid figure
+
+  # Data pipelines
+  if (!is.null(dat$pipedat$pipelines)) {
+    args <- c(
+      list(
+        uid = dat$pipedat$pipelines,
+        bbox = bbox,
+        timespan = timespan,
+        integrate = integrate,
+        grd = grd,
+        keep_raw = keep_raw
+      ),
+      params
+    )
+    do.call(pipedat, args)
+  }
+
+  # Gather all data in grid from project 
+  gather_ingrid()
+
+  # Metadata 
+  gather_bib()
+  gather_meta()
+
+  # # Grid/aoi figure
   # if (file.exists("data/data-grid/")) {
   #   plotgrid()
   # }
 
-  # Data pipelines
-  if (!is.null(dat$pipedat$data_pipeline)) {
-    args <- c(
-      list(
-        uid = dat$pipedat$data_pipeline,
-        bbox = bbox,
-        bbox_crs = crs,
-        timespan = timespan
-      ),
-      params
-    )
-    do.call(pipedat, args)
-  }
-
-  # Integration pipelines
-  if (!is.null(dat$pipedat$data_integration)) {
-    args <- c(
-      list(
-        uid = dat$pipedat$data_integration,
-        bbox = bbox,
-        bbox_crs = crs,
-        timespan = timespan
-      ),
-      params
-    )
-    do.call(pipedat, args)
-  }
-
-
-  # # Integrated data figures
-  # if (!is.null(dat$pipedat$data_integration)) {
-  #   plotdat(dat$pipedat$data_integration)
+  # # Gridded data figures
+  # if (!is.null(dat$data_workflow$data_integration)) {
+  #   plotdat(dat$data_workflow$data_integration)
   # }
 }

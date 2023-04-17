@@ -5,7 +5,6 @@ update_rda <- function() {
   contact <- read.csv(file = "inst/extdata/contact.csv")
   pcite <- read.csv(file = "inst/extdata/pipeline_citekey.csv")
   pcontact <- read.csv(file = "inst/extdata/pipeline_contact.csv")
-  pcreator <- read.csv(file = "inst/extdata/pipeline_creator.csv")
   bib <- RefManageR::ReadBib("inst/extdata/pipedat.bib")
   
   usethat::use_data(

@@ -7,7 +7,6 @@
 #'
 #' @param uid unique identifier of queried data. The full list of available data pipelines can be consulted using `pipelines()`
 #' @eval dp_params()
-#' @eval di_params()
 #' @param ... further arguments used in functions, if applicable.
 #'
 #' @return This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.
@@ -19,41 +18,20 @@
 #' pipedat("0001")
 #' }
 #' @export
-pipedat <- function(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...) {
-  # Pipeline type
-  type <- get_pipeline_type(uid)
-  data_pipeline <- type == "data"
-  integration_pipeline <- type == "integration"
-
+pipedat <- function(uid, bbox = NULL, timespan = NULL, integrate = TRUE, grd = "data/grid/grid.tif", keep_raw = TRUE, ...) {
   # Execute data pipelines
   lapply(
-    uid[data_pipeline],
+    uid,
     function(x) {
       do.call(
         pipecode[[x]],
         list(
-          uid = uid[data_pipeline],
+          uid = uid,
           bbox = bbox,
-          bbox_crs = bbox_crs,
           timespan = timespan,
-          ...
-        )
-      )
-    }
-  )
-
-  # Execute data integration pipelines
-  lapply(
-    uid[integration_pipeline],
-    function(x) {
-      do.call(
-        pipecode[[x]],
-        list(
-          uid = uid[integration_pipeline],
-          bbox = bbox,
-          bbox_crs = bbox_crs,
-          timespan = timespan,
-          grid = grid,
+          integrate = integrate,
+          grd = grd,
+          keep_raw = keep_raw,
           ...
         )
       )

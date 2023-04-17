@@ -5,20 +5,28 @@
 \alias{pipedat}
 \title{Execute data pipelines}
 \usage{
-pipedat(uid, bbox = NULL, bbox_crs = NULL, timespan = NULL, grid = NULL, ...)
+pipedat(
+  uid,
+  bbox = NULL,
+  timespan = NULL,
+  integrate = TRUE,
+  grd = "data/grid/grid.tif",
+  keep_raw = TRUE,
+  ...
+)
 }
 \arguments{
 \item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}
 
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
 
-\item{bbox_crs}{spatial projection of bounding box argument, defaults to epsg: 4326}
-
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
 
-\item{grid}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template}
+\item{keep_raw}{logical, whether raw data should be kept or removed. Default is set to \code{TRUE}. In any case, the raw data folder is compressed to save user disk space. Raw data can be accessed manually by unzipping \code{raw.zip}}
 
 \item{...}{further arguments used in functions, if applicable.}
+
+\item{ingrid}{logical, whether data should be integrated in a study grid, if available for specific pipeline. Default is set to \code{TRUE}.}
 }
 \value{
 This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.

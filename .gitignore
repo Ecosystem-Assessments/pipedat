@@ -43,11 +43,3 @@ data-grid/
 data-integrated/
 temp.rda
 temp_species.csv
-config/
-
-# Data file types 
-*.tif
-*.gpkg
-*.geojson
-
-!logo.png

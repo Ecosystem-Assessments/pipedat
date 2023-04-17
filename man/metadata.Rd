@@ -4,6 +4,8 @@
 \alias{metadata}
 \alias{get_metadata}
 \alias{add_metadata}
+\alias{gather_meta}
+\alias{gather_bib}
 \title{Create a yaml metadata file}
 \usage{
 metadata(
@@ -13,7 +15,6 @@ metadata(
   pipeline_date,
   pipeline_url,
   pipeline_bbox = NULL,
-  pipeline_bbox_crs = NULL,
   pipeline_timespan = NULL,
   name,
   description,
@@ -32,7 +33,6 @@ metadata(
 get_metadata(
   pipeline_type,
   pipeline_id,
-  pipeline_bbox_crs = NULL,
   pipeline_bbox = NULL,
   pipeline_timespan = NULL,
   access = timestamp(),
@@ -43,6 +43,12 @@ get_metadata(
 )
 
 add_metadata(meta, ...)
+
+add_metadata(meta, ...)
+
+gather_meta()
+
+gather_bib()
 }
 \arguments{
 \item{pipeline_type}{type of pipeline, one of "data" or "integration"}
@@ -56,8 +62,6 @@ add_metadata(meta, ...)
 \item{pipeline_url}{url to data pipeline code}
 
 \item{pipeline_bbox}{bounding box that was used to spatially subset the queried data, if applicable. The bounding box should be of the form c(xmin, ymin, xmax, ymax),}
-
-\item{pipeline_bbox_crs}{spatial projection of the bbox specified by user.}
 
 \item{pipeline_timespan}{time span that was used to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried c(year1, year2, ...),}
 
@@ -106,6 +110,12 @@ through the data pipeline.
 \item \code{get_metadata}: builds metadata from internal package data
 
 \item \code{add_metadata}: add additional information on queried data to metadata
+
+\item \code{add_metadata}: add additional information on queried data to metadata
+
+\item \code{gather_meta}: Script to extract metadata and contact from raw data list
+
+\item \code{gather_bib}: Script to create a single bib file from the downloaded raw data using pipedat
 }}
 
 \examples{
@@ -113,7 +123,6 @@ through the data pipeline.
 meta <- get_metadata(
   pipeline_id = uid,
   pipeline_bbox = bbox,
-  pipeline_bbox_crs = bbox_crs,
   pipeline_timespan = timespan,
   access = timestamp(),
   data_bbox = sf::st_bbox(dat),

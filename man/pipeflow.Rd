@@ -4,7 +4,7 @@
 \alias{pipeflow}
 \title{Execute a complete data workflow}
 \usage{
-pipeflow(config)
+pipeflow(config = "./data/pipedat/pipeflow.yml")
 }
 \arguments{
 \item{config}{path to a yaml data workflow configuration file prepared by the user. Use \code{pipenew()} to generate a new configuration file template. Alternatively, this can be a list organized as a yaml document.}

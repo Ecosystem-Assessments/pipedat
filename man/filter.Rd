@@ -23,11 +23,13 @@ dp_parameters(
 
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
 
-\item{bbox_crs}{spatial projection of bounding box argument, defaults to epsg: 4326}
-
 \item{data_crs}{spatial projection of object to filter, defaults to sf::st_crs(dat)"}
 
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
+
+\item{ingrid}{logical, whether data should be integrated in a study grid, if available for specific pipeline. Default is set to \code{TRUE}.}
+
+\item{keep_raw}{logical, whether raw data should be kept or removed. Default is set to \code{TRUE}. In any case, the raw data folder is compressed to save user disk space. Raw data can be accessed manually by unzipping \code{raw.zip}}
 }
 \description{
 This function is used to subset the data based on a bounding box and/or a time span

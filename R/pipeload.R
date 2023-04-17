@@ -28,7 +28,7 @@ pipeload <- function(urls = NULL, govcan = NULL, output, large = FALSE) {
   if (large) {
     old <- getOption("timeout")
     on.exit(options(timeout = old), add = TRUE)
-    options(timeout = 3000)
+    options(timeout = 30000)
   }
 
   if (!is.null(urls)) {
@@ -50,5 +50,15 @@ pipeload <- function(urls = NULL, govcan = NULL, output, large = FALSE) {
 
   # Unzip
   zipfiles <- dir(output, pattern = ".zip", full.names = TRUE)
-  lapply(zipfiles, function(x) utils::unzip(x, exdir = output))
+  lapply(
+    zipfiles, 
+    function(x) {
+      archive::archive_extract(
+        archive = x,
+        dir = output
+      )
+    }
+  )
 }
+
+

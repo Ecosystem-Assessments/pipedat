@@ -1,0 +1,32 @@
+pipedat:
+  parameters:
+    make_grid: TRUE
+    crs: 4326
+    cellsize: 0.1
+    aoi: data/aoi/aoi.gpkg
+    grd: data/grid/grid.tif
+    integrate: TRUE
+    keep_raw: TRUE
+    bbox:
+      xmin: -72
+      ymin: 35
+      xmax: -50
+      ymax: 50
+    timespan:
+      - 2020
+      - 2021
+      - 2022
+  # ==========================================================================
+  # UID of pipelines to eexecute
+  pipelines:
+    - "pipeline_id1"
+    - "pipeline_id2"
+    - ...
+    - "pipeline_idn"
+  # ==========================================================================
+  # Additional parameters parsed to species pipelines 
+  params:
+    halpern_layers:
+      - "inorganic"
+      - "plumes_fert"
+      - "plumes_pest"

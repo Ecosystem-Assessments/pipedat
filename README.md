@@ -25,20 +25,6 @@ hoping to further develop this initiative in the hopes of greatly
 enhancing the efficiency, transparency and reproducibility of
 large-scale environmental assessments.
 
-WARNING: This version of the package is deprecated and kept for
-reproducibility purposes for the
-[`nceadfo`](https://github.com/Ecosystem-Assessments/nceadfo) project,
-which heavily relies in the `pipedat` package. The `pipedat` package was
-begun in the wake of the `nceadfo` project; with `nceadfo` complete, I
-regrouped and thought of ways to make `pipedat` better and simpler to
-use.
-
-Since `pipedat` is actively developed and structured as part of other
-ongoing projects, it is likely that other partial versions like this
-will be created and kept as individual branches unless the projects
-themselves are updated to work with the latest version of the `pipedat`
-package.
-
 ## Installation
 
 The easiest way to install `pipedat` is to use
@@ -46,7 +32,7 @@ The easiest way to install `pipedat` is to use
 
 ``` r
 install.packages("remotes")
-remotes::install_github("Ecosystem-Assessments/pipedat")
+remotes::install_github("Environment-Health/pipedat")
 ```
 
 Then, load it:
@@ -62,9 +48,23 @@ is used to access, load and format a wide variety of data; this function
 calls on a series of individual scripts built to access data
 programmatically and reproducibly, which we refer to as *data
 pipelines*. Individual data pipelines are executed by using their
-*unique identifier*, which are specific to the `pipedat` package. By
-default, the `pipedat()` function will export the raw and formatted data
-in folders ‘data/data-raw/’ and `data/data-format`, respectively.
+*unique identifier*, which are specific to the `pipedat` package. The
+full list of data pipelines available can be viewed with the
+`pipelist()` function:
+
+``` r
+# View list of pipelines 
+# pipelist()
+
+# Download and format a single dataset 
+# pipedat("a3jsd4jh")
+
+# Download and format multiple datasets
+# pipedat(c("a3jsd4jh","a8732975y","soif8yiao"))
+```
+
+The `pipedat()` function will export the raw and formatted data in the
+folder ‘data/pipedat/’.
 
 ## List of pipelines
 

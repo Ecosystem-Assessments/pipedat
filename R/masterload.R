@@ -21,7 +21,7 @@ masterload <- function(path) {
 
   # Import file depending on extension
   ## GEOJSON
-  if (ext %in% c("geojson", "shp")) {
+  if (ext %in% c("gpkg", "geojson", "shp")) {
     dat <- sf::st_read(path, quiet = TRUE)
   }
 
@@ -32,7 +32,8 @@ masterload <- function(path) {
 
   ## CSV or DAT
   if (ext == "csv") {
-    dat <- utils::read.csv(path)
+    # dat <- utils::read.csv(path)
+    dat <- vroom::vroom(path)
   }
 
   # Identify which data were loaded
@@ -51,7 +52,7 @@ masterwrite <- function(obj, path) {
   # Import file depending on extension
   ## GEOJSON
   if ("sf" %in% cls) {
-    ext <- "geojson"
+    ext <- "gpkg"
     sf::st_write(obj, glue::glue("{path}.{ext}"), quiet = TRUE)
   }
 
@@ -67,7 +68,8 @@ masterwrite <- function(obj, path) {
       (!"stars" %in% cls & !"sf" %in% cls)
   ) {
     ext <- "csv"
-    utils::write.csv(obj, glue::glue("{path}.{ext}"), row.names = FALSE)
+    # utils::write.csv(obj, glue::glue("{path}.{ext}"), row.names = FALSE)
+    vroom::vroom_write(obj, glue::glue("{path}.{ext}"), delim = ",")
   }
 
   ## YAML

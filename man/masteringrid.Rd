@@ -2,14 +2,24 @@
 % Please edit documentation in R/masteringrid.R
 \name{masteringrid}
 \alias{masteringrid}
+\alias{gather_ingrid}
 \title{Generic function incorporate data in study grid}
 \usage{
 masteringrid(dat, grd = here::here("data/grid/grid.tif"))
+<<<<<<< HEAD
+=======
+
+gather_ingrid()
+>>>>>>> aaeade92dc4fe1d59717d170c02ab33af483f8d3
 }
 \arguments{
 \item{dat}{object with spatial data to import in study grid, either \code{sf} or \code{stars} object}
 
+<<<<<<< HEAD
 \item{grid}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template. Individual cells must be identified by a unique identifier called \code{uid}. If NULL, the function attempts to load a grids \code{./data/data-grid/grid_raster.tif} or \code{./data/data-grid/grid.poly.geojson}.}
+=======
+\item{grd}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template. Individual cells must be identified by a unique identifier called \code{uid}. If NULL, the function attempts to load a grids \code{./data/data-grid/grid_raster.tif} or \code{./data/data-grid/grid.poly.geojson}.}
+>>>>>>> aaeade92dc4fe1d59717d170c02ab33af483f8d3
 }
 \value{
 A data.frame with columns \code{uid} related to study grid unique identifier and a column with named \code{name} with the values imported
@@ -19,6 +29,11 @@ This function is used to incorporate data in a study grid in a generic way, \emp
 warping raster data to a new raster object with a different resolution.
 user-specified study grid, if applicable, which we refer to as \emph{data integration pipelines}.
 }
+\section{Functions}{
+\itemize{
+\item \code{gather_ingrid}: Function to gather all tif files generated in a pipedat projects
+}}
+
 \examples{
 \dontrun{
 pipedat("0001")

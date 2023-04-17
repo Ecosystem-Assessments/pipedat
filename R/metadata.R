@@ -10,7 +10,6 @@
 #' @param pipeline_date date YYYY-MM-DD (%Y-%m-%s) that pipeline was created
 #' @param pipeline_url url to data pipeline code
 #' @param pipeline_bbox bounding box that was used to spatially subset the queried data, if applicable. The bounding box should be of the form c(xmin, ymin, xmax, ymax),
-#' @param pipeline_bbox_crs spatial projection of the bbox specified by user.
 #' @param pipeline_timespan time span that was used to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried c(year1, year2, ...),
 #' @param name short name of data queried
 #' @param description description of data queried
@@ -37,7 +36,6 @@
 #' meta <- get_metadata(
 #'   pipeline_id = uid,
 #'   pipeline_bbox = bbox,
-#'   pipeline_bbox_crs = bbox_crs,
 #'   pipeline_timespan = timespan,
 #'   access = timestamp(),
 #'   data_bbox = sf::st_bbox(dat),
@@ -56,11 +54,10 @@ metadata <- function(pipeline_type,
                      pipeline_date,
                      pipeline_url,
                      pipeline_bbox = NULL,
-                     pipeline_bbox_crs = NULL,
                      pipeline_timespan = NULL,
                      name,
                      description,
-                     contacts = NULL,
+                     contacts = '',
                      access = timestamp(),
                      citekey,
                      data_timespan = NULL,
@@ -82,7 +79,6 @@ metadata <- function(pipeline_type,
   meta$pipeline$date_created <- pipeline_date
   meta$pipeline$url <- pipeline_url
   meta$pipeline$pipeline_bbox <- pipeline_bbox
-  meta$pipeline$pipeline_bbox_crs <- pipeline_bbox_crs
   meta$pipeline$pipeline_timespan <- pipeline_timespan
 
   # Description of data or integration pipeline
@@ -112,17 +108,16 @@ metadata <- function(pipeline_type,
 
 #' @describeIn metadata builds metadata from internal package data
 #' @export
-get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox_crs = NULL, pipeline_bbox = NULL, pipeline_timespan = NULL, access = timestamp(), data_bbox = NULL, data_timespan = NULL, integration_grid = NULL, ...) {
+get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox = NULL, pipeline_timespan = NULL, access = timestamp(), data_bbox = NULL, data_timespan = NULL, integration_grid = NULL, ...) {
   dat <- get_pipeline(pipeline_id)
   contact <- get_contact(pipeline_id)
-  if (nrow(contact) == 0) contact <- NULL
+  if (nrow(contact) == 0) contact <- ''
   meta <- metadata(
     pipeline_id = pipeline_id,
     pipeline_type = pipeline_type,
     pipeline_creators = get_creator(pipeline_id),
     pipeline_date = dat$date_created,
     pipeline_url = get_pipeline_url(pipeline_id),
-    pipeline_bbox_crs = pipeline_bbox_crs,
     pipeline_bbox = pipeline_bbox,
     pipeline_timespan = pipeline_timespan,
     name = get_name(pipeline_id),
@@ -147,3 +142,107 @@ add_metadata <- function(meta, ...) {
     c(meta, list(...))
   )
 }
+
+
+#' @describeIn metadata add additional information on queried data to metadata
+#' @export
+add_metadata <- function(meta, ...) {
+  invisible(
+    c(meta, list(...))
+  )
+}
+
+
+#' @describeIn metadata Script to extract metadata and contact from raw data list
+#' @export
+gather_meta <- function() {
+  # List of raw data 
+  files <- dir(
+    here::here("data","pipedat"),
+    recursive = TRUE,
+    full.names = TRUE,
+    pattern = ".yaml$"
+  )
+
+  # Import them all 
+  dat <- lapply(
+    files, 
+    yaml::read_yaml
+  ) 
+  
+  # Build table of raw data and contacts for the project
+  meta <- contact <- list()
+  for(i in 1:length(dat)) {
+    d <- dat[[i]]
+    
+    # -----
+    timespan <- suppressWarnings(range(d$description$timespan, na.rm = TRUE))
+    timestart <- timespan[1]
+    timestop <- timespan[2]
+    if (timespan[1] == Inf) {
+      timespan <- "-"
+    } else {
+      timespan <- ifelse(
+        timestart == timestop, 
+        timestart, 
+        glue::glue("{timestart}-{timestop}")
+      )
+    }
+    timespan <- as.character(timespan)
+    
+    # -----
+    contact[[i]] <- suppressWarnings(dplyr::bind_rows(d$description$contacts))
+    
+    # -----
+    meta[[i]] <- data.frame(
+      uid = d$pipeline$pipeline_id,
+      uid_url = d$pipeline$url,
+      name = d$description$name,
+      description = d$description$description,
+      access = d$description$access_date,
+      contact = paste0(contact[[i]]$contact_id, collapse = ","),
+      source = paste0(glue::glue("@{d$description$citekey}"), collapse = "; "),
+      timespan = timespan,
+      url = d$description$url
+    )
+  }
+  
+  meta <- dplyr::bind_rows(meta)
+  contact <- dplyr::bind_rows(contact) |>
+             dplyr::select(contact_id, first_name, last_name, organization, email) |>
+             dplyr::distinct() |>
+             dplyr::arrange(contact_id)
+  
+  # Export
+  out <- here::here("data","pipedat")
+  write.csv(meta, here::here(out, "metadata.csv"), row.names = FALSE)
+  write.csv(contact, here::here(out, "contacts.csv"), row.names = FALSE)
+}
+
+#' @describeIn metadata Script to create a single bib file from the downloaded raw data using pipedat
+#' @export
+gather_bib <- function() {
+  # List of bib files 
+  files <- dir(
+    here::here("data","pipedat"),
+    recursive = TRUE,
+    full.names = TRUE,
+    pattern = ".bib$"
+  )
+  
+  # Remove pipedat.bib from list if it already exists 
+  uid <- stringr::str_detect(files, "pipedat.bib")
+  files <- files[!uid]
+  
+  # Import them all 
+  dat <- lapply(
+    files, 
+    RefManageR::ReadBib
+  ) 
+  dat <- do.call("c", dat) |>
+    RefManageR::WriteBib(
+    file = here::here("data","pipedat","pipedat.bib"), 
+    verbose = FALSE
+  )
+}
+

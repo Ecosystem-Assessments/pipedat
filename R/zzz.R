@@ -28,7 +28,7 @@ NULL
 # ------------------------------------------------------------------------------
 # Gracieuseté de Kevin Cazelles: https://github.com/KevCaz
 # my simple(r) version of use template
-use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
+use_template <- function(template, save_as = stdout(), pkg = "pipefn", ...) {
   template <- readLines(
     fs::path_package(package = pkg, template)
   )
@@ -44,13 +44,12 @@ chk_create <- function(path) {
 
 # ------------------------------------------------------------------------------
 # add new data to list of pipelines
-append_dp <- function(pipeline_id, name, type, url = NULL, avail = NULL) {
+append_dp <- function(pipeline_id, name, url = NULL, avail = NULL) {
   dat <- utils::read.csv("inst/extdata/pipeline.csv")
   dat <- dplyr::bind_rows(
     dat,
     c(
       pipeline_id = pipeline_id,
-      pipeline_type = type,
       date_created = timestamp(),
       data_shortname = name,
       data_url = url,
@@ -128,10 +127,6 @@ update_rda <- function() {
   pcontact <- read.csv(file = "inst/extdata/pipeline_contact.csv")
   pcreator <- read.csv(file = "inst/extdata/pipeline_creator.csv")
   bib <- RefManageR::ReadBib("inst/extdata/pipedat.bib")
-  integ <- read.csv(file = "inst/extdata/data_integration.csv")
-  files_raw <- read.csv(file = "inst/extdata/files_raw.csv")
-  files_clean <- read.csv(file = "inst/extdata/files_clean.csv")
-  files_integrated <- read.csv(file = "inst/extdata/files_integrated.csv")
   load(file = "inst/extdata/basemap.rda")
   load(file = "inst/extdata/pipeline_code.rda")
 
@@ -143,10 +138,6 @@ update_rda <- function() {
     pcontact,
     pcreator,
     bib,
-    integ,
-    files_raw,
-    files_clean,
-    files_integrated,
     basemap,
     pipecode,
     internal = TRUE,

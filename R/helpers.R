@@ -1,138 +1,143 @@
+#' Check if folder exists and create if not
+#'
+#' @param path path of folder to use as output, create if it does not already exist
+#'
+#' @export
+chk_create <- function(path) {
+  if (!file.exists(path)) dir.create(path, recursive = TRUE)
+}
+
+# ------------------------------------------------------------------------------
 #' Series of functions to process the data and integration pipelines
 #'
 #' @param uid unique identifier of queried data.
-#' @param ondisk logical, whether the data should already be present locally, in cases when data are not available remotely (e.g. protected by data sharing agreements)
 #'
 #' @export
-#' @describeIn pipeline_setup create path strings to folders and files
-make_paths <- function(uid) {
-  paths <- list()
+#' @describeIn pipeline_setup base path for all data formatted through pipedat
+write_pipeline <- function(uid) {
+  nm <- glue::glue("{get_shortname(uid)}-{uid}")
+  use_template(
+    template = glue::glue("pipelines/{nm}.R"),
+    save_as = glue::glue("data/pipedat/{nm}/{nm}.R")
+  )
+}
+
+
+# ------------------------------------------------------------------------------
+#' Series of functions to process the data and integration pipelines
+#'
+#' @param uid unique identifier of queried data.
+#'
+#' @export
+#' @describeIn pipeline_setup base path for all data formatted through pipedat
+make_path <- function(uid) {
+  here::here(
+    "data",
+    "pipedat",
+    # glue::glue("{pipedat::get_shortname(uid)}-{uid}")
+    glue::glue("{get_shortname(uid)}-{uid}")
+  )
+}
+
+
+#' @export
+#' @describeIn pipeline_setup check if raw or formatted data exists
+check_raw <- function(uid) {
+  path <- make_path(uid)
   name <- get_shortname(uid)
-
-  # Output folder for clean data
-  paths$clean_output <- here::here(
-    "data",
-    "data-raw",
-    glue::glue("{name}-{uid}")
-  )
-
-  # Clean files
-  paths$clean_files <- here::here(
-    paths$clean_output,
-    files_clean$filepaths[files_clean$pipeline_id %in% uid]
-  )
-
-  # Output folder for raw data
-  paths$raw_output <- here::here(
-    paths$clean_output,
-    "raw"
-  )
-
-  # Raw files
-  paths$raw_files <- here::here(
-    paths$raw_output,
-    files_raw$filepaths[files_raw$pipeline_id %in% uid]
-  )
-
-  # Output folder for integrated data
-  paths$integrated_output <- here::here(
-    "data",
-    "data-integrated",
-    glue::glue("{name}-{uid}")
-  )
-
-  # Integrated files
-  paths$integrated_files <- here::here(
-    paths$integrated_output,
-    files_integrated$filepaths[files_integrated$pipeline_id %in% uid]
-  )
-
-  invisible(paths)
-}
-
-
-#' @export
-#' @describeIn pipeline_setup check if data is already present and send warning if data is already present and was thus not downloaded, or stop process if data needs to be available locally
-check_files <- function(uid, ondisk = FALSE) {
-  # Create paths
-  paths <- make_paths(uid)
-
-  # Check if raw files exist
-  exist <- list()
-  if (length(paths$raw_files) > 0) {
-    exist$raw <- lapply(paths$raw_files, file.exists) |>
-      unlist() |>
-      any()
-  } else {
-    exist$raw <- FALSE
+  rawpath <- here::here(path, "raw")
+  fmtpath <- here::here(path, "format")
+  execute <- !file.exists(here::here(path, glue::glue("{name}-{uid}-raw.tar.xz"))) &
+    length(dir(rawpath)) == 0 &
+    length(dir(fmtpath)) == 0
+  if (execute) {
+    path <- here::here(
+      path,
+      "raw"
+    )
+    chk_create(path)
   }
-
-  # Check if cleaned files exist
-  if (length(paths$clean_files) > 0) {
-    exist$clean <- lapply(paths$clean_files, file.exists) |>
-      unlist() |>
-      any()
-  } else {
-    exist$clean <- FALSE
-  }
-
-  # Check if integrated files exist
-  if (length(paths$integrated_files) > 0) {
-    exist$integrated <- lapply(paths$integrated_files, file.exists) |>
-      unlist() |>
-      any()
-  } else {
-    exist$integrated <- FALSE
-  }
-
-  # Messages
-  if (ondisk & !exist$raw) msgOnDisk(uid, paths) # If data is needed locally, stop process
-  if (!ondisk & exist$raw) msgNoLoad(uid) # If data is downloaded, warning
-  if (exist$clean) msgNoClean(uid) # If data is downloaded, warning
-  if (exist$integrated) msgNoIntegration(uid) # If data is downloaded, warning
-
-  invisible(exist)
+  invisible(execute)
 }
 
 #' @export
-#' @describeIn pipeline_setup check if required folders exist
-check_folders <- function(uid) {
-  paths <- make_paths(uid)
-  out <- list()
-  out$raw <- file.exists(paths$raw_output)
-  out$integrated <- file.exists(paths$integrated_output)
-  invisible(out)
+#' @describeIn pipeline_setup check if formatted data exists
+check_format <- function(uid) {
+  path <- make_path(uid)
+  name <- get_shortname(uid)
+  format <- here::here(path, "format")
+  execute <- !file.exists(format) |
+    length(dir(format)) == 0
+  if (execute) {
+    # Create folder
+    chk_create(format)
+
+    # If raw data is compressed only, decompress
+    if (!file.exists(here::here(path, "raw"))) {
+      archive::archive(here::here(path, glue::glue("{name}-{uid}-raw.tar.xz")))
+    }
+  }
+  invisible(execute)
 }
 
 #' @export
-#' @describeIn pipeline_setup create required folders
-# Create output folders for data pipelines
-make_output <- function(uid) {
-  paths <- make_paths(uid)
-  fold <- check_folders(uid)
-
-  # Create output folders
-  type <- pipeline$pipeline_type[pipeline$pipeline_id == uid]
-  if (!fold$raw & type == "data") {
-    dir.create(paths$raw_output, recursive = TRUE)
+#' @describeIn pipeline_setup check if gridded data exists
+check_ingrid <- function(uid) {
+  path <- make_path(uid)
+  ingrid <- here::here(path, "ingrid")
+  execute <- !file.exists(ingrid) |
+    length(dir(ingrid)) == 0
+  if (execute) {
+    chk_create(ingrid)
   }
-  if (!fold$integrated & type == "integration") {
-    dir.create(paths$integrated_output, recursive = TRUE)
+  invisible(execute)
+}
+
+#' @export
+#' @describeIn pipeline_setup create raw.zip if it does not exist and remove raw/
+clean_path <- function(uid, keep_raw = TRUE) {
+  path <- make_path(uid)
+  name <- get_shortname(uid)
+  rawpath <- here::here(path, "raw")
+  rawzip <- here::here(path, glue::glue("{name}-{uid}-raw.tar.xz"))
+
+  # if raw/ exists but compressed file does not and keep_raw is true
+  if (!file.exists(rawzip) & file.exists(rawpath) & keep_raw) {
+    archive::archive_write_dir(
+      archive = rawzip,
+      dir = rawpath,
+      recursive = TRUE
+    )
   }
 
-  # Create path to raw or integrated data
-  if (type == "data") {
-    path <- paths$clean_output
-  }
+  # If keep_raw is false and compressed file exists
+  if (!keep_raw) unlink(rawzip)
 
-  if (type == "integration") {
-    path <- paths$integrated_output
-  }
+  # if raw/ exists
+  if (file.exists(rawpath)) unlink(rawpath, recursive = TRUE)
+}
 
-  invisible(path)
+#' @describeIn pipeline_setup get path to files of a pipeline
+#' @export
+get_filepaths <- function(uid) {
+  path <- make_path(uid)
+  rawpath <- here::here(path, "raw")
+  fmtpath <- here::here(path, "format")
+  ingpath <- here::here(path, "ingrid")
+  filepaths <- list()
+  filepaths$raw <- dir(rawpath, recursive = TRUE, full.names = TRUE)
+  filepaths$format <- dir(fmtpath, recursive = TRUE, full.names = TRUE)
+  filepaths$ingrid <- dir(ingpath, recursive = TRUE, full.names = TRUE)
+  invisible(filepaths)
 }
 
 
+
+# ------------------------------------------------------------------------------
+#' Series of functions to access metadata information
+#'
+#' @param uid unique identifier of queried data.
+#'
 #' @describeIn pipeline_setup get pipeline information
 #' @export
 get_pipeline <- function(uid) {
@@ -202,87 +207,23 @@ get_bib <- function(uid) {
 #' @export
 get_pipeline_url <- function(uid) {
   dat <- get_pipeline(uid)
-  repo <- "https://github.com/Ecosystem-Assessments/pipedat"
-  glue::glue("{repo}/blob/main/R/dp_{dat$data_shortname}-{uid}.R")
-}
-
-#' @describeIn pipeline_setup get pipeline type
-#' @export
-get_pipeline_type <- function(uid) {
-  dat <- lapply(uid, get_pipeline) |>
-    dplyr::bind_rows()
-  dat$pipeline_type
-}
-
-#' @describeIn pipeline_setup get raw data used for integration pipeline
-#' @export
-get_rawid <- function(uid) {
-  dat <- integ
-  pipid <- dat$integration_id %in% uid
-  dat$data_id[pipid]
-}
-
-#' @describeIn pipeline_setup get folder path to data
-#' @export
-get_folderpaths <- function(uid) {
-  dat <- get_pipeline(uid)
-  here::here(
-    "data",
-    ifelse(dat$pipeline_type == "data", "data-raw", "data-integrated"),
-    glue::glue("{dat$data_shortname}-{dat$pipeline_id}")
-  )
-}
-
-#' @describeIn pipeline_setup create string of filepaths
-#' @export
-make_filepaths <- function(uid) {
-  folders <- get_folderpaths(uid)
-  l <- list()
-  for (i in 1:length(uid)) {
-    type <- get_pipeline(uid[i])$pipeline_type
-    if (type == "data") dat <- files_clean
-    if (type == "integration") dat <- files_integrated
-    l[[i]] <- here::here(
-      folders[i],
-      dat$filepaths[dat$pipeline_id == uid[i]]
-    )
-  }
-  unlist(l)
-}
-
-#' @describeIn pipeline_setup get path to files of a pipeline
-#' @export
-get_filepaths <- function(uid) {
-  dat <- make_filepaths(uid)
-  dat[file.exists(dat)]
+  repo <- "https://github.com/Ecosystem-Health/pipedat"
+  glue::glue("{repo}/blob/main/R/{dat$data_shortname}-{uid}.R")
 }
 
 #' @describeIn pipeline_setup get information on a grid
 #' @export
-get_grid_info <- function(grd = NULL) {
-  if (is.null(grd)) {
-    grd <- stars::read_stars("data/data-grid/grid_raster.tif", quiet = TRUE)
-    names(grd) <- "uid"
-  }
+get_grid_info <- function(grd = here::here("data/grid/grid.tif")) {
+  # Get grid
+  if (class(grd) == "character") grd <- stars::read_stars(grd)
+  if (!"stars" %in% class(grd)) grd <- stars::st_as_stars(grd)
 
-  type <- class(grd)
-  poly <- "sf" %in% type
-  type_text <- ifelse(poly, "polygon", "raster")
-  if (poly) {
-    res <- list(
-      resolution = sf::st_area(grd[1, ]),
-      units = units(sf::st_area(grd[1, ]))
-    )
-  } else {
-    res <- stars::st_dimensions(grd)
-  }
-  ncells <- ifelse(poly, nrow(grd), dim(grd))
+  # Info
   list(
-    type = type_text,
     crs = sf::st_crs(grd)$epsg,
-    resolution = res,
+    resolution = stars::st_dimensions(grd),
     bbox = sf::st_bbox(grd),
-    ncells = ncells
+    ncells = dim(grd)
   )
 }
 

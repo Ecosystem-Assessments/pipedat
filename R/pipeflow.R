@@ -74,4 +74,7 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
   # if (!is.null(dat$data_workflow$data_integration)) {
   #   plotdat(dat$data_workflow$data_integration)
   # }
+  
+  # Render report 
+  pipereport()
 }

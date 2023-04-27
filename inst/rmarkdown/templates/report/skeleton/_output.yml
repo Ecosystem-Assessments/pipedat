@@ -1,0 +1,37 @@
+output_dir: "docs"
+bookdown::gitbook:
+  dev: svglite
+  css: css/style.css
+  split_by: chapter
+  split_bib: no
+  toc_depth: 3
+  config:
+    toc:
+      collapse: no
+      before: |
+        <li><a href="./">pipedat</a></li>
+      after: |
+        <li><a href="https://bookdown.org" target="_blank">Published with bookdown</a></li>
+    download: [pdf, epub, mobi]
+    edit: https://github.com/rstudio/bookdown/edit/master/inst/examples/%s
+    sharing:
+      github: yes
+      facebook: no
+bookdown::html_chapters:
+  css: [css/style.css, css/toc.css]
+bookdown::pdf_book:
+  # base_format: rticles::jss_article
+  keep_tex: no
+  dev: "pdf"
+  latex_engine: xelatex
+  # citation_package: natbib
+  template: default
+  pandoc_args:
+    --top-level-division=chapter
+  toc_depth: 3
+  toc_unnumbered: no
+  toc_appendix: yes
+  quote_footer: ["\\VA{", "}{}"]
+bookdown::epub_book:
+  dev: svglite
+  stylesheet: css/style.css

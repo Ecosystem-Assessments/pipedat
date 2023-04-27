@@ -1,0 +1,72 @@
+---
+title: "pipedat"
+subtitle: "Data summary"
+date: "`r Sys.Date()`"
+knit: "bookdown::render_book"
+documentclass: scrbook
+bibliography: [pipedat.bib]
+# biblio-style: apalike
+# csl: frontiers.csl
+link-citations: yes
+colorlinks: yes
+lot: yes
+lof: yes
+fontsize: 12pt
+monofont: "Courier"
+monofontoptions: "Scale=0.7"
+site: bookdown::bookdown_site
+always_allow_html: true
+---
+
+```{r setup, include = FALSE, purl = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE,
+  echo = FALSE,
+  message = FALSE,
+  dev = "png",
+  dpi = 108,
+  fig.width = 8,
+  fig.height = 6,
+  fig.align = 'center',
+  width = 120#,
+  # table.attr = 'class="flat-table"'
+)
+```
+
+
+#### Citation {-}
+
+***Add package citation*** 
+
+# `pipedat` report
+
+This document provides a summary of the data that was downloaded, formatted and incorporated in a study grid through the `pipedat` package. 
+
+***Add a brief description of pipedat***
+
+# Data summary 
+
+```{r dataapp}
+meta <- read.csv(here::here("data","pipedat","metadata.csv")) |>
+        dplyr::mutate(
+          uid = glue::glue("[{uid}]({uid_url})"),
+          name = glue::glue("[{name}]({url})")
+        )
+dplyr::select(meta, uid, name, description, timespan, access, contact, source) |>
+knitr::kable(
+  col.names = c("UID","Name","Description","Timespan","Access date","Contacts","Source"),
+  row.names = FALSE,
+  caption = "List of data accessed, formatted, and incorporated in a study grid through the `pipedat` package"
+) 
+```
+
+# Gridded data 
+
+***Generate subsection with description and figures for all gridded data***
+
+# Bibliography {-}
+
+<!-- <div id="refs"></div> -->
+

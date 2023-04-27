@@ -1,0 +1,4 @@
+name: report
+description: >
+   Generic report that provides a summary of the data that was loaded and formatted throught the pipedat package.
+create_dir: FALSE

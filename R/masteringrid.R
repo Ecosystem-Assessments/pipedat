@@ -47,7 +47,7 @@ gather_ingrid <- function() {
   chk_create(out)
   file.copy(
     from = files,
-    to = here::here(out, basename(files)),
-    recursive = TRUE
+    to = here::here(out, basename(files))#,
+    # recursive = TRUE
   )
 }

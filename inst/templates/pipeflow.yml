@@ -6,6 +6,7 @@ pipedat:
     aoi: data/aoi/aoi.gpkg
     grd: data/grid/grid.tif
     integrate: TRUE
+    ingrid: TRUE
     keep_raw: TRUE
     bbox:
       xmin: -72

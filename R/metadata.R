@@ -191,7 +191,13 @@ gather_meta <- function() {
     timespan <- as.character(timespan)
     
     # -----
-    contact[[i]] <- suppressWarnings(dplyr::bind_rows(d$description$contacts))
+    if (d$description$contacts == "") {
+      contact[[i]] <- NULL
+      cnt <- NA
+    } else {
+      contact[[i]] <- suppressWarnings(dplyr::bind_rows(d$description$contacts))      
+      cnt <- paste0(contact[[i]]$contact_id, collapse = ",")
+    }
     
     # -----
     meta[[i]] <- data.frame(
@@ -200,7 +206,7 @@ gather_meta <- function() {
       name = d$description$name,
       description = d$description$description,
       access = d$description$access_date,
-      contact = paste0(contact[[i]]$contact_id, collapse = ","),
+      contact = cnt,
       source = paste0(glue::glue("@{d$description$citekey}"), collapse = "; "),
       timespan = timespan,
       url = d$description$url

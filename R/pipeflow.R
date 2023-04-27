@@ -24,6 +24,7 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
   aoi <- dat$pipedat$parameters$aoi
   grd <- dat$pipedat$params$grid
   integrate <- dat$pipedat$parameters$integrate
+  ingrid <- dat$pipedat$parameters$ingrid
   keep_raw <- dat$pipedat$parameters$keep_raw
   params <- dat$pipedat$params
 
@@ -49,6 +50,7 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
         timespan = timespan,
         integrate = integrate,
         grd = grd,
+        ingrid = ingrid,
         keep_raw = keep_raw
       ),
       params

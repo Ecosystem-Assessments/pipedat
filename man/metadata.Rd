@@ -18,7 +18,7 @@ metadata(
   pipeline_timespan = NULL,
   name,
   description,
-  contacts = NULL,
+  contacts = "",
   access = timestamp(),
   citekey,
   data_timespan = NULL,
@@ -105,19 +105,19 @@ through the data pipeline.
 }
 \section{Functions}{
 \itemize{
-\item \code{metadata}: export metadata yaml
+\item \code{metadata()}: export metadata yaml
 
-\item \code{get_metadata}: builds metadata from internal package data
+\item \code{get_metadata()}: builds metadata from internal package data
 
-\item \code{add_metadata}: add additional information on queried data to metadata
+\item \code{add_metadata()}: add additional information on queried data to metadata
 
-\item \code{add_metadata}: add additional information on queried data to metadata
+\item \code{add_metadata()}: add additional information on queried data to metadata
 
-\item \code{gather_meta}: Script to extract metadata and contact from raw data list
+\item \code{gather_meta()}: Script to extract metadata and contact from raw data list
 
-\item \code{gather_bib}: Script to create a single bib file from the downloaded raw data using pipedat
+\item \code{gather_bib()}: Script to create a single bib file from the downloaded raw data using pipedat
+
 }}
-
 \examples{
 \dontrun{
 meta <- get_metadata(

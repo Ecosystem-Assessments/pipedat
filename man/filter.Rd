@@ -36,10 +36,10 @@ This function is used to subset the data based on a bounding box and/or a time s
 }
 \section{Functions}{
 \itemize{
-\item \code{bbox_crop}: crop object based on bounding box
+\item \code{bbox_crop()}: crop object based on bounding box
 
-\item \code{timespan_filter}: filter object by year
+\item \code{timespan_filter()}: filter object by year
 
-\item \code{dp_parameters}: crop object based on bounding box and filter based on year
+\item \code{dp_parameters()}: crop object based on bounding box and filter based on year
+
 }}
-

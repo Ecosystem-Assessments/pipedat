@@ -28,7 +28,7 @@ NULL
 # ------------------------------------------------------------------------------
 # Gracieuseté de Kevin Cazelles: https://github.com/KevCaz
 # my simple(r) version of use template
-use_template <- function(template, save_as = stdout(), pkg = "pipefn", ...) {
+use_template <- function(template, save_as = stdout(), pkg = "pipedat", ...) {
   template <- readLines(
     fs::path_package(package = pkg, template)
   )

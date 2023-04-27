@@ -66,38 +66,38 @@ Series of functions to access metadata information
 }
 \section{Functions}{
 \itemize{
-\item \code{write_pipeline}: base path for all data formatted through pipedat
+\item \code{write_pipeline()}: base path for all data formatted through pipedat
 
-\item \code{make_path}: base path for all data formatted through pipedat
+\item \code{make_path()}: base path for all data formatted through pipedat
 
-\item \code{check_raw}: check if raw or formatted data exists
+\item \code{check_raw()}: check if raw or formatted data exists
 
-\item \code{check_format}: check if formatted data exists
+\item \code{check_format()}: check if formatted data exists
 
-\item \code{check_ingrid}: check if gridded data exists
+\item \code{check_ingrid()}: check if gridded data exists
 
-\item \code{clean_path}: create raw.zip if it does not exist and remove raw/
+\item \code{clean_path()}: create raw.zip if it does not exist and remove raw/
 
-\item \code{get_filepaths}: get path to files of a pipeline
+\item \code{get_filepaths()}: get path to files of a pipeline
 
-\item \code{get_pipeline}: get pipeline information
+\item \code{get_pipeline()}: get pipeline information
 
-\item \code{get_shortname}: get pipeline shortname
+\item \code{get_shortname()}: get pipeline shortname
 
-\item \code{get_name}: get pipeline name
+\item \code{get_name()}: get pipeline name
 
-\item \code{get_description}: get pipeline description
+\item \code{get_description()}: get pipeline description
 
-\item \code{get_contact}: get pipeline contacts
+\item \code{get_contact()}: get pipeline contacts
 
-\item \code{get_creator}: get pipeline creator
+\item \code{get_creator()}: get pipeline creator
 
-\item \code{get_citekey}: get pipeline bibtex citekey
+\item \code{get_citekey()}: get pipeline bibtex citekey
 
-\item \code{get_bib}: get pipeline bibtex information
+\item \code{get_bib()}: get pipeline bibtex information
 
-\item \code{get_pipeline_url}: get pipeline url
+\item \code{get_pipeline_url()}: get pipeline url
 
-\item \code{get_grid_info}: get information on a grid
+\item \code{get_grid_info()}: get information on a grid
+
 }}
-

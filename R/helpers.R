@@ -207,8 +207,8 @@ get_bib <- function(uid) {
 #' @export
 get_pipeline_url <- function(uid) {
   dat <- get_pipeline(uid)
-  repo <- "https://github.com/Ecosystem-Health/pipedat"
-  glue::glue("{repo}/blob/main/R/{dat$data_shortname}-{uid}.R")
+  repo <- "https://github.com/Ecosystem-Assessments/pipedat"
+  glue::glue("{repo}/blob/main/inst/pipelines/{dat$data_shortname}-{uid}.R")
 }
 
 #' @describeIn pipeline_setup get information on a grid

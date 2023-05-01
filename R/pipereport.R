@@ -16,11 +16,13 @@ pipereport <- function() {
   out$out <- here::here("pubs", "pipedat")
   chk_create(out$out)
   
-  rmarkdown::draft(
-    file = here::here(out$out, "index.Rmd"),
-    template = "report", 
-    package = "pipedat"
-  )
+  if (!file.exists(here::here(out$out, "index.Rmd"))) {
+    rmarkdown::draft(
+      file = here::here(out$out, "index.Rmd"),
+      template = "report", 
+      package = "pipedat"
+    )
+  }
   
   # Render report
   file.copy(

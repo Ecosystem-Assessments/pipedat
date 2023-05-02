@@ -71,9 +71,13 @@ plotingrid <- function(res, width, height, pal) {
     path <- here::here("figures", "pipedat", "ingrid")
     chk_create(path)
 
+    # Load grid (for reference)
+    grd <- here::here("data/grid/grid.tif") |>
+           stars::read_stars()
+
     # Canadian outline
     can <- basemap$can |>
-           sf::st_transform(sf::st_crs(dat[[i]])) |>
+           sf::st_transform(sf::st_crs(grd)) |>
            sf::st_geometry()
            
     # All folders in a loop
@@ -107,7 +111,7 @@ plotingrid <- function(res, width, height, pal) {
         par(mar = c(1,0,5,0))
 
         # Plot grid with base stars functionalities
-        image(dat[[i]], col = pal(100), main = meta$description$name)
+        image(dat[[j]], col = pal(100), main = meta$description$name)
         
         # Subtext
         mtext(side = 3, text = sub)

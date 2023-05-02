@@ -24,13 +24,14 @@ pipereport <- function() {
     )
   }
   
-  # Render report
+  # Copy bibtex file 
   file.copy(
     from = here::here("data","pipedat","pipedat.bib"),
     to = here::here("pubs","pipedat","pipedat.bib"),
     overwrite = TRUE
   )
-  
+
+  # Render report
   suppressWarnings({
     setwd('./pubs/pipedat/')
     bookdown::render_book(

@@ -64,16 +64,9 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
   # Metadata 
   gather_bib()
   gather_meta()
-
-  # # Grid/aoi figure
-  # if (file.exists("data/data-grid/")) {
-  #   plotgrid()
-  # }
-
-  # # Gridded data figures
-  # if (!is.null(dat$data_workflow$data_integration)) {
-  #   plotdat(dat$data_workflow$data_integration)
-  # }
+  
+  # Figures 
+  pipeplot()
   
   # Render report 
   pipereport()

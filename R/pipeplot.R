@@ -37,6 +37,9 @@ plotgrid <- function(res, width, height, pal) {
     units = "mm"
   )
 
+  # Margins 
+  par(mar = c(1,0,5,0))
+
   # Plot grid with base stars functionalities
   image(grd, col = pal(1), main = "Area of interest")
 
@@ -58,52 +61,69 @@ plotgrid <- function(res, width, height, pal) {
 
 
 plotingrid <- function(res, width, height, pal) {
-  # Load data
-  out <- here::here("data","pipegrid")
-  files <- dir(out, full.names = TRUE, pattern = ".tif$")
-  
+  # Locate files   
+  files <- list.dirs(here::here("data","pipedat"), full.names = TRUE)
+  iid <- stringr::str_detect(files, "ingrid")
+  files <- files[iid]
+
   if (length(files) > 0) {
     # Folders
     path <- here::here("figures", "pipedat", "ingrid")
     chk_create(path)
-
-    # Load data
-    dat <- lapply(files, read_stars)
 
     # Canadian outline
     can <- basemap$can |>
            sf::st_transform(sf::st_crs(dat[[i]])) |>
            sf::st_geometry()
            
-    # All figures in a loop
-    for(i in 1:length(dat)) {
-      # Name of data for export
-      nm <- names(dat[[i]]) |>
-            tools::file_path_sans_ext()
-                  
-      # Output arguments 
-      grDevices::png(
-        here::here(path, glue::glue("{nm}.png")),
-        res = res,
-        width = width,
-        height = height,
-        units = "mm"
-      )
+    # All folders in a loop
+    for(i in 1:length(files)) {
+      # Load data
+      dat <- dir(files[i], full.names = TRUE) |>
+             lapply(stars::read_stars)
 
-      # Plot grid with base stars functionalities
-      image(dat[[i]], col = pal(100), main = nm)
+      # Load metadata 
+      meta <- dir(here::here(files[i], ".."), full.names = TRUE, pattern = "yaml") |>
+              yaml::read_yaml()
+      
+      for(j in 1:length(dat)) {
+        # Name of data for export
+        nm <- names(dat[[j]]) |>
+              tools::file_path_sans_ext()
+              
+        sub <- stringr::str_split(nm, "-")[[1]]
+        sub <- sub[length(sub)]
+                    
+        # Output arguments 
+        grDevices::png(
+          here::here(path, glue::glue("{nm}.png")),
+          res = res,
+          width = width,
+          height = height,
+          units = "mm"
+        )
 
-      # Plot canadian outline
-      plot(
-        can,
-        col = "#57575733",
-        border = "#575757",
-        lwd = .5,
-        add = TRUE
-      )
+        # Margins 
+        par(mar = c(1,0,5,0))
 
-      # Close graphics device
-      grDevices::dev.off()  
+        # Plot grid with base stars functionalities
+        image(dat[[i]], col = pal(100), main = meta$description$name)
+        
+        # Subtext
+        mtext(side = 3, text = sub)
+
+        # Plot canadian outline
+        plot(
+          can,
+          col = "#57575733",
+          border = "#575757",
+          lwd = .5,
+          add = TRUE
+        )
+
+        # Close graphics device
+        grDevices::dev.off()  
+      }
     }
   }
 }

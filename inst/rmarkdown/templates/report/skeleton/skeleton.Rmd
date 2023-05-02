@@ -38,7 +38,7 @@ knitr::opts_chunk$set(
 
 #### Citation {-}
 
-***Add package citation*** 
+***Add package citation***
 
 # `pipedat` report
 
@@ -48,7 +48,9 @@ This document provides a summary of the data that was downloaded, formatted and 
 
 # Area of interest
 
-
+```{r aoi, fig.cap = "Area of interest and study grid used to integrate data."}
+knitr::include_graphics(here::here("figures","pipedat","aoi","aoi.png"))
+```
 
 # Data summary 
 
@@ -68,7 +70,31 @@ knitr::kable(
 
 # Gridded data 
 
-***Generate subsection with description and figures for all gridded data***
+```{r gridded, results='asis'}
+files <- list.dirs(here::here("data","pipedat"), full.names = TRUE)
+iid <- stringr::str_detect(files, "ingrid")
+files <- files[iid]
+figs <- here::here("figures", "pipedat", "ingrid") |>
+        dir(full.names = TRUE, pattern = "png")
+
+if (length(files) > 0) {
+  # All folders in a loop
+  for(i in 1:length(files)) {
+    # Load metadata 
+    meta <- dir(here::here(files[i], ".."), full.names = TRUE, pattern = "yaml") |>
+            yaml::read_yaml()
+            
+    # names and figs
+    nm <- meta$description$name
+    uid <- figs[stringr::str_detect(figs, meta$pipeline$pipeline_id)]
+    
+    # Text
+    cat("  \n##",  nm, "\n")
+    cat(glue::glue("![]({uid})"))
+    cat("  \n")
+  }
+}
+```
 
 # Bibliography {-}
 

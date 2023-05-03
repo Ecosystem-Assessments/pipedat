@@ -1,6 +1,6 @@
-#' @eval get_name("b5433840")
+#' @eval get_name("758c10a3")
 #'
-#' @eval get_description("b5433840")
+#' @eval get_description("758c10a3")
 #'
 #' @eval dp_params()
 #'
@@ -8,14 +8,14 @@
 #' @rdname pipelines
 #' @seealso \code{\link{pipedat}}
 #'
-#' @keywords pipeline_id: b5433840
+#' @keywords pipeline_id: 758c10a3
 #'
 #' @examples
 #' \dontrun{
-#' dp_b5433840()
+#' dp_758c10a3()
 #' }
-dp_b5433840 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
-  uid <- "b5433840"
+dp_758c10a3 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
+  uid <- "758c10a3"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
 
@@ -23,10 +23,13 @@ dp_b5433840 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   # DOWNLOAD DATA
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_raw(uid)) {
+    # If the data is downloaded from open government using `rgovcan`
     govcan <- get_pipeline(uid)$data_uuid
+    
+    # Load
     pipeload(
-      govcan = govcan,
-      output = here::here(path, "raw"),
+      govcan = govcan, 
+      output = here::here(path, "raw"), 
       large = FALSE
     )
   }
@@ -36,16 +39,31 @@ dp_b5433840 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   # Format data 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_format(uid)) {
-    dat <- masterload(here::here(path, "raw", "MAG_EXO.csv")) |>
-           sf::st_as_sf(coords = c("Longitude", "Latitude"), crs = 4326)
+    dat <- masterload(here::here(path, "raw", "Conseil_tribal_Tribal_Council.shp"))
     
     # Subset data (if specified by user)
+    # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
+    # sf::sf_use_s2(FALSE)
+    # dat <- lapply(dat, dp_parameters, bbox = bbox, timespan = timespan)
     dat <- dp_parameters(dat, bbox, timespan)
 
     # Export
-    fm <- here::here(path, "format" ,glue::glue("{nm}"))
+    fm <- here::here(path,"format",glue::glue("{nm}"))
     masterwrite(dat, fm)    
   } 
+  # _________________________________________________________________________________________ #
+
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # Integrate data 
+  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
+  # if (check_ingrid(uid) & ingrid) {
+  #   dat <- importdat(uid, "format")[[1]] |>
+  #          stars::st_rasterize() |>
+  #          masteringrid()
+  # 
+  #   # Export 
+  #   masterwrite(dat, here::here(path, "ingrid", nm))
+  # }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
@@ -59,7 +77,7 @@ dp_b5433840 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     pipeline_timespan = timespan, 
     access = timestamp()
   )
-
+    
   # bibtex
   bib <- get_bib(uid)
 

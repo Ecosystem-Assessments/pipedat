@@ -76,11 +76,12 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid 
   # Integrate data 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_ingrid(uid) & ingrid) {
-    # Import in grid
-    dat <- masteringrid(dat)
+    dat <- importdat(uid, "format")[[1]] |>
+           stars::st_rasterize() |>
+           masteringrid()
     
     # Export 
-    masterwrite(dat, here::here(path, "integrated", nm))
+    masterwrite(dat, here::here(path, "ingrid", nm))
   }
   # _________________________________________________________________________________________ #
 

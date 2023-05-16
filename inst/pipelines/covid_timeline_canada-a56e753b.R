@@ -3,6 +3,7 @@
 #' @eval get_description("a56e753b")
 #'
 #' @eval dp_params()
+#' @param covid_monthly logical, TRUE to divide data integration into monthly cumulative cases/deaths; FALSE to take cumulative cases/deaths for the whole dataset
 #'
 #' @family pipeline functions
 #' @rdname pipelines
@@ -14,7 +15,7 @@
 #' \dontrun{
 #' dp_a56e753b()
 #' }
-dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
+dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, covid_period = "all", ...) {
   uid <- "a56e753b"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
@@ -97,38 +98,104 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
              dplyr::select(hruid, pop) |>
              dplyr::mutate(hruid = as.character(hruid))
              
-    ### NOTE: First go at cases and deaths, just take the cumulative total 
-    cases <- dat[["covid_timeline_canada-a56e753b-CovidTimelineCanada_hr.csv"]] |>
-             dplyr::group_by(name, sub_region_1) |>
-             dplyr::summarize(value = max(value)) |>
-             dplyr::ungroup()
-    iid <- cases$name == "cases"
-    deaths <- cases[!iid, ] |>
-              dplyr::select(hruid = sub_region_1, deaths = value) |>
-              dplyr::mutate(hruid = as.character(hruid))
-    cases <- cases[iid, ] |>
-             dplyr::select(hruid = sub_region_1, cases = value) |>
-             dplyr::mutate(hruid = as.character(hruid))
+    ### Cumulative cases/deaths for whole period
+    if (covid_period == "all") {
+      cases <- dat[["covid_timeline_canada-a56e753b-CovidTimelineCanada_hr.csv"]] |>
+               dplyr::group_by(name, sub_region_1) |>
+               dplyr::summarize(value = max(value)) |>
+               dplyr::ungroup()    
+       iid <- cases$name == "cases"
+       deaths <- cases[!iid, ] |>
+                 dplyr::select(hruid = sub_region_1, deaths = value) |>
+                 dplyr::mutate(hruid = as.character(hruid))
+       cases <- cases[iid, ] |>
+                dplyr::select(hruid = sub_region_1, cases = value) |>
+                dplyr::mutate(hruid = as.character(hruid))
 
-    # Join to spatial data and divide by total population
-    cases <- dplyr::left_join(hr, cases, by = "hruid") |> 
-             dplyr::left_join(hrpop, by = "hruid") |>
-             dplyr::mutate(cases_pop_prop = cases / pop) |>
-             dplyr::select(cases_pop_prop) |>
-             stars::st_rasterize()
-    deaths <- dplyr::left_join(hr, deaths, by = "hruid") |> 
-             dplyr::left_join(hrpop, by = "hruid") |>
-             dplyr::mutate(deaths_pop_prop = deaths / pop) |>
-             dplyr::select(deaths_pop_prop) |>
-             stars::st_rasterize()
-    
-    # Import in grid
-    cases <- masteringrid(cases)
-    deaths <- masteringrid(deaths)
-  
-    # Export 
-    masterwrite(cases, here::here(path, "ingrid", glue::glue("{nm}-cases_population_proportion")))
-    masterwrite(deaths, here::here(path, "ingrid", glue::glue("{nm}-deaths_population_proportion")))
+       # Join to spatial data and divide by total population
+       cases <- dplyr::left_join(hr, cases, by = "hruid") |> 
+                dplyr::left_join(hrpop, by = "hruid") |>
+                dplyr::mutate(cases_pop_prop = cases / pop) |>
+                dplyr::select(cases_pop_prop) |>
+                stars::st_rasterize()
+       deaths <- dplyr::left_join(hr, deaths, by = "hruid") |> 
+                dplyr::left_join(hrpop, by = "hruid") |>
+                dplyr::mutate(deaths_pop_prop = deaths / pop) |>
+                dplyr::select(deaths_pop_prop) |>
+                stars::st_rasterize()
+       
+       # Import in grid
+       cases <- masteringrid(cases)
+       deaths <- masteringrid(deaths)
+
+       # Export 
+       masterwrite(cases, here::here(path, "ingrid", glue::glue("{nm}-cases_population_proportion")))
+       masterwrite(deaths, here::here(path, "ingrid", glue::glue("{nm}-deaths_population_proportion")))         
+                  
+    } else if (covid_period == "monthly") {
+      cases <- dat[["covid_timeline_canada-a56e753b-CovidTimelineCanada_hr.csv"]] |>
+               dplyr::mutate(
+                 year = format(date, "%Y"),
+                 month = format(date, "%m")
+               ) |>
+               dplyr::group_by(name, sub_region_1, year, month) |>
+               dplyr::summarize(value = sum(value)) |>
+               dplyr::ungroup() |>
+               dplyr::arrange(year, month)
+               
+      per <- cases[, c("year","month")] |>
+                 dplyr::distinct() 
+               
+      iid <- cases$name == "cases"
+      deaths <- cases[!iid, ] |>
+                dplyr::select(hruid = sub_region_1, deaths = value, year, month) |>
+                dplyr::mutate(hruid = as.character(hruid))
+      cases <- cases[iid, ] |>
+               dplyr::select(hruid = sub_region_1, cases = value, year, month) |>
+               dplyr::mutate(hruid = as.character(hruid))
+      
+      # Join to spatial data and divide by total population
+      cases <- dplyr::left_join(hr, cases, by = "hruid") |> 
+        dplyr::left_join(hrpop, by = "hruid") |>
+        dplyr::mutate(cases_pop_prop = cases / pop) |>
+        dplyr::group_by(year, month) |>
+        dplyr::group_split() |>
+        lapply(function(x) {
+          dplyr::select(x, cases_pop_prop) |>
+          stars::st_rasterize() |>
+          masteringrid()
+        })
+      deaths <- dplyr::left_join(hr, deaths, by = "hruid") |> 
+        dplyr::left_join(hrpop, by = "hruid") |>
+        dplyr::mutate(deaths_pop_prop = deaths / pop) |>
+        dplyr::group_by(year, month) |>
+        dplyr::group_split() |>
+        lapply(function(x) {
+          dplyr::select(x, deaths_pop_prop) |>
+          stars::st_rasterize() |>
+          masteringrid()
+        })
+      
+      # Export 
+      for(i in 1:nrow(per)) {
+        masterwrite(
+          cases[[i]], 
+          here::here(
+            path, 
+            "ingrid", 
+            glue::glue("{nm}-cases_population_proportion-{per$year[i]}_{per$month[i]}")
+          )
+        )
+        masterwrite(
+          deaths[[i]], 
+          here::here(
+            path, 
+            "ingrid", 
+            glue::glue("{nm}-deaths_population_proportion-{per$year[i]}_{per$month[i]}")
+          )
+        )
+      }
+    }
   }
   # _________________________________________________________________________________________ #
 

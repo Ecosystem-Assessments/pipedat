@@ -49,7 +49,7 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
         timespan = timespan,
         integrate = integrate,
         grd = grd,
-        ingrid = ingrid,
+        ingrid = ingrid
       ),
       params
     )

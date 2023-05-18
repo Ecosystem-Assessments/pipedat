@@ -30,7 +30,7 @@ check_format(uid)
 
 check_ingrid(uid)
 
-clean_path(uid, keep_raw = TRUE)
+clean_path(uid)
 
 get_filepaths(uid)
 

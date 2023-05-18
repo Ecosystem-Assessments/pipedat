@@ -5,8 +5,7 @@ dp_params <- function() {
   c(
     "@param bbox bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form `c(xmin, ymin, xmax, ymax)`",
     "@param timespan time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried `c(year1, year2, ...)`",
-    "@param ingrid logical, whether data should be integrated in a study grid, if available for specific pipeline. Default is set to `TRUE`.",
-    "@param keep_raw logical, whether raw data should be kept or removed. Default is set to `TRUE`. In any case, the raw data folder is compressed to save user disk space. Raw data can be accessed manually by unzipping `raw.zip`"
+    "@param ingrid logical, whether data should be integrated in a study grid, if available for specific pipeline. Default is set to `TRUE`."
   )
 }
 

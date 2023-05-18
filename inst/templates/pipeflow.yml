@@ -7,7 +7,6 @@ pipedat:
     grd: data/grid/grid.tif
     integrate: TRUE
     ingrid: TRUE
-    keep_raw: TRUE
     bbox:
       xmin: -72
       ymin: 35

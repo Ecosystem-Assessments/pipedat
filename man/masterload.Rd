@@ -3,11 +3,14 @@
 \name{masterload}
 \alias{masterload}
 \alias{masterwrite}
+\alias{make_extension}
 \title{Imports and export data in or from global R environment}
 \usage{
 masterload(path)
 
 masterwrite(obj, path)
+
+make_extension(obj)
 }
 \arguments{
 \item{path}{path to disk of the file to import or export. Do not specify the extension if exporting using \code{masterwrite()}.}

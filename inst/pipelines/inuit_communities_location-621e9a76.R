@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_621e9a76()
 #' }
-dp_621e9a76 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
+dp_621e9a76 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, ...) {
   uid <- "621e9a76"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
@@ -72,6 +72,6 @@ dp_621e9a76 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   write_pipeline(uid)
 
   # Clean 
-  clean_path(uid, keep_raw)
+  clean_path(uid)
   # _________________________________________________________________________________________ #
 }

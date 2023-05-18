@@ -11,7 +11,6 @@ pipedat(
   timespan = NULL,
   integrate = TRUE,
   grd = "data/grid/grid.tif",
-  keep_raw = TRUE,
   ...
 )
 }
@@ -21,8 +20,6 @@ pipedat(
 \item{bbox}{bounding box to spatially subset the queried data, if applicable. The bounding box should be of the form \code{c(xmin, ymin, xmax, ymax)}}
 
 \item{timespan}{time span to temporally subset the queried data, if applicable. The time span should a vector containing all the years to be queried \code{c(year1, year2, ...)}}
-
-\item{keep_raw}{logical, whether raw data should be kept or removed. Default is set to \code{TRUE}. In any case, the raw data folder is compressed to save user disk space. Raw data can be accessed manually by unzipping \code{raw.zip}}
 
 \item{...}{further arguments used in functions, if applicable.}
 

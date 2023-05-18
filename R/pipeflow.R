@@ -25,7 +25,6 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
   grd <- dat$pipedat$params$grid
   integrate <- dat$pipedat$parameters$integrate
   ingrid <- dat$pipedat$parameters$ingrid
-  keep_raw <- dat$pipedat$parameters$keep_raw
   params <- dat$pipedat$params
 
   # Grid
@@ -51,7 +50,6 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
         integrate = integrate,
         grd = grd,
         ingrid = ingrid,
-        keep_raw = keep_raw
       ),
       params
     )

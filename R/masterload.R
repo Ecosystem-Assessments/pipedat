@@ -55,7 +55,7 @@ masterwrite <- function(obj, path) {
 }
 
 
-#' @name make_extension
+#' @name masterload
 #' @export
 make_extension <- function(obj) {
   cls <- class(obj)

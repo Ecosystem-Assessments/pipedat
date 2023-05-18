@@ -95,23 +95,20 @@ check_ingrid <- function(uid) {
 
 #' @export
 #' @describeIn pipeline_setup create raw.zip if it does not exist and remove raw/
-clean_path <- function(uid, keep_raw = TRUE) {
+clean_path <- function(uid) {
   path <- make_path(uid)
   name <- get_shortname(uid)
   rawpath <- here::here(path, "raw")
   rawzip <- here::here(path, glue::glue("{name}-{uid}-raw.tar.xz"))
 
-  # if raw/ exists but compressed file does not and keep_raw is true
-  if (!file.exists(rawzip) & file.exists(rawpath) & keep_raw) {
+  # if raw/ exists but compressed file does not
+  if (!file.exists(rawzip) & file.exists(rawpath)) {
     archive::archive_write_dir(
       archive = rawzip,
       dir = rawpath,
       recursive = TRUE
     )
   }
-
-  # If keep_raw is false and compressed file exists
-  if (!keep_raw) unlink(rawzip)
 
   # if raw/ exists
   if (file.exists(rawpath)) unlink(rawpath, recursive = TRUE)

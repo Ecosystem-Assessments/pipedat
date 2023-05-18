@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_8671c3e4()
 #' }
-dp_8671c3e4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, census_geo_8671c3e4 = "division", ...) {
+dp_8671c3e4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, census_geo_8671c3e4 = "division", ...) {
   uid <- "8671c3e4"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
@@ -219,6 +219,6 @@ dp_8671c3e4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   write_pipeline(uid)
 
   # Clean 
-  clean_path(uid, keep_raw)
+  clean_path(uid)
   # _________________________________________________________________________________________ #
 }

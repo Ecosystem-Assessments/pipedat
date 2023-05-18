@@ -3,6 +3,8 @@
 \name{metadata}
 \alias{metadata}
 \alias{get_metadata}
+\alias{add_format}
+\alias{add_ingrid}
 \alias{add_metadata}
 \alias{gather_meta}
 \alias{gather_bib}
@@ -42,7 +44,9 @@ get_metadata(
   ...
 )
 
-add_metadata(meta, ...)
+add_format(meta, ...)
+
+add_ingrid(meta, ...)
 
 add_metadata(meta, ...)
 
@@ -109,7 +113,9 @@ through the data pipeline.
 
 \item \code{get_metadata()}: builds metadata from internal package data
 
-\item \code{add_metadata()}: add additional information on queried data to metadata
+\item \code{add_format()}: add information on exported formatted data
+
+\item \code{add_ingrid()}: add information on data integrated in study grid
 
 \item \code{add_metadata()}: add additional information on queried data to metadata
 

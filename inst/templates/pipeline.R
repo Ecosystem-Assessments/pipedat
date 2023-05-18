@@ -14,7 +14,7 @@
 #' \dontrun{
 #' dp_{{ dpid }}()
 #' }
-dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, keep_raw = TRUE, ...) {
+dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = TRUE, ...) {
   uid <- "{{ dpid }}"
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   path <- make_path(uid)
@@ -137,6 +137,6 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid 
   )  
 
   # Clean 
-  clean_path(uid, keep_raw)
+  clean_path(uid)
   # _________________________________________________________________________________________ #
 }

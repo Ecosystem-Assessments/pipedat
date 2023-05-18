@@ -19,22 +19,14 @@ masterload <- function(path) {
   ext <- tools::file_ext(path)
   name <- tools::file_path_sans_ext(basename(path))
 
-  # Import file depending on extension
-  ## GEOJSON
-  if (ext %in% c("gpkg", "geojson", "shp")) {
-    dat <- sf::st_read(path, quiet = TRUE)
-  }
-
-  ## GeoTIFF
-  if (ext == "tif") {
-    dat <- stars::read_stars(path, quiet = TRUE)
-  }
-
-  ## CSV or DAT
-  if (ext == "csv") {
-    # dat <- utils::read.csv(path)
-    dat <- vroom::vroom(path)
-  }
+  # Import
+  dat <- switch(ext, 
+    "gpkg" = sf::st_read(path, quiet = TRUE),
+    "geojson" = sf::st_read(path, quiet = TRUE),
+    "shp" = sf::st_read(path, quiet = TRUE),
+    "tif" = stars::read_stars(path, quiet = TRUE),
+    "csv" = vroom::vroom(path)
+  )
 
   # Identify which data were loaded
   msgInfo("Imported file:", glue::glue("{name}.{ext}"))
@@ -46,44 +38,32 @@ masterload <- function(path) {
 #' @name masterload
 #' @export
 masterwrite <- function(obj, path) {
-  # Identify class of object
-  cls <- class(obj)
+  # Identify extension to use for object export
+  ext <- make_extension(obj)
 
-  # Import file depending on extension
-  ## GEOJSON
-  if ("sf" %in% cls) {
-    ext <- "gpkg"
-    sf::st_write(obj, glue::glue("{path}.{ext}"), quiet = TRUE)
-  }
-
-  ## GeoTIFF
-  if ("stars" %in% cls) {
-    ext <- "tif"
-    stars::write_stars(obj, glue::glue("{path}.{ext}"), quiet = TRUE)
-  }
-
-  ## CSV
-  if (
-    ("matrix" %in% cls | "data.frame" %in% cls) &
-      (!"stars" %in% cls & !"sf" %in% cls)
-  ) {
-    ext <- "csv"
-    # utils::write.csv(obj, glue::glue("{path}.{ext}"), row.names = FALSE)
-    vroom::vroom_write(obj, glue::glue("{path}.{ext}"), delim = ",")
-  }
-
-  ## YAML
-  if ("list" %in% cls) {
-    ext <- "yaml"
-    yaml::write_yaml(obj, glue::glue("{path}.{ext}"), column.major = FALSE)
-  }
-
-  ## Bibtex
-  if ("BibEntry" %in% cls) {
-    ext <- "bib"
-    RefManageR::WriteBib(obj, file = glue::glue("{path}.{ext}"), verbose = FALSE)
-  }
+  # Export 
+  switch(ext, 
+    "gpkg" = sf::st_write(obj, glue::glue("{path}.{ext}"), quiet = TRUE, append = FALSE),
+    "tif" = stars::write_stars(obj, glue::glue("{path}.{ext}"), quiet = TRUE),
+    "csv" = vroom::vroom_write(obj, glue::glue("{path}.{ext}"), delim = ","),
+    "yaml" = yaml::write_yaml(obj, glue::glue("{path}.{ext}"), column.major = FALSE),
+    "bib" = RefManageR::WriteBib(obj, file = glue::glue("{path}.{ext}"), verbose = FALSE)
+  )
 
   # Identify which data were loaded
   msgInfo("Exported file:", glue::glue("{basename(path)}.{ext}"))
+}
+
+
+#' @name make_extension
+#' @export
+make_extension <- function(obj) {
+  cls <- class(obj)
+  dplyr::case_when(
+    "sf" %in% cls ~ "gpkg",
+    "stars" %in% cls ~ "tif",
+    (("matrix" %in% cls | "data.frame" %in% cls) & (!"stars" %in% cls & !"sf" %in% cls)) ~ "csv",
+    "list" %in% cls ~ "yaml", 
+    "BibEntry" %in% cls ~ "bib"
+  )
 }

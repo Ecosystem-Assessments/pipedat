@@ -60,6 +60,23 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       "CovidTimelineCanada_hr.csv"
     )
     for(i in 1:3) file.rename(here::here(path,"raw",from[i]), here::here(path,"raw",to[i]))
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    # Metadata
+    meta <- get_metadata(
+      pipeline_type = "data",
+      pipeline_id = uid,
+      access = timestamp()
+    )
+    
+    # bibtex
+    bib <- get_bib(uid)
+
+    # Export
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
+    write_pipeline(uid)
   }
   # _________________________________________________________________________________________ #    
   
@@ -82,6 +99,16 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     # Export
     fm <- here::here(path,"format",glue::glue("{nm}-{tools::file_path_sans_ext(files)}"))
     for(i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- add_format(meta, 
+      format = list(
+        timestamp = timestamp(),
+        description = "No modifications applied to the data; simple export of raw data.",
+        filenames = basename(fm)
+      )
+    )
+    masterwrite(meta, here::here(path, nm))
   } 
   # _________________________________________________________________________________________ #
 
@@ -129,9 +156,27 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
        deaths <- masteringrid(deaths)
 
        # Export 
-       masterwrite(cases, here::here(path, "ingrid", glue::glue("{nm}-cases_population_proportion")))
-       masterwrite(deaths, here::here(path, "ingrid", glue::glue("{nm}-deaths_population_proportion")))         
-                  
+       filenames <- c(
+         glue::glue("{nm}-cases_population_proportion"),
+         glue::glue("{nm}-deaths_population_proportion")
+       )
+       fm <- c(
+         here::here(path, "ingrid", filenames[1]),
+         here::here(path, "ingrid", filenames[2])
+       )
+       masterwrite(cases, fm[1])
+       masterwrite(deaths, fm[2])
+       
+       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+       meta <- add_ingrid(meta, 
+         ingrid = list(
+           timestamp = timestamp(),
+           description = glue::glue("All {c('cases','deaths')} available in the covid timeline canada dataset were cumulated for each health region and divided by the total population in the health region"),
+           filenames = filenames,
+           names = glue::glue("{c('Cases','Deaths')} by total population size")
+         )
+       )  
+       masterwrite(meta, here::here(path, nm))                 
     } else if (covid_period == "monthly") {
       cases <- dat[["covid_timeline_canada-a56e753b-CovidTimelineCanada_hr.csv"]] |>
                dplyr::mutate(
@@ -177,46 +222,35 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
         })
       
       # Export 
+      casesfiles <- glue::glue("{nm}-cases_population_proportion-{per$year}_{per$month}")
+      deathsfiles <-  glue::glue("{nm}-deaths_population_proportion-{per$year}_{per$month}")
+      casesfm <- here::here(path, "ingrid", casesfiles)
+      deathsfm <- here::here(path, "ingrid", deathsfiles)
+      
       for(i in 1:nrow(per)) {
-        masterwrite(
-          cases[[i]], 
-          here::here(
-            path, 
-            "ingrid", 
-            glue::glue("{nm}-cases_population_proportion-{per$year[i]}_{per$month[i]}")
-          )
-        )
-        masterwrite(
-          deaths[[i]], 
-          here::here(
-            path, 
-            "ingrid", 
-            glue::glue("{nm}-deaths_population_proportion-{per$year[i]}_{per$month[i]}")
-          )
-        )
+        masterwrite(cases[[i]], casesfm[i])
+        masterwrite(deaths[[i]], deathsfm[i])
       }
+      
+      # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+      meta <- add_ingrid(meta, 
+        ingrid = list(
+          timestamp = timestamp(),
+          description = rep(
+            glue::glue("{c('Cases','Deaths')} available in the covid timeline canada dataset were cumulated monthly for each health region and divided by the total population in the health region"),
+            each = length(casesfm)
+          ),
+          filenames = c(casesfiles,deathsfiles),
+          names = c(
+            glue::glue("Cases by total population size - {per$year}/{per$month}"),
+            glue::glue("Deaths by total population size - {per$year}/{per$month}")
+          )
+        )
+      )
+      masterwrite(meta, here::here(path, nm))
     }
   }
   # _________________________________________________________________________________________ #
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata & bibtex
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata
-  meta <- get_metadata(
-    pipeline_type = "data",
-    pipeline_id = uid,
-    access = timestamp()
-  )
-  
-  # bibtex
-  bib <- get_bib(uid)
-
-  # Export
-  mt <- here::here(path, nm)
-  masterwrite(meta, mt)
-  masterwrite(bib, mt)  
-  write_pipeline(uid)
 
   # Clean 
   clean_path(uid, keep_raw)

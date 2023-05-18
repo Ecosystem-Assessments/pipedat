@@ -40,6 +40,25 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid 
       output = here::here(path, "raw"), 
       large = FALSE
     )
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    # Metadata
+    meta <- get_metadata(
+      pipeline_type = "data",
+      pipeline_id = uid,
+      pipeline_bbox = bbox, 
+      pipeline_timespan = timespan, 
+      access = timestamp()
+    )
+    
+    # bibtex
+    bib <- get_bib(uid)
+
+    # Export
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
+    write_pipeline(uid)
   }
   # _________________________________________________________________________________________ #    
   
@@ -68,7 +87,17 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid 
 
     # Export
     fm <- here::here(path,"format",glue::glue("{nm}"))
-    masterwrite(dat, fm)    
+    masterwrite(dat, fm) 
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- add_format(meta, 
+      format = list(
+        timestamp = timestamp(),
+        description = "",
+        filenames = ""
+      )
+    )
+    masterwrite(meta, here::here(path, nm))   
   } 
   # _________________________________________________________________________________________ #
 
@@ -82,36 +111,30 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid 
     
     # Export 
     masterwrite(dat, here::here(path, "ingrid", nm))
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- add_ingrid(meta, 
+      ingrid = list(
+        timestamp = timestamp(),
+        description = "",
+        filenames = nm,
+        names = "") # For report
+      )
+    )  
+    masterwrite(meta, here::here(path, nm))                 
+
   }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata & bibtex
+  # Additional metadata if applicable
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata
-  meta <- get_metadata(
-    pipeline_type = "data",
-    pipeline_id = uid,
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    access = timestamp()
-  )
-  
   # To add additional metadata for queried data
   meta <- add_metadata(meta, 
     info1 = c("Format as lists and dataframes to be rendered as yaml"),
     info2 = c("Formatting thus matters"),
     info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
   )  
-  
-  # bibtex
-  bib <- get_bib(uid)
-
-  # Export
-  mt <- here::here(path, nm)
-  masterwrite(meta, mt)
-  masterwrite(bib, mt)  
-  write_pipeline(uid)
 
   # Clean 
   clean_path(uid, keep_raw)

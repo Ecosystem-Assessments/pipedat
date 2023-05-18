@@ -135,14 +135,23 @@ get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox = NULL, pipel
   )
 }
 
-#' @describeIn metadata add additional information on queried data to metadata
+#' @describeIn metadata add information on exported formatted data
 #' @export
-add_metadata <- function(meta, ...) {
+add_format <- function(meta, ...) {
+  meta$format <- NULL
   invisible(
     c(meta, list(...))
   )
 }
 
+#' @describeIn metadata add information on data integrated in study grid
+#' @export
+add_ingrid <- function(meta, ...) {
+  meta$ingrid <- NULL
+  invisible(
+    c(meta, list(...))
+  )
+}
 
 #' @describeIn metadata add additional information on queried data to metadata
 #' @export

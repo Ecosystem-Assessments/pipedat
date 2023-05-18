@@ -3,6 +3,7 @@
 \name{metadata}
 \alias{metadata}
 \alias{get_metadata}
+\alias{load_metadata}
 \alias{add_format}
 \alias{add_ingrid}
 \alias{add_metadata}
@@ -43,6 +44,8 @@ get_metadata(
   integration_grid = NULL,
   ...
 )
+
+load_metadata(path, nm)
 
 add_format(meta, ...)
 
@@ -112,6 +115,8 @@ through the data pipeline.
 \item \code{metadata()}: export metadata yaml
 
 \item \code{get_metadata()}: builds metadata from internal package data
+
+\item \code{load_metadata()}: load existing metadata file
 
 \item \code{add_format()}: add information on exported formatted data
 

@@ -135,6 +135,16 @@ get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox = NULL, pipel
   )
 }
 
+#' @describeIn metadata load existing metadata file 
+#' @export
+load_metadata <- function(path,nm) {
+  yaml::read_yaml(
+    here::here(
+      path,
+      glue::glue("{nm}.yaml"))
+    )
+}
+
 #' @describeIn metadata add information on exported formatted data
 #' @export
 add_format <- function(meta, ...) {

@@ -90,7 +90,8 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid 
     masterwrite(dat, fm) 
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-    meta <- add_format(meta, 
+    meta <- load_metadata(path) |>
+    add_format( 
       format = list(
         timestamp = timestamp(),
         description = "",

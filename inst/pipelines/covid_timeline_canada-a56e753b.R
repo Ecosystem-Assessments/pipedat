@@ -101,7 +101,8 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     for(i in 1:length(fm)) masterwrite(dat[[i]], fm[i])
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-    meta <- add_format(meta, 
+    meta <- load_metadata(path, nm) |>
+    add_format( 
       format = list(
         timestamp = timestamp(),
         description = "No modifications applied to the data; simple export of raw data.",
@@ -168,7 +169,8 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
        masterwrite(deaths, fm[2])
        
        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-       meta <- add_ingrid(meta, 
+       meta <- load_metadata(path, nm) |>
+       add_ingrid( 
          ingrid = list(
            timestamp = timestamp(),
            description = glue::glue("All {c('cases','deaths')} available in the covid timeline canada dataset were cumulated for each health region and divided by the total population in the health region"),
@@ -233,7 +235,8 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       }
       
       # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-      meta <- add_ingrid(meta, 
+      meta <- load_metadata(path, nm) |>
+      add_ingrid(
         ingrid = list(
           timestamp = timestamp(),
           description = rep(

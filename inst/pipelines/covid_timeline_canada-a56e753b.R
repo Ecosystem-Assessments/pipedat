@@ -173,9 +173,11 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
        add_ingrid( 
          ingrid = list(
            timestamp = timestamp(),
-           description = glue::glue("All {c('cases','deaths')} available in the covid timeline canada dataset were cumulated for each health region and divided by the total population in the health region"),
-           filenames = filenames,
-           names = glue::glue("{c('Cases','Deaths')} by total population size")
+           description = "All cases or deaths available in the covid timeline canada dataset were cumulated for each health region and divided by the total population in the health region",
+           files = list(
+             filenames = filenames,
+             names = glue::glue("{c('Cases','Deaths')} by total population size")             
+           )
          )
        )  
        masterwrite(meta, here::here(path, nm))                 
@@ -239,14 +241,13 @@ dp_a56e753b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       add_ingrid(
         ingrid = list(
           timestamp = timestamp(),
-          description = rep(
-            glue::glue("{c('Cases','Deaths')} available in the covid timeline canada dataset were cumulated monthly for each health region and divided by the total population in the health region"),
-            each = length(casesfm)
-          ),
-          filenames = c(casesfiles,deathsfiles),
-          names = c(
-            glue::glue("Cases by total population size - {per$year}/{per$month}"),
-            glue::glue("Deaths by total population size - {per$year}/{per$month}")
+          description = "Cases or Deaths available in the covid timeline canada dataset [@CovidTimelineCanada] were cumulated monthly for each health region and divided by the total population in the health region",
+          files = list(
+            filenames = c(casesfiles,deathsfiles),
+            names = c(
+              glue::glue("Cases by total population size - {per$year}/{per$month}"),
+              glue::glue("Deaths by total population size - {per$year}/{per$month}")
+            )            
           )
         )
       )

@@ -118,8 +118,10 @@ dp_{{ dpid }} <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid 
       ingrid = list(
         timestamp = timestamp(),
         description = "",
-        filenames = nm,
-        names = "") # For report
+        files = list(
+          filenames = nm,
+          names = "" # For report          
+        )
       )
     )  
     masterwrite(meta, here::here(path, nm))                 

@@ -25,6 +25,23 @@ dp_ce5d1455 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   if (check_raw(uid)) {
     govcan <- get_pipeline(uid)$data_uuid
     pipeload(govcan = govcan, output = here::here(path, "raw"), large = FALSE)
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    # Metadata
+    meta <- get_metadata(
+      pipeline_type = "data",
+      pipeline_id = uid,
+      access = timestamp()
+    )
+    
+    # bibtex
+    bib <- get_bib(uid)
+
+    # Export
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
+    write_pipeline(uid)
   }
   # _________________________________________________________________________________________ #    
   
@@ -42,7 +59,18 @@ dp_ce5d1455 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
 
     # Export
     fm <- here::here(path,"format",glue::glue("{nm}"))
-    masterwrite(dat, fm)    
+    masterwrite(dat, fm)   
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- load_metadata(path, nm) |>
+    add_format( 
+      format = list(
+        timestamp = timestamp(),
+        description = "No modifications applied to the data; simple export of raw data.",
+        filenames = basename(fm)
+      )
+    )
+    masterwrite(meta, here::here(path, nm)) 
   } 
   # _________________________________________________________________________________________ #
 
@@ -56,29 +84,26 @@ dp_ce5d1455 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     
     # Export 
     masterwrite(dat, here::here(path, "ingrid", nm))
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- load_metadata(path, nm) |>
+    add_ingrid(
+      ingrid = list(
+        timestamp = timestamp(),
+        description = c(
+          "Inuit regions were integrated in the study grid as presence absence data."
+        ),
+        files = list(
+          filenames = basename(fm),
+          names = glue::glue(
+            glue::glue("Location of inuit regions")
+          )          
+        )
+      )
+    )
+    masterwrite(meta, here::here(path, nm))
   }
   # _________________________________________________________________________________________ #
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata & bibtex
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata
-  meta <- get_metadata(
-    pipeline_type = "data",
-    pipeline_id = uid,
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    access = timestamp()
-  )
-    
-  # bibtex
-  bib <- get_bib(uid)
-
-  # Export
-  mt <- here::here(path, nm)
-  masterwrite(meta, mt)
-  masterwrite(bib, mt)  
-  write_pipeline(uid)
 
   # Clean 
   clean_path(uid)

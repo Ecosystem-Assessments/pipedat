@@ -30,6 +30,23 @@ dp_175ec912 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       # "5e4be996" # Census cartographic subdivision boundary files 2021
       "288ca300" # Census cartographic division boundary files 2021
     )
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    # Metadata
+    meta <- get_metadata(
+      pipeline_type = "data",
+      pipeline_id = uid,
+      access = timestamp()
+    )
+    
+    # bibtex
+    bib <- get_bib(uid)
+
+    # Export
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
+    write_pipeline(uid)
   }
   # _________________________________________________________________________________________ #    
   
@@ -162,7 +179,18 @@ dp_175ec912 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
 
     # Export
     fm <- here::here(path,"format",glue::glue("{nm}"))
-    masterwrite(sc2021, fm)    
+    masterwrite(sc2021, fm)
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- load_metadata(path, nm) |>
+    add_format( 
+      format = list(
+        timestamp = timestamp(),
+        description = 'Data from housing suitability [@statisticscanada2022c], dwelling condition [@statisticscanada2022d], and acceptable housing [@statisticscanada2022e] of the 2021 Census of Population [@statisticscanada2021a] were joined with the 2021 Census cartographic division boundary file [@statisticscanada2022; statisticscanada2022f]. <br> According to Statistics Canada housing suitability *"refers to whether a private household is living in suitable accommodations according to the National Occupancy Standard (NOS); that is, whether the dwelling has enough bedrooms for the size and composition of the household. A household is deemed to be living in suitable accommodations if its dwelling has enough bedrooms, as calculated using the NOS. Housing suitability assesses the required number of bedrooms for a household based on the age, sex, and relationships among household members. An alternative variable, persons per room, considers all rooms in a private dwelling and the number of household members. Housing suitability and the National Occupancy Standard (NOS) on which it is based were developed by Canada Mortgage and Housing Corporation (CMHC) through consultations with provincial housing agencies."* Housing suitability was assessed as the proportion of households in a census division considered as not suitable. <br> Dwelling condition refers to whether the dwelling is in need of repairs. Acceptability of dwelling condition was assessed as the proportion of households in a census division considered as needing major repairs. <br> According to Statistics Canada, acceptable housing *"refers to whether a household meets each of the three indicator thresholds established by the Canada Mortgage and Housing Corporation for housing adequacy, suitability and affordability. Housing indicator thresholds are defined as follows: 1) adequate housing is reported by their residents as not requiring any major repairs; 2) affordable housing has shelter costs less than 30% of total before-tax household income;  3) suitable housing has enough bedrooms for the size and composition of resident households according to the National Occupancy Standard (NOS), conceived by the Canada Mortgage and Housing Corporation and provincial and territorial representatives. Acceptable housing identifies which thresholds the household falls below, if any. Housing that is adequate in condition, suitable in size and affordable is considered to be acceptable."* Here, acceptable housing was assessed as the proportion of households in a census division that was below any of the thresholds of adequacy, affordability or suitability.',
+        filenames = basename(fm)
+      )
+    )
+    masterwrite(meta, here::here(path, nm))
   } 
   # _________________________________________________________________________________________ #
 
@@ -177,32 +205,29 @@ dp_175ec912 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     ah <- dplyr::select(dat, percent_below_thresholds) |> masteringrid()
     
     # Export 
-    masterwrite(hs, here::here(path, "ingrid", glue::glue("{nm}-house_suitability")))
+    masterwrite(hs, here::here(path, "ingrid", glue::glue("{nm}-housing_suitability")))
     masterwrite(dc, here::here(path, "ingrid", glue::glue("{nm}-dwelling_condition")))
     masterwrite(ah, here::here(path, "ingrid", glue::glue("{nm}-acceptable_housing")))
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    type <- c('housing_suitability','dwelling_condition','acceptable_housing')
+    type2 <- c('Housing suitability','Dwelling condition','Acceptable housing')
+    meta <- load_metadata(path, nm) |>
+    add_ingrid(
+      ingrid = list(
+        timestamp = timestamp(),
+        description = meta$format$description,
+        files = list(
+          filenames = glue::glue("{nm}-{type}"),
+          names = glue::glue(
+            "Housing acceptability in Canada - {type2}"
+          )          
+        )
+      )
+    )
+    masterwrite(meta, here::here(path, nm))
   }
   # _________________________________________________________________________________________ #
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata & bibtex
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata
-  meta <- get_metadata(
-    pipeline_type = "data",
-    pipeline_id = uid,
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    access = timestamp()
-  )
-    
-  # bibtex
-  bib <- get_bib(uid)
-
-  # Export
-  mt <- here::here(path, nm)
-  masterwrite(meta, mt)
-  masterwrite(bib, mt)  
-  write_pipeline(uid)
 
   # Clean 
   clean_path(uid)

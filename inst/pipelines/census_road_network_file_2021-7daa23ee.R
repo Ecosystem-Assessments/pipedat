@@ -40,6 +40,23 @@ dp_7daa23ee <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       from = here::here(path,"raw","92-500-g2021001-eng.pdf?st=OgZb6M3u"),
       to = here::here(path,"raw","92-500-g2021001-eng.pdf")
     )
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    # Metadata
+    meta <- get_metadata(
+      pipeline_type = "data",
+      pipeline_id = uid,
+      access = timestamp()
+    )
+    
+    # bibtex
+    bib <- get_bib(uid)
+
+    # Export
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
+    write_pipeline(uid)
   }
   # _________________________________________________________________________________________ #    
   
@@ -60,9 +77,20 @@ dp_7daa23ee <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     # dat <- lapply(dat, dp_parameters, bbox = bbox, timespan = timespan)
     dat <- dp_parameters(dat, bbox)
 
-  # Export
+    # Export
     fm <- here::here(path,"format",glue::glue("{nm}"))
     masterwrite(dat, fm)    
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- load_metadata(path, nm) |>
+    add_format( 
+      format = list(
+        timestamp = timestamp(),
+        description = "No modifications applied to the data; simple export of raw data.",
+        filenames = basename(fm)
+      )
+    )
+    masterwrite(meta, here::here(path, nm))
   } 
   # _________________________________________________________________________________________ #
   
@@ -168,6 +196,25 @@ dp_7daa23ee <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     
     # Export 
     masterwrite(rd, here::here(path, "ingrid", glue::glue("{nm}-distance_to_road_network")))
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- load_metadata(path, nm) |>
+    add_ingrid(
+      ingrid = list(
+        timestamp = timestamp(),
+        description = c(
+          "The road network from the Census 2021 road network file [@statisticscanada2021a; statisticscanada2021b] was rasterized as a 1 $km^2$ resolution then integrated in the study grid to obtain a raster of the distribution of the Canadian road network. The distance of the centroid of each cell in the grid to the closest road was then measured to obtain an assessment of the distance to the closest road across Canada."
+        ),
+        files = list(
+          filenames = glue::glue("{nm}-{c('road_network','distance_to_road_network')}"),
+          names = c(
+            "Road network",
+            "Distance to closest road"
+          )          
+        )
+      )
+    )
+    masterwrite(meta, here::here(path, nm))
   }
   # _________________________________________________________________________________________ #
   

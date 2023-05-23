@@ -29,6 +29,23 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       output = here::here(path, "raw"), 
       large = FALSE
     )
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    # Metadata
+    meta <- get_metadata(
+      pipeline_type = "data",
+      pipeline_id = uid,
+      access = timestamp()
+    )
+    
+    # bibtex
+    bib <- get_bib(uid)
+
+    # Export
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
+    write_pipeline(uid)
   }
   # _________________________________________________________________________________________ #    
   
@@ -67,6 +84,18 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     fm <- here::here(path,"format",glue::glue("{nm}"))   
     masterwrite(dat, fm)
     masterwrite(spat, fm)
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- load_metadata(path, nm) |>
+    add_format( 
+      format = list(
+        timestamp = timestamp(),
+        description = "Minor modifications applied to the data to clean and standardize it.",
+        filenames = basename(fm)
+      )
+    )
+    masterwrite(meta, here::here(path, nm))
+
   } 
   # _________________________________________________________________________________________ #
 
@@ -138,29 +167,26 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     # Export 
     masterwrite(critical, here::here(path, "ingrid", glue::glue("{nm}-critical")))
     masterwrite(longterm, here::here(path, "ingrid", glue::glue("{nm}-longterm")))
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- load_metadata(path, nm) |>
+    add_ingrid(
+      ingrid = list(
+        timestamp = timestamp(),
+        description = c(
+          "The location of healthcare facilities available in the Open Database of Healthcare Facilities [ODHF; @statisticscanada2020; @statisticscanada2020a] were used to assess the distance to the closest healthcare facility. Facilities were divided between critical and longterm care using the classifications avaialble in the ODHF. Hospitals and ambulatory health care services were considered as critical care facilities, while nursing and residential care facilities were considered as longterm care facilities."
+        ),
+        files = list(
+          filenames = glue::glue("{nm}-{c('critical','longterm')}"),
+          names = glue::glue(
+            "Distance to healthcare facilities - {c('critical care','longterm care')}"
+          )          
+        )
+      )
+    )
+    masterwrite(meta, here::here(path, nm))
   }
   # _________________________________________________________________________________________ #
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata & bibtex
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata
-  meta <- get_metadata(
-    pipeline_type = "data",
-    pipeline_id = uid,
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    access = timestamp()
-  )
-  
-  # bibtex
-  bib <- get_bib(uid)
-
-  # Export
-  mt <- here::here(path, nm)
-  masterwrite(meta, mt)
-  masterwrite(bib, mt)  
-  write_pipeline(uid)
 
   # Clean 
   clean_path(uid)

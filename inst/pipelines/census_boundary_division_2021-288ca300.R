@@ -29,6 +29,23 @@ dp_288ca300 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       output = here::here(path, "raw"), 
       large = TRUE
     )
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    # Metadata
+    meta <- get_metadata(
+      pipeline_type = "data",
+      pipeline_id = uid,
+      access = timestamp()
+    )
+    
+    # bibtex
+    bib <- get_bib(uid)
+
+    # Export
+    mt <- here::here(path, nm)
+    masterwrite(meta, mt)
+    masterwrite(bib, mt)  
+    write_pipeline(uid)
   }
   # _________________________________________________________________________________________ #    
   
@@ -53,6 +70,17 @@ dp_288ca300 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     # Export
     fm <- here::here(path,"format",glue::glue("{nm}"))
     masterwrite(dat, fm)    
+    
+    # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+    meta <- load_metadata(path, nm) |>
+    add_format( 
+      format = list(
+        timestamp = timestamp(),
+        description = "No modifications applied to the data; simple export of raw data.",
+        filenames = basename(fm)
+      )
+    )
+    masterwrite(meta, here::here(path, nm))
   } 
   # _________________________________________________________________________________________ #
 
@@ -67,27 +95,6 @@ dp_288ca300 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   #   masterwrite(dat, here::here(path, "integrated", nm))
   # }
   # # _________________________________________________________________________________________ #
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata & bibtex
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata
-  meta <- get_metadata(
-    pipeline_type = "data",
-    pipeline_id = uid,
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    access = timestamp()
-  )
-    
-  # bibtex
-  bib <- get_bib(uid)
-
-  # Export
-  mt <- here::here(path, nm)
-  masterwrite(meta, mt)
-  masterwrite(bib, mt)  
-  write_pipeline(uid)
 
   # Clean 
   clean_path(uid)

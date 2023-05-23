@@ -90,6 +90,8 @@ if (length(files) > 0) {
     
     # Text
     cat("  \n##",  nm, "\n")
+    cat(meta$ingrid$description)
+    cat("  \n")
     cat(glue::glue("![]({uid})"))
     cat("  \n")
   }

@@ -82,21 +82,21 @@ plotingrid <- function(res, width, height, pal) {
            
     # All folders in a loop
     for(i in 1:length(files)) {
-      # Load data
-      dat <- dir(files[i], full.names = TRUE) |>
-             lapply(stars::read_stars)
-
       # Load metadata 
       meta <- dir(here::here(files[i], ".."), full.names = TRUE, pattern = "yaml") |>
               yaml::read_yaml()
-      
-      for(j in 1:length(dat)) {
-        # Name of data for export
-        nm <- names(dat[[j]]) |>
-              tools::file_path_sans_ext()
-              
-        sub <- stringr::str_split(nm, "-")[[1]]
-        sub <- sub[length(sub)]
+
+      # Filenames 
+      filenames <- meta$ingrid$files
+            
+      for(j in 1:length(dat)) {        
+        # Name 
+        nm <- filenames$filenames[j]
+        sub <- filenames$names[j]
+        
+        # Load data
+        dat <- here::here(files[i], glue::glue("{nm}.tif")) |>
+               stars::read_stars()
                     
         # Output arguments 
         grDevices::png(
@@ -111,7 +111,7 @@ plotingrid <- function(res, width, height, pal) {
         par(mar = c(1,0,5,0))
 
         # Plot grid with base stars functionalities
-        image(dat[[j]], col = pal(100), main = meta$description$name)
+        image(dat, col = pal(100), main = meta$description$name)
         
         # Subtext
         mtext(side = 3, text = sub)

@@ -89,7 +89,7 @@ plotingrid <- function(res, width, height, pal) {
       # Filenames 
       filenames <- meta$ingrid$files
             
-      for(j in 1:length(dat)) {        
+      for(j in 1:length(filenames$filenames)) {        
         # Name 
         nm <- filenames$filenames[j]
         sub <- filenames$names[j]

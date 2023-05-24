@@ -34,21 +34,23 @@ dp_8671c3e4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     }
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-    # Metadata
-    meta <- get_metadata(
-      pipeline_type = "data",
-      pipeline_id = uid,
-      access = timestamp()
-    )
-    
-    # bibtex
-    bib <- get_bib(uid)
+    if (!file.exists(here::here(path, glue::glue("{nm}.yaml")))) {
+      # Metadata
+      meta <- get_metadata(
+        pipeline_type = "data",
+        pipeline_id = uid,
+        access = timestamp()
+      )
+      
+      # bibtex
+      bib <- get_bib(uid)
 
-    # Export
-    mt <- here::here(path, nm)
-    masterwrite(meta, mt)
-    masterwrite(bib, mt)  
-    write_pipeline(uid)
+      # Export
+      mt <- here::here(path, nm)
+      masterwrite(meta, mt)
+      masterwrite(bib, mt)  
+      write_pipeline(uid)  
+    }
   }
   # _________________________________________________________________________________________ #    
   
@@ -67,7 +69,7 @@ dp_8671c3e4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
              dplyr::select(DGUID)
     }
 
-    # Census 2021 housing suitability
+    # Census 2021
     census <- importdat("37563350", "format")[[1]] 
 
     # List to store data 
@@ -172,9 +174,9 @@ dp_8671c3e4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
     statement <- c(
-      "census cartographic divisions and subdivisions boundary files for 2021 [@statisticscanada2022f; statisticscanada2022]",
-      "census cartographic divisions boundary files for 2021 [@statisticscanada2022f; statisticscanada2022]",
-      "census cartographic subdivisions boundary files for 2021 [@statisticscanada2022f; statisticscanada2022]"
+      "census cartographic divisions and subdivisions boundary files for 2021 [@statisticscanada2022f; @statisticscanada2022]",
+      "census cartographic divisions boundary files for 2021 [@statisticscanada2022f; @statisticscanada2022]",
+      "census cartographic subdivisions boundary files for 2021 [@statisticscanada2022f; @statisticscanada2022]"
     )
     geos <- dplyr::case_when(
       "division" %in% census_geo_8671c3e4 &
@@ -186,50 +188,19 @@ dp_8671c3e4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     add_format( 
       format = list(
         timestamp = timestamp(),
-        description = '
-        Data from the 2021 Census of Population [@statisticscanada2021a] was used to select relevant population indicators as proxies of social vulnerabilities. The indicators were then joined to the {geos} and subsequently integrated in the study grid. The selected indicators are: <br>
-        <table>
-          <tr>
-            <th>Indicator</th>
-            <th>Description</th>
-          </tr>
-          <tr>
-            <td>Gini index on adjusted household total income</td>
-            <td>The Gini coefficient is a number between zero and one that measures the relative degree of inequality in the distribution of income. The coefficient would register zero (minimum inequality) for a population in which each person received exactly the same adjusted household income and it would register a coefficient of one (maximum inequality) if one person received all the adjusted household income and the rest received none. Even though a single Gini coefficient value has no simple interpretation, comparisons of the level over time or between populations are very straightforward: the higher the coefficient, the higher the inequality of the distribution.</td>
-          </tr>
-          <tr>
-            <td>P90/P10 ratio on adjusted household after-tax income</td>
-            <td>The P90/P10 ratio is a measure of inequality. It is the ratio of the 90th and the 10th percentile of the adjusted household after-tax income. The 90th percentile means 90% of the population has income that falls below this threshold. The 10th percentile means 10% of the population has income that falls below this threshold.</td>
-          </tr>
-          <tr>
-            <td>Prevalence of low income based on the Low-income measure, after tax (LIM-AT) (%)"</td>
-            <td>The Low‑income measure, after tax, refers to a fixed percentage (50%) of median adjusted after‑tax income of private households. The household after‑tax income is adjusted by an equivalence scale to take economies of scale into account. This adjustment for different household sizes reflects the fact that a household\'s needs increase, but at a decreasing rate, as the number of members increases.</td>
-          </tr>
-          <tr>
-            <td>Prevalence of low income based on the Low-income cut-offs, after tax (LICO-AT) (%)"</td>
-            <td>The Low‑income cut‑offs, after tax refer to income thresholds, defined using 1992 expenditure data, below which economic families or persons not in economic families would likely have devoted a larger share of their after‑tax income than average to the necessities of food, shelter and clothing. More specifically, the thresholds represented income levels at which these families or persons were expected to spend 20 percentage points or more of their after‑tax income than average on food, shelter and clothing. These thresholds have been adjusted to current dollars using the all‑items Consumer Price Index (CPI).</td>
-          </tr>
-          <tr>
-            <td>Indigenous identity</td>
-            <td>Indigenous identity refers to whether the person identified with the Indigenous peoples of Canada. This includes those who identify as First Nations (North American Indian), Métis and/or Inuk (Inuit), and/or those who report being Registered or Treaty Indians (that is, registered under the Indian Act of Canada), and/or those who have membership in a First Nation or Indian band. Aboriginal peoples of Canada (referred to here as Indigenous peoples) are defined in the Constitution Act, 1982, Section 35 (2) as including the Indian, Inuit and Métis peoples of Canada.</td>
-          </tr>
-          <tr>
-            <td>In a one-parent family</td>
-            <td>Percent children living in one-parent family</td>
-          </tr>
-          <tr>
-            <td>Parents in one-parent families</td>
-            <td>Percent parent in one-parent family</td>
-          </tr>
-          <tr>
-            <td>No certificate, diploma or degree</td>
-            <td>Percent population with no certificate, diploma or degree, population 25-64 years old</td>
-          </tr>
-          <tr>
-            <td>Government transfers (%)</td>
-            <td>Percent of total income composed of government transfers in 2020, corresponding to all cash benefits received from federal, provincial, territorial or municipal governments during the reference period.</td>
-          </tr>
-        </table>',
+        description = glue::glue(
+          'Data from the 2021 Census of Population [@statisticscanada2021a] was used to select relevant population indicators as proxies of social vulnerabilities. The indicators were then joined to the {geos} and subsequently integrated in the study grid. The selected indicators are:
+  
+          - ***Gini index on adjusted household total income***: *The Gini coefficient is a number between zero and one that measures the relative degree of inequality in the distribution of income. The coefficient would register zero (minimum inequality) for a population in which each person received exactly the same adjusted household income and it would register a coefficient of one (maximum inequality) if one person received all the adjusted household income and the rest received none. Even though a single Gini coefficient value has no simple interpretation, comparisons of the level over time or between populations are very straightforward: the higher the coefficient, the higher the inequality of the distribution.*
+          - ***P90/P10 ratio on adjusted household after-tax incom***: *The P90/P10 ratio is a measure of inequality. It is the ratio of the 90th and the 10th percentile of the adjusted household after-tax income. The 90th percentile means 90% of the population has income that falls below this threshold. The 10th percentile means 10% of the population has income that falls below this threshold.*
+          - ***Prevalence of low income based on the Low-income measure, after tax (LIM-AT) (%)***: *The Low‑income measure, after tax, refers to a fixed percentage (50%) of median adjusted after‑tax income of private households. The household after‑tax income is adjusted by an equivalence scale to take economies of scale into account. This adjustment for different household sizes reflects the fact that a household\'s needs increase, but at a decreasing rate, as the number of members increases.*
+          - ***Prevalence of low income based on the Low-income cut-offs, after tax (LICO-AT) (%)***: *The Low‑income cut‑offs, after tax refer to income thresholds, defined using 1992 expenditure data, below which economic families or persons not in economic families would likely have devoted a larger share of their after‑tax income than average to the necessities of food, shelter and clothing. More specifically, the thresholds represented income levels at which these families or persons were expected to spend 20 percentage points or more of their after‑tax income than average on food, shelter and clothing. These thresholds have been adjusted to current dollars using the all‑items Consumer Price Index (CPI).*
+          - ***Indigenous identity***: *Indigenous identity refers to whether the person identified with the Indigenous peoples of Canada. This includes those who identify as First Nations (North American Indian), Métis and/or Inuk (Inuit), and/or those who report being Registered or Treaty Indians (that is, registered under the Indian Act of Canada), and/or those who have membership in a First Nation or Indian band. Aboriginal peoples of Canada (referred to here as Indigenous peoples) are defined in the Constitution Act, 1982, Section 35 (2) as including the Indian, Inuit and Métis peoples of Canada.*
+          - ***In a one-parent family***: *Percent children living in one-parent family*
+          - ***Parents in one-parent families***: *Percent parent in one-parent family
+          - ***No certificate, diploma or degree***: *Percent population with no certificate, diploma or degree, population 25-64 years old*
+          - ***Government transfers (%)***: *Percent of total income composed of government transfers in 2020, corresponding to all cash benefits received from federal, provincial, territorial or municipal governments during the reference period.*'
+        ),
         filenames = files
       )
     )
@@ -309,7 +280,7 @@ dp_8671c3e4 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
         "percent_government_transfers"        
       )
     )
-    filenames <- glue::glue('{nm}-{sort(census_geo_8671c3e4)}')
+    filenames <- glue::glue('{nm}-census_{sort(census_geo_8671c3e4)}')
     meta <- load_metadata(path, nm) |>
     add_ingrid(
       ingrid = list(

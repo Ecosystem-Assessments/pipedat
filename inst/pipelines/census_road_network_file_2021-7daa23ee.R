@@ -192,8 +192,9 @@ dp_7daa23ee <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     dist_rd <- dplyr::bind_rows(noroads, yesroads)
     rd <- dplyr::left_join(rd, dist_rd, by = "id") |>
           dplyr::select(x,y,distance_roads) |>
-          stars::st_as_stars(coords = c("x","y"),  crs = sf::st_crs(r))
-    
+          stars::st_as_stars(coords = c("x","y"))
+    sf::st_crs(rd) <- sf::st_crs(r)
+
     # Export 
     masterwrite(rd, here::here(path, "ingrid", glue::glue("{nm}-distance_to_road_network")))
     
@@ -217,27 +218,6 @@ dp_7daa23ee <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     masterwrite(meta, here::here(path, nm))
   }
   # _________________________________________________________________________________________ #
-  
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata & bibtex
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Metadata
-  meta <- get_metadata(
-    pipeline_type = "data",
-    pipeline_id = uid,
-    pipeline_bbox = bbox, 
-    pipeline_timespan = timespan, 
-    access = timestamp()
-  )
-    
-  # bibtex
-  bib <- get_bib(uid)
-  
-  # Export
-  mt <- here::here(path, nm)
-  masterwrite(meta, mt)
-  masterwrite(bib, mt)  
-  write_pipeline(uid)
   
   # Clean 
   clean_path(uid)

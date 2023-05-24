@@ -62,7 +62,7 @@ dp_f4abec86 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       format = list(
         timestamp = timestamp(),
         description = "No modifications applied to the data; simple export of raw data.",
-        filenames = basename(fm)
+        filenames = nm
       )
     )
     masterwrite(meta, here::here(path, nm))

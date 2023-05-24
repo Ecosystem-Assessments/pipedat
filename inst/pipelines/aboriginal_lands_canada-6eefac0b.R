@@ -56,13 +56,12 @@ dp_6eefac0b <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     dat <- list()
     dat[[1]] <- masterload(here::here(path, "raw", "AL_TA_CA_2_152_MODIFIED_eng.shp"))
     dat[[2]] <- masterload(here::here(path, "raw", "AL_TA_CA_2_152_CONFIRMED_eng.shp"))
-    
     dat <- dplyr::bind_rows(dat)
   
     # Subset data (if specified by user)
     # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
     # sf::sf_use_s2(FALSE)
-    dat <- lapply(dat, dp_parameters, bbox = bbox, timespan = timespan)
+    dat <- dp_parameters(dat, bbox = bbox, timespan = timespan)
   
     # Export
     fm <- here::here(path,"format",nm)

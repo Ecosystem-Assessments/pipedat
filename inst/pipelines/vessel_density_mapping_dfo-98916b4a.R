@@ -93,7 +93,7 @@ dp_98916b4a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       dplyr::arrange(vessel, month, year)
 
     # Subset data years if timespan is specified
-    if (!is.null(timespan)) name <- dplyr::filter(name, year %in% timespan)
+    # if (!is.null(timespan)) name <- dplyr::filter(name, year %in% timespan)
 
     # Import
     dat <- lapply(name$files, masterload)
@@ -101,7 +101,7 @@ dp_98916b4a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     # Subset data (if specified by user)
     # on.exit(sf::sf_use_s2(TRUE), add = TRUE)
     # sf::sf_use_s2(FALSE)
-    dat <- lapply(dat, dp_parameters, bbox = bbox, timespan = timespan)
+    # dat <- lapply(dat, dp_parameters, bbox = bbox, timespan = timespan)
 
     # Export
     fm <- here::here(path, "format", glue::glue("{nm}_{name$nm}"))

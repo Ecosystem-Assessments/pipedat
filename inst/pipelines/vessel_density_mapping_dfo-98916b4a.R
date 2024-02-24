@@ -127,23 +127,24 @@ dp_98916b4a <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_ingrid(uid) & ingrid) {
     dat <- importdat(uid, "format") |>
-      masteringrid()
+      lapply(masteringrid)
 
     # Export
     fm <- here::here(path, "ingrid", tools::file_path_sans_ext(names(dat)))
     for (i in seq_len(length(dat))) masterwrite(dat[[i]], fm[i])
 
     # ~~~~~~~~~~~~~~~~~~~ #
-    meta <- add_ingrid(meta,
-      ingrid = list(
-        timestamp = timestamp(),
-        description = "",
-        files = list(
-          filenames = nm,
-          names = "" # For report
+    meta <- load_metadata(path, nm) |>
+      add_ingrid(
+        ingrid = list(
+          timestamp = timestamp(),
+          description = "",
+          files = list(
+            filenames = nm,
+            names = "" # For report
+          )
         )
       )
-    )
     masterwrite(meta, here::here(path, nm))
   }
   # _________________________________________________________________________________________ #

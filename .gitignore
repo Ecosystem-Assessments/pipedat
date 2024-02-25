@@ -38,12 +38,7 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 .DS_Store
-data-raw/
-data-grid/
-data-integrated/
-temp.rda
-temp_species.csv
+project-data/
+pubs/
 data/
 integration/
-figures/
-pubs/

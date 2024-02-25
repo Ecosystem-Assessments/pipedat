@@ -18,7 +18,7 @@ write_pipeline <- function(uid) {
   nm <- glue::glue("{get_shortname(uid)}-{uid}")
   use_template(
     template = glue::glue("pipelines/{nm}.R"),
-    save_as = glue::glue("data/pipedat/{nm}/{nm}.R")
+    save_as = glue::glue("project-data/pipedat/{nm}/{nm}.R")
   )
 }
 
@@ -32,7 +32,7 @@ write_pipeline <- function(uid) {
 #' @describeIn pipeline_setup base path for all data formatted through pipedat
 make_path <- function(uid) {
   here::here(
-    "data",
+    "project-data",
     "pipedat",
     # glue::glue("{pipedat::get_shortname(uid)}-{uid}")
     glue::glue("{get_shortname(uid)}-{uid}")
@@ -210,7 +210,7 @@ get_pipeline_url <- function(uid) {
 
 #' @describeIn pipeline_setup get information on a grid
 #' @export
-get_grid_info <- function(grd = here::here("data/grid/grid.tif")) {
+get_grid_info <- function(grd = here::here("project-data", "grid", "grid.tif")) {
   # Get grid
   if (class(grd) == "character") grd <- stars::read_stars(grd)
   if (!"stars" %in% class(grd)) grd <- stars::st_as_stars(grd)

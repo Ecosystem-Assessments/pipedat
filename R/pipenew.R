@@ -67,7 +67,7 @@ pipenew <- function(name = NULL, template = "workflow") {
     if (is.null(name)) name <- "pipeflow"
     use_template(
       template = "templates/pipeflow.yml",
-      save_as = glue::glue("data/pipedat/{name}.yml")
+      save_as = glue::glue("project-data/pipedat/{name}.yml")
     )
   }
 }

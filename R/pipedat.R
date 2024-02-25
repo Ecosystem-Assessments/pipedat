@@ -18,7 +18,7 @@
 #' pipedat("0001")
 #' }
 #' @export
-pipedat <- function(uid, bbox = NULL, timespan = NULL, integrate = TRUE, grd = "data/grid/grid.tif", ...) {
+pipedat <- function(uid, bbox = NULL, timespan = NULL, integrate = TRUE, grd = "project-data/grid/grid.tif", ...) {
   # Execute data pipelines
   lapply(
     uid,

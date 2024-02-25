@@ -63,7 +63,7 @@ append_dp <- function(pipeline_id, name, url = NULL, avail = NULL) {
 # Get basemap data, to add to R/sysdata.rda
 get_basemap <- function() {
   # Quebec + Maritimes provinces
-  canada <- raster::getData("GADM", country = "CAN", level = 1, path = "data")
+  canada <- raster::getData("GADM", country = "CAN", level = 1, path = "project-data")
   canada <- sf::st_as_sf(canada)
   qc <- canada[canada$NAME_1 == "Qu\u00e9bec", ]
   ns <- canada[canada$NAME_1 == "Nova Scotia", ]
@@ -72,11 +72,11 @@ get_basemap <- function() {
   pei <- canada[canada$NAME_1 == "Prince Edward Island", ]
 
   # Canada
-  canada <- raster::getData("GADM", country = "CAN", level = 0, path = "data")
+  canada <- raster::getData("GADM", country = "CAN", level = 0, path = "project-data")
   canada <- sf::st_as_sf(canada)
 
   # USA
-  usa <- raster::getData("GADM", country = "USA", level = 0, path = "data")
+  usa <- raster::getData("GADM", country = "USA", level = 0, path = "project-data")
   usa <- sf::st_as_sf(usa)
 
   # Delete loaded data
@@ -186,4 +186,3 @@ msgInfo <- function(..., appendLF = TRUE) {
   message(crayon::green(txt), appendLF = appendLF)
   invisible(txt)
 }
-

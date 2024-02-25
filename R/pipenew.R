@@ -62,7 +62,7 @@ pipenew <- function(name = NULL, template = "workflow") {
   }
 
   if (template == "workflow") {
-    out <- here::here("data", "pipedat")
+    out <- here::here("project-data", "pipedat")
     chk_create(out)
     if (is.null(name)) name <- "pipeflow"
     use_template(

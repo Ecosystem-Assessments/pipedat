@@ -57,7 +57,7 @@ metadata <- function(pipeline_type,
                      pipeline_timespan = NULL,
                      name,
                      description,
-                     contacts = '',
+                     contacts = "",
                      access = timestamp(),
                      citekey,
                      data_timespan = NULL,
@@ -67,7 +67,6 @@ metadata <- function(pipeline_type,
                      data_availability = NULL,
                      integration_data = NULL,
                      integration_grid = NULL) {
-
   # Metadata list
   meta <- list()
 
@@ -111,7 +110,7 @@ metadata <- function(pipeline_type,
 get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox = NULL, pipeline_timespan = NULL, access = timestamp(), data_bbox = NULL, data_timespan = NULL, integration_grid = NULL, ...) {
   dat <- get_pipeline(pipeline_id)
   contact <- get_contact(pipeline_id)
-  if (nrow(contact) == 0) contact <- ''
+  if (nrow(contact) == 0) contact <- ""
   meta <- metadata(
     pipeline_id = pipeline_id,
     pipeline_type = pipeline_type,
@@ -135,14 +134,15 @@ get_metadata <- function(pipeline_type, pipeline_id, pipeline_bbox = NULL, pipel
   )
 }
 
-#' @describeIn metadata load existing metadata file 
+#' @describeIn metadata load existing metadata file
 #' @export
-load_metadata <- function(path,nm) {
+load_metadata <- function(path, nm) {
   yaml::read_yaml(
     here::here(
       path,
-      glue::glue("{nm}.yaml"))
+      glue::glue("{nm}.yaml")
     )
+  )
 }
 
 #' @describeIn metadata add information on exported formatted data
@@ -175,25 +175,25 @@ add_metadata <- function(meta, ...) {
 #' @describeIn metadata Script to extract metadata and contact from raw data list
 #' @export
 gather_meta <- function() {
-  # List of raw data 
+  # List of raw data
   files <- dir(
-    here::here("data","pipedat"),
+    here::here("project-data", "pipedat"),
     recursive = TRUE,
     full.names = TRUE,
     pattern = ".yaml$"
   )
 
-  # Import them all 
+  # Import them all
   dat <- lapply(
-    files, 
+    files,
     yaml::read_yaml
-  ) 
-  
+  )
+
   # Build table of raw data and contacts for the project
   meta <- contact <- list()
-  for(i in 1:length(dat)) {
+  for (i in 1:length(dat)) {
     d <- dat[[i]]
-    
+
     # -----
     timespan <- suppressWarnings(range(d$description$timespan, na.rm = TRUE))
     timestart <- timespan[1]
@@ -202,22 +202,22 @@ gather_meta <- function() {
       timespan <- "-"
     } else {
       timespan <- ifelse(
-        timestart == timestop, 
-        timestart, 
+        timestart == timestop,
+        timestart,
         glue::glue("{timestart}-{timestop}")
       )
     }
     timespan <- as.character(timespan)
-    
+
     # -----
     if (d$description$contacts == "") {
       contact[[i]] <- NULL
       cnt <- NA
     } else {
-      contact[[i]] <- suppressWarnings(dplyr::bind_rows(d$description$contacts))      
+      contact[[i]] <- suppressWarnings(dplyr::bind_rows(d$description$contacts))
       cnt <- paste0(contact[[i]]$contact_id, collapse = ",")
     }
-    
+
     # -----
     meta[[i]] <- data.frame(
       uid = d$pipeline$pipeline_id,
@@ -231,15 +231,15 @@ gather_meta <- function() {
       url = d$description$url
     )
   }
-  
+
   meta <- dplyr::bind_rows(meta)
   contact <- dplyr::bind_rows(contact) |>
-             dplyr::select(contact_id, first_name, last_name, organization, email) |>
-             dplyr::distinct() |>
-             dplyr::arrange(contact_id)
-  
+    dplyr::select(contact_id, first_name, last_name, organization, email) |>
+    dplyr::distinct() |>
+    dplyr::arrange(contact_id)
+
   # Export
-  out <- here::here("data","pipedat")
+  out <- here::here("project-data", "pipedat")
   write.csv(meta, here::here(out, "metadata.csv"), row.names = FALSE)
   write.csv(contact, here::here(out, "contacts.csv"), row.names = FALSE)
 }
@@ -247,27 +247,26 @@ gather_meta <- function() {
 #' @describeIn metadata Script to create a single bib file from the downloaded raw data using pipedat
 #' @export
 gather_bib <- function() {
-  # List of bib files 
+  # List of bib files
   files <- dir(
-    here::here("data","pipedat"),
+    here::here("project-data", "pipedat"),
     recursive = TRUE,
     full.names = TRUE,
     pattern = ".bib$"
   )
-  
-  # Remove pipedat.bib from list if it already exists 
+
+  # Remove pipedat.bib from list if it already exists
   uid <- stringr::str_detect(files, "pipedat.bib")
   files <- files[!uid]
-  
-  # Import them all 
+
+  # Import them all
   dat <- lapply(
-    files, 
+    files,
     RefManageR::ReadBib
-  ) 
+  )
   dat <- do.call("c", dat) |>
     RefManageR::WriteBib(
-    file = here::here("data","pipedat","pipedat.bib"), 
-    verbose = FALSE
-  )
+      file = here::here("project-data", "pipedat", "pipedat.bib"),
+      verbose = FALSE
+    )
 }
-

@@ -10,9 +10,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' pipeflow(config = "./data/config/pipedat.yml")
+#' pipeflow(config = "./project-data/config/pipedat.yml")
 #' }
-pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
+pipeflow <- function(config = "./project-data/pipedat/pipeflow.yml") {
   # Load yaml configuration file
   dat <- yaml::read_yaml(config)
 
@@ -30,14 +30,14 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
   # Grid
   if (
     dat$pipedat$parameters$make_grid &
-    !file.exists(here::here("data","grid","grid.tif"))
+      !file.exists(here::here("project-data", "grid", "grid.tif"))
   ) {
     if (is.na(aoi) | is.null(aoi)) {
       aoi <- bbox
-    } else {  
+    } else {
       aoi <- sf::st_read(aoi)
     }
-    pipegrid(aoi, cellsize, crs)    
+    pipegrid(aoi, cellsize, crs)
   }
 
   # Data pipelines
@@ -56,16 +56,16 @@ pipeflow <- function(config = "./data/pipedat/pipeflow.yml") {
     do.call(pipedat, args)
   }
 
-  # Gather all data in grid from project 
+  # Gather all data in grid from project
   gather_ingrid()
 
-  # Metadata 
+  # Metadata
   gather_bib()
   gather_meta()
-  
-  # Figures 
+
+  # Figures
   pipeplot()
-  
-  # Render report 
+
+  # Render report
   pipereport()
 }

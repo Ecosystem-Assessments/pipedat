@@ -7,7 +7,7 @@
 pipereport()
 }
 \value{
-This function creates a new report in \verb{pubs/pipedat/} using the template \code{inst/templates/report.Rmd} and all the data available in \verb{data/pipedat/} and \verb{data/grid/}.
+This function creates a new report in \verb{pubs/pipedat/} using the template \code{inst/templates/report.Rmd} and all the data available in \verb{project-data/pipedat/} and \verb{project-data/grid/}.
 }
 \description{
 This function create a generic report that provides a summary of the data that was loaded and formatted throught the pipedat package in a specific location. The purpose of this report is to accompany a project report by providing the relevant information concerning the data that was accessed and formated through pipedat.

@@ -5,14 +5,14 @@
 \alias{gather_ingrid}
 \title{Generic function incorporate data in study grid}
 \usage{
-masteringrid(dat, grd = here::here("data/grid/grid.tif"))
+masteringrid(dat, grd = here::here("project-data", "grid", "grid.tif"))
 
 gather_ingrid()
 }
 \arguments{
 \item{dat}{object with spatial data to import in study grid, either \code{sf} or \code{stars} object}
 
-\item{grd}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template. Individual cells must be identified by a unique identifier called \code{uid}. If NULL, the function attempts to load a grids \code{./data/data-grid/grid_raster.tif} or \code{./data/data-grid/grid.poly.geojson}.}
+\item{grd}{spatial grid used for data integration. Can be a \code{sf} object containing polygons or a \code{stars} rasters that will be used as a template. Individual cells must be identified by a unique identifier called \code{uid}. If NULL, the function attempts to load a grids \code{./project-data/data-grid/grid_raster.tif} or \code{./project-data/data-grid/grid.poly.geojson}.}
 }
 \value{
 A data.frame with columns \code{uid} related to study grid unique identifier and a column with named \code{name} with the values imported

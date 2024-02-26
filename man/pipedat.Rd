@@ -10,7 +10,7 @@ pipedat(
   bbox = NULL,
   timespan = NULL,
   integrate = TRUE,
-  grd = "data/grid/grid.tif",
+  grd = "project-data/grid/grid.tif",
   ...
 )
 }

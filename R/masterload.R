@@ -20,7 +20,7 @@ masterload <- function(path) {
   name <- tools::file_path_sans_ext(basename(path))
 
   # Import
-  dat <- switch(ext, 
+  dat <- switch(ext,
     "gpkg" = sf::st_read(path, quiet = TRUE),
     "geojson" = sf::st_read(path, quiet = TRUE),
     "shp" = sf::st_read(path, quiet = TRUE),
@@ -41,10 +41,26 @@ masterwrite <- function(obj, path) {
   # Identify extension to use for object export
   ext <- make_extension(obj)
 
-  # Export 
-  switch(ext, 
+  # WARNING: Soft transition to `terra` to export COGs
+  write_ras <- function(obj, path) {
+    if (inherits(obj, "stars")) {
+      obj <- as(obj, "Raster") |>
+        terra::rast()
+    }
+    obj |>
+      terra::writeRaster(
+        filename = path,
+        filetype = "COG",
+        gdal = c("COMPRESS=LZW", "TILED=YES", "OVERVIEW_RESAMPLING=AVERAGE"),
+        overwrite = TRUE
+      )
+  }
+
+  # Export
+  switch(ext,
     "gpkg" = sf::st_write(obj, glue::glue("{path}.{ext}"), quiet = TRUE, append = FALSE),
-    "tif" = stars::write_stars(obj, glue::glue("{path}.{ext}"), quiet = TRUE),
+    # "tif" = stars::write_stars(obj, glue::glue("{path}.{ext}"), quiet = TRUE),
+    "tif" = write_ras(obj, glue::glue("{path}.{ext}")),
     "csv" = vroom::vroom_write(obj, glue::glue("{path}.{ext}"), delim = ","),
     "yaml" = yaml::write_yaml(obj, glue::glue("{path}.{ext}"), column.major = FALSE),
     "bib" = RefManageR::WriteBib(obj, file = glue::glue("{path}.{ext}"), verbose = FALSE)
@@ -62,8 +78,9 @@ make_extension <- function(obj) {
   dplyr::case_when(
     "sf" %in% cls ~ "gpkg",
     "stars" %in% cls ~ "tif",
+    "SpatRaster" %in% cls ~ "tif",
     (("matrix" %in% cls | "data.frame" %in% cls) & (!"stars" %in% cls & !"sf" %in% cls)) ~ "csv",
-    "list" %in% cls ~ "yaml", 
+    "list" %in% cls ~ "yaml",
     "BibEntry" %in% cls ~ "bib"
   )
 }

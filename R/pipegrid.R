@@ -32,12 +32,12 @@ pipegrid <- function(aoi, cellsize, crs = 4326) {
 
   # Export
   ## Raster grid
-  out <- here::here("data", "grid")
+  out <- here::here("project-data", "grid")
   chk_create(out)
-  stars::write_stars(grd, dsn = here::here(out, "grid.tif"), quiet = TRUE, delete_dsn = TRUE)
+  masterwrite(grd, here::here(out, "grid"))
 
   ## Polygon of area of interest
-  out <- here::here("data", "aoi")
+  out <- here::here("project-data", "aoi")
   chk_create(out)
   sf::st_write(aoi, dsn = here::here(out, "aoi.gpkg"), quiet = TRUE, delete_dsn = TRUE)
 }

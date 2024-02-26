@@ -4,7 +4,7 @@
 \alias{pipeflow}
 \title{Execute a complete data workflow}
 \usage{
-pipeflow(config = "./data/pipedat/pipeflow.yml")
+pipeflow(config = "./project-data/pipedat/pipeflow.yml")
 }
 \arguments{
 \item{config}{path to a yaml data workflow configuration file prepared by the user. Use \code{pipenew()} to generate a new configuration file template. Alternatively, this can be a list organized as a yaml document.}
@@ -17,6 +17,6 @@ This function is used execute an entire data workflow that will download, format
 }
 \examples{
 \dontrun{
-pipeflow(config = "./data/config/pipedat.yml")
+pipeflow(config = "./project-data/config/pipedat.yml")
 }
 }

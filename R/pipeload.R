@@ -17,7 +17,7 @@
 #' @examples
 #' \dontrun{
 #' govcan <- "23eb8b56-dac8-4efc-be7c-b8fa11ba62e9"
-#' output <- "data/"
+#' output <- "project-data/"
 #' if (file.exists(output)) dir.create(output)
 #' pipeload(govcan = govcan, output = output)
 #' }
@@ -51,7 +51,7 @@ pipeload <- function(urls = NULL, govcan = NULL, output, large = FALSE) {
   # Unzip
   zipfiles <- dir(output, pattern = ".zip", full.names = TRUE)
   lapply(
-    zipfiles, 
+    zipfiles,
     function(x) {
       archive::archive_extract(
         archive = x,
@@ -60,5 +60,3 @@ pipeload <- function(urls = NULL, govcan = NULL, output, large = FALSE) {
     }
   )
 }
-
-

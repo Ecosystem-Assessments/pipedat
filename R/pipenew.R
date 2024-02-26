@@ -62,12 +62,12 @@ pipenew <- function(name = NULL, template = "workflow") {
   }
 
   if (template == "workflow") {
-    out <- here::here("data", "pipedat")
+    out <- here::here("project-data", "pipedat")
     chk_create(out)
     if (is.null(name)) name <- "pipeflow"
     use_template(
       template = "templates/pipeflow.yml",
-      save_as = glue::glue("data/pipedat/{name}.yml")
+      save_as = glue::glue("project-data/pipedat/{name}.yml")
     )
   }
 }

@@ -14,15 +14,15 @@
 pipeplot <- function(res = 300, width = 225, height = 200, pal = viridis::viridis) {
   # Area of interest
   plotgrid(res, width, height, pal)
-  
+
   # Gridded data
   plotingrid(res, width, height, pal)
 }
 
 plotgrid <- function(res, width, height, pal) {
   # Load grid
-  grd <- here::here("data/grid/grid.tif") |>
-         stars::read_stars()
+  grd <- here::here("project-data/grid/grid.tif") |>
+    stars::read_stars()
 
   # Folders
   path <- here::here("figures", "pipedat", "aoi")
@@ -37,16 +37,16 @@ plotgrid <- function(res, width, height, pal) {
     units = "mm"
   )
 
-  # Margins 
-  par(mar = c(1,0,5,0))
+  # Margins
+  par(mar = c(1, 0, 5, 0))
 
   # Plot grid with base stars functionalities
   image(grd, col = pal(1), main = "Area of interest")
 
   # Plot canadian outline
   can <- basemap$can |>
-         sf::st_transform(sf::st_crs(grd)) |>
-         sf::st_geometry()
+    sf::st_transform(sf::st_crs(grd)) |>
+    sf::st_geometry()
   plot(
     can,
     col = "#57575733",
@@ -61,8 +61,8 @@ plotgrid <- function(res, width, height, pal) {
 
 
 plotingrid <- function(res, width, height, pal) {
-  # Locate files   
-  files <- list.dirs(here::here("data","pipedat"), full.names = TRUE)
+  # Locate files
+  files <- list.dirs(here::here("project-data", "pipedat"), full.names = TRUE)
   iid <- stringr::str_detect(files, "ingrid")
   files <- files[iid]
 
@@ -72,33 +72,33 @@ plotingrid <- function(res, width, height, pal) {
     chk_create(path)
 
     # Load grid (for reference)
-    grd <- here::here("data/grid/grid.tif") |>
-           stars::read_stars()
+    grd <- here::here("project-data/grid/grid.tif") |>
+      stars::read_stars()
 
     # Canadian outline
     can <- basemap$can |>
-           sf::st_transform(sf::st_crs(grd)) |>
-           sf::st_geometry()
-           
-    # All folders in a loop
-    for(i in 1:length(files)) {
-      # Load metadata 
-      meta <- dir(here::here(files[i], ".."), full.names = TRUE, pattern = "yaml") |>
-              yaml::read_yaml()
+      sf::st_transform(sf::st_crs(grd)) |>
+      sf::st_geometry()
 
-      # Filenames 
+    # All folders in a loop
+    for (i in 1:length(files)) {
+      # Load metadata
+      meta <- dir(here::here(files[i], ".."), full.names = TRUE, pattern = "yaml") |>
+        yaml::read_yaml()
+
+      # Filenames
       filenames <- meta$ingrid$files
-            
-      for(j in 1:length(filenames$filenames)) {        
-        # Name 
+
+      for (j in 1:length(filenames$filenames)) {
+        # Name
         nm <- filenames$filenames[j]
         sub <- filenames$names[j]
-        
+
         # Load data
         dat <- here::here(files[i], glue::glue("{nm}.tif")) |>
-               stars::read_stars()
-                    
-        # Output arguments 
+          stars::read_stars()
+
+        # Output arguments
         grDevices::png(
           here::here(path, glue::glue("{nm}.png")),
           res = res,
@@ -107,12 +107,12 @@ plotingrid <- function(res, width, height, pal) {
           units = "mm"
         )
 
-        # Margins 
-        par(mar = c(1,0,5,0))
+        # Margins
+        par(mar = c(1, 0, 5, 0))
 
         # Plot grid with base stars functionalities
         image(dat, col = pal(100), main = meta$description$name)
-        
+
         # Subtext
         mtext(side = 3, text = sub)
 
@@ -126,7 +126,7 @@ plotingrid <- function(res, width, height, pal) {
         )
 
         # Close graphics device
-        grDevices::dev.off()  
+        grDevices::dev.off()
       }
     }
   }

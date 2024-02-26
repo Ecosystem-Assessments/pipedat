@@ -25,11 +25,11 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   if (check_raw(uid)) {
     govcan <- get_pipeline(uid)$data_uuid
     pipeload(
-      govcan = govcan, 
-      output = here::here(path, "raw"), 
+      govcan = govcan,
+      output = here::here(path, "raw"),
       large = FALSE
     )
-    
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
     # Metadata
     meta <- get_metadata(
@@ -37,77 +37,76 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
       pipeline_id = uid,
       access = timestamp()
     )
-    
+
     # bibtex
     bib <- get_bib(uid)
 
     # Export
     mt <- here::here(path, nm)
     masterwrite(meta, mt)
-    masterwrite(bib, mt)  
+    masterwrite(bib, mt)
     write_pipeline(uid)
   }
-  # _________________________________________________________________________________________ #    
-  
+  # _________________________________________________________________________________________ #
+
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Format data 
+  # Format data
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_format(uid)) {
-    # Import 
-    dat <- masterload(here::here(path,"raw","odhf_v1.csv")) 
+    # Import
+    dat <- masterload(here::here(path, "raw", "odhf_v1.csv"))
 
     # Correct data with positive longitudes (should all be negative)
     dat$longitude <- ifelse(dat$longitude > 0, -dat$longitude, dat$longitude)
-    
-    # Manually modify a single coordinate 
+
+    # Manually modify a single coordinate
     # I noticed this one, but there might be more, and there are also many NAs in the dataset
     index <- dat$index == 7485
     dat$latitude[index] <- 46.818383118363435
     dat$longitude[index] <- -71.1562927
-  
-    # Modify odhf facility type 
+
+    # Modify odhf facility type
     dat$odhf_facility_type <- gsub(
       "nursing and residential care facilities",
-      "Nursing and residential care facilities", 
+      "Nursing and residential care facilities",
       dat$odhf_facility_type
     )
-    
+
     # Create a spatial data as well as the table which includes NA locations
     spat <- dplyr::filter(dat, !is.na(latitude)) |>
-            sf::st_as_sf(coords = c("longitude","latitude"), crs = 4326)
+      sf::st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
 
     # Subset data (if specified by user)
     spat <- dp_parameters(spat, bbox)
 
 
     # Export
-    fm <- here::here(path,"format",glue::glue("{nm}"))   
+    fm <- here::here(path, "format", glue::glue("{nm}"))
     masterwrite(dat, fm)
     masterwrite(spat, fm)
-    
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
     meta <- load_metadata(path, nm) |>
-    add_format( 
-      format = list(
-        timestamp = timestamp(),
-        description = "Minor modifications applied to the data to clean and standardize it.",
-        filenames = basename(fm)
+      add_format(
+        format = list(
+          timestamp = timestamp(),
+          description = "Minor modifications applied to the data to clean and standardize it.",
+          filenames = basename(fm)
+        )
       )
-    )
     masterwrite(meta, here::here(path, nm))
-
-  } 
+  }
   # _________________________________________________________________________________________ #
 
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Integrate data 
+  # Integrate data
   # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
   if (check_ingrid(uid) & ingrid) {
-    # Health care facilities 
+    # Health care facilities
     health <- importdat(uid, "format")[[2]]
-    
-    # # WARNING: will have to do this again, I unfortunately deleted the work we did... 
-    # # Type of healthcare facilities 
+
+    # # WARNING: will have to do this again, I unfortunately deleted the work we did...
+    # # Type of healthcare facilities
     # type <- sf::st_drop_geometry(health) |>
     #         dplyr::select(odhf_facility_type, source_facility_type) |>
     #         dplyr::distinct()
@@ -115,80 +114,80 @@ dp_8b0bbc44 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
     # health <- dplyr::left_join(health, type, by = "source_facility_type")
     # critical <- health[health$type %in% "critical",]
     # longterm <- health[health$type %in% c("long-term","diagnostics","cnbnl"),]
-    
+
     # WARNING: For now...
-    critical <- c("Hospitals","Ambulatory health care services")
+    critical <- c("Hospitals", "Ambulatory health care services")
     critical <- health[health$odhf_facility_type %in% critical, ] |>
-                dplyr::select(odhf_facility_type)
+      dplyr::select(odhf_facility_type)
     longterm <- "Nursing and residential care facilities"
     longterm <- health[health$odhf_facility_type %in% longterm, ] |>
-                dplyr::select(odhf_facility_type)
-    
-    # Calculate distances 
+      dplyr::select(odhf_facility_type)
+
+    # Calculate distances
     # max_dist is not used for now
     dist_calc <- function(from, to, max_dist = NULL) {
       dat <- sf::st_distance(from, to) |>
-             units::set_units("km") |>
-             apply(MARGIN = 1, FUN = min)
-    
+        units::set_units("km") |>
+        apply(MARGIN = 1, FUN = min)
+
       ## Cap to max dist
       # max_dist <- max(dat, na.rm = TRUE)
-      # dat <- ifelse(dat > max_dist, max_dist, dat) 
-    
+      # dat <- ifelse(dat > max_dist, max_dist, dat)
+
       # Transform as an index between 0 and 1, with 1 being the farthest, and 0 the closest
       # dat <- dat/max_dist
       dat
     }
-    
-    # Grid 
-    grd <- stars::read_stars(here::here("data","grid","grid.tif"))
-    
-    # Grid as points to measure distances 
-    grd_pts <- as.data.frame(grd) |>
-               dplyr::mutate(id = 1:dplyr::n()) 
-    
-    # Points data 
-    pts <- tidyr::drop_na(grd_pts) |>
-           dplyr::select(x,y,id) |>
-           sf::st_as_sf(coords = c("x","y"), crs = 4326) 
 
-    # Distances 
+    # Grid
+    grd <- stars::read_stars(here::here("project-data", "grid", "grid.tif"))
+
+    # Grid as points to measure distances
+    grd_pts <- as.data.frame(grd) |>
+      dplyr::mutate(id = 1:dplyr::n())
+
+    # Points data
+    pts <- tidyr::drop_na(grd_pts) |>
+      dplyr::select(x, y, id) |>
+      sf::st_as_sf(coords = c("x", "y"), crs = 4326)
+
+    # Distances
     pts$critical <- dist_calc(pts, critical)
     pts$longterm <- dist_calc(pts, longterm)
-    
+
     # To raster again
     pts <- sf::st_drop_geometry(pts)
     grd_pts <- dplyr::left_join(grd_pts, pts, by = "id")
     critical <- dplyr::mutate(grd, critical = grd_pts$critical) |>
-                dplyr::select(critical)
+      dplyr::select(critical)
     longterm <- dplyr::mutate(grd, longterm = grd_pts$longterm) |>
-                dplyr::select(longterm)
-    
-    # Export 
+      dplyr::select(longterm)
+
+    # Export
     masterwrite(critical, here::here(path, "ingrid", glue::glue("{nm}-critical")))
     masterwrite(longterm, here::here(path, "ingrid", glue::glue("{nm}-longterm")))
-    
+
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
     meta <- load_metadata(path, nm) |>
-    add_ingrid(
-      ingrid = list(
-        timestamp = timestamp(),
-        description = c(
-          "The location of healthcare facilities available in the Open Database of Healthcare Facilities [ODHF; @statisticscanada2020; @statisticscanada2020a] were used to assess the distance to the closest healthcare facility. Facilities were divided between critical and longterm care using the classifications avaialble in the ODHF. Hospitals and ambulatory health care services were considered as critical care facilities, while nursing and residential care facilities were considered as longterm care facilities."
-        ),
-        files = list(
-          filenames = glue::glue("{nm}-{c('critical','longterm')}"),
-          names = glue::glue(
-            "Distance to healthcare facilities - {c('critical care','longterm care')}"
-          )          
+      add_ingrid(
+        ingrid = list(
+          timestamp = timestamp(),
+          description = c(
+            "The location of healthcare facilities available in the Open Database of Healthcare Facilities [ODHF; @statisticscanada2020; @statisticscanada2020a] were used to assess the distance to the closest healthcare facility. Facilities were divided between critical and longterm care using the classifications avaialble in the ODHF. Hospitals and ambulatory health care services were considered as critical care facilities, while nursing and residential care facilities were considered as longterm care facilities."
+          ),
+          files = list(
+            filenames = glue::glue("{nm}-{c('critical','longterm')}"),
+            names = glue::glue(
+              "Distance to healthcare facilities - {c('critical care','longterm care')}"
+            )
+          )
         )
       )
-    )
     masterwrite(meta, here::here(path, nm))
   }
   # _________________________________________________________________________________________ #
 
-  # Clean 
+  # Clean
   clean_path(uid)
   # _________________________________________________________________________________________ #
 }

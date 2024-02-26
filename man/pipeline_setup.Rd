@@ -52,7 +52,7 @@ get_bib(uid)
 
 get_pipeline_url(uid)
 
-get_grid_info(grd = here::here("data/grid/grid.tif"))
+get_grid_info(grd = here::here("project-data", "grid", "grid.tif"))
 }
 \arguments{
 \item{uid}{unique identifier of queried data.}

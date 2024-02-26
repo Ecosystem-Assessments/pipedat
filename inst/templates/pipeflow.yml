@@ -3,8 +3,8 @@ pipedat:
     make_grid: TRUE
     crs: 4326
     cellsize: 0.1
-    aoi: data/aoi/aoi.gpkg
-    grd: data/grid/grid.tif
+    aoi: project-data/aoi/aoi.gpkg
+    grd: project-data/grid/grid.tif
     integrate: TRUE
     ingrid: TRUE
     bbox:

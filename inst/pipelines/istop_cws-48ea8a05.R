@@ -178,55 +178,6 @@ dp_48ea8a05 <- function(bbox = NULL, bbox_crs = NULL, timespan = NULL, ingrid = 
   }
   # _________________________________________________________________________________________ #
 
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Integrate data
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  if (check_ingrid(uid) & ingrid) {
-    istop <- importdat(uid, "format")[[1]]
-
-    # ----------------------------------------------------------------
-    # Filter ISTOP data based on specified constraints
-    istop <- istop |>
-      dplyr::filter(!is.na(date)) |>
-      dplyr::distinct() |>
-      dplyr::filter(category %in% c("1A", "1B", "B"))
-
-
-
-
-    # |>
-    #   stars::st_rasterize() |>
-    #   masteringrid()
-
-    # Export
-    masterwrite(dat, here::here(path, "ingrid", nm))
-
-    # ~~~~~~~~~~~~~~~~~~~ #
-    meta <- add_ingrid(meta,
-      ingrid = list(
-        timestamp = timestamp(),
-        description = "",
-        files = list(
-          filenames = nm,
-          names = "" # For report
-        )
-      )
-    )
-    masterwrite(meta, here::here(path, nm))
-  }
-  # _________________________________________________________________________________________ #
-
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # Additional metadata if applicable
-  # =~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~=~-~= #
-  # To add additional metadata for queried data
-  meta <- add_metadata(meta,
-    info1 = c("Format as lists and dataframes to be rendered as yaml"),
-    info2 = c("Formatting thus matters"),
-    info3 = c("Go to https://github.com/vubiostat/r-yaml for more information")
-  )
-
-  # Clean
   clean_path(uid)
   # _________________________________________________________________________________________ #
 }

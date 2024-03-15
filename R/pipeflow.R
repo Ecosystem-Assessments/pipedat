@@ -56,16 +56,16 @@ pipeflow <- function(config = "./project-data/pipedat/pipeflow.yml") {
     do.call(pipedat, args)
   }
 
-  # Gather all data in grid from project
-  gather_ingrid()
+  # # Gather all data in grid from project
+  # gather_ingrid()
 
   # Metadata
   gather_bib()
-  gather_meta()
+  # gather_meta()
 
-  # Figures
-  pipeplot()
+  # # Figures
+  # pipeplot()
 
-  # Render report
-  pipereport()
+  # # Render report
+  # pipereport()
 }

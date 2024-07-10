@@ -4,8 +4,8 @@
 #' in the global R environment for use in other pipelines or
 #' user processes.
 #'
-#' @param uid unique identifier of queried data. The full list of available data pipelines can be consulted using `pipelines()`
-#' @param type type of data to import, one of "format" or "integrated"
+#' @param uid unique identifier of queried data. The full list of available data pipelines can be consulted using `pipelist()`.
+#' @param type type of data to import, one of "format" or "integrated".
 #'
 #' @return This function returns objects in the global R environment
 #'

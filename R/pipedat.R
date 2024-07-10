@@ -5,7 +5,7 @@
 #' built to access data programmatically and reproducibly, which
 #' we refer to as *data pipelines*.
 #'
-#' @param uid unique identifier of queried data. The full list of available data pipelines can be consulted using `pipelines()`
+#' @param uid unique identifier of queried data. The full list of available data pipelines can be consulted using `pipelist()`
 #' @eval dp_params()
 #' @param ... further arguments used in functions, if applicable.
 #'

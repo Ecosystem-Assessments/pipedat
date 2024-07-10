@@ -1,6 +1,6 @@
 #' Create a report from the pipedat data in a project
 #'
-#' This function create a generic report that provides a summary of the data that was loaded and formatted throught the pipedat package in a specific location. The purpose of this report is to accompany a project report by providing the relevant information concerning the data that was accessed and formated through pipedat.
+#' This function creates a generic report that provides a summary of the data that was loaded and formatted throught the pipedat package in a specific location. The purpose of this report is to accompany a project report by providing the relevant information concerning the data that was accessed and formated through pipedat.
 #'
 #' @return This function creates a new report in `pubs/pipedat/` using the template `inst/templates/report.Rmd` and all the data available in `project-data/pipedat/` and `project-data/grid/`.
 #'

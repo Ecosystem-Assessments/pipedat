@@ -5,10 +5,10 @@
 #' built to access data programmatically and reproducibly, which
 #' we refer to as *data pipelines*.
 #'
-#' @param urls urls for data download
-#' @param govcan unique identifier of resource on the open government federal data portal to download
+#' @param urls urls for data download.
+#' @param govcan unique identifier of resource on the open government federal data portal to download.
 #' @param output output folder for queried data.
-#' @param large logical, whether file to download is large and thus R options should be modified for longer timeout options. Default set to false
+#' @param large logical, whether file to download is large and thus R options should be modified for longer timeout options. Default set to `FALSE`.
 #'
 #' @return This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.
 #'

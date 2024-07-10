@@ -20,48 +20,51 @@ BugReports: https://github.com/david-beauchesne/pipedat/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Config/testthat/edition: 3
+Depends: 
+    R (>= 3.3.0)
 Imports: 
+    archive,
+    bookdown,
     cli,
     crayon,
     curl,
     dplyr,
     glue,
+    grDevices,
     here,
+    ids,
     RefManageR,
+    rgovcan,
     rlang,
+    rmarkdown,
     sf,
     stars,
+    stringr,
+    terra,
+    tools,
     utils,
+    vroom,
     yaml
-Depends: 
-    R (>= 2.10)
 Suggests:
-    archive,
     eaMethods,
     fasterize,
     fs, 
     geojsonsf,
     graphics,
-    graphicsutils,
-    grDevices,
-    ids,
     knitr,
     latex2exp,
     purrr,
     raster,
     readr,
-    rgovcan,
     R.utils,
     sdmpredictors,
     stats,
-    stringr,
     testthat (>= 3.0.0),
     tidyr,
     usethis,
     uuid,
     viridis,
-    vroom,
     whisker,
     XML

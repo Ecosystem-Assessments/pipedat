@@ -1,4 +1,4 @@
-#' List of available data pipalines
+#' List of available data pipelines
 #'
 #' This function provides the list of individual scripts
 #' built to access data programmatically and reproducibly, which

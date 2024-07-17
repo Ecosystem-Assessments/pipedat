@@ -17,7 +17,7 @@ pipedat:
       - 2021
       - 2022
   # ==========================================================================
-  # UID of pipelines to eexecute
+  # UID of pipelines to execute
   pipelines:
     - "pipeline_id1"
     - "pipeline_id2"

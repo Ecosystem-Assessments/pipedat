@@ -7,9 +7,9 @@
 importdat(uid, type)
 }
 \arguments{
-\item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelines()}}
+\item{uid}{unique identifier of queried data. The full list of available data pipelines can be consulted using \code{pipelist()}.}
 
-\item{type}{type of data to import, one of "format" or "integrated"}
+\item{type}{type of data to import, one of "format" or "integrated".}
 }
 \value{
 This function returns objects in the global R environment

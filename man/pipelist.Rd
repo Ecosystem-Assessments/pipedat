@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipelist.R
 \name{pipelist}
 \alias{pipelist}
-\title{List of available data pipalines}
+\title{List of available data pipelines}
 \usage{
 pipelist()
 }

@@ -1,12 +1,10 @@
 #' pipedat: pipelines to access, load, and format data from various sources
 #'
-#' @docType package
 #' @name pipedat
 #'
 #' @importFrom glue glue glue_sql
 #' @importFrom grDevices dev.off png colorRampPalette
-#' @importFrom graphics par box layout lines mtext
-#' @importFrom graphics polygon text
+#' @importFrom graphics par box layout lines mtext polygon text
 #' @importFrom RefManageR BibEntry WriteBib
 #' @importFrom rlang sym
 #' @importFrom sf st_bbox st_write st_read st_transform
@@ -22,7 +20,6 @@
 #' @importFrom yaml yaml.load_file write_yaml read_yaml
 #' @importFrom rlang abort warn
 #' @importFrom cli symbol
-#' @importFrom crayon blue
 NULL
 
 

@@ -212,8 +212,8 @@ get_pipeline_url <- function(uid) {
 #' @export
 get_grid_info <- function(grd = here::here("project-data", "grid", "grid.tif")) {
   # Get grid
-  if (class(grd) == "character") grd <- stars::read_stars(grd)
-  if (!"stars" %in% class(grd)) grd <- stars::st_as_stars(grd)
+  if (inherits(grd, "character")) grd <- stars::read_stars(grd)
+  if (!inherits(grd, "stars")) grd <- stars::st_as_stars(grd)
 
   # Info
   list(

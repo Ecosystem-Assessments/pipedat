@@ -7,13 +7,13 @@
 pipeload(urls = NULL, govcan = NULL, output, large = FALSE)
 }
 \arguments{
-\item{urls}{urls for data download}
+\item{urls}{urls for data download.}
 
-\item{govcan}{unique identifier of resource on the open government federal data portal to download}
+\item{govcan}{unique identifier of resource on the open government federal data portal to download.}
 
 \item{output}{output folder for queried data.}
 
-\item{large}{logical, whether file to download is large and thus R options should be modified for longer timeout options. Default set to false}
+\item{large}{logical, whether file to download is large and thus R options should be modified for longer timeout options. Default set to \code{FALSE}.}
 }
 \value{
 This function returns the queried raw data, formatted data, metadata and bibtex associated with the raw data.
